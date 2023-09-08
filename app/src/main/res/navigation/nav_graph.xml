@@ -2,7 +2,7 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/action_map">
+    app:startDestination="@id/loginFragment">
     <fragment
         android:id="@+id/action_map"
         android:name="com.example.dashcarr.ui.MapFragment"
@@ -19,4 +19,12 @@
         android:id="@+id/action_settings"
         android:name="com.example.dashcarr.ui.SettingsFragment"
         android:label="SettingsFragment" />
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.example.dashcarr.ui.LoginFragment"
+        android:label="LoginFragment" >
+        <action
+            android:id="@+id/action_loginFragment_to_action_map"
+            app:destination="@id/action_map" />
+    </fragment>
 </navigation>
