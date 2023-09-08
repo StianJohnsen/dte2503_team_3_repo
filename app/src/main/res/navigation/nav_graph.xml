@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/action_map">
+    <fragment
+        android:id="@+id/action_map"
+        android:name="com.example.dashcarr.ui.MapFragment"
+        android:label="MapFragment" >
+        <action
+            android:id="@+id/action_action_map_to_action_dash_cam"
+            app:destination="@id/action_dash_cam" />
+    </fragment>
+    <fragment
+        android:id="@+id/action_dash_cam"
+        android:name="com.example.dashcarr.ui.DashCamFragment"
+        android:label="DashCamFragment" >
+        <action
+            android:id="@+id/action_action_dash_cam_to_action_settings"
+            app:destination="@id/action_settings" />
+    </fragment>
+    <fragment
+        android:id="@+id/action_settings"
+        android:name="com.example.dashcarr.ui.SettingsFragment"
+        android:label="SettingsFragment" />
+</navigation>

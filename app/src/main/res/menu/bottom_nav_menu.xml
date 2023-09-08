@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/action_map"
+        android:enabled="true"
+        android:icon="@drawable/location_icon"
+        android:title="Map"
+        app:showAsAction="ifRoom"
+        />
+
+    <item
+        android:id="@+id/action_dash_cam"
+        android:enabled="true"
+        android:icon="@drawable/camera_icon"
+        android:title="Dash Camera"
+        app:showAsAction="ifRoom"
+        />
+
+    <item
+        android:id="@+id/action_settings"
+        android:enabled="true"
+        android:icon="@drawable/settings_icon"
+        android:title="Settings"
+        app:showAsAction="ifRoom"
+        />
+
+</menu>
