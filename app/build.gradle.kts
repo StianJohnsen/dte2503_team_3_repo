@@ -2,6 +2,7 @@ plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     id("org.jetbrains.kotlin.kapt")
+    id("com.google.devtools.ksp") version "1.9.0-1.0.11"
 }
 
 android {
@@ -32,11 +33,19 @@ android {
         dataBinding = true
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = "17"
+    }
+}
+
+configurations.all{
+    resolutionStrategy{
+        force("com.j256.ormlite:ormlite-android:6.1")
+        force("com.j256.ormlite:ormlite-core:6.1")
+
     }
 }
 
@@ -59,4 +68,23 @@ dependencies {
 
     //Location
     implementation("com.google.android.gms:play-services-location:21.0.1")
+
+    //OSMdroid
+
+    implementation("org.osmdroid:osmdroid-android:6.1.16")
+    implementation ("org.osmdroid:osmdroid-wms:6.1.16")
+    implementation ("org.osmdroid:osmdroid-mapsforge:6.1.16")
+    implementation("org.osmdroid:osmdroid-geopackage:6.1.16"){
+        exclude("com.j256.ormlite","ormlite-android")
+        exclude("com.j256.ormlite","ormlite-core")
+
+    }
+    //implementation ("org.osmdroid:osmdroid-geopackage:6.1.16")
+
+
+    /*
+     */
+
+
+
 }

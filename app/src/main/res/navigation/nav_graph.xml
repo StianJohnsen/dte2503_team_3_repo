@@ -27,4 +27,12 @@
             android:id="@+id/action_loginFragment_to_action_map"
             app:destination="@id/action_map" />
     </fragment>
+    <fragment
+        android:id="@+id/action_history"
+        android:name="com.example.dashcarr.ui.HistoryFragment"
+        android:label="HistoryFragment" />
+    <fragment
+        android:id="@+id/action_social"
+        android:name="com.example.dashcarr.ui.SocialFragment"
+        android:label="SocialFragment" />
 </navigation>

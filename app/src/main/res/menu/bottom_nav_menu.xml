@@ -11,10 +11,26 @@
         />
 
     <item
+        android:id="@+id/action_social"
+        android:enabled="true"
+        android:icon="@drawable/social_icon"
+        android:title="Social"
+        app:showAsAction="ifRoom"
+        />
+
+    <item
         android:id="@+id/action_dash_cam"
         android:enabled="true"
         android:icon="@drawable/camera_icon"
         android:title="Dash Camera"
+        app:showAsAction="ifRoom"
+        />
+
+    <item
+        android:id="@+id/action_history"
+        android:enabled="true"
+        android:icon="@drawable/history_icon"
+        android:title="History"
         app:showAsAction="ifRoom"
         />
 
