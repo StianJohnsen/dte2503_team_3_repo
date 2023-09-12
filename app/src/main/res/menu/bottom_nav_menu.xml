@@ -22,7 +22,7 @@
         android:id="@+id/action_dash_cam"
         android:enabled="true"
         android:icon="@drawable/camera_icon"
-        android:title="Dash Camera"
+        android:title="Dashcam"
         app:showAsAction="ifRoom"
         />
 

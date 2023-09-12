@@ -34,22 +34,13 @@ class SettingsFragment : Fragment() {
             binding.apply {
                 lifecycleOwner = viewLifecycleOwner
                 settingsFragment = this@SettingsFragment
-                minusIconView.setOnClickListener { decNumView() }
-                plusIconView.setOnClickListener { incNumView() }
+                profileSettingsText.setOnClickListener{ moveToProfileSettings() }
             }
-            viewModel.numCounter.observe(this.viewLifecycleOwner) {
-                binding.settingsTextView.text = it.toString()
-                Log.d("Test", it.toString())
-            }
-
         }
 
 
-    fun decNumView(){
-        viewModel.decCounter()
-    }
 
-    fun incNumView(){
-        viewModel.incCounter()
+    fun moveToProfileSettings(){
+        Log.d("dte_test","You have moved to Profile Settings fragment...")
     }
 }

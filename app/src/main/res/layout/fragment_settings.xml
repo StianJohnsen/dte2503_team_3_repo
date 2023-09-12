@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+
     <data>
+
         <variable
             name="settingsFragment"
             type="com.example.dashcarr.ui.SettingsFragment" />
@@ -9,48 +11,145 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        >
+        android:layout_height="match_parent">
+
         <TextView
+            android:id="@+id/profile_settings_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
             android:layout_marginTop="20dp"
-            android:text="You are now in settings fragment"/>
+            android:text="Profile Settings"
+            android:textSize="20sp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <View
+            android:id="@+id/profile_settings_line"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="20dp"
+            android:background="@color/black"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/profile_settings_text" />
+
         <TextView
-            android:id="@+id/settings_text_view"
+            android:id="@+id/maps_settings_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            />
-        <ImageView
-            android:id="@+id/minus_icon_view"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toLeftOf="@id/settings_text_view"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginTop="20dp"
+            android:text="Maps Settings"
+            android:textSize="20sp"
+            app:layout_constraintLeft_toLeftOf="@id/profile_settings_text"
+            app:layout_constraintRight_toRightOf="@id/profile_settings_text"
+            app:layout_constraintTop_toBottomOf="@id/profile_settings_line" />
+
+        <View
+            android:id="@+id/maps_settings_line"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="20dp"
+            android:background="@color/black"
+            app:layout_constraintLeft_toLeftOf="@id/profile_settings_line"
+            app:layout_constraintRight_toRightOf="@id/profile_settings_line"
+            app:layout_constraintTop_toBottomOf="@id/maps_settings_text" />
+
+        <TextView
+            android:id="@+id/social_settings_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/minus_icon"
-            android:layout_marginLeft="80dp"/>
+            android:layout_marginTop="20dp"
+            android:text="Social Settings"
+            android:textSize="20sp"
+            app:layout_constraintLeft_toLeftOf="@id/maps_settings_text"
+            app:layout_constraintRight_toRightOf="@id/maps_settings_text"
+            app:layout_constraintTop_toBottomOf="@id/maps_settings_line" />
 
-        <ImageView
-            android:id="@+id/plus_icon_view"
+        <View
+            android:id="@+id/social_settings_line"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="20dp"
+            android:background="@color/black"
+            app:layout_constraintLeft_toLeftOf="@id/maps_settings_line"
+            app:layout_constraintRight_toRightOf="@id/maps_settings_line"
+            app:layout_constraintTop_toBottomOf="@id/social_settings_text" />
 
-            app:layout_constraintLeft_toRightOf="@id/settings_text_view"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
+        <TextView
+            android:id="@+id/dashcam_settings_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/plus_icon"
-            android:layout_marginRight="80dp"/>
+            android:layout_marginTop="20dp"
+            android:text="Dashcam Settings"
+            android:textSize="20sp"
+            app:layout_constraintLeft_toLeftOf="@id/social_settings_text"
+            app:layout_constraintRight_toRightOf="@id/social_settings_text"
+            app:layout_constraintTop_toBottomOf="@id/social_settings_line" />
 
+        <View
+            android:id="@+id/dashcam_settings_line"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="20dp"
+            android:background="@color/black"
+            app:layout_constraintLeft_toLeftOf="@id/social_settings_line"
+            app:layout_constraintRight_toRightOf="@id/social_settings_line"
+            app:layout_constraintTop_toBottomOf="@id/dashcam_settings_text" />
+
+        <TextView
+            android:id="@+id/history_settings_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="History Settings"
+            android:textSize="20sp"
+            app:layout_constraintLeft_toLeftOf="@id/dashcam_settings_text"
+            app:layout_constraintRight_toRightOf="@id/dashcam_settings_text"
+            app:layout_constraintTop_toBottomOf="@id/dashcam_settings_line" />
+
+        <View
+            android:id="@+id/history_settings_line"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="20dp"
+            android:background="@color/black"
+            app:layout_constraintLeft_toLeftOf="@id/dashcam_settings_line"
+            app:layout_constraintRight_toRightOf="@id/dashcam_settings_line"
+            app:layout_constraintTop_toBottomOf="@id/history_settings_text" />
+
+        <TextView
+            android:id="@+id/preferences_settings_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="Preferences"
+            android:textSize="20sp"
+            app:layout_constraintLeft_toLeftOf="@id/history_settings_text"
+            app:layout_constraintRight_toRightOf="@id/history_settings_text"
+            app:layout_constraintTop_toBottomOf="@id/history_settings_line" />
+
+        <View
+            android:id="@+id/preferences_settings_line"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="20dp"
+            android:background="@color/black"
+            app:layout_constraintLeft_toLeftOf="@id/history_settings_line"
+            app:layout_constraintRight_toRightOf="@id/history_settings_line"
+            app:layout_constraintTop_toBottomOf="@id/preferences_settings_text" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
