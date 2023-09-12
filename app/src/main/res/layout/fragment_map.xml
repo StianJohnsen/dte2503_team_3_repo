@@ -4,7 +4,7 @@
     <data>
         <variable
             name="mapFragment"
-            type="com.example.dashcarr.ui.MapFragment" />
+            type="com.example.dashcarr.presentation.tabs.map.MapFragment" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

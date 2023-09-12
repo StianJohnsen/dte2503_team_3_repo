@@ -4,7 +4,7 @@
     <data>
         <variable
             name="loginFragment"
-            type="com.example.dashcarr.ui.LoginFragment" />
+            type="com.example.dashcarr.presentation.authentication.LoginFragment" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

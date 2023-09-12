@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "710171814535",
+    "project_id": "dte-2503-dashcarr",
+    "storage_bucket": "dte-2503-dashcarr.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:710171814535:android:5d5f91b2f80eea9d312622",
+        "android_client_info": {
+          "package_name": "com.example.dashcarr"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "710171814535-bkkc5jcbmemm755784raqhf8abtmqh17.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.dashcarr",
+            "certificate_hash": "bfed65efd31721207cdbd593fa6ad9893572f43e"
+          }
+        },
+        {
+          "client_id": "710171814535-vef070rffkgavbkpvv39l3vft3egu011.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAv4BURlMikncZZKkVsd9tugj4q32wSISM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "710171814535-vef070rffkgavbkpvv39l3vft3egu011.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

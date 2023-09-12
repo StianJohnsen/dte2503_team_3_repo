@@ -4,7 +4,7 @@
     <data>
         <variable
             name="settingsFragment"
-            type="com.example.dashcarr.ui.SettingsFragment" />
+            type="com.example.dashcarr.presentation.tabs.settings.SettingsFragment" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

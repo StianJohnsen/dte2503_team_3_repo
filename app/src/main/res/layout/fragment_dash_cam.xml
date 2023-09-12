@@ -4,7 +4,7 @@
     <data>
         <variable
             name="dashCamFragment"
-            type="com.example.dashcarr.ui.DashCamFragment" />
+            type="com.example.dashcarr.presentation.tabs.dashcam.DashCamFragment" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

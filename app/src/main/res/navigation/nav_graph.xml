@@ -2,37 +2,39 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/loginFragment">
+    app:startDestination="@id/action_map">
     <fragment
         android:id="@+id/action_map"
-        android:name="com.example.dashcarr.ui.MapFragment"
+        android:name="com.example.dashcarr.presentation.tabs.map.MapFragment"
         android:label="MapFragment" >
 
     </fragment>
     <fragment
         android:id="@+id/action_dash_cam"
-        android:name="com.example.dashcarr.ui.DashCamFragment"
+        android:name="com.example.dashcarr.presentation.tabs.dashcam.DashCamFragment"
         android:label="DashCamFragment" >
 
     </fragment>
     <fragment
         android:id="@+id/action_settings"
-        android:name="com.example.dashcarr.ui.SettingsFragment"
+        android:name="com.example.dashcarr.presentation.tabs.settings.SettingsFragment"
         android:label="SettingsFragment" />
     <fragment
         android:id="@+id/loginFragment"
-        android:name="com.example.dashcarr.ui.LoginFragment"
+        android:name="com.example.dashcarr.presentation.authentication.LoginFragment"
         android:label="LoginFragment" >
         <action
             android:id="@+id/action_loginFragment_to_action_map"
-            app:destination="@id/action_map" />
+            app:destination="@id/action_map"
+            app:popUpToInclusive="true"
+            app:popUpTo="@id/nav_graph"/>
     </fragment>
     <fragment
         android:id="@+id/action_history"
-        android:name="com.example.dashcarr.ui.HistoryFragment"
+        android:name="com.example.dashcarr.presentation.tabs.history.HistoryFragment"
         android:label="HistoryFragment" />
     <fragment
         android:id="@+id/action_social"
-        android:name="com.example.dashcarr.ui.SocialFragment"
-        android:label="SocialFragment" />
+        android:name="com.example.dashcarr.presentation.tabs.social.SocialFragment"
+        android:label="SocialFragment" /><action android:id="@+id/action_global_loginFragment" app:destination="@id/loginFragment"/>
 </navigation>

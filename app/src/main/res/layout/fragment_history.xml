@@ -6,7 +6,7 @@
 
         <variable
             name="historyFragment"
-            type="com.example.dashcarr.ui.HistoryFragment" />
+            type="com.example.dashcarr.presentation.tabs.history.HistoryFragment" />
 
     </data>
 

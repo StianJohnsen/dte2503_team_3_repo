@@ -5,7 +5,7 @@
 
         <variable
             name="socialFragment"
-            type="com.example.dashcarr.ui.SocialFragment" />
+            type="com.example.dashcarr.presentation.tabs.social.SocialFragment" />
 
     </data>
 
