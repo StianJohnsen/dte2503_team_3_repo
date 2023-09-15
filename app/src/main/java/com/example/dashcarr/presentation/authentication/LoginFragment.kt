@@ -6,10 +6,12 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.dashcarr.R
 import com.example.dashcarr.databinding.FragmentLoginBinding
+import com.example.dashcarr.extensions.collectWithLifecycle
 import com.example.dashcarr.presentation.core.BaseFragment
 import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract
@@ -73,13 +75,26 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        Log.e("WatchingSomeStuff", "OnViewCreated")
-        showAuth(googleAuthProvider)
+        initListeners()
+        observeViewModel()
+        //showAuth(googleAuthProvider)
+    }
 
-        binding.apply {
-            lifecycleOwner = viewLifecycleOwner
-            loginFragment = this@LoginFragment
-            loginButton.setOnClickListener { moveToMap() }
+    override fun observeViewModel() {
+        viewModel.emailErrorState.collectWithLifecycle(viewLifecycleOwner) {
+            if (it != null) {
+                binding.tilEmail.isErrorEnabled = true
+                binding.tilEmail.error = getString(it)
+            }
+            else {
+                binding.tilEmail.isErrorEnabled = false
+            }
+        }
+    }
+
+    override fun initListeners() {
+        binding.etEmail.doOnTextChanged { _, _, _, _ ->
+            viewModel.updateEmail(binding.etEmail.text.toString())
         }
     }
 

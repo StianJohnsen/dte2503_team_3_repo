@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="PrimaryTextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="android:minWidth">0dp</item>
+        <item name="android:minHeight">0dp</item>
+        <item name="android:textAlignment">textStart</item>
+<!--        <item name="boxStrokeColor">@color/text_input_box_stroke_colors</item>-->
+    </style>
+
+    <style name="PrimaryTextInputEditText" parent="@style/Widget.MaterialComponents.TextInputEditText.OutlinedBox">
+        <item name="android:textColor">@color/black</item>
+        <item name="maxLines">1</item>
+<!--        <item name="android:textColorHint">@color/gray2</item>-->
+        <item name="android:textSize">@dimen/text_size_14</item>
+    </style>
+
+</resources>
