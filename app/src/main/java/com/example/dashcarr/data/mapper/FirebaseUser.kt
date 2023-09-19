@@ -1,6 +1,6 @@
 package com.example.dashcarr.data.mapper
 
-import com.example.dashcarr.domain.repository.data.User
+import com.example.dashcarr.data.data.User
 import com.google.firebase.auth.FirebaseUser
 
 fun FirebaseUser.toUser() =
