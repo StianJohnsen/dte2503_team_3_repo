@@ -5,7 +5,9 @@ import android.view.View
 import androidx.fragment.app.viewModels
 import com.example.dashcarr.databinding.FragmentHistoryBinding
 import com.example.dashcarr.presentation.core.BaseFragment
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class HistoryFragment : BaseFragment<FragmentHistoryBinding>(
     FragmentHistoryBinding::inflate
 ) {
@@ -21,6 +23,7 @@ class HistoryFragment : BaseFragment<FragmentHistoryBinding>(
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        viewModel.saveTest(10.0, 10.0)
     }
 
 }

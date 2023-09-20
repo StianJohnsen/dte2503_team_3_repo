@@ -61,6 +61,7 @@ dependencies {
     //Hilt (including Dagger)
     implementation("com.google.dagger:hilt-android:2.47")
     implementation("com.google.android.gms:play-services-auth:20.7.0")
+    implementation("com.google.firebase:firebase-firestore-ktx:24.8.1")
     kapt("com.google.dagger:hilt-compiler:2.47")
 
     implementation("androidx.core:core-ktx:1.12.0")
@@ -68,7 +69,7 @@ dependencies {
     implementation("com.google.android.material:material:1.9.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
 
-    implementation("com.google.firebase:firebase-auth-ktx:22.1.1")
+    implementation("com.google.firebase:firebase-auth-ktx:22.1.2")
 
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")

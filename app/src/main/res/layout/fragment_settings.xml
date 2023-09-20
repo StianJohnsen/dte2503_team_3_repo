@@ -152,6 +152,22 @@
             app:layout_constraintTop_toBottomOf="@id/preferences_settings_text" />
 
 
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnLogout"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/standard_touch_size"
+            android:layout_marginTop="@dimen/margin_padding_size_10"
+            android:backgroundTint="@color/black"
+            android:insetTop="@dimen/margin_padding_size_0"
+            android:insetBottom="@dimen/margin_padding_size_0"
+            android:text="@string/btnLogout"
+            android:textSize="@dimen/text_size_14"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>

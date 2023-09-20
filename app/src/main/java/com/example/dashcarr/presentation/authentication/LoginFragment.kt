@@ -31,7 +31,6 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(
     private lateinit var bottomNavigationView: BottomNavigationView
     private val viewModel: LoginViewModel by viewModels()
 
-
     private val signInLauncher = registerForActivityResult(FirebaseAuthUIActivityResultContract()) {
         val response = it.idpResponse
         when (it.resultCode) {
