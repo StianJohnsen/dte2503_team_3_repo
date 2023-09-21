@@ -9,136 +9,30 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        >
 
-        <ImageView
-            android:layout_width="@dimen/login_icon_size"
-            android:layout_height="@dimen/login_icon_size"
-            android:layout_marginBottom="@dimen/margin_padding_size_40"
-            android:src="@drawable/ic_login"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/btnGoogleLogin" />
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnGoogleLogin"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/standard_touch_size"
-            android:insetBottom="@dimen/margin_padding_size_0"
-            android:insetTop="@dimen/margin_padding_size_0"
-            android:layout_marginHorizontal="@dimen/margin_padding_size_46"
-            android:backgroundTint="@color/black"
-            android:text="@string/continue_with_google"
-            android:textStyle="bold"
-            android:textSize="@dimen/text_size_14"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/Center"/>
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnFacebookLogin"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/standard_touch_size"
-            android:insetBottom="@dimen/margin_padding_size_0"
-            android:insetTop="@dimen/margin_padding_size_0"
-            android:layout_marginHorizontal="@dimen/margin_padding_size_46"
-            android:backgroundTint="@color/black"
-            android:text="@string/continue_with_facebook"
-            android:textStyle="bold"
-            android:textSize="@dimen/text_size_14"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/Center"
-            app:layout_constraintEnd_toEndOf="parent" />
-
-        <View
-            android:id="@+id/Center"
-            android:layout_width="1dp"
-            android:layout_height="@dimen/margin_padding_size_10"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"/>
-        
         <TextView
-            android:id="@+id/loginLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/login"
-            android:textColor="@color/black"
-            android:textStyle="bold"
-            android:textSize="@dimen/text_size_18"
-            app:layout_constraintStart_toStartOf="@id/btnGoogleLogin"
-            app:layout_constraintTop_toBottomOf="@id/btnFacebookLogin"
-            android:layout_marginTop="@dimen/margin_padding_size_32"/>
+            android:text="Login fragment"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="20dp"
+            />
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/tilEmail"
-            style="@style/PrimaryTextInputLayout"
-            android:layout_width="match_parent"
+        <Button
+            android:id="@+id/login_button"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_padding_size_8"
-            app:boxStrokeErrorColor="@color/red"
-            app:boxStrokeWidth="1dp"
-            app:errorEnabled="false"
-            app:endIconMode="custom"
-            app:errorIconDrawable="@null"
-            app:hintAnimationEnabled="false"
-            app:hintEnabled="true"
-            android:hint="@string/email_necessary"
-            app:expandedHintEnabled="false"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/loginLabel"
-            android:layout_marginHorizontal="@dimen/margin_padding_size_46">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/etEmail"
-                style="@style/PrimaryTextInputEditText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:maxLength="255"
-                android:imeOptions="actionNext"
-                android:includeFontPadding="false"
-                android:inputType="textEmailAddress"/>
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/tilPassword"
-            style="@style/PrimaryTextInputLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_padding_size_10"
-            app:boxStrokeErrorColor="@color/red"
-            app:boxStrokeWidth="1dp"
-            app:errorEnabled="false"
-            app:endIconMode="custom"
-            app:errorIconDrawable="@null"
-            app:hintAnimationEnabled="false"
-            app:hintEnabled="false"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tilEmail"
-            android:layout_marginHorizontal="@dimen/margin_padding_size_46">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/etPassword"
-                style="@style/PrimaryTextInputEditText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="MyHint"
-                android:maxLength="255"
-                android:imeOptions="actionNext"
-                android:includeFontPadding="false"
-                android:inputType="textEmailAddress"/>
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-
-
-
-
+            android:text="Move to next fragment"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>

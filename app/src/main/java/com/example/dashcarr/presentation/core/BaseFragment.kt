@@ -8,7 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.viewbinding.ViewBinding
 
 typealias Inflate<T> = (LayoutInflater, ViewGroup?, Boolean) -> T
-abstract class BaseFragment<VB: ViewBinding>(
+open class BaseFragment<VB: ViewBinding>(
     private val inflate: Inflate<VB>
 ): Fragment() {
 
@@ -28,8 +28,5 @@ abstract class BaseFragment<VB: ViewBinding>(
         _binding = null
         super.onDestroyView()
     }
-
-    abstract fun observeViewModel()
-    abstract fun initListeners()
 
 }
