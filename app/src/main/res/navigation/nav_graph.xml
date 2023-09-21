@@ -7,13 +7,7 @@
     <fragment
         android:id="@+id/action_map"
         android:name="com.example.dashcarr.presentation.tabs.map.MapFragment"
-        android:label="MapFragment" >
-
-    </fragment>
-    <fragment
-        android:id="@+id/action_dash_cam"
-        android:name="com.example.dashcarr.presentation.tabs.dashcam.DashCamFragment"
-        android:label="DashCamFragment" >
+        android:label="MapFragment">
 
     </fragment>
     <fragment
@@ -37,7 +31,7 @@
             android:id="@+id/action_loginFragment_to_action_map"
             app:destination="@id/action_map"
             app:popUpToInclusive="true"
-            app:popUpTo="@id/nav_graph"/>
+            app:popUpTo="@id/nav_graph" />
     </fragment>
     <fragment
         android:id="@+id/action_history"

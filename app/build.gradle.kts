@@ -34,6 +34,7 @@ android {
 
     buildFeatures{
         dataBinding = true
+        viewBinding = true
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
@@ -72,6 +73,7 @@ dependencies {
     //Hilt (including Dagger)
     implementation("com.google.dagger:hilt-android:2.47")
     implementation("com.google.android.gms:play-services-auth:20.7.0")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.2")
     implementation("com.google.firebase:firebase-firestore-ktx:24.8.1")
     kapt("com.google.dagger:hilt-compiler:2.47")
 
@@ -108,10 +110,5 @@ dependencies {
     }
     //implementation ("org.osmdroid:osmdroid-geopackage:6.1.16")
 
-
-    /*
-     */
-
-
-
+//    implementation("io.fotoapparat:fotoapparat:2.6.1")
 }
