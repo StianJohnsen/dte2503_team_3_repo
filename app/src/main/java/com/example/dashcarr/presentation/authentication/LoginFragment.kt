@@ -84,9 +84,9 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(
         observeViewModel()
         Log.e("WatchingSomeStuff", "Current user = ${Firebase.auth.currentUser}")
 
-        //signUp(User(email = "myUser@gmail.com", password = "myUser"))
-        //FirebaseAuth.getInstance().signOut()
-        //showAuth(googleAuthProvider)
+//        signUp(User(email = "myUser@gmail.com", password = "myUser"))
+//        FirebaseAuth.getInstance().signOut()
+//        showAuth(googleAuthProvider)
 
     }
 
