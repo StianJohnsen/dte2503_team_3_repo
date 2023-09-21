@@ -9,9 +9,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/deepBlue">
-
+        android:layout_height="match_parent">
 
         <ImageView
             android:layout_width="@dimen/login_icon_size"
@@ -111,16 +109,14 @@
             style="@style/PrimaryTextInputLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_padding_size_8"
+            android:layout_marginTop="@dimen/margin_padding_size_10"
             app:boxStrokeErrorColor="@color/red"
             app:boxStrokeWidth="1dp"
             app:errorEnabled="false"
             app:endIconMode="custom"
             app:errorIconDrawable="@null"
             app:hintAnimationEnabled="false"
-            app:hintEnabled="true"
-            android:hint="@string/password_necessary"
-            app:expandedHintEnabled="false"
+            app:hintEnabled="false"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tilEmail"
@@ -131,6 +127,7 @@
                 style="@style/PrimaryTextInputEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:hint="MyHint"
                 android:maxLength="255"
                 android:imeOptions="actionNext"
                 android:includeFontPadding="false"
@@ -138,30 +135,8 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/forgotPassword"
-            android:text="@string/forgot_password"
-            android:layout_marginTop="@dimen/margin_padding_size_10"
-            app:layout_constraintStart_toStartOf="@id/tilPassword"
-            app:layout_constraintTop_toBottomOf="@id/tilPassword">
 
-        </TextView>
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnLogin"
-            android:layout_width="wrap_content"
-            android:layout_height="@dimen/standard_touch_size"
-            android:layout_marginTop="@dimen/margin_padding_size_10"
-            android:backgroundTint="@color/black"
-            android:insetTop="@dimen/margin_padding_size_0"
-            android:insetBottom="@dimen/margin_padding_size_0"
-            android:text="@string/btnLogin"
-            android:textSize="@dimen/text_size_14"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="@+id/tilPassword"
-            app:layout_constraintTop_toBottomOf="@id/tilPassword" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -7,12 +7,4 @@
     <string name="login">Login</string>
     <string name="email_necessary">Email<font color='#DD2421'>*</font></string>
     <string name="error_email_empty">Email cannot be empty.</string>
-    <string name="password_necessary">Password<font color='#DD2421'>*</font></string>
-    <string name="forgot_password">Forgot Password?</string>
-    <string name="btnLogin">Login</string>
-    <string name="error_invalid_email">Invalid Email</string>
-    <string name="error_invalid_password">Invalid password</string>
-    <string name="error_too_short_password">Too short password</string>
-    <string name="error_non_upper_case">Password must contain at least one upper case</string>
-    <string name="error_non_digit">Password must contain at least one digit</string>
 </resources>

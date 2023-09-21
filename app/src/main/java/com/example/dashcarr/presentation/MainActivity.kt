@@ -9,7 +9,6 @@ import androidx.navigation.ui.setupWithNavController
 import com.example.dashcarr.R
 import com.example.dashcarr.extensions.collectWithLifecycle
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -21,7 +20,6 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        //FirebaseAuth.getInstance().signOut()
         setContentView(R.layout.activity_main)
         findViewById<BottomNavigationView>(R.id.bottom_nav)
             .setupWithNavController(navController)

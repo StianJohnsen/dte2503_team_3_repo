@@ -1,4 +1,4 @@
-package com.example.dashcarr.data.data
+package com.example.dashcarr.domain.repository.data
 
 data class User(
     val name: String?,
