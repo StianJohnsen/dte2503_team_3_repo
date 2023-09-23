@@ -157,6 +157,7 @@
             android:layout_width="wrap_content"
             android:layout_height="@dimen/standard_touch_size"
             android:layout_marginTop="@dimen/margin_padding_size_10"
+            android:layout_marginBottom="@dimen/margin_padding_size_10"
             android:backgroundTint="@color/black"
             android:insetTop="@dimen/margin_padding_size_0"
             android:insetBottom="@dimen/margin_padding_size_0"

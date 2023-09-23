@@ -16,4 +16,9 @@
     <string name="error_non_upper_case">Password must contain at least one upper case</string>
     <string name="error_non_digit">Password must contain at least one digit</string>
     <string name="btnLogout">Logout</string>
+
+    <string name="facebook_application_id">129380996925597</string>
+    <string name="fb_login_protocol_scheme">fb129380996925597</string>
+    <string name="facebook_client_token">bb12e8b82e802b44fb03d464577399f5</string>
+
 </resources>

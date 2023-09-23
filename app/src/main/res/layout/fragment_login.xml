@@ -29,6 +29,7 @@
             android:layout_height="@dimen/standard_touch_size"
             android:insetBottom="@dimen/margin_padding_size_0"
             android:insetTop="@dimen/margin_padding_size_0"
+            app:cornerRadius="20dp"
             android:layout_marginHorizontal="@dimen/margin_padding_size_46"
             android:backgroundTint="@color/black"
             android:text="@string/continue_with_google"
@@ -38,7 +39,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toTopOf="@id/Center"/>
 
-        <com.google.android.material.button.MaterialButton
+        <com.facebook.login.widget.LoginButton
             android:id="@+id/btnFacebookLogin"
             android:layout_width="match_parent"
             android:layout_height="@dimen/standard_touch_size"
@@ -52,6 +53,21 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/Center"
             app:layout_constraintEnd_toEndOf="parent" />
+
+<!--        <com.google.android.material.button.MaterialButton-->
+<!--            android:id="@+id/btnFacebookLogin"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="@dimen/standard_touch_size"-->
+<!--            android:insetBottom="@dimen/margin_padding_size_0"-->
+<!--            android:insetTop="@dimen/margin_padding_size_0"-->
+<!--            android:layout_marginHorizontal="@dimen/margin_padding_size_46"-->
+<!--            android:backgroundTint="@color/black"-->
+<!--            android:text="@string/continue_with_facebook"-->
+<!--            android:textStyle="bold"-->
+<!--            android:textSize="@dimen/text_size_14"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toBottomOf="@id/Center"-->
+<!--            app:layout_constraintEnd_toEndOf="parent" />-->
 
         <View
             android:id="@+id/Center"

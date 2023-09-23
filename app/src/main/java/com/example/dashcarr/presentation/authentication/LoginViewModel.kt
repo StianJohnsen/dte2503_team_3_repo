@@ -34,6 +34,9 @@ class LoginViewModel @Inject constructor(
     private val _googleLoginState = MutableSharedFlow<Unit>()
     val googleLoginState = _googleLoginState.asSharedFlow()
 
+    private val _facebookLoginState = MutableSharedFlow<Unit>()
+    val facebookLoginState = _facebookLoginState.asSharedFlow()
+
 
     fun updateEmail(email: String) {
         viewModelScope.launch {
@@ -75,20 +78,6 @@ class LoginViewModel @Inject constructor(
             return false
         }
 
-//        if (!password.contains("0") ||
-//            !password.contains("1") ||
-//            !password.contains("2") ||
-//            !password.contains("3") ||
-//            !password.contains("4") ||
-//            !password.contains("5") ||
-//            !password.contains("6") ||
-//            !password.contains("7") ||
-//            !password.contains("8") ||
-//            !password.contains("9")
-//        ) {
-//            _passwordErrorState.emit(R.string.error_non_digit)
-//            return false
-//        }
         _passwordErrorState.emit(null)
         return true
     }
@@ -138,6 +127,12 @@ class LoginViewModel @Inject constructor(
     fun showGoogleLogin() {
         viewModelScope.launch {
             _googleLoginState.emit(Unit)
+        }
+    }
+
+    fun showFacebookLogin() {
+        viewModelScope.launch {
+            _facebookLoginState.emit(Unit)
         }
     }
 

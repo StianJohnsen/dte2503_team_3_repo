@@ -21,7 +21,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        //FirebaseAuth.getInstance().signOut()
+        FirebaseAuth.getInstance().signOut()
         setContentView(R.layout.activity_main)
         findViewById<BottomNavigationView>(R.id.bottom_nav)
             .setupWithNavController(navController)

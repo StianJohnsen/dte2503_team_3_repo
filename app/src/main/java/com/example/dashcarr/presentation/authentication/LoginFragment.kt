@@ -12,9 +12,10 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.dashcarr.R
 import com.example.dashcarr.databinding.FragmentLoginBinding
-import com.example.dashcarr.domain.data.User
 import com.example.dashcarr.extensions.collectWithLifecycle
 import com.example.dashcarr.presentation.core.BaseFragment
+import com.facebook.AccessToken
+import com.facebook.CallbackManager
 import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
@@ -31,7 +32,10 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(
     private lateinit var bottomNavigationView: BottomNavigationView
     private val viewModel: LoginViewModel by viewModels()
 
+//    private val callbackManager = CallbackManager.Factory.create()
+
     private val signInLauncher = registerForActivityResult(FirebaseAuthUIActivityResultContract()) {
+        Log.e("WatchingSomeStuff", "FireabaseAuthResult = $it")
         val response = it.idpResponse
         when (it.resultCode) {
             Activity.RESULT_OK -> {
@@ -65,8 +69,12 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(
         ).build()
     }
 
-    private val appleAuthProvider by lazy {
-        AuthUI.IdpConfig.AppleBuilder().build()
+    private val facebookAuthProvider by lazy {
+        AuthUI.IdpConfig.FacebookBuilder()
+            //.setPermissions(
+//            listOf("email", "public_profile")
+            //listOf("email")
+            .build()
     }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -84,9 +92,32 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(
         observeViewModel()
         Log.e("WatchingSomeStuff", "Current user = ${Firebase.auth.currentUser}")
 
-//        signUp(User(email = "myUser@gmail.com", password = "myUser"))
-//        FirebaseAuth.getInstance().signOut()
-//        showAuth(googleAuthProvider)
+        //signUp(User(email = "myUser@gmail.com", password = "myUser01"))
+        //FirebaseAuth.getInstance().signOut()
+        //showAuth(googleAuthProvider)
+        //showAuth(facebookAuthProvider)
+        //binding.btnFacebookLogin.setPermissions("email", "publ")
+        val accesToke  = AccessToken.getCurrentAccessToken()
+        Log.e("WatchingSomeStuff", "accessToken = $accesToke")
+//        binding.btnFacebookLogin.setFragment(this)
+//        binding.btnFacebookLogin.registerCallback(callbackManager, object: FacebookCallback<LoginResult> {
+//            override fun onCancel() {
+//                Log.e("WatchingSomeStuff", "OnCancel")
+//            }
+//
+//            override fun onError(error: FacebookException) {
+//
+//                Log.e("WatchingSomeStuff", "onError")
+//            }
+//
+//            override fun onSuccess(result: LoginResult) {
+//                Log.e("WatchingSomeStuff", "OnSucces")
+//            }
+//
+//        })
+
+
+
 
     }
 
@@ -124,6 +155,10 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(
             showAuth(googleAuthProvider)
         }
 
+        viewModel.facebookLoginState.collectWithLifecycle(viewLifecycleOwner) {
+            showAuth(facebookAuthProvider)
+        }
+
     }
 
 
@@ -138,6 +173,10 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(
 
         binding.btnGoogleLogin.setOnClickListener {
             viewModel.showGoogleLogin()
+        }
+
+        binding.btnFacebookLogin.setOnClickListener {
+            viewModel.showFacebookLogin()
         }
 
         binding.btnLogin.setOnClickListener {
@@ -155,7 +194,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(
     }
 
     private fun showAuth(provider: AuthUI.IdpConfig) {
-        //showLoading(true)
+//        showLoading(true)
         signInLauncher.launch(
             AuthUI.getInstance()
                 .createSignInIntentBuilder()
