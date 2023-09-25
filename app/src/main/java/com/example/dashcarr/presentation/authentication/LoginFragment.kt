@@ -1,5 +1,6 @@
 package com.example.dashcarr.presentation.authentication
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.os.Bundle
 import android.util.Log
@@ -15,11 +16,11 @@ import com.example.dashcarr.databinding.FragmentLoginBinding
 import com.example.dashcarr.extensions.collectWithLifecycle
 import com.example.dashcarr.presentation.core.BaseFragment
 import com.facebook.AccessToken
-import com.facebook.CallbackManager
 import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.firebase.auth.FacebookAuthProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
@@ -34,6 +35,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(
 
 //    private val callbackManager = CallbackManager.Factory.create()
 
+    @SuppressLint("RestrictedApi")
     private val signInLauncher = registerForActivityResult(FirebaseAuthUIActivityResultContract()) {
         Log.e("WatchingSomeStuff", "FireabaseAuthResult = $it")
         val response = it.idpResponse
@@ -44,6 +46,11 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(
                     //toastL(R.string.error_something_wrong)
                     //Log.e(TAG, "Sign in failed. response = $response")
                 } else {
+                    if (response.user.providerId.lowercase().contains("facebook")) {
+                        Log.d("WatchingSomeStuff", "Sign in success. FACEBOOK response = $response")
+                        saveCredentialsToFirebase(response.idpToken)
+                    }
+                    else findNavController().navigate(R.id.action_loginFragment_to_action_map)
 
                     Log.d("WatchingSomeStuff", "Sign in success. response = $response")
                     //viewModel.syncRemoteBookmarks()
@@ -70,19 +77,14 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(
     }
 
     private val facebookAuthProvider by lazy {
-        AuthUI.IdpConfig.FacebookBuilder()
-            //.setPermissions(
-//            listOf("email", "public_profile")
-            //listOf("email")
-            .build()
+        AuthUI.IdpConfig.FacebookBuilder().build()
     }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         super.onCreateView(inflater, container, savedInstanceState)
-        bottomNavigationView = activity?.findViewById<BottomNavigationView>(R.id.bottom_nav)!!
-        bottomNavigationView?.visibility = View.GONE
+        showBottomNavigation(false)
         return binding.root
     }
 
@@ -91,34 +93,6 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(
         initListeners()
         observeViewModel()
         Log.e("WatchingSomeStuff", "Current user = ${Firebase.auth.currentUser}")
-
-        //signUp(User(email = "myUser@gmail.com", password = "myUser01"))
-        //FirebaseAuth.getInstance().signOut()
-        //showAuth(googleAuthProvider)
-        //showAuth(facebookAuthProvider)
-        //binding.btnFacebookLogin.setPermissions("email", "publ")
-        val accesToke  = AccessToken.getCurrentAccessToken()
-        Log.e("WatchingSomeStuff", "accessToken = $accesToke")
-//        binding.btnFacebookLogin.setFragment(this)
-//        binding.btnFacebookLogin.registerCallback(callbackManager, object: FacebookCallback<LoginResult> {
-//            override fun onCancel() {
-//                Log.e("WatchingSomeStuff", "OnCancel")
-//            }
-//
-//            override fun onError(error: FacebookException) {
-//
-//                Log.e("WatchingSomeStuff", "onError")
-//            }
-//
-//            override fun onSuccess(result: LoginResult) {
-//                Log.e("WatchingSomeStuff", "OnSucces")
-//            }
-//
-//        })
-
-
-
-
     }
 
     override fun observeViewModel() {
@@ -212,6 +186,20 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(
                 } else {
 
                     Log.e("watchingSomeStuff", "Failed signUp error = ${task.exception?.cause} = ${task.exception?.message} =}")
+                }
+            }
+    }
+
+    private fun saveCredentialsToFirebase(accessToken: String?) {
+        if (accessToken.isNullOrEmpty()) return
+        val credentials = FacebookAuthProvider.getCredential(accessToken)
+        Firebase.auth.signInWithCredential(credentials)
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    findNavController().navigate(R.id.action_loginFragment_to_action_map)
+                }
+                else {
+                    Toast.makeText(requireContext(), getString(R.string.error_unknown), Toast.LENGTH_SHORT).show()
                 }
             }
     }

@@ -2,20 +2,29 @@
     <string name="app_name">Dash Carr</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!--LoginFragment-->
+
     <string name="continue_with_google">Continue with Google</string>
     <string name="continue_with_facebook">Continue with Facebook</string>
     <string name="login">Login</string>
     <string name="email_necessary">Email<font color='#DD2421'>*</font></string>
-    <string name="error_email_empty">Email cannot be empty.</string>
     <string name="password_necessary">Password<font color='#DD2421'>*</font></string>
     <string name="forgot_password">Forgot Password?</string>
     <string name="btnLogin">Login</string>
+    <string name="btnLogout">Logout</string>
+
+    <!--Error-->
+
     <string name="error_invalid_email">Invalid Email</string>
     <string name="error_invalid_password">Invalid password</string>
     <string name="error_too_short_password">Too short password</string>
     <string name="error_non_upper_case">Password must contain at least one upper case</string>
     <string name="error_non_digit">Password must contain at least one digit</string>
-    <string name="btnLogout">Logout</string>
+    <string name="error_unknown">Oops, something went wrong</string>
+    <string name="error_email_empty">Email cannot be empty.</string>
+
+    <!--Credentials-->
 
     <string name="facebook_application_id">129380996925597</string>
     <string name="fb_login_protocol_scheme">fb129380996925597</string>
