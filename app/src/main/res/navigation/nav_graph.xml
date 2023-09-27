@@ -18,12 +18,10 @@
     <fragment
         android:id="@+id/action_settings"
         android:name="com.example.dashcarr.presentation.tabs.settings.SettingsFragment"
-        android:label="SettingsFragment" ><!--<action android:id="@+id/go_to_recordings" app:destination="@id/SavedRecordingsFragment"/>-->
+        android:label="SettingsFragment" >
         <action
-            android:id="@+id/go_to_recordings"
-            app:destination="@id/SavedRecordingsFragment"
-            app:popUpToInclusive="true"
-            app:popUpTo="@id/nav_graph"/>
+            android:id="@+id/action_action_settings_to_SavedRecordingsFragment"
+            app:destination="@id/SavedRecordingsFragment" />
     </fragment>
     <fragment
         android:id="@+id/SavedRecordingsFragment"

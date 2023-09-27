@@ -1,7 +1,6 @@
 package com.example.dashcarr.presentation.tabs.settings
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -36,16 +35,10 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>(
         binding.apply {
             lifecycleOwner = viewLifecycleOwner
             settingsFragment = this@SettingsFragment
-            button2.setOnClickListener { moveToRecordings() }
         }
-    }
-
-    fun moveToRecordings(){
-        val transaction = parentFragmentManager.beginTransaction()
-        transaction.replace(R.id.fragment_container, SavedRecordingsFragment())
-        transaction.addToBackStack(null) // si vous voulez ajouter la transaction à la pile de retour arrière
-        transaction.commit()
-        bottomNavigationView.visibility = View.VISIBLE
+        binding.button2.setOnClickListener {
+            findNavController().navigate(R.id.action_action_settings_to_SavedRecordingsFragment)
+        }
     }
 }
 /*
