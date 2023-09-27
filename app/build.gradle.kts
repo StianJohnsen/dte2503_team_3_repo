@@ -6,6 +6,7 @@ plugins {
     id("com.google.gms.google-services")
     id("com.google.dagger.hilt.android")
     id("kotlin-kapt")
+    id("androidx.navigation.safeargs.kotlin")
 }
 
 android {
@@ -61,6 +62,8 @@ dependencies {
     //Hilt (including Dagger)
     implementation("com.google.dagger:hilt-android:2.47")
     implementation("com.google.android.gms:play-services-auth:20.7.0")
+    implementation("androidx.legacy:legacy-support-v4:1.0.0")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1")
     kapt("com.google.dagger:hilt-compiler:2.47")
 
     implementation("androidx.core:core-ktx:1.12.0")

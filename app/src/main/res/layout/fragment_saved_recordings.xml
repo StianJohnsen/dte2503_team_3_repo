@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:tools="http://schemas.android.com/tools"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
-    <data>
-        <variable
-            name="settingsFragment"
-            type="com.example.dashcarr.presentation.tabs.settings.SettingsFragment" />
-    </data>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fragment_container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".presentation.tabs.settings.SavedRecordingsFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -14,77 +13,79 @@
         android:background="#000000">
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="620dp"
-            android:background="#FFFFFF"
-            android:text="You are now in settings fragment"
-            app:layout_constraintHorizontal_bias="0.497"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
+            android:id="@+id/textView3"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:layout_editor_absoluteX="0dp"
+            tools:layout_editor_absoluteY="0dp" />
+
+        <Button
+            android:id="@+id/button13"
+            android:layout_width="410dp"
+            android:layout_height="67dp"
+            android:layout_marginTop="200dp"
+            android:background="#000000"
+            android:backgroundTint="#000000"
+            android:text="Recording __/__/____"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:rippleColor="#000000"
+            app:strokeColor="#000000" />
+
+        <Button
+            android:id="@+id/button12"
+            android:layout_width="410dp"
+            android:layout_height="67dp"
+            android:layout_marginTop="136dp"
+            android:background="#000000"
+            android:backgroundTint="#000000"
+            android:text="Recording __/__/____"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:rippleColor="#000000"
+            app:strokeColor="#000000" />
+
+        <Button
+            android:id="@+id/button11"
+            android:layout_width="410dp"
+            android:layout_height="67dp"
+            android:layout_marginTop="72dp"
+            android:background="#000000"
+            android:backgroundTint="#000000"
+            android:text="Recording __/__/____"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:rippleColor="#000000"
+            app:strokeColor="#000000" />
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="match_parent"
+            android:layout_height="63dp"
+            android:layout_marginTop="5dp"
+            android:text="Saved Recordings"
+            android:textAlignment="center"
+            android:textColor="#FFFFFF"
+            android:textSize="34sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <Button
-            android:id="@+id/button3"
-            android:layout_width="410dp"
-            android:layout_height="67dp"
-            android:layout_marginTop="64dp"
-            android:background="#000000"
-            android:backgroundTint="#000000"
-            android:text="New Recording"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:rippleColor="#000000"
-            app:strokeColor="#000000" />
-
-        <Button
-            android:id="@+id/button4"
-            android:layout_width="410dp"
-            android:layout_height="67dp"
-            android:layout_marginTop="128dp"
-            android:background="#000000"
-            android:backgroundTint="#000000"
-            android:text="Profile Settings"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:rippleColor="#000000"
-            app:strokeColor="#000000" />
-
-        <Button
-            android:id="@+id/button5"
-            android:layout_width="410dp"
-            android:layout_height="67dp"
-            android:layout_marginTop="192dp"
-            android:background="#000000"
-            android:backgroundTint="#000000"
-            android:text="Maps Settings"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:rippleColor="#000000"
-            app:strokeColor="#000000" />
-
-        <Button
-            android:id="@+id/button2"
-            android:layout_width="410dp"
-            android:layout_height="67dp"
-            android:background="#000000"
-            android:backgroundTint="#000000"
-            android:text="Saved Recordings"
-            app:layout_constraintBottom_toTopOf="@+id/button3"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0"
-            app:strokeColor="#000000" />
-
+            android:id="@+id/showStatButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="-150dp"
+            android:text="Show Statistics"
+            app:layout_constraintTop_toBottomOf="@+id/textView3"
+            tools:layout_editor_absoluteX="132dp" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-</layout>
+</FrameLayout>

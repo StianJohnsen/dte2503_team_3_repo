@@ -12,13 +12,23 @@
     <fragment
         android:id="@+id/action_dash_cam"
         android:name="com.example.dashcarr.presentation.tabs.dashcam.DashCamFragment"
-        android:label="DashCamFragment" >
+        android:label="DashCamFragment">
 
     </fragment>
     <fragment
         android:id="@+id/action_settings"
         android:name="com.example.dashcarr.presentation.tabs.settings.SettingsFragment"
-        android:label="SettingsFragment" />
+        android:label="SettingsFragment" ><!--<action android:id="@+id/go_to_recordings" app:destination="@id/SavedRecordingsFragment"/>-->
+        <action
+            android:id="@+id/go_to_recordings"
+            app:destination="@id/SavedRecordingsFragment"
+            app:popUpToInclusive="true"
+            app:popUpTo="@id/nav_graph"/>
+    </fragment>
+    <fragment
+        android:id="@+id/SavedRecordingsFragment"
+        android:name="com.example.dashcarr.presentation.tabs.settings.SavedRecordingsFragment"
+        android:label="SavedRecordingsFragment" />
     <fragment
         android:id="@+id/loginFragment"
         android:name="com.example.dashcarr.presentation.authentication.LoginFragment"
