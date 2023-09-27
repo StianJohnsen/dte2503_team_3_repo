@@ -32,6 +32,34 @@
 
             />
 
+        <TextView
+            android:id="@+id/accel_filtered"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintLeft_toLeftOf="@id/gyro_unfiltered"
+            app:layout_constraintTop_toBottomOf="@id/gyro_unfiltered"
+            android:layout_marginTop="20dp"
+            />
+
+        <TextView
+            android:id="@+id/gyro_filtered"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintLeft_toLeftOf="@id/accel_filtered"
+            app:layout_constraintTop_toBottomOf="@id/accel_filtered"
+            android:layout_marginTop="20dp"
+            />
+
+        <TextView
+            android:id="@+id/orientation_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintLeft_toLeftOf="@id/gyro_filtered"
+            app:layout_constraintTop_toBottomOf="@id/gyro_filtered"
+            android:layout_marginTop="20dp"
+            />
+
+
         <Button
             android:id="@+id/start_recording"
             android:text="Start Recording"
