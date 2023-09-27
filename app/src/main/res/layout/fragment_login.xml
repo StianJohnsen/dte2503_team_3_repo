@@ -27,15 +27,17 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toTopOf="@id/btnGoogleLogin" />
 
-
-
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnGoogleLogin"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/standard_touch_size"
                 android:insetBottom="@dimen/margin_padding_size_0"
                 android:insetTop="@dimen/margin_padding_size_0"
-                app:cornerRadius="20dp"
+                app:cornerRadius="@dimen/margin_padding_size_20"
+                app:icon="@drawable/ic_google"
+                app:iconSize="@dimen/margin_padding_size_20"
+                app:iconGravity="textStart"
+                app:iconTint="@null"
                 android:layout_marginHorizontal="@dimen/margin_padding_size_46"
                 android:backgroundTint="@color/black"
                 android:text="@string/continue_with_google"
@@ -67,6 +69,10 @@
                 android:insetBottom="@dimen/margin_padding_size_0"
                 android:insetTop="@dimen/margin_padding_size_0"
                 app:cornerRadius="20dp"
+                app:icon="@drawable/ic_facebook"
+                app:iconSize="@dimen/margin_padding_size_20"
+                app:iconGravity="textStart"
+                app:iconTint="@null"
                 android:layout_marginHorizontal="@dimen/margin_padding_size_46"
                 android:backgroundTint="@color/black"
                 android:text="@string/continue_with_facebook"

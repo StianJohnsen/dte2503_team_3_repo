@@ -3,6 +3,7 @@ package com.example.dashcarr.presentation.tabs.history
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
+import com.example.dashcarr.data.entity.GeoPointEntity
 import com.example.dashcarr.databinding.FragmentHistoryBinding
 import com.example.dashcarr.presentation.core.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
@@ -23,7 +24,21 @@ class HistoryFragment : BaseFragment<FragmentHistoryBinding>(
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.saveTest(10.0, 10.0)
+        binding.tempButton.setOnClickListener {
+            viewModel.saveTest(
+                GeoPointEntity(
+                    geoPointId = 1,
+                    tripId = 2,
+                    latitude = 12.12,
+                    longitude = 21.21,
+                    stepNum = 0
+                )
+            )
+        }
+
+        binding.getButton.setOnClickListener {
+            viewModel.getGeoPoints()
+        }
     }
 
 }
