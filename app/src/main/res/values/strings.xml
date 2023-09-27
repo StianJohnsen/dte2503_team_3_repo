@@ -2,4 +2,6 @@
     <string name="app_name">Dash Carr</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="accelerometer_unfiltered_template">Accelerometer: %f</string>
+    <string name="gyroscope_unfiltered_template">Gyroscope: %f</string>
 </resources>

@@ -18,7 +18,11 @@
     <fragment
         android:id="@+id/action_settings"
         android:name="com.example.dashcarr.presentation.tabs.settings.SettingsFragment"
-        android:label="SettingsFragment" />
+        android:label="SettingsFragment" >
+        <action
+            android:id="@+id/action_action_settings_to_sensorFragment"
+            app:destination="@id/sensorFragment" />
+    </fragment>
     <fragment
         android:id="@+id/loginFragment"
         android:name="com.example.dashcarr.presentation.authentication.LoginFragment"
@@ -37,4 +41,8 @@
         android:id="@+id/action_social"
         android:name="com.example.dashcarr.presentation.tabs.social.SocialFragment"
         android:label="SocialFragment" /><action android:id="@+id/action_global_loginFragment" app:destination="@id/loginFragment"/>
+    <fragment
+        android:id="@+id/sensorFragment"
+        android:name="com.example.dashcarr.presentation.tabs.settings.SensorFragment"
+        android:label="SensorFragment" />
 </navigation>

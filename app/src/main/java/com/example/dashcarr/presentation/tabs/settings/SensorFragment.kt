@@ -1,60 +1,93 @@
 package com.example.dashcarr.presentation.tabs.settings
 
+import android.content.Context
+import android.hardware.Sensor
+import android.hardware.SensorEvent
+import android.hardware.SensorEventListener
+import android.hardware.SensorManager
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.dashcarr.R
+import com.example.dashcarr.databinding.FragmentSensorBinding
+import com.example.dashcarr.presentation.core.BaseFragment
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
 
-/**
- * A simple [Fragment] subclass.
- * Use the [SensorFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
-class SensorFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+class SensorFragment : BaseFragment<FragmentSensorBinding>(
+    FragmentSensorBinding::inflate
+), SensorEventListener {
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
+    private lateinit var sensorManager: SensorManager
+    private var accelSensor: Sensor? = null
+    private var gyroSensor: Sensor? = null
+    private var magnetoSensor: Sensor? = null
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        sensorManager = context.getSystemService(Context.SENSOR_SERVICE) as SensorManager
+
+    }
+
+    // Starting the listening on all sensors
+    override fun onResume() {
+        super.onResume()
+        sensorManager.registerListener(
+            this,
+            accelSensor,
+            SensorManager.SENSOR_DELAY_FASTEST
+        )
+        sensorManager.registerListener(
+            this,
+            gyroSensor,
+            SensorManager.SENSOR_DELAY_FASTEST
+        )
+        sensorManager.registerListener(
+            this,
+            magnetoSensor,
+            SensorManager.SENSOR_DELAY_FASTEST
+        )
+    }
+
+
+    override fun onPause() {
+        super.onPause()
+        sensorManager.unregisterListener(this)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        accelSensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)
+        gyroSensor = sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE)!!
+        magnetoSensor =
+            sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD)!!
+
+
+
+    }
+
+
+    override fun onSensorChanged(event: SensorEvent?) {
+        if (event?.values != null){
+        if (event?.sensor == accelSensor) {
+                binding.accelUnfiltered.text = getString(R.string.accelerometer_unfiltered_template,event.values[0] + event.values[1] + event.values[2])
+            }
+            if (event?.sensor == gyroSensor){
+                binding.gyroUnfiltered.text = getString(R.string.gyroscope_unfiltered_template,event.values[0] + event.values[1] + event.values[2])
+
+            }
+            //if (event?.sensor == magnetoSensor){
+            //    Log.d("")
+            //}
         }
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_sensor, container, false)
+
+    override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {
+        Log.d("dad", sensor.toString())
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment SensorFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            SensorFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
-    }
+
 }
