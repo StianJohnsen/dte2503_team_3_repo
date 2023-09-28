@@ -7,13 +7,11 @@
     <fragment
         android:id="@+id/action_map"
         android:name="com.example.dashcarr.presentation.tabs.map.MapFragment"
-        android:label="MapFragment">
-
-    </fragment>
+        android:label="MapFragment" />
     <fragment
         android:id="@+id/action_settings"
         android:name="com.example.dashcarr.presentation.tabs.settings.SettingsFragment"
-        android:label="SettingsFragment" >
+        android:label="SettingsFragment" />
 
         <action
             android:id="@+id/action_action_settings_to_animationSampleFragment"
@@ -50,4 +48,16 @@
         android:name="com.example.dashcarr.presentation.AnimationSampleFragment"
         android:label="fragment_animation_sample"
         tools:layout="@layout/fragment_animation_sample" />
+        android:label="SocialFragment" />
+    <action
+        android:id="@+id/action_global_loginFragment"
+        app:destination="@id/loginFragment" />
+    <fragment
+        android:id="@+id/action_dashcam"
+        android:name="com.example.dashcarr.presentation.tabs.camera.dashcam.DashcamFragment"
+        android:label="DashcamFragment" />
+    <fragment
+        android:id="@+id/action_security_camera"
+        android:name="com.example.dashcarr.presentation.tabs.camera.security.SecurityCameraFragment"
+        android:label="SecurityCameraFragment" />
 </navigation>

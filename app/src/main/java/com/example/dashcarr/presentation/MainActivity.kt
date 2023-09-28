@@ -14,8 +14,8 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.example.dashcarr.R
 import com.example.dashcarr.extensions.collectWithLifecycle
-import com.example.dashcarr.presentation.tabs.dashcam.DashcamFragment
-import com.example.dashcarr.presentation.tabs.dashcam.SecurityCameraViewModel
+import com.example.dashcarr.presentation.tabs.camera.dashcam.DashcamFragment
+import com.example.dashcarr.presentation.tabs.camera.security.SecurityCameraViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import dagger.hilt.android.AndroidEntryPoint
@@ -43,7 +43,7 @@ class MainActivity : AppCompatActivity() {
             Log.e("WatchingSomeStuff", "Is userlogged in = $it")
             if (!it) navController.navigate(R.id.action_global_loginFragment)
         }
-        cameraModel.initViewModel(this)
+//        cameraModel.initViewModel(this)
     }
 
     @SuppressLint("ResourceType")
@@ -69,7 +69,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         findViewById<ImageButton>(R.id.security_camera_button).setOnClickListener {
-            cameraModel.startRecording(this)
+//            cameraModel.startRecording(this)
         }
         findViewById<ImageButton>(R.id.dashcam_button).setOnClickListener {
 //            setContentView(R.layout.fragment_dashcam)
@@ -82,7 +82,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        cameraModel.startRecording(this)
+//        cameraModel.startRecording(this)
 
     }
 }
