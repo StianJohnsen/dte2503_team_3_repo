@@ -32,7 +32,7 @@ android {
         }
     }
 
-    buildFeatures{
+    buildFeatures {
         dataBinding = true
         viewBinding = true
     }
@@ -45,8 +45,8 @@ android {
     }
 }
 
-configurations.all{
-    resolutionStrategy{
+configurations.all {
+    resolutionStrategy {
         force("com.j256.ormlite:ormlite-android:6.1")
         force("com.j256.ormlite:ormlite-core:6.1")
 
@@ -69,7 +69,7 @@ dependencies {
     implementation("com.firebaseui:firebase-ui-auth:8.0.2")
 
     implementation("androidx.multidex:multidex:2.0.1")
-  // Hilt compiler
+    // Hilt compiler
     //Hilt (including Dagger)
     implementation("com.google.dagger:hilt-android:2.47")
     implementation("com.google.android.gms:play-services-auth:20.7.0")
@@ -101,14 +101,20 @@ dependencies {
     //OSMdroid
 
     implementation("org.osmdroid:osmdroid-android:6.1.16")
-    implementation ("org.osmdroid:osmdroid-wms:6.1.16")
-    implementation ("org.osmdroid:osmdroid-mapsforge:6.1.16")
-    implementation("org.osmdroid:osmdroid-geopackage:6.1.16"){
-        exclude("com.j256.ormlite","ormlite-android")
-        exclude("com.j256.ormlite","ormlite-core")
+    implementation("org.osmdroid:osmdroid-wms:6.1.16")
+    implementation("org.osmdroid:osmdroid-mapsforge:6.1.16")
+    implementation("org.osmdroid:osmdroid-geopackage:6.1.16") {
+        exclude("com.j256.ormlite", "ormlite-android")
+        exclude("com.j256.ormlite", "ormlite-core")
 
     }
     //implementation ("org.osmdroid:osmdroid-geopackage:6.1.16")
 
-//    implementation("io.fotoapparat:fotoapparat:2.6.1")
+    implementation("androidx.camera:camera-core:1.3.0-alpha02")
+    implementation("androidx.camera:camera-camera2:1.3.0-alpha02")
+    implementation("androidx.camera:camera-lifecycle:1.3.0-alpha02")
+    implementation("androidx.camera:camera-video:1.3.0-alpha02")
+    implementation("androidx.camera:camera-view:1.3.0-alpha02")
+    implementation("androidx.camera:camera-extensions:1.3.0-alpha02")
+
 }

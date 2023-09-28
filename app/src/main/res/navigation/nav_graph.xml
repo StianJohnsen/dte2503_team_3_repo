@@ -24,6 +24,10 @@
             app:popExitAnim="@anim/pop_exit"/>
     </fragment>
     <fragment
+        android:id="@+id/SecurityCameraFragment"
+        android:name="com.example.dashcarr.presentation.tabs.dashcam.DashcamFragment"
+        android:label="SecurityCameraFragment" />
+    <fragment
         android:id="@+id/loginFragment"
         android:name="com.example.dashcarr.presentation.authentication.login.LoginFragment"
         android:label="LoginFragment" >
