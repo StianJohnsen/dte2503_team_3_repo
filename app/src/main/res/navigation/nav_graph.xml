@@ -44,5 +44,13 @@
     <fragment
         android:id="@+id/sensorFragment"
         android:name="com.example.dashcarr.presentation.tabs.settings.SensorFragment"
-        android:label="SensorFragment" />
+        android:label="SensorFragment" >
+        <action
+            android:id="@+id/action_sensorFragment_to_sensorInfoFragment"
+            app:destination="@id/sensorInfoFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/sensorInfoFragment"
+        android:name="com.example.dashcarr.presentation.tabs.settings.SensorInfoFragment"
+        android:label="SensorInfoFragment" />
 </navigation>

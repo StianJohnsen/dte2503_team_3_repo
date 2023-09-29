@@ -8,6 +8,7 @@ import android.hardware.SensorManager
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import androidx.navigation.fragment.findNavController
 import com.example.dashcarr.R
 import com.example.dashcarr.databinding.FragmentSensorBinding
 import com.example.dashcarr.presentation.core.BaseFragment
@@ -21,12 +22,17 @@ class SensorFragment : BaseFragment<FragmentSensorBinding>(
     private var accelSensor: Sensor? = null
     private var gyroSensor: Sensor? = null
     private var magnetoSensor: Sensor? = null
+    private var isRecording = false
+
 
     // Accelerometer
     val rawAccData = FloatArray(3)
     val rawAccDataIndex = 0
     val filtAccData = FloatArray(3)
     val filtAccPrevData = FloatArray(3)
+    private val rawAcclRecord = mutableListOf<SensorData>()
+    private val filtAcclRecord = mutableListOf<SensorData>()
+
     var count = 0
     val beginTime = System.nanoTime()
     val rc = 0.002f
@@ -36,6 +42,9 @@ class SensorFragment : BaseFragment<FragmentSensorBinding>(
     val rawGyroDataIndex = 0
     val filtGyroData = FloatArray(3)
     val filtGyroPrevData = FloatArray(3)
+    private val rawGyroRecord = mutableListOf<SensorData>()
+    private val filtGyroRecord = mutableListOf<SensorData>()
+
 
     // Orientation
     private val accelerometerRading = FloatArray(3)
@@ -53,14 +62,10 @@ class SensorFragment : BaseFragment<FragmentSensorBinding>(
     override fun onResume() {
         super.onResume()
         sensorManager.registerListener(
-            this,
-            accelSensor,
-            SensorManager.SENSOR_DELAY_FASTEST
+            this, accelSensor, SensorManager.SENSOR_DELAY_FASTEST
         )
         sensorManager.registerListener(
-            this,
-            gyroSensor,
-            SensorManager.SENSOR_DELAY_FASTEST
+            this, gyroSensor, SensorManager.SENSOR_DELAY_FASTEST
         )
         sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)?.also { accelerometer ->
             sensorManager.registerListener(
@@ -81,8 +86,83 @@ class SensorFragment : BaseFragment<FragmentSensorBinding>(
     }
 
 
+    fun saveToCSV() {
+
+        val unfilteredFileName = "unfiltered_sensor_data.csv"
+        val filteredFileName = "filtered_sensor_data.csv"
+
+        val unfilteredCsvStringBuilder = StringBuilder()
+        val filteredCsvStringBuilder = StringBuilder()
+
+        unfilteredCsvStringBuilder.append("ID, Accel_Timestamp(ms), Accel_X, Accel_Y, Accel_Z, Gyro_Timestamp(ms), Gyro_X, Gyro_Y, Gyro_Z\n")
+        filteredCsvStringBuilder.append("ID, Accel_Timestamp(ms), Accel_X, Accel_Y, Accel_Z, Gyro_Timestamp(ms), Gyro_X, Gyro_Y, Gyro_Z\n")
+
+        val unfilteredMaxRecord = maxOf(rawAcclRecord.size, rawGyroRecord.size)
+        val filteredMaxRecord = maxOf(filtAcclRecord.size, filtGyroRecord.size)
+
+        for (i in 0 until unfilteredMaxRecord) {
+            val accelRecord = if (i < rawAcclRecord.size) rawAcclRecord[i] else null
+            val gyroRecord = if (i < rawGyroRecord.size) rawGyroRecord[i] else null
+
+            val id = i + 1
+
+            val accelTimestamp = accelRecord?.timestamp ?: ""
+            val accelX = accelRecord?.x ?: ""
+            val accelY = accelRecord?.y ?: ""
+            val accelZ = accelRecord?.z ?: ""
+
+            val gyroTimestamp = gyroRecord?.timestamp ?: ""
+            val gyroX = gyroRecord?.x ?: ""
+            val gyroY = gyroRecord?.y ?: ""
+            val gyroZ = gyroRecord?.z ?: ""
+
+            unfilteredCsvStringBuilder.append("$id, $accelTimestamp, $accelX, $accelY, $accelZ, $gyroTimestamp, $gyroX, $gyroY, $gyroZ\n")
+
+        }
+
+        for (i in 0 until filteredMaxRecord) {
+            val accelRecord = if (i < filtAcclRecord.size) filtAcclRecord[i] else null
+            val gyroRecord = if (i < filtGyroRecord.size) filtGyroRecord[i] else null
+
+            val id = i + 1
+
+            val accelTimestamp = accelRecord?.timestamp ?: ""
+            val accelX = accelRecord?.x ?: ""
+            val accelY = accelRecord?.y ?: ""
+            val accelZ = accelRecord?.z ?: ""
+
+            val gyroTimestamp = gyroRecord?.timestamp ?: ""
+            val gyroX = gyroRecord?.x ?: ""
+            val gyroY = gyroRecord?.y ?: ""
+            val gyroZ = gyroRecord?.z ?: ""
+
+            filteredCsvStringBuilder.append("$id, $accelTimestamp, $accelX, $accelY, $accelZ, $gyroTimestamp, $gyroX, $gyroY, $gyroZ\n")
+        }
+
+        val unfilteredFileContents = unfilteredCsvStringBuilder.toString()
+        val filteredFileContents = filteredCsvStringBuilder.toString()
+
+
+        //val fileContents = rawAcclRecord.toString()
+        context?.openFileOutput(unfilteredFileName, Context.MODE_PRIVATE).use {
+            if (it != null) {
+                it.write(unfilteredFileContents.toByteArray())
+            }
+        }
+
+        context?.openFileOutput(filteredFileName, Context.MODE_PRIVATE).use {
+            if (it != null) {
+                it.write(filteredFileContents.toByteArray())
+            }
+        }
+
+
+    }
+
     override fun onPause() {
         super.onPause()
+        Log.d("json", rawAcclRecord.toString())
+
         sensorManager.unregisterListener(this)
     }
 
@@ -90,10 +170,39 @@ class SensorFragment : BaseFragment<FragmentSensorBinding>(
         super.onViewCreated(view, savedInstanceState)
         accelSensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)
         gyroSensor = sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE)!!
-        magnetoSensor =
-            sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD)!!
+        magnetoSensor = sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD)!!
+        binding.apply {
+            startRecording.setOnClickListener {
+
+                if (!isRecording) {
+                    startRecording()
+                    binding.startRecording.text = "Stop Recording"
+                } else {
+                    stopRecording()
+                    binding.startRecording.text = "Start Recording"
+                }
+
+            }
+            showRecordStat.setOnClickListener {
+                moveToStat()
+            }
+        }
 
 
+    }
+
+    fun moveToStat(){
+        findNavController().navigate(R.id.action_sensorFragment_to_sensorInfoFragment)
+    }
+
+    fun startRecording() {
+        isRecording = true
+    }
+
+    fun stopRecording() {
+        isRecording = false
+        saveToCSV()
+        binding.showRecordStat.visibility = View.VISIBLE
     }
 
 
@@ -103,39 +212,62 @@ class SensorFragment : BaseFragment<FragmentSensorBinding>(
                 // Unfiltered Accelerometer
                 binding.accelUnfiltered.text = getString(
                     R.string.accelerometer_unfiltered_template,
-                    (event.values[0] +
-                            event.values[1]
-                            + event.values[2]).toDouble()
+                    (event.values[0] + event.values[1] + event.values[2]).toDouble()
 
                 )
+
+
                 // Filtered Accelerometer
                 readAccSensorData(event)
+                if (isRecording) {
+                    rawAcclRecord.add(
+                        SensorData(
+                            event.timestamp, event.values[0], event.values[1], event.values[2]
+                        )
+                    )
+
+                    filtAcclRecord.add(
+                        SensorData(event.timestamp, filtAccData[0], filtAccData[1], filtAccData[2])
+                    )
+                }
+
+
             }
             // Unfiltered Gyroscope
             if (event?.sensor == gyroSensor) {
                 binding.gyroUnfiltered.text = getString(
                     R.string.gyroscope_unfiltered_template,
 
-                    (event.values[0] +
-                            event.values[1]
-                            + event.values[2]).toDouble()
+                    (event.values[0] + event.values[1] + event.values[2]).toDouble()
 
 
                 )
-                // Filtered Gyroscope
                 readGyroSensorData(event)
+
+                if (isRecording) {
+                    rawGyroRecord.add(
+                        SensorData(
+                            event.timestamp, event.values[0], event.values[1], event.values[2]
+                        )
+                    )
+                    filtGyroRecord.add(
+                        SensorData(
+                            event.timestamp, filtGyroData[0], filtGyroData[1], filtGyroData[2]
+
+                        )
+                    )
+                }
+                // Filtered Gyroscope
             }
             // Orientation
             if (event.sensor.type == Sensor.TYPE_ACCELEROMETER) {
                 System.arraycopy(
-                    event.values,
-                    0,
-                    accelerometerRading,
-                    0,
-                    accelerometerRading.size
+                    event.values, 0, accelerometerRading, 0, accelerometerRading.size
                 )
             } else if (event.sensor.type == Sensor.TYPE_MAGNETIC_FIELD) {
-                System.arraycopy(event.values, 0, magnetometerReading, 0, magnetometerReading.size)
+                System.arraycopy(
+                    event.values, 0, magnetometerReading, 0, magnetometerReading.size
+                )
             }
             updateOrientationAngles()
 
@@ -143,19 +275,12 @@ class SensorFragment : BaseFragment<FragmentSensorBinding>(
                 R.string.orientation_tenplate,
                 (orientationAngles[0] + orientationAngles[1] + orientationAngles[2])
             )
-
-            //if (event?.sensor == magnetoSensor){
-            //    Log.d("")
-            //}
         }
     }
 
     fun updateOrientationAngles() {
         SensorManager.getRotationMatrix(
-            rotationMatrix,
-            null,
-            accelerometerRading,
-            magnetometerReading
+            rotationMatrix, null, accelerometerRading, magnetometerReading
         )
         SensorManager.getOrientation(rotationMatrix, orientationAngles)
     }
@@ -180,7 +305,6 @@ class SensorFragment : BaseFragment<FragmentSensorBinding>(
 
     private fun filterGyroData() {
         val tm = System.nanoTime()
-        Log.d("tid", (tm / 1000000000.0f).toString())
         val dt = ((tm - beginTime) / 1000000000.0f) / count
         val alpha = rc / (rc + dt)
         val isStarted = true
@@ -232,3 +356,7 @@ class SensorFragment : BaseFragment<FragmentSensorBinding>(
 
 
 }
+
+data class SensorData(
+    val timestamp: Long, val x: Float, val y: Float, val z: Float
+)
