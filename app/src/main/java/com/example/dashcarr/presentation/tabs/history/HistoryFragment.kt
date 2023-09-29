@@ -7,6 +7,7 @@ import com.example.dashcarr.data.entity.GeoPointEntity
 import com.example.dashcarr.databinding.FragmentHistoryBinding
 import com.example.dashcarr.presentation.core.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
+import kotlin.random.Random
 
 @AndroidEntryPoint
 class HistoryFragment : BaseFragment<FragmentHistoryBinding>(
@@ -27,11 +28,11 @@ class HistoryFragment : BaseFragment<FragmentHistoryBinding>(
         binding.tempButton.setOnClickListener {
             viewModel.saveTest(
                 GeoPointEntity(
-                    geoPointId = 1,
-                    tripId = 2,
-                    latitude = 12.12,
-                    longitude = 21.21,
-                    stepNum = 0
+                    geoPointId = Random.nextInt(100),
+                    tripId = Random.nextInt(100),
+                    latitude = Random.nextDouble(),
+                    longitude = Random.nextDouble(),
+                    stepNum = Random.nextInt(100)
                 )
             )
         }

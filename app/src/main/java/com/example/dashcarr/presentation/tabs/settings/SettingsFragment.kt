@@ -26,6 +26,9 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>(
         binding.btnLogout.setOnClickListener {
             viewModel.logOut()
         }
+        binding.btnProfileSettings.setOnClickListener {
+            //findNavController().navigate(R.id.)
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

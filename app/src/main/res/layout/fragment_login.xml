@@ -10,12 +10,12 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/deepBlue">
+        android:background="@color/mainBlue">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
+            android:layout_height="wrap_content"
+            android:paddingBottom="@dimen/margin_padding_size_56">
 
             <ImageView
                 android:layout_width="@dimen/login_icon_size"
@@ -46,21 +46,6 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintBottom_toTopOf="@id/Center" />
-
-<!--            <com.facebook.login.widget.LoginButton-->
-<!--                android:id="@+id/btnFacebookLogin"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="@dimen/standard_touch_size"-->
-<!--                android:insetBottom="@dimen/margin_padding_size_0"-->
-<!--                android:insetTop="@dimen/margin_padding_size_0"-->
-<!--                android:layout_marginHorizontal="@dimen/margin_padding_size_46"-->
-<!--                android:backgroundTint="@color/black"-->
-<!--                android:text="@string/continue_with_facebook"-->
-<!--                android:textStyle="bold"-->
-<!--                android:textSize="@dimen/text_size_14"-->
-<!--                app:layout_constraintStart_toStartOf="parent"-->
-<!--                app:layout_constraintTop_toBottomOf="@id/Center"-->
-<!--                app:layout_constraintEnd_toEndOf="parent" />-->
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnFacebookLogin"
@@ -192,6 +177,31 @@
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="@+id/tilPassword"
                 app:layout_constraintTop_toBottomOf="@id/tilPassword" />
+
+            <androidx.appcompat.widget.AppCompatSeekBar
+                android:id="@+id/seekBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/margin_padding_size_46"
+                android:layout_marginTop="@dimen/margin_padding_size_10"
+                app:layout_constraintStart_toStartOf="@+id/forgotPassword"
+                app:layout_constraintTop_toBottomOf="@+id/forgotPassword" />
+
+<!--            <TextView-->
+<!--                android:id="@+id/signUp"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginTop="@dimen/margin_padding_size_34"-->
+<!--                android:text="@string/signUp"-->
+<!--                android:textColor="@color/black"-->
+<!--                android:textSize="@dimen/text_size_18"-->
+<!--                android:textStyle="bold"-->
+<!--                app:layout_constraintStart_toStartOf="@id/forgotPassword"-->
+<!--                app:layout_constraintTop_toBottomOf="@id/tilPassword" />-->
+
+
+
+
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
