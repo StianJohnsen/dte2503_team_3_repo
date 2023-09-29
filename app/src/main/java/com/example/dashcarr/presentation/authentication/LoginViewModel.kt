@@ -34,9 +34,6 @@ class LoginViewModel @Inject constructor(
     private val _googleLoginState = MutableSharedFlow<Unit>()
     val googleLoginState = _googleLoginState.asSharedFlow()
 
-    private val _facebookLoginState = MutableSharedFlow<Unit>()
-    val facebookLoginState = _facebookLoginState.asSharedFlow()
-
 
     fun updateEmail(email: String) {
         viewModelScope.launch {
@@ -127,12 +124,6 @@ class LoginViewModel @Inject constructor(
     fun showGoogleLogin() {
         viewModelScope.launch {
             _googleLoginState.emit(Unit)
-        }
-    }
-
-    fun showFacebookLogin() {
-        viewModelScope.launch {
-            _facebookLoginState.emit(Unit)
         }
     }
 

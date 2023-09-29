@@ -15,7 +15,6 @@ import com.example.dashcarr.R
 import com.example.dashcarr.databinding.FragmentLoginBinding
 import com.example.dashcarr.extensions.collectWithLifecycle
 import com.example.dashcarr.presentation.core.BaseFragment
-import com.facebook.AccessToken
 import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
@@ -76,9 +75,6 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(
         ).build()
     }
 
-    private val facebookAuthProvider by lazy {
-        AuthUI.IdpConfig.FacebookBuilder().build()
-    }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -129,10 +125,6 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(
             showAuth(googleAuthProvider)
         }
 
-        viewModel.facebookLoginState.collectWithLifecycle(viewLifecycleOwner) {
-            showAuth(facebookAuthProvider)
-        }
-
     }
 
 
@@ -147,10 +139,6 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(
 
         binding.btnGoogleLogin.setOnClickListener {
             viewModel.showGoogleLogin()
-        }
-
-        binding.btnFacebookLogin.setOnClickListener {
-            viewModel.showFacebookLogin()
         }
 
         binding.btnLogin.setOnClickListener {
