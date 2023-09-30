@@ -15,6 +15,7 @@ import androidx.navigation.ui.setupWithNavController
 import com.example.dashcarr.R
 import com.example.dashcarr.extensions.collectWithLifecycle
 import com.example.dashcarr.presentation.tabs.camera.dashcam.DashcamFragment
+import com.example.dashcarr.presentation.tabs.camera.security.SecurityCameraFragment
 import com.example.dashcarr.presentation.tabs.camera.security.SecurityCameraViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -28,6 +29,7 @@ class MainActivity : AppCompatActivity() {
     private val navHostFragment by lazy { supportFragmentManager.findFragmentById(R.id.nav_host_container) as NavHostFragment }
     private val navController by lazy { navHostFragment.navController }
     private val dashcamButtons by lazy { findViewById<LinearLayout>(R.id.floating_buttons) }
+    private val dashcamFragment = DashcamFragment()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -43,7 +45,6 @@ class MainActivity : AppCompatActivity() {
             Log.e("WatchingSomeStuff", "Is userlogged in = $it")
             if (!it) navController.navigate(R.id.action_global_loginFragment)
         }
-//        cameraModel.initViewModel(this)
     }
 
     @SuppressLint("ResourceType")
@@ -69,20 +70,17 @@ class MainActivity : AppCompatActivity() {
         }
 
         findViewById<ImageButton>(R.id.security_camera_button).setOnClickListener {
-//            cameraModel.startRecording(this)
-        }
-        findViewById<ImageButton>(R.id.dashcam_button).setOnClickListener {
-//            setContentView(R.layout.fragment_dashcam)
             val transaction = supportFragmentManager.beginTransaction()
-            transaction.replace(R.id.main_layout, DashcamFragment())
             transaction.addToBackStack(null)
+            transaction.replace(R.id.nav_host_container, SecurityCameraFragment())
             transaction.commit()
         }
-    }
-
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-//        cameraModel.startRecording(this)
-
+        findViewById<ImageButton>(R.id.dashcam_button).setOnClickListener {
+            val transaction = supportFragmentManager.beginTransaction()
+            dashcamFragment.onStop()
+            transaction.replace(R.id.main_layout, dashcamFragment)
+            transaction.disallowAddToBackStack()
+            transaction.commit()
+        }
     }
 }

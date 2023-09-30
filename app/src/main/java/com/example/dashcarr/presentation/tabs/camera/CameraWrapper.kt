@@ -7,7 +7,6 @@ import android.content.pm.PackageManager
 import android.os.Build
 import android.provider.MediaStore
 import android.util.Log
-import android.widget.Button
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
@@ -25,19 +24,17 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.PermissionChecker
 import androidx.lifecycle.LifecycleOwner
 import kotlinx.coroutines.Runnable
-import java.nio.file.Path
 import java.text.SimpleDateFormat
 import java.util.Locale
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
-class CameraWrapper(activity: Activity, button: Button) {
+class CameraWrapper(activity: Activity) {
     companion object {
         private const val TAG = "CameraWrapper"
         private const val FILENAME_FORMAT = "yyyy-MM-dd-HH-mm-ss-SSS"
     }
 
-    private var videoCaptureButton: Button = button
     private var videoCapture: VideoCapture<Recorder>? = null
     private var recording: Recording? = null
     private var onFinished: Runnable? = null
@@ -68,7 +65,7 @@ class CameraWrapper(activity: Activity, button: Button) {
         return this.videoCapture != null
     }
 
-    public fun startRecording(onStarted: Runnable, path: Path) {
+    public fun startRecording(onStarted: Runnable, path: String) {
         if (isRecording() || !isCameraStarted()) {
             return
         }
@@ -82,7 +79,7 @@ class CameraWrapper(activity: Activity, button: Button) {
             put(MediaStore.MediaColumns.DISPLAY_NAME, name)
             put(MediaStore.MediaColumns.MIME_TYPE, "video/mp4")
             if (Build.VERSION.SDK_INT > Build.VERSION_CODES.P) {
-                put(MediaStore.Video.Media.RELATIVE_PATH, path.toString())
+                put(MediaStore.Video.Media.RELATIVE_PATH, path)
             }
         }
 
@@ -134,7 +131,7 @@ class CameraWrapper(activity: Activity, button: Button) {
         }
     }
 
-    public fun startCamera(videoPreviewView: PreviewView?) {
+    public fun startCamera(videoPreviewView: PreviewView?, lifecycleOwner: LifecycleOwner, started: Runnable) {
         if (!askForPermission()) {
             return
         }
@@ -170,7 +167,7 @@ class CameraWrapper(activity: Activity, button: Button) {
 
                 // Bind use cases to camera
                 cameraProvider.bindToLifecycle(
-                    activity.applicationContext as LifecycleOwner,
+                    lifecycleOwner,
                     cameraSelector,
                     preview,
                     videoCapture
@@ -178,7 +175,9 @@ class CameraWrapper(activity: Activity, button: Button) {
             } catch (exc: Exception) {
                 Log.e(TAG, "Use case binding failed", exc)
             }
+            started.run()
         }, ContextCompat.getMainExecutor(activity.applicationContext))
+
     }
 
     public fun destroy() {
