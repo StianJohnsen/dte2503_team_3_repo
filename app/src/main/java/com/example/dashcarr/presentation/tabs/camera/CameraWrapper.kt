@@ -109,7 +109,7 @@ class CameraWrapper(activity: Activity) {
 
                     is VideoRecordEvent.Finalize -> {
                         if (!recordEvent.hasError()) {
-                            val msg = "Video capture succeeded: ${recordEvent.outputResults.outputUri}"
+                            val msg = "Video capture succeeded"
                             Log.d(TAG, msg)
                         } else {
                             recording?.close()

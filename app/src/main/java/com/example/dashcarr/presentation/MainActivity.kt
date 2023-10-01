@@ -1,11 +1,15 @@
 package com.example.dashcarr.presentation
 
 import android.annotation.SuppressLint
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.os.Environment
 import android.util.Log
 import android.view.View
 import android.widget.ImageButton
 import android.widget.LinearLayout
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.Group
@@ -20,6 +24,7 @@ import com.example.dashcarr.presentation.tabs.camera.security.SecurityCameraFrag
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import dagger.hilt.android.AndroidEntryPoint
+
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -54,18 +59,12 @@ class MainActivity : AppCompatActivity() {
             }
         navController.addOnDestinationChangedListener(list)
 
-        dashcamButtons.setOnClickListener {
-            dashcamButtons.visibility = View.GONE
-        }
         findViewById<FloatingActionButton>(R.id.camera_button).setOnClickListener {
             if (dashcamButtons.isVisible) {
                 dashcamButtons.visibility = View.GONE
             } else {
                 dashcamButtons.visibility = View.VISIBLE
             }
-        }
-        navHostFragment.view?.setOnClickListener {
-            dashcamButtons.visibility = View.GONE
         }
 
         findViewById<ImageButton>(R.id.security_camera_button).setOnClickListener {
@@ -82,6 +81,7 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
+
         findViewById<ImageButton>(R.id.dashcam_button).setOnClickListener {
             val transaction = supportFragmentManager.beginTransaction()
             dashcamFragment.onStop()
@@ -89,5 +89,21 @@ class MainActivity : AppCompatActivity() {
             transaction.disallowAddToBackStack()
             transaction.commit()
         }
+
+        findViewById<ImageButton>(R.id.saved_recordings_button).setOnClickListener {
+            val intent = Intent(Intent.ACTION_VIEW)
+            intent.setDataAndType(
+                Uri.parse(
+                    Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MOVIES).toString() + "/Dashcarr"
+                ), "resource/folder"
+            )
+            if (intent.resolveActivity(packageManager) != null) {
+                startActivity(intent);
+            } else {
+                Toast.makeText(this, "No valid file explorer found", Toast.LENGTH_SHORT).show()
+            }
+
+        }
+
     }
 }

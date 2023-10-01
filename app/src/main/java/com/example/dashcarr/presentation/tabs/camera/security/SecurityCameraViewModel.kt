@@ -31,5 +31,4 @@ class SecurityCameraViewModel : ViewModel() {
     public fun closeCamera() {
         camera.destroy()
     }
-
 }
