@@ -9,30 +9,58 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <androidx.camera.view.PreviewView
-            android:id="@+id/video_preview"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:background="#94B8C3"
             app:layout_constraintBottom_toTopOf="@+id/video_capture_button"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:layout_conversion_absoluteHeight="0dp"
-            tools:layout_conversion_absoluteWidth="411dp">
+            app:layout_constraintVertical_bias="0.378">
+
+            <androidx.camera.view.PreviewView
+                android:id="@+id/video_preview"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:background="#94B8C3"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:layout_conversion_absoluteHeight="0dp"
+                tools:layout_conversion_absoluteWidth="411dp">
+
+            </androidx.camera.view.PreviewView>
 
             <ImageButton
                 android:id="@+id/back_button"
+                android:layout_width="54dp"
+                android:layout_height="50dp"
+                android:src="?attr/homeAsUpIndicator"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/recording_sign"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="?attr/homeAsUpIndicator" />
-        </androidx.camera.view.PreviewView>
+                android:background="@drawable/recording_sign"
+                android:text="@string/recording"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:textColor="#DDCFCF"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="@+id/video_preview"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.3" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <Button
             android:id="@+id/video_capture_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Start/Stop"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

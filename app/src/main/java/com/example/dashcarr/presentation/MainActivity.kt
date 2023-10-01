@@ -16,7 +16,6 @@ import com.example.dashcarr.R
 import com.example.dashcarr.extensions.collectWithLifecycle
 import com.example.dashcarr.presentation.tabs.camera.dashcam.DashcamFragment
 import com.example.dashcarr.presentation.tabs.camera.security.SecurityCameraFragment
-import com.example.dashcarr.presentation.tabs.camera.security.SecurityCameraViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import dagger.hilt.android.AndroidEntryPoint
@@ -25,7 +24,6 @@ import dagger.hilt.android.AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     private val viewModel: MainViewModel by viewModels()
-    private val cameraModel: SecurityCameraViewModel by viewModels()
     private val navHostFragment by lazy { supportFragmentManager.findFragmentById(R.id.nav_host_container) as NavHostFragment }
     private val navController by lazy { navHostFragment.navController }
     private val dashcamButtons by lazy { findViewById<LinearLayout>(R.id.floating_buttons) }

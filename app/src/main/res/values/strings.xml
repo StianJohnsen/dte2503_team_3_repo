@@ -17,6 +17,10 @@
 
     <!--Error-->
 
+    <string name="start_recording">Start</string>
+    <string name="stop_recording">Stop</string>
+    <string name="recording">Recording...</string>
+
     <string name="error_invalid_email">Invalid Email</string>
     <string name="error_invalid_password">Invalid password</string>
     <string name="error_too_short_password">Too short password</string>

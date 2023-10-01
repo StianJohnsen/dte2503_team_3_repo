@@ -23,7 +23,6 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.PermissionChecker
 import androidx.lifecycle.LifecycleOwner
-import kotlinx.coroutines.Runnable
 import java.text.SimpleDateFormat
 import java.util.Locale
 import java.util.concurrent.ExecutorService
@@ -37,7 +36,7 @@ class CameraWrapper(activity: Activity) {
 
     private var videoCapture: VideoCapture<Recorder>? = null
     private var recording: Recording? = null
-    private var onFinished: Runnable? = null
+    private var onFinished: (() -> Unit?)? = null
 
     private var cameraExecutor: ExecutorService = Executors.newSingleThreadExecutor()
     private var activity: Activity = activity
@@ -65,7 +64,7 @@ class CameraWrapper(activity: Activity) {
         return this.videoCapture != null
     }
 
-    public fun startRecording(onStarted: Runnable, path: String) {
+    public fun startRecording(onStarted: () -> Unit, path: String) {
         if (isRecording() || !isCameraStarted()) {
             return
         }
@@ -105,7 +104,7 @@ class CameraWrapper(activity: Activity) {
             .start(ContextCompat.getMainExecutor(activity.applicationContext)) { recordEvent ->
                 when (recordEvent) {
                     is VideoRecordEvent.Start -> {
-                        onStarted.run()
+                        onStarted()
                     }
 
                     is VideoRecordEvent.Finalize -> {
@@ -117,13 +116,13 @@ class CameraWrapper(activity: Activity) {
                             recording = null
                             Log.e(TAG, "Video capture ends with error: ${recordEvent.error}")
                         }
-                        onFinished?.run()
+                        onFinished?.let { it() }
                     }
                 }
             }
     }
 
-    public fun stopRecording(onFinished: Runnable) {
+    public fun stopRecording(onFinished: () -> Unit) {
         if (isRecording()) {
             this.onFinished = onFinished
             recording?.stop()
@@ -131,7 +130,7 @@ class CameraWrapper(activity: Activity) {
         }
     }
 
-    public fun startCamera(videoPreviewView: PreviewView?, lifecycleOwner: LifecycleOwner, started: Runnable) {
+    public fun startCamera(videoPreviewView: PreviewView?, lifecycleOwner: LifecycleOwner, started: () -> Unit) {
         if (!askForPermission()) {
             return
         }
@@ -175,7 +174,7 @@ class CameraWrapper(activity: Activity) {
             } catch (exc: Exception) {
                 Log.e(TAG, "Use case binding failed", exc)
             }
-            started.run()
+            started()
         }, ContextCompat.getMainExecutor(activity.applicationContext))
 
     }
