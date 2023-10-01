@@ -181,5 +181,7 @@ class CameraWrapper(activity: Activity) {
 
     public fun destroy() {
         cameraExecutor.shutdown()
+        ProcessCameraProvider.getInstance(activity.applicationContext).get().unbindAll()
+        videoCapture = null
     }
 }

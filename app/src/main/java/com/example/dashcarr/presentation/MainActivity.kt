@@ -33,7 +33,6 @@ class MainActivity : AppCompatActivity() {
     private val navHostFragment by lazy { supportFragmentManager.findFragmentById(R.id.nav_host_container) as NavHostFragment }
     private val navController by lazy { navHostFragment.navController }
     private val dashcamButtons by lazy { findViewById<LinearLayout>(R.id.floating_buttons) }
-    private val dashcamFragment = DashcamFragment()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -82,12 +81,12 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+        val transaction = supportFragmentManager.beginTransaction()
+        transaction.replace(R.id.main_layout, DashcamFragment.getInstance())
+        transaction.disallowAddToBackStack()
+        transaction.commit()
         findViewById<ImageButton>(R.id.dashcam_button).setOnClickListener {
-            val transaction = supportFragmentManager.beginTransaction()
-            dashcamFragment.onStop()
-            transaction.replace(R.id.main_layout, dashcamFragment)
-            transaction.disallowAddToBackStack()
-            transaction.commit()
+            DashcamFragment.getInstance().doSomething()
         }
 
         findViewById<ImageButton>(R.id.saved_recordings_button).setOnClickListener {
