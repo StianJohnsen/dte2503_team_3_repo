@@ -7,6 +7,29 @@
     android:orientation="vertical"
     tools:context="com.example.dashcarr.presentation.MainActivity">
 
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/nav_host_container"
+        android:name="androidx.navigation.fragment.NavHostFragment"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:defaultNavHost="true"
+        app:layout_constraintBottom_toBottomOf="@+id/floating_buttons"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:navGraph="@navigation/nav_graph" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/camera_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        app:layout_constraintBottom_toBottomOf="@+id/bottom_nav"
+        app:layout_constraintEnd_toEndOf="@+id/bottom_nav"
+        app:layout_constraintStart_toStartOf="@+id/bottom_nav"
+        app:layout_constraintTop_toTopOf="@+id/bottom_nav"
+        app:srcCompat="@drawable/camera_icon" />
+
     <LinearLayout
         android:id="@+id/floating_buttons"
         android:layout_width="wrap_content"
@@ -54,28 +77,14 @@
 
     </com.google.android.material.bottomnavigation.BottomNavigationView>
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/camera_button"
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/nav_bar_group"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:clickable="true"
+        app:constraint_referenced_ids="camera_button,bottom_nav"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/bottom_nav"
-        app:layout_constraintStart_toStartOf="@+id/bottom_nav"
-        app:layout_constraintTop_toTopOf="@+id/bottom_nav"
-        app:srcCompat="@drawable/camera_icon" />
-
-    <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/nav_host_container"
-        android:name="androidx.navigation.fragment.NavHostFragment"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:defaultNavHost="true"
-        app:layout_constraintBottom_toBottomOf="@+id/floating_buttons"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:navGraph="@navigation/nav_graph" />
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 

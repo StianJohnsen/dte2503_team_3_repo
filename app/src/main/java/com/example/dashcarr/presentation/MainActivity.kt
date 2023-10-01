@@ -8,6 +8,7 @@ import android.widget.ImageButton
 import android.widget.LinearLayout
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.Group
 import androidx.core.view.isVisible
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
@@ -72,6 +73,14 @@ class MainActivity : AppCompatActivity() {
             transaction.addToBackStack(null)
             transaction.replace(R.id.nav_host_container, SecurityCameraFragment())
             transaction.commit()
+            findViewById<Group>(R.id.nav_bar_group).visibility = View.GONE
+            dashcamButtons.visibility = View.GONE
+            supportFragmentManager.addOnBackStackChangedListener {
+                if (supportFragmentManager.fragments[0] !is SecurityCameraFragment) {
+                    findViewById<Group>(R.id.nav_bar_group).visibility = View.VISIBLE
+                    dashcamButtons.visibility = View.VISIBLE
+                }
+            }
         }
         findViewById<ImageButton>(R.id.dashcam_button).setOnClickListener {
             val transaction = supportFragmentManager.beginTransaction()
