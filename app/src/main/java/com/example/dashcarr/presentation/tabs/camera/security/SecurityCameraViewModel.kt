@@ -1,5 +1,6 @@
 package com.example.dashcarr.presentation.tabs.camera.security
 
+import androidx.camera.core.CameraSelector
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModel
@@ -14,7 +15,12 @@ class SecurityCameraViewModel : ViewModel() {
             camera = CameraWrapper(activity)
         }
         if (camera.askForPermission()) {
-            camera.startCamera(activity.findViewById(R.id.video_preview), fragment, showButton)
+            camera.startCamera(
+                activity.findViewById(R.id.video_preview),
+                fragment,
+                CameraSelector.DEFAULT_FRONT_CAMERA,
+                showButton
+            )
         }
     }
 

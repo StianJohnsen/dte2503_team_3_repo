@@ -130,7 +130,12 @@ class CameraWrapper(activity: Activity) {
         }
     }
 
-    public fun startCamera(videoPreviewView: PreviewView?, lifecycleOwner: LifecycleOwner, started: () -> Unit) {
+    public fun startCamera(
+        videoPreviewView: PreviewView?,
+        lifecycleOwner: LifecycleOwner,
+        cameraSelector: CameraSelector,
+        started: () -> Unit
+    ) {
         if (!askForPermission()) {
             return
         }
@@ -156,9 +161,6 @@ class CameraWrapper(activity: Activity) {
                 )
                 .build()
             videoCapture = VideoCapture.withOutput(recorder)
-
-            // Select back camera as a default
-            val cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
 
             try {
                 // Unbind use cases before rebinding

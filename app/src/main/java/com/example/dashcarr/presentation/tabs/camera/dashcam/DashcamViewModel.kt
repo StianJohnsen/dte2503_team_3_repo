@@ -1,5 +1,6 @@
 package com.example.dashcarr.presentation.tabs.camera.dashcam
 
+import androidx.camera.core.CameraSelector
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModel
@@ -19,7 +20,11 @@ class DashcamViewModel : ViewModel() {
             camera = CameraWrapper(activity)
         }
         if (!camera.isCameraStarted()) {
-            camera.startCamera(activity.findViewById(R.id.dashcam_preview), fragment) {
+            camera.startCamera(
+                activity.findViewById(R.id.dashcam_preview),
+                fragment,
+                CameraSelector.DEFAULT_BACK_CAMERA
+            ) {
                 camera.startRecording(recordingStarted, "Movies/Dashcarr/Dashcam")
             }
         } else if (camera.isRecording()) {
@@ -34,7 +39,9 @@ class DashcamViewModel : ViewModel() {
     }
 
     public fun closeCamera() {
-        camera.destroy()
+        if (this::camera.isInitialized) {
+            camera.destroy()
+        }
     }
 
 }
