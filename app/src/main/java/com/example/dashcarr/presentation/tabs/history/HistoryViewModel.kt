@@ -14,7 +14,7 @@ class HistoryViewModel @Inject constructor(
     private val firebaseDBRepository: IFirebaseDBRepository
 ): ViewModel() {
 
-    fun saveTest(geoPoint: GeoPointEntity) {
+    fun saveGeoPointEntity(geoPoint: GeoPointEntity) {
         viewModelScope.launch {
             val result = firebaseDBRepository.saveGeoPoint(geoPoint)
             Log.e("WatchingSomeStuff", "We save result in view model result = $result")

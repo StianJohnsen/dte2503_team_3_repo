@@ -26,7 +26,7 @@ class HistoryFragment : BaseFragment<FragmentHistoryBinding>(
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.tempButton.setOnClickListener {
-            viewModel.saveTest(
+            viewModel.saveGeoPointEntity(
                 GeoPointEntity(
                     geoPointId = Random.nextInt(100),
                     tripId = Random.nextInt(100),

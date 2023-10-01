@@ -158,45 +158,6 @@
             android:paddingHorizontal="@dimen/margin_padding_size_12"
             android:background="@drawable/white_rounded_16dp_background">
 
-<!--            <TextView-->
-<!--                android:id="@+id/btnSavedRecordings"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="@dimen/standard_touch_size"-->
-<!--                android:paddingEnd="@dimen/margin_padding_size_6"-->
-<!--                android:paddingStart="@dimen/margin_padding_size_0"-->
-<!--                app:drawableEndCompat="@drawable/ic_polygon"-->
-<!--                app:drawableStartCompat="@drawable/ic_settings_small"-->
-<!--                android:text="@string/saved_recordings"-->
-<!--                android:textColor="@color/gray3"-->
-<!--                android:textSize="@dimen/text_size_16"-->
-<!--                android:clickable="true"-->
-<!--                android:focusable="true"-->
-<!--                android:background="?android:attr/selectableItemBackground"-->
-<!--                android:drawablePadding="@dimen/margin_padding_size_8"-->
-<!--                android:gravity="start|center_vertical"/>-->
-
-<!--            <View-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="0.5dp"-->
-<!--                android:background="@drawable/line_separator_gray"/>-->
-
-<!--            <TextView-->
-<!--                android:id="@+id/btnNewRecording"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="@dimen/standard_touch_size"-->
-<!--                android:paddingEnd="@dimen/margin_padding_size_6"-->
-<!--                android:paddingStart="@dimen/margin_padding_size_0"-->
-<!--                app:drawableEndCompat="@drawable/ic_polygon"-->
-<!--                app:drawableStartCompat="@drawable/ic_settings_small"-->
-<!--                android:text="@string/new_recording"-->
-<!--                android:textColor="@color/gray3"-->
-<!--                android:textSize="@dimen/text_size_16"-->
-<!--                android:clickable="true"-->
-<!--                android:focusable="true"-->
-<!--                android:background="?android:attr/selectableItemBackground"-->
-<!--                android:drawablePadding="@dimen/margin_padding_size_8"-->
-<!--                android:gravity="start|center_vertical"/>-->
-
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnSavedRecordings"
             android:layout_width="match_parent"
