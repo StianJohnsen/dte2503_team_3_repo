@@ -95,8 +95,12 @@ dependencies {
     implementation("org.osmdroid:osmdroid-geopackage:6.1.16"){
         exclude("com.j256.ormlite","ormlite-android")
         exclude("com.j256.ormlite","ormlite-core")
-
     }
+
+    // Visualization
+    implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
+
+
     //implementation ("org.osmdroid:osmdroid-geopackage:6.1.16")
 
 

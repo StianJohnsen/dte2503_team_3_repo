@@ -19,63 +19,12 @@
         android:background="#000000">
 
         <TextView
-            android:id="@+id/textView3"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            tools:layout_editor_absoluteX="0dp"
-            tools:layout_editor_absoluteY="0dp" />
-
-        <Button
-            android:id="@+id/button13"
-            android:layout_width="410dp"
-            android:layout_height="67dp"
-            android:layout_marginTop="200dp"
-            android:background="#000000"
-            android:backgroundTint="#000000"
-            android:text="Recording __/__/____"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:rippleColor="#000000"
-            app:strokeColor="#000000" />
-
-        <Button
-            android:id="@+id/button12"
-            android:layout_width="410dp"
-            android:layout_height="67dp"
-            android:layout_marginTop="136dp"
-            android:background="#000000"
-            android:backgroundTint="#000000"
-            android:text="Recording __/__/____"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:rippleColor="#000000"
-            app:strokeColor="#000000" />
-
-        <Button
-            android:id="@+id/button11"
-            android:layout_width="410dp"
-            android:layout_height="67dp"
-            android:layout_marginTop="72dp"
-            android:background="#000000"
-            android:backgroundTint="#000000"
-            android:text="Recording __/__/____"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:rippleColor="#000000"
-            app:strokeColor="#000000" />
-
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="match_parent"
-            android:layout_height="63dp"
-            android:layout_marginTop="5dp"
-            android:text="Saved Recordings"
+            android:id="@+id/text_saved_recordings"
+            android:layout_width="298dp"
+            android:layout_height="42dp"
+            android:layout_marginStart="56dp"
+            android:layout_marginTop="16dp"
+            android:text="@string/saved_recordings"
             android:textAlignment="center"
             android:textColor="#FFFFFF"
             android:textSize="34sp"
@@ -84,14 +33,36 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <Button
-            android:id="@+id/showStatButton"
+            android:id="@+id/button_show_stats"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Show Statistics"
+            android:layout_marginBottom="88dp"
+            android:text="@string/show_statistics"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <ImageView
+            android:id="@+id/image_back_saved"
+            android:layout_width="51dp"
+            android:layout_height="32dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="26dp"
+            android:contentDescription="@null"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/button13" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/baseline_arrow_back_24" />
+
+        <LinearLayout
+            android:id="@+id/linear_recordings_buttons"
+            android:layout_width="409dp"
+            android:layout_height="499dp"
+            android:layout_marginStart="1dp"
+            android:layout_marginTop="1dp"
+            android:orientation="vertical"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/text_saved_recordings" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

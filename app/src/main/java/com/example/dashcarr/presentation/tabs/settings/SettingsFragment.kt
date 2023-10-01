@@ -36,8 +36,11 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>(
             lifecycleOwner = viewLifecycleOwner
             settingsFragment = this@SettingsFragment
         }
-        binding.button2.setOnClickListener {
+        binding.buttonSavedRecordings.setOnClickListener {
             findNavController().navigate(R.id.action_action_settings_to_SavedRecordingsFragment)
+        }
+        binding.buttonNewRecording.setOnClickListener {
+            findNavController().navigate(R.id.action_action_settings_to_ConfigureFragment)
         }
     }
 }

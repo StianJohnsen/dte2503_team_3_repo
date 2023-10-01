@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:tools="http://schemas.android.com/tools"
+<layout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
         <variable
-            name="SavedRecordingsFragment"
+            name="ConfigureRecordingFragment"
             type="com.example.dashcarr.presentation.tabs.settings.ConfigureRecordingFragment" />
     </data>
 
@@ -21,126 +21,145 @@
             android:textColor="#FFFFFF" />
 
         <TextView
-            android:id="@+id/textView4"
-            android:layout_width="411dp"
-            android:layout_height="61dp"
-            android:text="Configure"
+            android:id="@+id/text_configure"
+            android:layout_width="273dp"
+            android:layout_height="44dp"
+            android:layout_marginTop="16dp"
+            android:text="@string/configure"
             android:textAlignment="center"
-            android:textColor="#FFFFFF"
+            android:textColor="@color/white"
             android:textSize="34sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.496"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/barText3"
+            android:id="@+id/text_bar_configure_1"
             android:layout_width="409dp"
             android:layout_height="27dp"
-            android:text="______________________________________"
+            android:text="@string/bar"
             android:textAlignment="center"
-            android:textColor="#FFFFFF"
+            android:textColor="@color/white"
             android:textSize="18sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toStartOf="@+id/textView6"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView4" />
+            app:layout_constraintTop_toBottomOf="@+id/text_configure" />
 
         <TextView
-            android:id="@+id/barText4"
+            android:id="@+id/text_bar_configure_2"
             android:layout_width="409dp"
             android:layout_height="27dp"
-            android:layout_marginTop="164dp"
-            android:text="______________________________________"
+            android:layout_marginTop="180dp"
+            android:text="@string/bar"
             android:textAlignment="center"
-            android:textColor="#FFFFFF"
+            android:textColor="@color/white"
             android:textSize="18sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toStartOf="@+id/textView6"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView4" />
+            app:layout_constraintTop_toBottomOf="@+id/text_configure" />
 
         <TextView
-            android:id="@+id/barText5"
+            android:id="@+id/text_bar_configure_3"
             android:layout_width="409dp"
             android:layout_height="27dp"
-            android:layout_marginTop="400dp"
-            android:text="______________________________________"
+            android:layout_marginTop="440dp"
+            android:text="@string/bar"
             android:textAlignment="center"
-            android:textColor="#FFFFFF"
+            android:textColor="@color/white"
             android:textSize="18sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toStartOf="@+id/textView6"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView4" />
+            app:layout_constraintTop_toBottomOf="@+id/text_configure" />
 
         <EditText
-            android:id="@+id/editTextText"
-            android:layout_width="305dp"
-            android:layout_height="36dp"
+            android:id="@+id/edit_name"
+            android:layout_width="357dp"
+            android:layout_height="62dp"
             android:layout_marginStart="48dp"
             android:layout_marginTop="24dp"
             android:ems="10"
             android:inputType="text"
-            android:text="Name :"
-            android:textColor="#04CDFF"
+            android:text="@string/name"
+            android:textColor="@color/deepBlue"
+            android:autofillHints="name"
+            android:hint="@string/enter_file_name"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/barText3" />
+            app:layout_constraintTop_toBottomOf="@+id/text_bar_configure_1" />
 
         <CheckBox
-            android:id="@+id/checkBox"
+            android:id="@+id/checkBox_filter_data"
             android:layout_width="363dp"
-            android:layout_height="40dp"
+            android:layout_height="52dp"
             android:layout_marginTop="15dp"
-            android:text="Filter data"
-            android:textColor="#04CDFF"
+            android:text="@string/filter_data"
+            android:textColor="@color/deepBlue"
             android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editTextText" />
+            app:layout_constraintTop_toBottomOf="@+id/edit_name" />
 
         <CheckBox
-            android:id="@+id/checkBox2"
-            android:layout_width="363dp"
-            android:layout_height="40dp"
+            android:id="@+id/checkBox_gyro"
+            android:layout_width="367dp"
+            android:layout_height="54dp"
             android:layout_marginTop="124dp"
-            android:text="Include gyro"
-            android:textColor="#04CDFF"
+            android:text="@string/include_gyro"
+            android:textColor="@color/deepBlue"
             android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editTextText" />
+            app:layout_constraintTop_toBottomOf="@+id/edit_name" />
 
         <CheckBox
-            android:id="@+id/checkBox3"
-            android:layout_width="363dp"
-            android:layout_height="40dp"
+            android:id="@+id/checkBox_acc"
+            android:layout_width="364dp"
+            android:layout_height="57dp"
             android:layout_marginTop="196dp"
-            android:text="Include accelerometer"
-            android:textColor="#04CDFF"
+            android:layout_marginEnd="4dp"
+            android:text="@string/include_accelerometer"
+            android:textColor="@color/deepBlue"
             android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editTextText" />
+            app:layout_constraintTop_toBottomOf="@+id/edit_name" />
 
         <CheckBox
-            android:id="@+id/checkBox4"
+            android:id="@+id/checkBox_orientation"
             android:layout_width="363dp"
-            android:layout_height="40dp"
+            android:layout_height="54dp"
             android:layout_marginTop="272dp"
-            android:text="Include orientation"
-            android:textColor="#04CDFF"
+            android:layout_marginEnd="4dp"
+            android:text="@string/include_orientation"
+            android:textColor="@color/deepBlue"
             android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editTextText" />
+            app:layout_constraintTop_toBottomOf="@+id/edit_name" />
 
         <Button
-            android:id="@+id/button6"
+            android:id="@+id/button_start_recording"
             android:layout_width="165dp"
             android:layout_height="83dp"
-            android:text="Start recording"
-            tools:layout_editor_absoluteX="123dp"
-            tools:layout_editor_absoluteY="560dp" />
+            android:layout_marginStart="120dp"
+            android:layout_marginTop="56dp"
+            android:text="@string/start_recording"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/text_bar_configure_3" />
+
+        <ImageView
+            android:id="@+id/image_back_configure"
+            android:layout_width="37dp"
+            android:layout_height="29dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="28dp"
+            android:contentDescription="@null"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/baseline_arrow_back_24" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

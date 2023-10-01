@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:tools="http://schemas.android.com/tools"
+<layout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
@@ -14,137 +14,155 @@
         android:background="#000000">
 
         <TextView
-            android:id="@+id/textView2"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="#000000"
-            app:layout_constraintBottom_toBottomOf="parent"
-            tools:layout_editor_absoluteX="0dp" />
-
-        <TextView
-            android:id="@+id/recordingNameText"
+            android:id="@+id/text_recording_name"
             android:layout_width="304dp"
             android:layout_height="48dp"
-            android:layout_marginStart="100dp"
-            android:layout_marginTop="4dp"
+            android:layout_marginStart="52dp"
+            android:layout_marginTop="16dp"
             android:ems="10"
-            android:inputType="text"
-            android:text="Recording __/__/____"
+            android:text="@string/incoming"
             android:textAlignment="center"
-            android:textColor="#FFFFFF"
+            android:textColor="@color/white"
             android:textSize="24sp"
             android:textStyle="bold"
-            app:layout_constraintEnd_toStartOf="@+id/textView2"
             app:layout_constraintHorizontal_bias="0.116"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <TextView
+            android:id="@+id/text_bar_record_1"
+            android:layout_width="312dp"
+            android:layout_height="58dp"
+            android:layout_marginTop="388dp"
+            android:layout_marginEnd="52dp"
+            android:ems="10"
+            android:text="@string/bar"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/text_recording_name" />
+
+        <TextView
+            android:id="@+id/text_bar_record_2"
+            android:layout_width="312dp"
+            android:layout_height="58dp"
+            android:layout_marginTop="6dp"
+            android:layout_marginEnd="48dp"
+            android:ems="10"
+            android:text="@string/bar"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/text_datasize" />
+
+        <TextView
+            android:id="@+id/text_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="56dp"
+            android:layout_marginTop="10dp"
+            android:text="@string/date_of_recording"
+            android:textColor="@color/deepBlue"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/text_datapoint" />
+
+        <TextView
+            android:id="@+id/text_lenght"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="56dp"
+            android:layout_marginTop="9dp"
+            android:text="@string/length"
+            android:textColor="@color/deepBlue"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/text_bar_record_1" />
+
+        <TextView
+            android:id="@+id/text_datasize"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="56dp"
+            android:layout_marginTop="10dp"
+            android:text="@string/data_size"
+            android:textColor="@color/deepBlue"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/text_date" />
+
+        <TextView
+            android:id="@+id/text_datapoint"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="56dp"
+            android:layout_marginTop="10dp"
+            android:text="@string/amount_of_datapoints"
+            android:textColor="@color/deepBlue"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/text_lenght" />
+
         <ImageView
-            android:id="@+id/previewImage"
-            android:layout_width="307dp"
-            android:layout_height="271dp"
-            android:layout_marginTop="13dp"
-            android:layout_marginEnd="50dp"
-            android:src="@drawable/videopreview"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toEndOf="@+id/textView2"
-            app:layout_constraintTop_toBottomOf="@+id/recordingNameText" />
+            android:id="@+id/image_back_details"
+            android:layout_width="42dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="9dp"
+            android:layout_marginTop="26dp"
+            android:contentDescription="@null"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/baseline_arrow_back_24" />
 
         <TextView
-            android:id="@+id/barText1"
-            android:layout_width="312dp"
-            android:layout_height="58dp"
-            android:layout_marginTop="-60dp"
-            android:layout_marginEnd="50dp"
-            android:ems="10"
-            android:inputType="text"
-            android:text="______________________________________"
-            android:textAlignment="center"
-            android:textColor="#FFFFFF"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toEndOf="@+id/textView2"
-            app:layout_constraintTop_toBottomOf="@+id/textView2" />
-
-        <TextView
-            android:id="@+id/barText2"
-            android:layout_width="312dp"
-            android:layout_height="58dp"
-            android:layout_marginEnd="55dp"
-            android:layout_marginBottom="31dp"
-            android:ems="10"
-            android:inputType="text"
-            android:text="______________________________________"
-            android:textAlignment="center"
-            android:textColor="#FFFFFF"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@+id/lengthText"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toEndOf="@+id/textView2" />
-
-        <TextView
-            android:id="@+id/lengthText"
+            android:id="@+id/input_length"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="290dp"
-            android:layout_marginBottom="16dp"
-            android:text="Length :"
-            android:textColor="#04CDFF"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="631dp"
+            android:textColor="@color/white"
             android:textSize="20sp"
             android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@+id/datapointText"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toEndOf="@+id/textView2" />
+            app:layout_constraintStart_toEndOf="@+id/text_datasize"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/datasizeText"
+            android:id="@+id/input_amount_of_datapoints"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="270dp"
-            android:layout_marginBottom="34dp"
-            android:text="Data size :"
-            android:textColor="#04CDFF"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="557dp"
+            android:textColor="@color/white"
             android:textSize="20sp"
             android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@+id/barText1"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toEndOf="@+id/textView2" />
+            app:layout_constraintStart_toEndOf="@+id/text_datapoint"
+            app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/dateText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="195dp"
-            android:layout_marginBottom="16dp"
-            android:text="Date of recording :"
-            android:textColor="#04CDFF"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@+id/datasizeText"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toEndOf="@+id/textView2" />
+        <com.github.mikephil.charting.charts.LineChart
+            android:id="@+id/graph_accel"
+            android:layout_width="385dp"
+            android:layout_height="164dp"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/text_recording_name" />
 
-        <TextView
-            android:id="@+id/datapointText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="305dp"
-            android:layout_marginBottom="15dp"
-            android:text="Amount of Datapoints :"
-            android:textColor="#04CDFF"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@+id/dateText"
-            app:layout_constraintEnd_toStartOf="@+id/textView2"
-            app:layout_constraintStart_toStartOf="parent" />
+        <com.github.mikephil.charting.charts.LineChart
+            android:id="@+id/graph_gyro"
+            android:layout_width="385dp"
+            android:layout_height="164dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="204dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/text_recording_name" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

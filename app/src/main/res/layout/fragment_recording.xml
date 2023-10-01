@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:tools="http://schemas.android.com/tools"
+<layout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
         <variable
-            name="RecordingDetailsFragment"
+            name="RecordingFragment"
             type="com.example.dashcarr.presentation.tabs.settings.RecordingFragment" />
     </data>
 
@@ -20,94 +20,101 @@
             android:background="#000000" />
 
         <TextView
-            android:id="@+id/barText"
-            android:layout_width="409dp"
-            android:layout_height="27dp"
-            android:layout_marginTop="-440dp"
-            android:text="______________________________________"
+            android:id="@+id/text_recording"
+            android:layout_width="304dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="52dp"
+            android:layout_marginTop="16dp"
+            android:ems="10"
+            android:text="@string/recording"
             android:textAlignment="center"
-            android:textColor="#FFFFFF"
-            android:textSize="18sp"
+            android:textColor="@color/white"
+            android:textSize="24sp"
             android:textStyle="bold"
-            app:layout_constraintEnd_toStartOf="@+id/barText6"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView7" />
-
-        <TextView
-            android:id="@+id/barText6"
-            android:layout_width="409dp"
-            android:layout_height="27dp"
-            android:layout_marginTop="-250dp"
-            android:text="______________________________________"
-            android:textAlignment="center"
-            android:textColor="#FFFFFF"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toStartOf="@+id/barText"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView7" />
-
-        <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="412dp"
-            android:layout_height="287dp"
-            android:src="@drawable/videopreview"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/textView9"
+            android:id="@+id/text_bar_recording_1"
+            android:layout_width="409dp"
+            android:layout_height="27dp"
+            android:layout_marginBottom="600dp"
+            android:text="@string/bar"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/text_bar_recording_2"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/text_bar_recording_2"
+            android:layout_width="409dp"
+            android:layout_height="27dp"
+            android:layout_marginBottom="400dp"
+            android:text="@string/bar"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/text_bar_recording_1"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/text_elapsed_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="56dp"
             android:layout_marginTop="20dp"
-            android:layout_marginEnd="-170dp"
-            android:text="Elapsed Time :"
+            android:text="@string/elapsed_time"
             android:textAlignment="center"
-            android:textColor="#04CDFF"
+            android:textColor="@color/deepBlue"
             android:textSize="18sp"
             android:textStyle="bold"
-            app:layout_constraintEnd_toStartOf="@+id/textView7"
-            app:layout_constraintTop_toBottomOf="@+id/barText" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/text_bar_recording_1" />
 
         <TextView
-            android:id="@+id/textView10"
+            android:id="@+id/text_amount_of_data"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="56dp"
             android:layout_marginTop="70dp"
-            android:layout_marginEnd="-190dp"
-            android:text="Amount of Data :"
+            android:text="@string/amount_of_datapoints"
             android:textAlignment="center"
-            android:textColor="#04CDFF"
+            android:textColor="@color/deepBlue"
             android:textSize="18sp"
             android:textStyle="bold"
-            app:layout_constraintEnd_toStartOf="@+id/textView7"
-            app:layout_constraintTop_toBottomOf="@+id/barText" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/text_bar_recording_1" />
 
         <TextView
-            android:id="@+id/textView11"
+            android:id="@+id/text_current_data"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="56dp"
             android:layout_marginTop="120dp"
-            android:layout_marginEnd="-168dp"
-            android:text="Current Data :"
+            android:text="@string/current_data"
             android:textAlignment="center"
-            android:textColor="#04CDFF"
+            android:textColor="@color/deepBlue"
             android:textSize="18sp"
             android:textStyle="bold"
-            app:layout_constraintEnd_toStartOf="@+id/textView7"
-            app:layout_constraintTop_toBottomOf="@+id/barText" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/text_bar_recording_1" />
 
         <Button
-            android:id="@+id/button7"
+            android:id="@+id/button_stop_recording"
             android:layout_width="184dp"
             android:layout_height="89dp"
-            android:layout_marginTop="64dp"
-            android:text="Stop Recording"
-            app:layout_constraintTop_toBottomOf="@+id/barText6"
-            tools:layout_editor_absoluteX="113dp" />
+            android:layout_marginStart="112dp"
+            android:layout_marginTop="200dp"
+            android:text="@string/stop_recording"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/text_bar_recording_2" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
