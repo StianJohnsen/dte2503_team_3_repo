@@ -82,7 +82,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         val transaction = supportFragmentManager.beginTransaction()
-        transaction.replace(R.id.main_layout, DashcamFragment.getInstance())
+        transaction.add(R.id.nav_host_container, DashcamFragment.getInstance())
         transaction.disallowAddToBackStack()
         transaction.commit()
         findViewById<ImageButton>(R.id.dashcam_button).setOnClickListener {

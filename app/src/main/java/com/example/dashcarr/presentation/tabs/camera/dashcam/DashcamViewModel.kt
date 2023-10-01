@@ -33,4 +33,8 @@ class DashcamViewModel : ViewModel() {
 
     }
 
+    public fun closeCamera() {
+        camera.destroy()
+    }
+
 }
