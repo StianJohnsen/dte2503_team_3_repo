@@ -1,5 +1,6 @@
 package com.example.dashcarr.presentation
 
+import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.net.Uri
@@ -7,12 +8,16 @@ import android.os.Bundle
 import android.os.Environment
 import android.util.Log
 import android.view.View
+import android.view.animation.BounceInterpolator
+import android.view.animation.LinearInterpolator
 import android.widget.ImageButton
-import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.Group
+import androidx.core.animation.doOnEnd
+import androidx.core.animation.doOnStart
 import androidx.core.view.isVisible
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
@@ -32,7 +37,7 @@ class MainActivity : AppCompatActivity() {
     private val viewModel: MainViewModel by viewModels()
     private val navHostFragment by lazy { supportFragmentManager.findFragmentById(R.id.nav_host_container) as NavHostFragment }
     private val navController by lazy { navHostFragment.navController }
-    private val dashcamButtons by lazy { findViewById<LinearLayout>(R.id.floating_buttons) }
+    private val dashcamButtons by lazy { findViewById<ConstraintLayout>(R.id.floating_buttons) }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -52,17 +57,27 @@ class MainActivity : AppCompatActivity() {
 
     @SuppressLint("ResourceType")
     private fun addCameraListener() {
+        val buttonShowAnimation = ObjectAnimator.ofFloat(dashcamButtons, "translationY", 150F, 0F).apply {
+            duration = 600L
+            interpolator = BounceInterpolator()
+        }
+        buttonShowAnimation.doOnStart { dashcamButtons.visibility = View.VISIBLE }
+        val buttonHideAnimation = ObjectAnimator.ofFloat(dashcamButtons, "translationY", 0F, 150F).apply {
+            duration = 300L
+            interpolator = LinearInterpolator()
+        }
+        buttonHideAnimation.doOnEnd { dashcamButtons.visibility = View.GONE }
         val list =
             NavController.OnDestinationChangedListener { controller, destination, arguments ->
-                dashcamButtons.visibility = View.GONE
+                buttonHideAnimation.start()
             }
         navController.addOnDestinationChangedListener(list)
 
         findViewById<FloatingActionButton>(R.id.camera_button).setOnClickListener {
             if (dashcamButtons.isVisible) {
-                dashcamButtons.visibility = View.GONE
+                buttonHideAnimation.start()
             } else {
-                dashcamButtons.visibility = View.VISIBLE
+                buttonShowAnimation.start()
             }
         }
 
@@ -86,7 +101,7 @@ class MainActivity : AppCompatActivity() {
         transaction.disallowAddToBackStack()
         transaction.commit()
         findViewById<ImageButton>(R.id.dashcam_button).setOnClickListener {
-            DashcamFragment.getInstance().doSomething()
+            DashcamFragment.getInstance().update()
         }
 
         findViewById<ImageButton>(R.id.saved_recordings_button).setOnClickListener {
@@ -97,7 +112,7 @@ class MainActivity : AppCompatActivity() {
                 ), "resource/folder"
             )
             if (intent.resolveActivity(packageManager) != null) {
-                startActivity(intent);
+                startActivity(intent)
             } else {
                 Toast.makeText(this, "No valid file explorer found", Toast.LENGTH_SHORT).show()
             }

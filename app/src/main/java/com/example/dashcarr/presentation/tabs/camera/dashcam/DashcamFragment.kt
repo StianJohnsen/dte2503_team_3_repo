@@ -28,11 +28,11 @@ class DashcamFragment : BaseFragment<FragmentDashcamBinding>(
     private val viewModel: DashcamViewModel by viewModels()
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
-        doSomething()
+        update()
     }
 
-    public fun doSomething() {
-        viewModel.initViewModel(requireActivity(), this, {
+    fun update() {
+        viewModel.updateCamera(requireActivity(), this, {
             // recording started
             val animation = ObjectAnimator.ofFloat(binding.dashcamPreview, "translationX", 300F, 0F).apply {
                 duration = 1000L

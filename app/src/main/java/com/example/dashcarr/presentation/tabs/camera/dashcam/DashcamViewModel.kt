@@ -10,7 +10,7 @@ import com.example.dashcarr.presentation.tabs.camera.CameraWrapper
 class DashcamViewModel : ViewModel() {
 
     private lateinit var camera: CameraWrapper
-    public fun initViewModel(
+    fun updateCamera(
         activity: FragmentActivity,
         fragment: Fragment,
         recordingStarted: () -> Unit,
@@ -38,7 +38,7 @@ class DashcamViewModel : ViewModel() {
 
     }
 
-    public fun closeCamera() {
+    fun closeCamera() {
         if (this::camera.isInitialized) {
             camera.destroy()
         }
