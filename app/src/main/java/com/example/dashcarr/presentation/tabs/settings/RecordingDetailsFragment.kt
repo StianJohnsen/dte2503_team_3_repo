@@ -28,7 +28,7 @@ class RecordingDetailsFragment : BaseFragment<FragmentRecordingDetailsBinding>(
     FragmentRecordingDetailsBinding::inflate
 ) {
     private lateinit var bottomNavigationView: BottomNavigationView
-    private val viewModel: SavedRecordingsViewModel by viewModels()
+    private val viewModel: RecordingDetailsViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -48,10 +48,11 @@ class RecordingDetailsFragment : BaseFragment<FragmentRecordingDetailsBinding>(
         binding.textRecordingName.text = fileName
 
         try {
+            println("FILENAME: $fileName")
             val inputStream: InputStream = requireContext().assets.open("$fileName.csv")
             val fileSize = inputStream.available()
             val reader = BufferedReader(InputStreamReader(inputStream, Charset.forName("UTF-8")))
-            var line: String = ""
+            var line: String? = ""
             var lastID: String? = ""
             val entriesAccelX = ArrayList<Entry>()
             val entriesAccelY = ArrayList<Entry>()
