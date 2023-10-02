@@ -11,7 +11,7 @@
     <fragment
         android:id="@+id/action_settings"
         android:name="com.example.dashcarr.presentation.tabs.settings.SettingsFragment"
-        android:label="SettingsFragment" />
+        android:label="SettingsFragment">
 
         <action
             android:id="@+id/action_action_settings_to_animationSampleFragment"
@@ -19,16 +19,12 @@
             app:enterAnim="@anim/left_to_right"
             app:exitAnim="@anim/right_to_left"
             app:popEnterAnim="@anim/pop_enter"
-            app:popExitAnim="@anim/pop_exit"/>
+            app:popExitAnim="@anim/pop_exit" />
     </fragment>
-    <fragment
-        android:id="@+id/SecurityCameraFragment"
-        android:name="com.example.dashcarr.presentation.tabs.dashcam.DashcamFragment"
-        android:label="SecurityCameraFragment" />
     <fragment
         android:id="@+id/loginFragment"
         android:name="com.example.dashcarr.presentation.authentication.login.LoginFragment"
-        android:label="LoginFragment" >
+        android:label="LoginFragment">
         <action
             android:id="@+id/action_loginFragment_to_action_map"
             app:destination="@id/action_map"
@@ -42,13 +38,12 @@
     <fragment
         android:id="@+id/action_social"
         android:name="com.example.dashcarr.presentation.tabs.social.SocialFragment"
-        android:label="SocialFragment" /><action android:id="@+id/action_global_loginFragment" app:destination="@id/loginFragment"/>
+        android:label="SocialFragment" />
     <fragment
         android:id="@+id/animationSampleFragment"
         android:name="com.example.dashcarr.presentation.AnimationSampleFragment"
         android:label="fragment_animation_sample"
         tools:layout="@layout/fragment_animation_sample" />
-        android:label="SocialFragment" />
     <action
         android:id="@+id/action_global_loginFragment"
         app:destination="@id/loginFragment" />
