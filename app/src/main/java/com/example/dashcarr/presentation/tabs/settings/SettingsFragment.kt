@@ -23,6 +23,10 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>(
     }
 
     override fun initListeners() {
+        binding.btnProfileSettings.setOnClickListener{
+            findNavController().navigate(R.id.action_action_settings_to_animationSampleFragment)
+        }
+
         binding.btnLogout.setOnClickListener {
             viewModel.logOut()
         }
@@ -42,7 +46,10 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>(
         super.onViewCreated(view, savedInstanceState)
         initListeners()
         observeViewModel()
+
     }
+
+
 
 
 

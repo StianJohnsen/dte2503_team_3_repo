@@ -39,3 +39,19 @@
     <dimen name="corner_radius_16">16dp</dimen>
     <dimen name="corner_radius_52">52dp</dimen>
     <dimen name="corner_radius_90">90dp</dimen>
+
+    <!-- Sizes -->
+    <integer name="match_parent">-1</integer>
+    <integer name="wrap_content">-2</integer>
+
+    <!-- Font sizes, https://material.io/guidelines/style/typography.html#typography-typeface -->
+    <dimen name="text_size_10">10sp</dimen>
+    <dimen name="text_size_12">12sp</dimen>
+    <dimen name="text_size_14">14sp</dimen>
+    <dimen name="text_size_16">16sp</dimen>
+    <dimen name="text_size_18">18sp</dimen>
+    <dimen name="text_size_20">20sp</dimen>
+    <dimen name="text_size_24">24sp</dimen>
+    <dimen name="text_size_34">34sp</dimen>
+
+</resources>

@@ -52,6 +52,10 @@ configurations.all{
     }
 }
 
+kapt {
+    correctErrorTypes = true
+}
+
 dependencies {
 
 

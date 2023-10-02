@@ -1,7 +1,18 @@
-package com.example.dashcarr.presentation.authentication
+package com.example.dashcarr.presentation.authentication.login
 
+import android.util.Log
+import android.util.Patterns
+import androidx.annotation.StringRes
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.example.dashcarr.R
+import com.example.dashcarr.presentation.authentication.login.loginUser.LoginUser
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -68,34 +79,14 @@ class LoginViewModel @Inject constructor(
         return true
     }
 
-     suspend fun validateFields(email: String, password: String): Boolean {
-        var isValid = true
-
-        if (!isValidEmail(email)) {
-            isValid = false
-            _passwordErrorState.emit(R.string.error_invalid_email)
-        } else {
-            _passwordErrorState.emit(null)
-        }
-
-        if (!isValidPassword(password)) {
-            isValid = false
-            _passwordErrorState.emit(R.string.error_invalid_password)
-        } else {
-            _passwordErrorState.emit(null)
-        }
-
-        return isValid
-    }
-
     fun signIn(email: String,password: String) {
         viewModelScope.launch {
             if(isValidEmail(email) && isValidPassword(password))
-                logIn(User(email, password))
+                logIn(LoginUser(email, password))
         }
     }
 
-    private fun logIn(user: User) {
+    private fun logIn(user: LoginUser) {
         Firebase.auth.signInWithEmailAndPassword(user.email, user.password)
             .addOnCompleteListener { task ->
                 viewModelScope.launch {

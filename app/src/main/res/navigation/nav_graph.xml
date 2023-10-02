@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
     app:startDestination="@id/action_map">
     <fragment
@@ -20,10 +21,17 @@
         android:name="com.example.dashcarr.presentation.tabs.settings.SettingsFragment"
         android:label="SettingsFragment" >
 
+        <action
+            android:id="@+id/action_action_settings_to_animationSampleFragment"
+            app:destination="@id/animationSampleFragment"
+            app:enterAnim="@anim/left_to_right"
+            app:exitAnim="@anim/right_to_left"
+            app:popEnterAnim="@anim/pop_enter"
+            app:popExitAnim="@anim/pop_exit"/>
     </fragment>
     <fragment
         android:id="@+id/loginFragment"
-        android:name="com.example.dashcarr.presentation.authentication.LoginFragment"
+        android:name="com.example.dashcarr.presentation.authentication.login.LoginFragment"
         android:label="LoginFragment" >
         <action
             android:id="@+id/action_loginFragment_to_action_map"
@@ -39,4 +47,9 @@
         android:id="@+id/action_social"
         android:name="com.example.dashcarr.presentation.tabs.social.SocialFragment"
         android:label="SocialFragment" /><action android:id="@+id/action_global_loginFragment" app:destination="@id/loginFragment"/>
+    <fragment
+        android:id="@+id/animationSampleFragment"
+        android:name="com.example.dashcarr.presentation.AnimationSampleFragment"
+        android:label="fragment_animation_sample"
+        tools:layout="@layout/fragment_animation_sample" />
 </navigation>

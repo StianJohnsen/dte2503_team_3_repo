@@ -4,7 +4,7 @@
     <data>
         <variable
             name="loginFragment"
-            type="com.example.dashcarr.presentation.authentication.LoginFragment" />
+            type="com.example.dashcarr.presentation.authentication.login.LoginFragment" />
     </data>
 
     <ScrollView

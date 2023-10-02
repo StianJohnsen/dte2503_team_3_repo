@@ -10,7 +10,7 @@ import com.example.dashcarr.R
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 typealias Inflate<T> = (LayoutInflater, ViewGroup?, Boolean) -> T
-open class BaseFragment<VB: ViewBinding>(
+abstract class BaseFragment<VB: ViewBinding>(
     private val inflate: Inflate<VB>
 ): Fragment() {
 

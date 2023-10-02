@@ -1,7 +1,9 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Base.Theme.DashCarr" parent="Theme.Material3.DayNight.NoActionBar">
+    <style name="Base.Theme.DashCarr" parent="Theme.MaterialComponents.Light.NoActionBar">
         <!-- Customize your dark theme here. -->
         <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
+
+        <item name="settingButtonTextColor">@color/white</item>
     </style>
 </resources>

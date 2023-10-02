@@ -3,7 +3,7 @@
 
     <item
         android:drawable="@drawable/ic_saved_recordings"
-        android:width="@dimen/margin_padding_size_32"
-        android:height="@dimen/margin_padding_size_32" />
+        android:width="70dp"
+        android:height="30dp" />
 
 </layer-list>

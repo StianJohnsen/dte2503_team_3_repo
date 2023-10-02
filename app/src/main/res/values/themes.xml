@@ -3,6 +3,8 @@
     <style name="Base.Theme.DashCarr" parent="Theme.MaterialComponents.Light.NoActionBar">
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+
+        <item name="settingButtonTextColor">@color/white</item>
     </style>
 
     <style name="Theme.DashCarr" parent="Base.Theme.DashCarr" />

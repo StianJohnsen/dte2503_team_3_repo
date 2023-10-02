@@ -1,4 +1,4 @@
-package com.example.dashcarr.presentation.authentication
+package com.example.dashcarr.presentation.authentication.login
 
 import android.annotation.SuppressLint
 import android.app.Activity
@@ -7,11 +7,14 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.dashcarr.R
 import com.example.dashcarr.databinding.FragmentLoginBinding
 import com.example.dashcarr.extensions.collectWithLifecycle
+import com.example.dashcarr.presentation.authentication.login.loginUser.LoginUser
 import com.example.dashcarr.presentation.core.BaseFragment
 import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract
@@ -138,11 +141,16 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(
         binding.btnGoogleLogin.setOnClickListener {
             viewModel.showGoogleLogin()
         }
+        binding.btnLogin.setOnClickListener {
+            viewModel.signIn(
+                email = binding.etEmail.text.toString(),
+                password = binding.etPassword.text.toString()
+            )
+        }
 
         binding.apply {
             lifecycleOwner = viewLifecycleOwner
             loginFragment = this@LoginFragment
-            loginButton.setOnClickListener { moveToMap() }
         }
     }
 
@@ -162,7 +170,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(
         )
     }
 
-    private fun signUp(user: com.example.dashcarr.domain.data.User) {
+    private fun signUp(user: LoginUser) {
         FirebaseAuth.getInstance().createUserWithEmailAndPassword(user.email, user.password)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {

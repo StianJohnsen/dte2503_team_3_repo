@@ -1,6 +1,6 @@
 package com.example.dashcarr.domain.repository
 
-import com.example.dashcarr.domain.repository.data.User
+import com.example.dashcarr.domain.data.User
 
 
 interface IFirebaseAuthRepository {
