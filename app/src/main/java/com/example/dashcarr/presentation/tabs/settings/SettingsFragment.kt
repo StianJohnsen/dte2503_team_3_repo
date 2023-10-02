@@ -31,6 +31,9 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>(
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.apply {
+            plusIconView.setOnClickListener { moveToSensorView() }
+        }
 
         binding.apply {
             lifecycleOwner = viewLifecycleOwner
@@ -43,6 +46,12 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>(
             findNavController().navigate(R.id.action_action_settings_to_ConfigureFragment)
         }
     }
+
+    fun moveToSensorView() {
+        findNavController().navigate(R.id.action_action_settings_to_sensorFragment)
+    }
+
+
 }
 /*
 Log.d("SettingsFragment", "moveToRecordings called")
