@@ -32,7 +32,7 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>(
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.apply {
-            plusIconView.setOnClickListener { moveToSensorView() }
+            buttonProfileSettings.setOnClickListener { moveToSensorView() }
         }
 
         binding.apply {
