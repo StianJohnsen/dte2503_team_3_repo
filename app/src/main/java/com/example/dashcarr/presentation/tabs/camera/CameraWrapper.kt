@@ -7,6 +7,7 @@ import android.content.pm.PackageManager
 import android.os.Build
 import android.provider.MediaStore
 import android.util.Log
+import android.widget.Toast
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
@@ -42,7 +43,7 @@ class CameraWrapper(activity: Activity) {
     private var activity: Activity = activity
     private lateinit var preview: Preview
 
-    public fun askForPermission(): Boolean {
+    fun askForPermission(): Boolean {
         val hasPermission = ContextCompat.checkSelfPermission(
             activity.applicationContext,
             Manifest.permission.CAMERA
@@ -56,15 +57,15 @@ class CameraWrapper(activity: Activity) {
         return hasPermission
     }
 
-    public fun isRecording(): Boolean {
+    fun isRecording(): Boolean {
         return recording != null
     }
 
-    public fun isCameraStarted(): Boolean {
+    fun isCameraStarted(): Boolean {
         return this.videoCapture != null
     }
 
-    public fun startRecording(onStarted: () -> Unit, path: String) {
+    fun startRecording(onStarted: () -> Unit, path: String) {
         if (isRecording() || !isCameraStarted()) {
             return
         }
@@ -111,6 +112,7 @@ class CameraWrapper(activity: Activity) {
                         if (!recordEvent.hasError()) {
                             val msg = "Video capture succeeded"
                             Log.d(TAG, msg)
+                            Toast.makeText(activity, "File saved", Toast.LENGTH_SHORT).show()
                         } else {
                             recording?.close()
                             recording = null
@@ -122,7 +124,7 @@ class CameraWrapper(activity: Activity) {
             }
     }
 
-    public fun stopRecording(onFinished: () -> Unit) {
+    fun stopRecording(onFinished: () -> Unit) {
         if (isRecording()) {
             this.onFinished = onFinished
             recording?.stop()
@@ -130,7 +132,7 @@ class CameraWrapper(activity: Activity) {
         }
     }
 
-    public fun startCamera(
+    fun startCamera(
         videoPreviewView: PreviewView?,
         lifecycleOwner: LifecycleOwner,
         cameraSelector: CameraSelector,
@@ -181,7 +183,7 @@ class CameraWrapper(activity: Activity) {
 
     }
 
-    public fun destroy() {
+    fun destroy() {
         cameraExecutor.shutdown()
         ProcessCameraProvider.getInstance(activity.applicationContext).get().unbindAll()
         videoCapture = null

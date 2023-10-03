@@ -116,7 +116,7 @@ class MainActivity : AppCompatActivity() {
             if (intent.resolveActivity(packageManager) != null) {
                 startActivity(intent)
             } else {
-                Toast.makeText(this, "No valid file explorer found", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Could not find ES File Explorer", Toast.LENGTH_SHORT).show()
             }
 
         }
