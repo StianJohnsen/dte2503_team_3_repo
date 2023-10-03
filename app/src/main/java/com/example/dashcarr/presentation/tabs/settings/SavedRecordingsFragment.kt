@@ -7,8 +7,8 @@ import android.widget.LinearLayout
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.dashcarr.R
-import com.example.dashcarr.presentation.core.BaseFragment
 import com.example.dashcarr.databinding.FragmentSavedRecordingsBinding
+import com.example.dashcarr.presentation.core.BaseFragment
 import java.io.IOException
 
 class SavedRecordingsFragment : BaseFragment<FragmentSavedRecordingsBinding>(
@@ -44,8 +44,10 @@ class SavedRecordingsFragment : BaseFragment<FragmentSavedRecordingsBinding>(
                     button.text =
                         fileName.removeSuffix(".csv")
                     button.setOnClickListener {
-                        val action = SavedRecordingsFragmentDirections
-                            .actionActionSavedrecordingsToRecordingDetailsFragment(fileName.removeSuffix(".csv"))
+                        val action =
+                            SavedRecordingsFragmentDirections.actionActionSavedrecordingsToRecordingDetailsFragment(
+                                fileName.removeSuffix(".csv")
+                            )
                         findNavController().navigate(action)
                     }
                     linearLayout.addView(button)

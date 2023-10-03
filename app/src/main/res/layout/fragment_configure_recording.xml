@@ -47,7 +47,7 @@
             app:layout_constraintEnd_toStartOf="@+id/textView6"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/text_configure" />
+            app:layout_constraintTop_toBottomOf="@id/text_configure" />
 
         <TextView
             android:id="@+id/text_bar_configure_2"
@@ -62,7 +62,7 @@
             app:layout_constraintEnd_toStartOf="@+id/textView6"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/text_configure" />
+            app:layout_constraintTop_toBottomOf="@id/text_configure" />
 
         <TextView
             android:id="@+id/text_bar_configure_3"
@@ -77,22 +77,10 @@
             app:layout_constraintEnd_toStartOf="@+id/textView6"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/text_configure" />
+            app:layout_constraintTop_toBottomOf="@id/text_configure" />
 
-        <EditText
-            android:id="@+id/edit_name"
-            android:layout_width="357dp"
-            android:layout_height="62dp"
-            android:layout_marginStart="48dp"
-            android:layout_marginTop="24dp"
-            android:ems="10"
-            android:inputType="text"
-            android:text="@string/name"
-            android:textColor="@color/deepBlue"
-            android:autofillHints="name"
-            android:hint="@string/enter_file_name"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/text_bar_configure_1" />
+
+
 
         <CheckBox
             android:id="@+id/checkBox_filter_data"
@@ -103,7 +91,7 @@
             android:textColor="@color/deepBlue"
             android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/edit_name" />
+            app:layout_constraintTop_toBottomOf="@id/text_bar_configure_1" />
 
         <CheckBox
             android:id="@+id/checkBox_gyro"
@@ -114,7 +102,7 @@
             android:textColor="@color/deepBlue"
             android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/edit_name" />
+            app:layout_constraintTop_toBottomOf="@id/text_bar_configure_2" />
 
         <CheckBox
             android:id="@+id/checkBox_acc"
@@ -126,19 +114,7 @@
             android:textColor="@color/deepBlue"
             android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/edit_name" />
-
-        <CheckBox
-            android:id="@+id/checkBox_orientation"
-            android:layout_width="363dp"
-            android:layout_height="54dp"
-            android:layout_marginTop="272dp"
-            android:layout_marginEnd="4dp"
-            android:text="@string/include_orientation"
-            android:textColor="@color/deepBlue"
-            android:textSize="18sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/edit_name" />
+            app:layout_constraintTop_toBottomOf="@id/checkBox_filter_data" />
 
         <Button
             android:id="@+id/button_start_recording"
@@ -148,7 +124,7 @@
             android:layout_marginTop="56dp"
             android:text="@string/start_recording"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/text_bar_configure_3" />
+            app:layout_constraintTop_toBottomOf="@id/text_bar_configure_3" />
 
         <ImageView
             android:id="@+id/image_back_configure"

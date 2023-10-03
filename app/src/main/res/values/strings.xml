@@ -48,7 +48,7 @@
     <!--RecordingFragment-->
 
     <string name="recording">Recording</string>
-    <string name="elapsed_time">Elapsed Time:</string>
+    <string name="elapsed_time">Elapsed Time: %s</string>
     <string name="amount_of_data">Amount of Data:</string>
     <string name="current_data">Current Data:</string>Configure
     <string name="stop_recording">Stop Recording</string>
