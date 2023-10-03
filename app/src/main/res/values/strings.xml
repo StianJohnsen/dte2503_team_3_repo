@@ -1,7 +1,13 @@
 <resources>
     <string name="app_name">Dash Carr</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!--SensorRecording-->
+
+    <string name="accelerometer_unfiltered_template">Accelerometer: %f m/s^2</string>
+    <string name="gyroscope_unfiltered_template">Gyroscope: %f rad/s</string>
+    <string name="accelerometer_filtered_template">Filtered Accelerometer: %f m/s^2</string>
+    <string name="gyroscope_filtered_template">Filtered Gyroscope: %f rad/s</string>
+    <string name="orientation_tenplate">Orientation %f</string>
 
     <!--LoginFragment-->
 
@@ -15,11 +21,13 @@
     <string name="btnLogout">Logout</string>
     <string name="signUp">Sign Up</string>
 
-    <!--Error-->
+    <!--Camera-->
 
     <string name="start_recording">Start</string>
     <string name="stop_recording">Stop</string>
     <string name="recording">Recording...</string>
+
+    <!--Error-->
 
     <string name="error_invalid_email">Invalid Email</string>
     <string name="error_invalid_password">Invalid password</string>
@@ -45,5 +53,43 @@
     <string name="preferences_settings">Preferences</string>
     <string name="saved_recordings">Saved Recordings</string>
     <string name="new_recording">New Recording</string>
+
+    <!--SavedRecordingsFragment-->
+
+    <string name="show_statistics">Show Statistics</string>
+
+    <!--RecordingStatisticsFragment-->
+
+    <string name="statistics">Statistics</string>
+    <string name="total_storage">Total Storage:</string>
+    <string name="number_of_files">Number Of Files:</string>
+    <string name="incoming">...</string>
+
+    <!--RecordingDetailsFragment-->
+
+    <string name="length">Length:</string>
+    <string name="amount_of_datapoints">Amount of Datapoints:</string>
+    <string name="date_of_recording">Date of recording:</string>
+    <string name="data_size">Data size:</string>
+    <string name="bar">______________________________________</string>
+
+    <!--RecordingFragment-->
+
+    <string name="sensor_recording">Recording</string>
+    <string name="elapsed_time">Elapsed Time: %s</string>
+    <string name="amount_of_data">Amount of Data:</string>
+    <string name="current_data">Current Data:</string>Configure
+    <string name="stop_sensor_recording">Stop Recording</string>
+
+    <!--ConfigureFragment-->
+
+    <string name="configure">Configure</string>
+    <string name="name">Name:</string>
+    <string name="filter_data">Filter data</string>
+    <string name="include_gyro">Include gyro</string>
+    <string name="include_accelerometer">Include accelerometer</string>
+    <string name="include_orientation">Include orientation</string>
+    <string name="configure_start_recording">Start recording</string>
+    <string name="enter_file_name">Enter file name</string>
 
 </resources>

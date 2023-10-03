@@ -46,6 +46,8 @@ class MainActivity : AppCompatActivity() {
 
         initViewModels()
         viewModel.checkAuthentication()
+
+
     }
 
     private fun initViewModels() {

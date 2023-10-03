@@ -7,7 +7,15 @@
     <fragment
         android:id="@+id/action_map"
         android:name="com.example.dashcarr.presentation.tabs.map.MapFragment"
-        android:label="MapFragment" />
+        android:label="MapFragment">
+
+    </fragment>
+    <fragment
+        android:id="@+id/action_dash_cam"
+        android:name="com.example.dashcarr.presentation.tabs.dashcam.DashCamFragment"
+        android:label="DashCamFragment">
+
+    </fragment>
     <fragment
         android:id="@+id/action_settings"
         android:name="com.example.dashcarr.presentation.tabs.settings.SettingsFragment"
@@ -20,6 +28,65 @@
             app:exitAnim="@anim/right_to_left"
             app:popEnterAnim="@anim/pop_enter"
             app:popExitAnim="@anim/pop_exit" />
+
+        <action
+            android:id="@+id/action_action_settings_to_SavedRecordingsFragment"
+            app:destination="@id/action_saved_recordings" />
+        <action
+            android:id="@+id/action_action_settings_to_ConfigureFragment"
+            app:destination="@id/action_configure_recording" />
+    </fragment>
+    <fragment
+        android:id="@+id/action_configure_recording"
+        android:name="com.example.dashcarr.presentation.tabs.settings.ConfigureRecordingFragment"
+        android:label="ConfigureRecordingFragment">
+        <action
+            android:id="@+id/action_action_configure_to_SettingsFragment"
+            app:destination="@id/action_settings" />
+        <action
+            android:id="@+id/action_action_configure_to_RecordingFragment"
+            app:destination="@id/action_recording" />
+    </fragment>
+    <fragment
+        android:id="@+id/action_recording"
+        android:name="com.example.dashcarr.presentation.tabs.settings.RecordingFragment"
+        android:label="RecordingFragment">
+        <action
+            android:id="@+id/action_action_recording_to_SavedRecordingsFragment"
+            app:destination="@id/action_saved_recordings" />
+    </fragment>
+    <fragment
+        android:id="@+id/action_saved_recordings"
+        android:name="com.example.dashcarr.presentation.tabs.settings.SavedRecordingsFragment"
+        android:label="SavedRecordingsFragment" >
+        <action
+            android:id="@+id/action_action_savedrecordings_to_StatisticsFragment"
+            app:destination="@id/action_recordings_statistics" />
+        <action
+            android:id="@+id/action_action_savedrecordings_to_SettingsFragment"
+            app:destination="@id/action_settings" />
+        <action
+            android:id="@+id/action_action_savedrecordings_to_RecordingDetailsFragment"
+            app:destination="@id/action_recording_details">
+        </action>
+    </fragment>
+    <fragment
+        android:id="@+id/action_recordings_statistics"
+        android:name="com.example.dashcarr.presentation.tabs.settings.RecordingStatisticsFragment"
+        android:label="RecordingStatisticsFragment" />
+    <action
+        android:id="@+id/action_action_statistics_to_SavedRecordingsFragment"
+        app:destination="@id/action_saved_recordings" />
+    <fragment
+        android:id="@+id/action_recording_details"
+        android:name="com.example.dashcarr.presentation.tabs.settings.RecordingDetailsFragment"
+        android:label="RecordingDetailsFragment">
+        <action
+            android:id="@+id/action_action_details_to_SavedRecordingsFragment"
+            app:destination="@id/action_saved_recordings" />
+        <argument
+            android:name="selectedFileName"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/loginFragment"
@@ -36,10 +103,6 @@
         android:name="com.example.dashcarr.presentation.tabs.history.HistoryFragment"
         android:label="HistoryFragment" />
     <fragment
-        android:id="@+id/action_social"
-        android:name="com.example.dashcarr.presentation.tabs.social.SocialFragment"
-        android:label="SocialFragment" />
-    <fragment
         android:id="@+id/animationSampleFragment"
         android:name="com.example.dashcarr.presentation.AnimationSampleFragment"
         android:label="fragment_animation_sample"
@@ -55,4 +118,10 @@
         android:id="@+id/action_security_camera"
         android:name="com.example.dashcarr.presentation.tabs.camera.security.SecurityCameraFragment"
         android:label="SecurityCameraFragment" />
+    <fragment
+        android:id="@+id/action_social"
+        android:name="com.example.dashcarr.presentation.tabs.social.SocialFragment"
+        android:label="SocialFragment" />
+
+
 </navigation>
