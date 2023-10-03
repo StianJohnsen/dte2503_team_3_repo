@@ -8,7 +8,6 @@ import android.hardware.SensorManager
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import androidx.navigation.fragment.findNavController
 import com.example.dashcarr.R
 import com.example.dashcarr.databinding.FragmentSensorBinding
 import com.example.dashcarr.presentation.core.BaseFragment
@@ -51,6 +50,13 @@ class SensorFragment : BaseFragment<FragmentSensorBinding>(
     private val magnetometerReading = FloatArray(3)
     private val rotationMatrix = FloatArray(9)
     private val orientationAngles = FloatArray(3)
+    override fun observeViewModel() {
+        TODO("Not yet implemented")
+    }
+
+    override fun initListeners() {
+        TODO("Not yet implemented")
+    }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -183,17 +189,23 @@ class SensorFragment : BaseFragment<FragmentSensorBinding>(
                 }
 
             }
+            /*
             showRecordStat.setOnClickListener {
                 moveToStat()
             }
+             */
+
         }
 
 
     }
 
-    fun moveToStat(){
+    /*
+        fun moveToStat(){
         findNavController().navigate(R.id.action_sensorFragment_to_sensorInfoFragment)
     }
+     */
+
 
     fun startRecording() {
         isRecording = true

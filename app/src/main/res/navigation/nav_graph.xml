@@ -12,7 +12,7 @@
     </fragment>
     <fragment
         android:id="@+id/action_dash_cam"
-        android:name="com.example.dashcarr.presentation.tabs.dashcam.DashCamFragment"
+        android:name="com.example.dashcarr.presentation.tabs.camera.dashcam.DashcamFragment"
         android:label="DashCamFragment">
 
     </fragment>
@@ -34,6 +34,15 @@
             app:destination="@id/action_saved_recordings" />
         <action
             android:id="@+id/action_action_settings_to_ConfigureFragment"
+            app:destination="@id/action_configure_recording" />
+        <action
+            android:id="@+id/action_action_settings_to_action_saved_recordings"
+            app:destination="@id/action_saved_recordings" />
+        <action
+            android:id="@+id/action_action_settings_to_action_recording_details"
+            app:destination="@id/action_recording_details" />
+        <action
+            android:id="@+id/action_action_settings_to_action_configure_recording"
             app:destination="@id/action_configure_recording" />
     </fragment>
     <fragment
@@ -58,7 +67,7 @@
     <fragment
         android:id="@+id/action_saved_recordings"
         android:name="com.example.dashcarr.presentation.tabs.settings.SavedRecordingsFragment"
-        android:label="SavedRecordingsFragment" >
+        android:label="SavedRecordingsFragment">
         <action
             android:id="@+id/action_action_savedrecordings_to_StatisticsFragment"
             app:destination="@id/action_recordings_statistics" />
@@ -67,8 +76,7 @@
             app:destination="@id/action_settings" />
         <action
             android:id="@+id/action_action_savedrecordings_to_RecordingDetailsFragment"
-            app:destination="@id/action_recording_details">
-        </action>
+            app:destination="@id/action_recording_details" />
     </fragment>
     <fragment
         android:id="@+id/action_recordings_statistics"

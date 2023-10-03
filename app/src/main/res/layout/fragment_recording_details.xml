@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+
     <data>
+
         <variable
             name="RecordingDetailsFragment"
             type="com.example.dashcarr.presentation.tabs.settings.RecordingDetailsFragment" />
@@ -66,7 +67,7 @@
             android:layout_marginStart="56dp"
             android:layout_marginTop="10dp"
             android:text="@string/date_of_recording"
-            android:textColor="@color/deepBlue"
+            android:textColor="@color/mainBlue"
             android:textSize="20sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
@@ -79,7 +80,7 @@
             android:layout_marginStart="56dp"
             android:layout_marginTop="9dp"
             android:text="@string/length"
-            android:textColor="@color/deepBlue"
+            android:textColor="@color/mainBlue"
             android:textSize="20sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
@@ -92,7 +93,7 @@
             android:layout_marginStart="56dp"
             android:layout_marginTop="10dp"
             android:text="@string/data_size"
-            android:textColor="@color/deepBlue"
+            android:textColor="@color/mainBlue"
             android:textSize="20sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
@@ -105,7 +106,7 @@
             android:layout_marginStart="56dp"
             android:layout_marginTop="10dp"
             android:text="@string/amount_of_datapoints"
-            android:textColor="@color/deepBlue"
+            android:textColor="@color/mainBlue"
             android:textSize="20sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
@@ -166,4 +167,4 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    </layout>
+</layout>

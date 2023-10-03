@@ -1,22 +1,22 @@
 package com.example.dashcarr.presentation.tabs.settings
 
 import android.content.Context
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
-import com.example.dashcarr.databinding.FragmentRecordingStatisticsBinding
-import com.example.dashcarr.presentation.core.BaseFragment
 import androidx.navigation.fragment.findNavController
 import com.example.dashcarr.R
-import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.example.dashcarr.databinding.FragmentRecordingStatisticsBinding
+import com.example.dashcarr.presentation.core.BaseFragment
 import com.github.mikephil.charting.charts.PieChart
 import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
 import com.github.mikephil.charting.utils.ColorTemplate
-import android.graphics.Color
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import java.io.IOException
 import java.io.InputStream
 
@@ -36,6 +36,15 @@ class RecordingStatisticsFragment : BaseFragment<FragmentRecordingStatisticsBind
         bottomNavigationView.visibility = View.VISIBLE
         return binding.root
     }
+
+    override fun observeViewModel() {
+        TODO("Not yet implemented")
+    }
+
+    override fun initListeners() {
+        TODO("Not yet implemented")
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 

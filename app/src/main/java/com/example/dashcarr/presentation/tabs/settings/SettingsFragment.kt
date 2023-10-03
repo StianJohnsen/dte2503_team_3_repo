@@ -23,8 +23,16 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>(
     }
 
     override fun initListeners() {
-        binding.btnProfileSettings.setOnClickListener{
+        binding.btnProfileSettings.setOnClickListener {
             findNavController().navigate(R.id.action_action_settings_to_animationSampleFragment)
+        }
+
+        binding.btnNewRecording.setOnClickListener {
+            findNavController().navigate(R.id.action_action_settings_to_action_configure_recording)
+        }
+
+        binding.btnSavedRecordings.setOnClickListener {
+            findNavController().navigate(R.id.action_action_settings_to_action_saved_recordings)
         }
 
         binding.btnLogout.setOnClickListener {
@@ -48,9 +56,6 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>(
         observeViewModel()
 
     }
-
-
-
 
 
 }

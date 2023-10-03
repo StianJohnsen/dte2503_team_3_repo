@@ -15,6 +15,13 @@ class SavedRecordingsFragment : BaseFragment<FragmentSavedRecordingsBinding>(
     FragmentSavedRecordingsBinding::inflate
 ) {
     private val viewModel: SavedRecordingsViewModel by viewModels()
+    override fun observeViewModel() {
+        TODO("Not yet implemented")
+    }
+
+    override fun initListeners() {
+        TODO("Not yet implemented")
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

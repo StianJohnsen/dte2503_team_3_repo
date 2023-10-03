@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+
     <data>
+
         <variable
             name="RecordingStatisticsFragment"
             type="com.example.dashcarr.presentation.tabs.settings.RecordingStatisticsFragment" />
@@ -71,7 +72,7 @@
             android:layout_marginStart="51dp"
             android:layout_marginTop="50dp"
             android:text="@string/total_storage"
-            android:textColor="@color/deepBlue"
+            android:textColor="@color/mainBlue"
             android:textSize="20sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
@@ -84,7 +85,7 @@
             android:layout_marginStart="48dp"
             android:layout_marginTop="100dp"
             android:text="@string/number_of_files"
-            android:textColor="@color/deepBlue"
+            android:textColor="@color/mainBlue"
             android:textSize="20sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
@@ -97,7 +98,7 @@
             android:layout_marginStart="48dp"
             android:layout_marginTop="150dp"
             android:text="@string/incoming"
-            android:textColor="@color/deepBlue"
+            android:textColor="@color/mainBlue"
             android:textSize="20sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"

@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+
     <data>
+
         <variable
             name="ConfigureRecordingFragment"
             type="com.example.dashcarr.presentation.tabs.settings.ConfigureRecordingFragment" />
@@ -80,15 +81,13 @@
             app:layout_constraintTop_toBottomOf="@id/text_configure" />
 
 
-
-
         <CheckBox
             android:id="@+id/checkBox_filter_data"
             android:layout_width="363dp"
             android:layout_height="52dp"
             android:layout_marginTop="15dp"
             android:text="@string/filter_data"
-            android:textColor="@color/deepBlue"
+            android:textColor="@color/mainBlue"
             android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/text_bar_configure_1" />
@@ -99,7 +98,7 @@
             android:layout_height="54dp"
             android:layout_marginTop="124dp"
             android:text="@string/include_gyro"
-            android:textColor="@color/deepBlue"
+            android:textColor="@color/mainBlue"
             android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/text_bar_configure_2" />
@@ -111,7 +110,7 @@
             android:layout_marginTop="196dp"
             android:layout_marginEnd="4dp"
             android:text="@string/include_accelerometer"
-            android:textColor="@color/deepBlue"
+            android:textColor="@color/mainBlue"
             android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/checkBox_filter_data" />

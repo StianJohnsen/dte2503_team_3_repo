@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+
     <data>
+
         <variable
             name="RecordingFragment"
             type="com.example.dashcarr.presentation.tabs.settings.RecordingFragment" />
@@ -71,7 +72,7 @@
             android:layout_marginStart="56dp"
             android:layout_marginTop="20dp"
             android:textAlignment="center"
-            android:textColor="@color/deepBlue"
+            android:textColor="@color/mainBlue"
             android:textSize="18sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
@@ -85,7 +86,7 @@
             android:layout_marginTop="70dp"
             android:text="@string/amount_of_datapoints"
             android:textAlignment="center"
-            android:textColor="@color/deepBlue"
+            android:textColor="@color/mainBlue"
             android:textSize="18sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
@@ -99,7 +100,7 @@
             android:layout_marginTop="120dp"
             android:text="@string/current_data"
             android:textAlignment="center"
-            android:textColor="@color/deepBlue"
+            android:textColor="@color/mainBlue"
             android:textSize="18sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
@@ -122,8 +123,7 @@
             app:layout_constraintTop_toBottomOf="@id/text_bar_recording_2"
             app:layout_constraintLeft_toLeftOf="@id/text_bar_recording_2"
             android:layout_marginLeft="30dp"
-            android:text="Unfiltered accelerometer: "
-            android:textColor="@color/deepBlue"
+            android:textColor="@color/mainBlue"
             android:textSize="@dimen/text_size_18"
             android:layout_marginTop="15dp"
 
@@ -135,11 +135,9 @@
             android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@id/unfil_accel_field"
             app:layout_constraintLeft_toLeftOf="@id/unfil_accel_field"
-            android:text="Filtered accelerometer"
-            android:textColor="@color/deepBlue"
+            android:textColor="@color/mainBlue"
             android:textSize="@dimen/text_size_18"
-            android:layout_marginTop="15dp"
-            />
+            android:layout_marginTop="15dp" />
 
         <TextView
             android:id="@+id/unfil_gyro_field"
@@ -147,8 +145,7 @@
             android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@id/fil_accel_field"
             app:layout_constraintLeft_toLeftOf="@id/fil_accel_field"
-            android:text="Unfiltered gyroscope: "
-            android:textColor="@color/deepBlue"
+            android:textColor="@color/mainBlue"
             android:textSize="@dimen/text_size_18"
             android:layout_marginTop="15dp"
 
@@ -160,11 +157,9 @@
             android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@id/unfil_gyro_field"
             app:layout_constraintLeft_toLeftOf="@id/unfil_gyro_field"
-            android:text="Filtered gyroscope"
-            android:textColor="@color/deepBlue"
+            android:textColor="@color/mainBlue"
             android:textSize="@dimen/text_size_18"
-            android:layout_marginTop="15dp"
-            />
+            android:layout_marginTop="15dp" />
 
         <TextView
             android:id="@+id/orientation_text_field"
@@ -172,10 +167,9 @@
             android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@id/fil_gyro_field"
             app:layout_constraintLeft_toLeftOf="@id/fil_gyro_field"
-            android:text="Orientation: "
-            android:textColor="@color/deepBlue"
+            android:textColor="@color/mainBlue"
             android:textSize="@dimen/text_size_18"
-            android:layout_marginTop="15dp"/>
+            android:layout_marginTop="15dp" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
