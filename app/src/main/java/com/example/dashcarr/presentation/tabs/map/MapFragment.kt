@@ -8,7 +8,8 @@ import com.example.dashcarr.presentation.core.BaseFragment
 
 
 class MapFragment : BaseFragment<FragmentMapBinding>(
-    FragmentMapBinding::inflate
+    FragmentMapBinding::inflate,
+    showBottomNavBar = true
 ) {
     private val viewModel: MapViewModel by viewModels()
     override fun observeViewModel() {

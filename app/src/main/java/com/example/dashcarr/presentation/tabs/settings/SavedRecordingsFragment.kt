@@ -12,7 +12,8 @@ import com.example.dashcarr.presentation.core.BaseFragment
 import java.io.IOException
 
 class SavedRecordingsFragment : BaseFragment<FragmentSavedRecordingsBinding>(
-    FragmentSavedRecordingsBinding::inflate
+    FragmentSavedRecordingsBinding::inflate,
+    showBottomNavBar = true
 ) {
     private val viewModel: SavedRecordingsViewModel by viewModels()
     override fun observeViewModel() {

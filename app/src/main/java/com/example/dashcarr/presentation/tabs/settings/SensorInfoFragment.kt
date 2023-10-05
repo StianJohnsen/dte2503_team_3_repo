@@ -7,7 +7,8 @@ import com.example.dashcarr.presentation.core.BaseFragment
 
 
 class SensorInfoFragment : BaseFragment<FragmentSensorInfoBinding>(
-    FragmentSensorInfoBinding::inflate
+    FragmentSensorInfoBinding::inflate,
+    showBottomNavBar = false
 ) {
     override fun observeViewModel() {
         TODO("Not yet implemented")

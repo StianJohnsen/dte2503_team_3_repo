@@ -8,7 +8,8 @@ import com.example.dashcarr.presentation.core.BaseFragment
 
 
 class SocialFragment : BaseFragment<FragmentSocialBinding>(
-    FragmentSocialBinding::inflate
+    FragmentSocialBinding::inflate,
+    showBottomNavBar = true
 ) {
     private val viewModel: SocialViewModel by viewModels()
     override fun observeViewModel() {
