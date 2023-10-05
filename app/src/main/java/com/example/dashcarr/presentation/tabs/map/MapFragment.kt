@@ -22,6 +22,11 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        initMap()
+    }
+
+    private fun initMap() {
+        binding.mapView.controller.setZoom(10000.0)
     }
 
 }
