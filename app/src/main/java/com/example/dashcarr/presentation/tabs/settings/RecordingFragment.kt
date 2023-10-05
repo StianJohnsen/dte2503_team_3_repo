@@ -18,6 +18,8 @@ import com.example.dashcarr.R
 import com.example.dashcarr.databinding.FragmentRecordingBinding
 import com.example.dashcarr.presentation.core.BaseFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import org.json.JSONObject
+import java.time.LocalDateTime
 
 
 class RecordingFragment : BaseFragment<FragmentRecordingBinding>(
@@ -32,6 +34,8 @@ class RecordingFragment : BaseFragment<FragmentRecordingBinding>(
     private var gyroSensor: Sensor? = null
     private var magnetoSensor: Sensor? = null
     private var isRecording = true
+
+    var elapsedTime = ""
 
 
     // Accelerometer
@@ -118,7 +122,7 @@ class RecordingFragment : BaseFragment<FragmentRecordingBinding>(
         val seconds = ((elapsedTimeMillis / 1000) % 60).toInt()
         val minutes = ((elapsedTimeMillis / (1000 * 60)) % 60).toInt()
         val hours = ((elapsedTimeMillis / (1000 * 60 * 60)) % 24).toInt()
-        val elapsedTime = String.format("%02d:%02d:%02d", hours, minutes, seconds)
+        elapsedTime = String.format("%02d:%02d:%02d", hours, minutes, seconds)
         binding.textElapsedTime.text = getString(
             R.string.elapsed_time, elapsedTime
         )
@@ -127,71 +131,75 @@ class RecordingFragment : BaseFragment<FragmentRecordingBinding>(
 
     fun saveToCSV() {
 
-        val unfilteredFileName = "unfiltered_sensor_data.csv"
-        val filteredFileName = "filtered_sensor_data.csv"
+        val unfilteredAccelCsvStringBuilder = StringBuilder()
+        val filteredAccelCsvStringBuilder = StringBuilder()
+        val unfilteredGyroCsvStringBuilder = StringBuilder()
+        val filteredGyroCsvStringBuilder = StringBuilder()
 
-        val unfilteredCsvStringBuilder = StringBuilder()
-        val filteredCsvStringBuilder = StringBuilder()
+        var rawAcclID = 0
+        var filtAcclID = 0
+        var rawGyroID = 0
+        var filtGyroID = 0
 
-        unfilteredCsvStringBuilder.append("ID, Accel_Timestamp(ms), Accel_X, Accel_Y, Accel_Z, Gyro_Timestamp(ms), Gyro_X, Gyro_Y, Gyro_Z\n")
-        filteredCsvStringBuilder.append("ID, Accel_Timestamp(ms), Accel_X, Accel_Y, Accel_Z, Gyro_Timestamp(ms), Gyro_X, Gyro_Y, Gyro_Z\n")
+        val acclJson = JSONObject()
 
-        val unfilteredMaxRecord = maxOf(rawAcclRecord.size, rawGyroRecord.size)
-        val filteredMaxRecord = maxOf(filtAcclRecord.size, filtGyroRecord.size)
+        unfilteredAccelCsvStringBuilder.append("ID, Accel_Timestamp(ms), Accel_X, Accel_Y, Accel_Z\n")
+        filteredAccelCsvStringBuilder.append("ID, Accel_Timestamp(ms), Accel_X, Accel_Y, Accel_Z\n")
 
-        for (i in 0 until unfilteredMaxRecord) {
-            val accelRecord = if (i < rawAcclRecord.size) rawAcclRecord[i] else null
-            val gyroRecord = if (i < rawGyroRecord.size) rawGyroRecord[i] else null
+        unfilteredGyroCsvStringBuilder.append("ID, Gyro_Timestamp(ms), Gyro_X, Gyro_Y, Gyro_Z\n")
+        filteredGyroCsvStringBuilder.append("ID, Gyro_Timestamp(ms), Gyro_X, Gyro_Y, Gyro_Z\n")
 
-            val id = i + 1
-
-            val accelTimestamp = accelRecord?.timestamp ?: ""
-            val accelX = accelRecord?.x ?: ""
-            val accelY = accelRecord?.y ?: ""
-            val accelZ = accelRecord?.z ?: ""
-
-            val gyroTimestamp = gyroRecord?.timestamp ?: ""
-            val gyroX = gyroRecord?.x ?: ""
-            val gyroY = gyroRecord?.y ?: ""
-            val gyroZ = gyroRecord?.z ?: ""
-
-            unfilteredCsvStringBuilder.append("$id, $accelTimestamp, $accelX, $accelY, $accelZ, $gyroTimestamp, $gyroX, $gyroY, $gyroZ\n")
-
+        rawAcclRecord.forEach {
+            unfilteredAccelCsvStringBuilder.append("$rawAcclID, ${it.timestamp}, ${it.x}, ${it.y}, ${it.z}\n")
+            rawAcclID++
         }
 
-        for (i in 0 until filteredMaxRecord) {
-            val accelRecord = if (i < filtAcclRecord.size) filtAcclRecord[i] else null
-            val gyroRecord = if (i < filtGyroRecord.size) filtGyroRecord[i] else null
-
-            val id = i + 1
-
-            val accelTimestamp = accelRecord?.timestamp ?: ""
-            val accelX = accelRecord?.x ?: ""
-            val accelY = accelRecord?.y ?: ""
-            val accelZ = accelRecord?.z ?: ""
-
-            val gyroTimestamp = gyroRecord?.timestamp ?: ""
-            val gyroX = gyroRecord?.x ?: ""
-            val gyroY = gyroRecord?.y ?: ""
-            val gyroZ = gyroRecord?.z ?: ""
-
-            filteredCsvStringBuilder.append("$id, $accelTimestamp, $accelX, $accelY, $accelZ, $gyroTimestamp, $gyroX, $gyroY, $gyroZ\n")
+        filtAcclRecord.forEach {
+            filteredAccelCsvStringBuilder.append("$filtAcclID, ${it.timestamp}, ${it.x}, ${it.y}, ${it.z}\n")
+            filtAcclID++
         }
 
-        val unfilteredFileContents = unfilteredCsvStringBuilder.toString()
-        val filteredFileContents = filteredCsvStringBuilder.toString()
+        rawGyroRecord.forEach {
+            unfilteredGyroCsvStringBuilder.append("$rawGyroID, ${it.timestamp}, ${it.x}, ${it.y}, ${it.z}\n")
+            rawGyroID++
+        }
 
+        filtGyroRecord.forEach {
+            filteredGyroCsvStringBuilder.append("$filtGyroID, ${it.timestamp}, ${it.x}, ${it.y}, ${it.z}\n")
+            filtGyroID++
+        }
+        acclJson.put("name", "unfiltered")
+        acclJson.put("elapsed_time", elapsedTime)
+        acclJson.put("date", LocalDateTime.now())
+        acclJson.put("data", filteredAccelCsvStringBuilder)
 
-        //val fileContents = rawAcclRecord.toString()
-        context?.openFileOutput(unfilteredFileName, Context.MODE_PRIVATE).use {
+        context?.openFileOutput("unfiltered_accl.csv", Context.MODE_PRIVATE).use {
             if (it != null) {
-                it.write(unfilteredFileContents.toByteArray())
+                it.write(unfilteredAccelCsvStringBuilder.toString().toByteArray())
             }
         }
 
-        context?.openFileOutput(filteredFileName, Context.MODE_PRIVATE).use {
+        context?.openFileOutput("filtered_accl.csv", Context.MODE_PRIVATE).use {
             if (it != null) {
-                it.write(filteredFileContents.toByteArray())
+                it.write(filteredAccelCsvStringBuilder.toString().toByteArray())
+            }
+        }
+
+        context?.openFileOutput("filtered_accl.json", Context.MODE_PRIVATE).use {
+            if (it != null) {
+                it.write(acclJson.toString().toByteArray())
+            }
+        }
+
+        context?.openFileOutput("unfiltered_gyro.csv", Context.MODE_PRIVATE).use {
+            if (it != null) {
+                it.write(unfilteredGyroCsvStringBuilder.toString().toByteArray())
+            }
+        }
+
+        context?.openFileOutput("filtered_gyro.csv", Context.MODE_PRIVATE).use {
+            if (it != null) {
+                it.write(filteredGyroCsvStringBuilder.toString().toByteArray())
             }
         }
 

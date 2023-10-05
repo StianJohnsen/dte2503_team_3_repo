@@ -1,6 +1,7 @@
 package com.example.dashcarr.presentation.tabs.settings
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -44,13 +45,18 @@ class ConfigureRecordingFragment : BaseFragment<FragmentConfigureRecordingBindin
         binding.apply {
             lifecycleOwner = viewLifecycleOwner
             configureRecordingFragment = this@ConfigureRecordingFragment
+            buttonStartRecording.setOnClickListener {
+                findNavController().navigate(R.id.action_action_configure_to_RecordingFragment)
+            }
+            imageBackConfigure.setOnClickListener {
+                findNavController().navigate(R.id.action_action_configure_to_SettingsFragment)
+            }
+            checkBoxAcc.setOnCheckedChangeListener { buttonView, isChecked ->
+                Log.d("Checkboxes", isChecked.toString())
+            }
         }
-        binding.buttonStartRecording.setOnClickListener {
-            findNavController().navigate(R.id.action_action_configure_to_RecordingFragment)
-        }
-        binding.imageBackConfigure.setOnClickListener {
-            findNavController().navigate(R.id.action_action_configure_to_SettingsFragment)
-        }
+
+
     }
 
     fun startRecording() {

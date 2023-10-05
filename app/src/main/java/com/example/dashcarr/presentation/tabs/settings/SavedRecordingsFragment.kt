@@ -2,6 +2,7 @@ package com.example.dashcarr.presentation.tabs.settings
 
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
@@ -14,6 +15,10 @@ import com.example.dashcarr.databinding.FragmentSavedRecordingsBinding
 import com.example.dashcarr.presentation.core.BaseFragment
 import org.json.JSONArray
 import java.io.BufferedReader
+import java.io.InputStreamReader
+import java.nio.charset.Charset
+import java.io.BufferedReader
+import java.io.IOException
 import java.io.InputStreamReader
 import java.nio.charset.Charset
 
@@ -51,6 +56,8 @@ class SavedRecordingsFragment : BaseFragment<FragmentSavedRecordingsBinding>(
         var jsonArray = JSONArray()
         val fileName = "sensor_config.json"
         try {
+            val testFile = context?.openFileInput("filtered_accl.json")
+            Log.d("flase", BufferedReader(InputStreamReader(testFile, Charset.forName("UTF-8"))).readLine().toString())
             val inputStream = context?.openFileInput(fileName)
             val reader = BufferedReader(InputStreamReader(inputStream, Charset.forName("UTF-8")))
             val line = reader.readLine()
