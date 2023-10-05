@@ -36,6 +36,7 @@
     <string name="error_non_digit">Password must contain at least one digit</string>
     <string name="error_unknown">Oops, something went wrong</string>
     <string name="error_email_empty">Email cannot be empty.</string>
+    <string name="error_enter_both_email_and_password">Please enter both email and password</string>
 
     <!--Credentials-->
 

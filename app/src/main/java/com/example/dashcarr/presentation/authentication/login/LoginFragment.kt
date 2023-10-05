@@ -142,10 +142,16 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(
             viewModel.showGoogleLogin()
         }
         binding.btnLogin.setOnClickListener {
-            viewModel.signIn(
-                email = binding.etEmail.text.toString(),
-                password = binding.etPassword.text.toString()
-            )
+            val email = binding.etEmail.text.toString()
+            val password = binding.etPassword.text.toString()
+
+            if (email.isEmpty() || password.isEmpty()) {
+                Toast.makeText(requireContext(),
+                    getString(R.string.error_enter_both_email_and_password),
+                    Toast.LENGTH_SHORT).show()
+            } else {
+                viewModel.signIn(email, password)
+            }
         }
 
         binding.apply {
