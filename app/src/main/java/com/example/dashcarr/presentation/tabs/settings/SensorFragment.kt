@@ -14,7 +14,8 @@ import com.example.dashcarr.presentation.core.BaseFragment
 
 
 class SensorFragment : BaseFragment<FragmentSensorBinding>(
-    FragmentSensorBinding::inflate
+    FragmentSensorBinding::inflate,
+    showBottomNavBar = true
 ), SensorEventListener {
 
     private lateinit var sensorManager: SensorManager

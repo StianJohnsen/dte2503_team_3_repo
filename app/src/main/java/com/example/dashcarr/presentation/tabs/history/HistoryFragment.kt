@@ -11,7 +11,8 @@ import kotlin.random.Random
 
 @AndroidEntryPoint
 class HistoryFragment : BaseFragment<FragmentHistoryBinding>(
-    FragmentHistoryBinding::inflate
+    FragmentHistoryBinding::inflate,
+    showBottomNavBar = true
 ) {
     private val viewModel: HistoryViewModel by viewModels()
     override fun observeViewModel() {

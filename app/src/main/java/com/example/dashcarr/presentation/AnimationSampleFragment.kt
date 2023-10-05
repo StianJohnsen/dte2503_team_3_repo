@@ -1,25 +1,19 @@
 package com.example.dashcarr.presentation
 
-import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import com.example.dashcarr.R
+import com.example.dashcarr.databinding.FragmentAnimationSampleBinding
+import com.example.dashcarr.presentation.core.BaseFragment
 
-class AnimationSampleFragment : Fragment() {
+class AnimationSampleFragment : BaseFragment<FragmentAnimationSampleBinding>(
+    FragmentAnimationSampleBinding::inflate,
+    showBottomNavBar = false
+) {
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        }
+    override fun observeViewModel() {
+        TODO("Not yet implemented")
+    }
 
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_animation_sample, container, false)
+    override fun initListeners() {
+        TODO("Not yet implemented")
     }
 
 

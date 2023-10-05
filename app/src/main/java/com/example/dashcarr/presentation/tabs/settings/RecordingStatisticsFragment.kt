@@ -22,7 +22,8 @@ import java.io.InputStream
 
 
 class RecordingStatisticsFragment : BaseFragment<FragmentRecordingStatisticsBinding>(
-    FragmentRecordingStatisticsBinding::inflate
+    FragmentRecordingStatisticsBinding::inflate,
+    showBottomNavBar = true
 ) {
     private lateinit var bottomNavigationView: BottomNavigationView
     private val viewModel: RecordingStatisticsViewModel by viewModels()
@@ -32,8 +33,6 @@ class RecordingStatisticsFragment : BaseFragment<FragmentRecordingStatisticsBind
         savedInstanceState: Bundle?
     ): View? {
         super.onCreateView(inflater, container, savedInstanceState)
-        bottomNavigationView = activity?.findViewById<BottomNavigationView>(R.id.bottom_nav)!!
-        bottomNavigationView.visibility = View.VISIBLE
         return binding.root
     }
 

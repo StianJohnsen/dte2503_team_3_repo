@@ -21,7 +21,8 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 
 
 class RecordingFragment : BaseFragment<FragmentRecordingBinding>(
-    FragmentRecordingBinding::inflate
+    FragmentRecordingBinding::inflate,
+    showBottomNavBar = true
 ), SensorEventListener {
     private lateinit var bottomNavigationView: BottomNavigationView
     private val viewModel: RecordingViewModel by viewModels()
@@ -81,8 +82,6 @@ class RecordingFragment : BaseFragment<FragmentRecordingBinding>(
         savedInstanceState: Bundle?
     ): View? {
         super.onCreateView(inflater, container, savedInstanceState)
-        bottomNavigationView = activity?.findViewById<BottomNavigationView>(R.id.bottom_nav)!!
-        bottomNavigationView?.visibility = View.VISIBLE
         return binding.root
     }
 

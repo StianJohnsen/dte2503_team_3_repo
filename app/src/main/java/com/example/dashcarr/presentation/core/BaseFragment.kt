@@ -1,17 +1,20 @@
 package com.example.dashcarr.presentation.core
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.constraintlayout.widget.Group
 import androidx.fragment.app.Fragment
 import androidx.viewbinding.ViewBinding
 import com.example.dashcarr.R
-import com.google.android.material.bottomnavigation.BottomNavigationView
 
 typealias Inflate<T> = (LayoutInflater, ViewGroup?, Boolean) -> T
+
 abstract class BaseFragment<VB: ViewBinding>(
-    private val inflate: Inflate<VB>
+    private val inflate: Inflate<VB>,
+    private val showBottomNavBar: Boolean?
 ): Fragment() {
 
     private var _binding: VB? = null
@@ -23,7 +26,8 @@ abstract class BaseFragment<VB: ViewBinding>(
         savedInstanceState: Bundle?
     ): View? {
         _binding = inflate.invoke(inflater, container, false)
-        showBottomNavigation(true)
+        Log.e("WatchingSomeStuff", "show = $showBottomNavBar")
+        showBottomNavBar?.let { showBottomNavigation(it) }
         return binding.root
     }
 
@@ -33,7 +37,9 @@ abstract class BaseFragment<VB: ViewBinding>(
     }
 
     protected fun showBottomNavigation(show: Boolean) {
-        val bottomNavigationView = activity?.findViewById<BottomNavigationView>(R.id.bottom_nav)!!
+        Log.e("BottomStuff", "show bottom func show = $show")
+        val bottomNavigationView = activity?.findViewById<Group>(R.id.nav_bar_group)!!
+        Log.e("BottomStuff", "bottomNavView = $bottomNavigationView")
         bottomNavigationView?.visibility =
             if (show) View.VISIBLE
             else View.GONE

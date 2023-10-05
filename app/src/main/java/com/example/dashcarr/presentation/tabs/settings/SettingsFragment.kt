@@ -12,7 +12,8 @@ import com.example.dashcarr.presentation.core.BaseFragment
 
 
 class SettingsFragment : BaseFragment<FragmentSettingsBinding>(
-    FragmentSettingsBinding::inflate
+    FragmentSettingsBinding::inflate,
+    showBottomNavBar = true
 ) {
     private val viewModel: SettingsViewModel by viewModels()
 
@@ -24,6 +25,7 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>(
 
     override fun initListeners() {
         binding.btnProfileSettings.setOnClickListener {
+            showBottomNavigation(false)
             findNavController().navigate(R.id.action_action_settings_to_animationSampleFragment)
         }
 

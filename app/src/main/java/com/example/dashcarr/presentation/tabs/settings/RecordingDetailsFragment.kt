@@ -25,7 +25,8 @@ import java.nio.charset.Charset
 
 
 class RecordingDetailsFragment : BaseFragment<FragmentRecordingDetailsBinding>(
-    FragmentRecordingDetailsBinding::inflate
+    FragmentRecordingDetailsBinding::inflate,
+    showBottomNavBar = true
 ) {
     private lateinit var bottomNavigationView: BottomNavigationView
     private val viewModel: RecordingDetailsViewModel by viewModels()
@@ -35,8 +36,6 @@ class RecordingDetailsFragment : BaseFragment<FragmentRecordingDetailsBinding>(
         savedInstanceState: Bundle?
     ): View? {
         super.onCreateView(inflater, container, savedInstanceState)
-        bottomNavigationView = activity?.findViewById<BottomNavigationView>(R.id.bottom_nav)!!
-        bottomNavigationView.visibility = View.VISIBLE
         return binding.root
     }
 

@@ -11,7 +11,8 @@ import com.example.dashcarr.databinding.FragmentDashcamBinding
 import com.example.dashcarr.presentation.core.BaseFragment
 
 class DashcamFragment : BaseFragment<FragmentDashcamBinding>(
-    FragmentDashcamBinding::inflate
+    FragmentDashcamBinding::inflate,
+    showBottomNavBar = true
 ) {
 
     companion object {

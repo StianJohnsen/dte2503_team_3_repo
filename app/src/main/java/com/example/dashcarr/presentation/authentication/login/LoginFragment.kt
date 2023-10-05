@@ -28,7 +28,8 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class LoginFragment : BaseFragment<FragmentLoginBinding>(
-    FragmentLoginBinding::inflate
+    FragmentLoginBinding::inflate,
+    showBottomNavBar = false
 ) {
     private lateinit var bottomNavigationView: BottomNavigationView
     private val viewModel: LoginViewModel by viewModels()
@@ -81,7 +82,6 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(
         savedInstanceState: Bundle?
     ): View? {
         super.onCreateView(inflater, container, savedInstanceState)
-        showBottomNavigation(false)
         return binding.root
     }
 
