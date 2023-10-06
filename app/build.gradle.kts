@@ -2,7 +2,6 @@ plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     id("org.jetbrains.kotlin.kapt")
-    //id("com.google.devtools.ksp") version "1.9.0-1.0.11"
     id("com.google.gms.google-services")
     id("com.google.dagger.hilt.android")
     id("kotlin-kapt")
@@ -61,6 +60,8 @@ kapt {
 dependencies {
 
 
+    implementation("androidx.fragment:fragment-ktx:1.6.1")
+
     implementation("com.facebook.android:facebook-android-sdk:[8,9)")
     implementation("com.facebook.android:facebook-login:16.2.0")
 
@@ -77,6 +78,7 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.2")
     implementation("androidx.legacy:legacy-support-v4:1.0.0")
     implementation("com.google.firebase:firebase-firestore-ktx:24.8.1")
+    implementation("androidx.preference:preference-ktx:1.2.1")
     kapt("com.google.dagger:hilt-compiler:2.47")
 
     implementation("androidx.core:core-ktx:1.12.0")
