@@ -18,7 +18,11 @@ import com.example.dashcarr.R
 import com.example.dashcarr.databinding.FragmentRecordingBinding
 import com.example.dashcarr.presentation.core.BaseFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import org.json.JSONArray
 import org.json.JSONObject
+import java.io.BufferedReader
+import java.io.InputStreamReader
+import java.nio.charset.Charset
 import java.time.LocalDateTime
 
 
@@ -129,6 +133,29 @@ class RecordingFragment : BaseFragment<FragmentRecordingBinding>(
     }
 
 
+    fun readJsonFromFile(fileName: String): JSONArray {
+        var jsonArray = JSONArray()
+        try {
+            val inputStream = context?.openFileInput(fileName)
+            if (inputStream != null) {
+                val reader = BufferedReader(InputStreamReader(inputStream, Charset.forName("UTF-8")))
+                var line: String? = reader.readLine()
+                Log.d("stian", line.toString())
+
+                Log.d("line", line.toString())
+                Log.d("lasse", line!!.substring(1, line!!.length - 1))
+
+
+                jsonArray = JSONArray(line.toString())
+
+                inputStream.close()
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+        return jsonArray
+    }
+
     fun saveToCSV() {
 
         val unfilteredAccelCsvStringBuilder = StringBuilder()
@@ -141,8 +168,7 @@ class RecordingFragment : BaseFragment<FragmentRecordingBinding>(
         var rawGyroID = 0
         var filtGyroID = 0
 
-        val acclJson = JSONObject()
-
+        val newRecording = JSONObject()
         unfilteredAccelCsvStringBuilder.append("ID, Accel_Timestamp(ms), Accel_X, Accel_Y, Accel_Z\n")
         filteredAccelCsvStringBuilder.append("ID, Accel_Timestamp(ms), Accel_X, Accel_Y, Accel_Z\n")
 
@@ -168,36 +194,55 @@ class RecordingFragment : BaseFragment<FragmentRecordingBinding>(
             filteredGyroCsvStringBuilder.append("$filtGyroID, ${it.timestamp}, ${it.x}, ${it.y}, ${it.z}\n")
             filtGyroID++
         }
-        acclJson.put("name", "unfiltered")
-        acclJson.put("elapsed_time", elapsedTime)
-        acclJson.put("date", LocalDateTime.now())
-        acclJson.put("data", filteredAccelCsvStringBuilder)
 
-        context?.openFileOutput("unfiltered_accl.csv", Context.MODE_PRIVATE).use {
+        val stopDateTime = LocalDateTime.now()
+
+        newRecording.put("name", stopDateTime)
+        newRecording.put("elapsed_time", elapsedTime)
+        newRecording.put("date", stopDateTime)
+        newRecording.put("unfil_gyro", "${stopDateTime}_unfiltered_gyro.csv")
+        newRecording.put("fil_gyro", "${stopDateTime}_filtered_gyro.csv")
+        newRecording.put("unfil_accel", "${stopDateTime}_unfiltered_accel.csv")
+        newRecording.put("fil_accel", "${stopDateTime}_filtered_accel.csv")
+
+        Log.d("newRecording", newRecording.toString())
+        val existingJSONArray = readJsonFromFile("sensor_config.json")
+        Log.d("jsonArrayTest", existingJSONArray.toString())
+
+        val jsonArray: JSONArray = if (existingJSONArray is JSONArray) {
+            existingJSONArray
+        } else {
+            JSONArray()
+        }
+
+        jsonArray.put(newRecording)
+
+        context?.openFileOutput("${stopDateTime}_unfiltered_accel.csv", Context.MODE_PRIVATE).use {
             if (it != null) {
                 it.write(unfilteredAccelCsvStringBuilder.toString().toByteArray())
             }
         }
 
-        context?.openFileOutput("filtered_accl.csv", Context.MODE_PRIVATE).use {
+        context?.openFileOutput("${stopDateTime}_filtered_accel.csv", Context.MODE_PRIVATE).use {
             if (it != null) {
                 it.write(filteredAccelCsvStringBuilder.toString().toByteArray())
             }
         }
 
-        context?.openFileOutput("filtered_accl.json", Context.MODE_PRIVATE).use {
+        context?.openFileOutput("sensor_config.json", Context.MODE_PRIVATE).use {
             if (it != null) {
-                it.write(acclJson.toString().toByteArray())
+                it.write(jsonArray.toString().toByteArray())
             }
         }
+        Log.d("lenJsonArray", existingJSONArray.length().toString())
 
-        context?.openFileOutput("unfiltered_gyro.csv", Context.MODE_PRIVATE).use {
+        context?.openFileOutput("${stopDateTime}_unfiltered_gyro.csv", Context.MODE_PRIVATE).use {
             if (it != null) {
                 it.write(unfilteredGyroCsvStringBuilder.toString().toByteArray())
             }
         }
 
-        context?.openFileOutput("filtered_gyro.csv", Context.MODE_PRIVATE).use {
+        context?.openFileOutput("${stopDateTime}_filtered_gyro.csv", Context.MODE_PRIVATE).use {
             if (it != null) {
                 it.write(filteredGyroCsvStringBuilder.toString().toByteArray())
             }
