@@ -32,43 +32,43 @@
             android:id="@+id/dashcam_button"
             android:layout_width="60dp"
             android:layout_height="60dp"
-            android:backgroundTint="#fffcfc "
+            android:backgroundTint="@color/mainBlue"
             android:scaleType="fitCenter"
             android:src="@android:drawable/ic_dialog_alert"
-            app:tint="#F31919"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/saved_recordings_button"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/security_camera_button" />
+            app:layout_constraintTop_toTopOf="@+id/security_camera_button"
+            app:tint="#E13232" />
 
         <ImageButton
             android:id="@+id/saved_recordings_button"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:layout_marginBottom="15dp"
-            android:backgroundTint="#fffcfc "
+            android:backgroundTint="@color/mainBlue"
             android:scaleType="fitCenter"
             android:scaleX="1.1"
             android:scaleY="1.1"
             android:src="@android:drawable/ic_menu_save"
-            app:tint="#000000"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.504"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:tint="#000000" />
 
         <ImageButton
             android:id="@+id/security_camera_button"
             android:layout_width="60dp"
             android:layout_height="60dp"
-            android:backgroundTint="#fffcfc "
+            android:backgroundTint="@color/mainBlue"
             android:scaleType="fitCenter"
             android:scaleX="0.7"
             android:scaleY="0.7"
-            app:tint="#F31919"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/saved_recordings_button"
-            app:srcCompat="@android:drawable/ic_notification_overlay" />
+            app:srcCompat="@android:drawable/ic_notification_overlay"
+            app:tint="#E13232" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
