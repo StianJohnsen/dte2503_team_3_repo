@@ -98,12 +98,16 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        val transaction = supportFragmentManager.beginTransaction()
-        transaction.add(R.id.nav_host_container, DashcamFragment.getInstance())
-        transaction.disallowAddToBackStack()
-        transaction.commit()
+
         findViewById<ImageButton>(R.id.dashcam_button).setOnClickListener {
-            DashcamFragment.getInstance().update()
+            if (!DashcamFragment.exists()) {
+                val transaction = supportFragmentManager.beginTransaction()
+                transaction.add(R.id.nav_host_container, DashcamFragment.getInstance())
+                transaction.disallowAddToBackStack()
+                transaction.commit()
+            } else {
+                DashcamFragment.getInstance().update()
+            }
         }
 
         findViewById<ImageButton>(R.id.saved_recordings_button).setOnClickListener {

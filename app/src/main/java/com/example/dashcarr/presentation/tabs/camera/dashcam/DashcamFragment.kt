@@ -1,9 +1,14 @@
 package com.example.dashcarr.presentation.tabs.camera.dashcam
 
+import android.Manifest
 import android.animation.ObjectAnimator
+import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.view.animation.AccelerateInterpolator
 import android.view.animation.DecelerateInterpolator
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.animation.doOnEnd
 import androidx.core.animation.doOnStart
 import androidx.fragment.app.viewModels
@@ -21,14 +26,32 @@ class DashcamFragment : BaseFragment<FragmentDashcamBinding>(
 
         fun getInstance() =
             instance ?: synchronized(this) {
-                instance ?: DashcamFragment().also { instance = it }
+                instance = DashcamFragment()
+                return@synchronized instance!!
             }
+
+        fun exists() = instance !== null
+
+        fun destroy() {
+            instance = null
+        }
     }
 
     private val viewModel: DashcamViewModel by viewModels()
 
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
-        update()
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        val view = super.onCreateView(inflater, container, savedInstanceState)
+        registerForActivityResult(
+            ActivityResultContracts.RequestPermission()
+        ) { isGranted ->
+            if (isGranted) {
+                update()
+            } else {
+                parentFragmentManager.beginTransaction().remove(this).commit()
+                destroy()
+            }
+        }.launch(Manifest.permission.CAMERA)
+        return view
     }
 
     fun update() {

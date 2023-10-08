@@ -1,8 +1,11 @@
 package com.example.dashcarr.presentation.tabs.camera.security
 
+import android.Manifest
 import android.os.Bundle
 import android.view.View
 import android.view.animation.AnimationUtils
+import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.viewModels
 import com.example.dashcarr.R
 import com.example.dashcarr.databinding.FragmentSecurityCameraBinding
@@ -42,17 +45,24 @@ class SecurityCameraFragment : BaseFragment<FragmentSecurityCameraBinding>(
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.initViewModel(requireActivity(), this, showStartButton)
         binding.backButton.setOnClickListener {
             requireActivity().onBackPressed()
         }
         binding.videoCaptureButton.setOnClickListener {
             viewModel.changeRecordingState(showStartButton, showStopButton, hideButton)
         }
-    }
 
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
-        viewModel.initViewModel(requireActivity(), this, showStartButton)
+        registerForActivityResult(
+            ActivityResultContracts.RequestPermission()
+        ) { isGranted ->
+            if (isGranted) {
+                viewModel.initViewModel(requireActivity(), this, showStartButton)
+            } else {
+                Toast.makeText(requireActivity(), "This feature needs camera access", Toast.LENGTH_SHORT).show()
+                requireActivity().onBackPressed()
+            }
+        }.launch(Manifest.permission.CAMERA)
+
     }
 
     override fun onDestroyView() {

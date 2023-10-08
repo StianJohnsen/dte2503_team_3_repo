@@ -4,7 +4,6 @@ import android.Manifest
 import android.app.Activity
 import android.content.ContentValues
 import android.content.pm.PackageManager
-import android.os.Build
 import android.provider.MediaStore
 import android.util.Log
 import android.widget.Toast
@@ -20,7 +19,6 @@ import androidx.camera.video.Recording
 import androidx.camera.video.VideoCapture
 import androidx.camera.video.VideoRecordEvent
 import androidx.camera.view.PreviewView
-import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.PermissionChecker
 import androidx.lifecycle.LifecycleOwner
@@ -29,7 +27,7 @@ import java.util.Locale
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
-class CameraWrapper(activity: Activity) {
+class CameraWrapper(private var activity: Activity) {
     companion object {
         private const val TAG = "CameraWrapper"
         private const val FILENAME_FORMAT = "yyyy-MM-dd-HH-mm-ss-SSS"
@@ -40,22 +38,12 @@ class CameraWrapper(activity: Activity) {
     private var onFinished: (() -> Unit?)? = null
 
     private var cameraExecutor: ExecutorService = Executors.newSingleThreadExecutor()
-    private var activity: Activity = activity
     private lateinit var preview: Preview
 
-    fun askForPermission(): Boolean {
-        val hasPermission = ContextCompat.checkSelfPermission(
-            activity.applicationContext,
-            Manifest.permission.CAMERA
-        ) == PackageManager.PERMISSION_GRANTED
-
-        if (!hasPermission) {
-            ActivityCompat.requestPermissions(
-                activity, arrayOf(android.Manifest.permission.CAMERA), 1
-            )
-        }
-        return hasPermission
-    }
+    private fun askForPermission(): Boolean = ContextCompat.checkSelfPermission(
+        activity.applicationContext,
+        Manifest.permission.CAMERA
+    ) == PackageManager.PERMISSION_GRANTED
 
     fun isRecording(): Boolean {
         return recording != null
@@ -78,9 +66,7 @@ class CameraWrapper(activity: Activity) {
         val contentValues = ContentValues().apply {
             put(MediaStore.MediaColumns.DISPLAY_NAME, name)
             put(MediaStore.MediaColumns.MIME_TYPE, "video/mp4")
-            if (Build.VERSION.SDK_INT > Build.VERSION_CODES.P) {
-                put(MediaStore.Video.Media.RELATIVE_PATH, path)
-            }
+            put(MediaStore.Video.Media.RELATIVE_PATH, path)
         }
 
         val mediaStoreOutputOptions = MediaStoreOutputOptions
