@@ -10,21 +10,19 @@ import com.example.dashcarr.presentation.tabs.camera.CameraWrapper
 class SecurityCameraViewModel : ViewModel() {
 
     private lateinit var camera: CameraWrapper
-    public fun initViewModel(activity: FragmentActivity, fragment: Fragment, showButton: () -> Unit) {
+    fun initViewModel(activity: FragmentActivity, fragment: Fragment, showButton: () -> Unit) {
         if (!this::camera.isInitialized) {
             camera = CameraWrapper(activity)
         }
-        if (camera.askForPermission()) {
-            camera.startCamera(
-                activity.findViewById(R.id.video_preview),
-                fragment,
-                CameraSelector.DEFAULT_FRONT_CAMERA,
-                showButton
-            )
-        }
+        camera.startCamera(
+            activity.findViewById(R.id.video_preview),
+            fragment,
+            CameraSelector.DEFAULT_FRONT_CAMERA,
+            showButton
+        )
     }
 
-    public fun changeRecordingState(showStartButton: () -> Unit, showStopButton: () -> Unit, hideButton: () -> Unit) {
+    fun changeRecordingState(showStartButton: () -> Unit, showStopButton: () -> Unit, hideButton: () -> Unit) {
         if (!camera.isRecording()) {
             hideButton()
             camera.startRecording(showStopButton, "Movies/Dashcarr/Security_Camera")
@@ -34,7 +32,9 @@ class SecurityCameraViewModel : ViewModel() {
         }
     }
 
-    public fun closeCamera() {
-        camera.destroy()
+    fun closeCamera() {
+        if (this::camera.isInitialized) {
+            camera.destroy()
+        }
     }
 }
