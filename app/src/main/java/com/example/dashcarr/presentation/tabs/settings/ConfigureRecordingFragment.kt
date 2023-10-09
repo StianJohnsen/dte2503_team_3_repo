@@ -19,8 +19,13 @@ class ConfigureRecordingFragment : BaseFragment<FragmentConfigureRecordingBindin
 ) {
     private lateinit var bottomNavigationView: BottomNavigationView
     private val viewModel: ConfigureRecordingViewModel by viewModels()
+    private val settingsViewModel: SettingsViewModel by viewModels()
 
     private var startTimeMillis: Long = 0
+
+    var isFilteredChecked = false
+    var isAccelChecked = false
+    var isGyroChecked = false
 
 
     override fun onCreateView(
@@ -46,19 +51,44 @@ class ConfigureRecordingFragment : BaseFragment<FragmentConfigureRecordingBindin
             lifecycleOwner = viewLifecycleOwner
             configureRecordingFragment = this@ConfigureRecordingFragment
             buttonStartRecording.setOnClickListener {
-                findNavController().navigate(R.id.action_action_configure_to_RecordingFragment)
+                startRecording()
             }
             imageBackConfigure.setOnClickListener {
-                findNavController().navigate(R.id.action_action_configure_to_SettingsFragment)
+                startRecording()
+            }
+            checkBoxFilterData.setOnCheckedChangeListener { buttonView, isChecked ->
+                isFilteredChecked = isChecked
+
+
             }
             checkBoxAcc.setOnCheckedChangeListener { buttonView, isChecked ->
-                Log.d("Checkboxes", isChecked.toString())
+                isAccelChecked = isChecked
+            }
+
+            checkBoxGyro.setOnCheckedChangeListener { buttonView, isChecked ->
+                isGyroChecked = isChecked
             }
         }
 
 
     }
 
+
     fun startRecording() {
+        Log.d("checking", isFilteredChecked.toString() + "\n" + isAccelChecked + "\n" + isGyroChecked)
+        val args = Bundle()
+        args.putBoolean("isFiltered", isFilteredChecked)
+        args.putBoolean("isAccel", isAccelChecked)
+        args.putBoolean("isGyro", isGyroChecked)
+        /*
+                val action = ConfigureRecordingFragmentDirections.actionActionConfigureToRecordingFragment(
+                    isFilteredChecked,
+                    isAccelChecked,
+                    isGyroChecked
+                )
+         */
+
+        findNavController().navigate(R.id.action_action_configure_to_RecordingFragment, args)
+
     }
 }
