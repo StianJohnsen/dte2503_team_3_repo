@@ -95,8 +95,6 @@ class SensorFragment : BaseFragment<FragmentSensorBinding>(
 
     fun saveToCSV() {
 
-        val unfilteredFileName = "unfiltered_sensor_data.csv"
-        val filteredFileName = "filtered_sensor_data.csv"
 
         val unfilteredCsvStringBuilder = StringBuilder()
         val filteredCsvStringBuilder = StringBuilder()
@@ -151,17 +149,6 @@ class SensorFragment : BaseFragment<FragmentSensorBinding>(
 
 
         //val fileContents = rawAcclRecord.toString()
-        context?.openFileOutput(unfilteredFileName, Context.MODE_PRIVATE).use {
-            if (it != null) {
-                it.write(unfilteredFileContents.toByteArray())
-            }
-        }
-
-        context?.openFileOutput(filteredFileName, Context.MODE_PRIVATE).use {
-            if (it != null) {
-                it.write(filteredFileContents.toByteArray())
-            }
-        }
 
 
     }

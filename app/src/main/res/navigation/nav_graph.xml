@@ -59,6 +59,15 @@
         <action
             android:id="@+id/action_action_recording_to_SavedRecordingsFragment"
             app:destination="@id/action_saved_recordings" />
+        <argument
+            android:name="isFiltered"
+            app:argType="boolean" />
+        <argument
+            android:name="isAccel"
+            app:argType="boolean" />
+        <argument
+            android:name="isGyro"
+            app:argType="boolean" />
     </fragment>
     <fragment
         android:id="@+id/action_saved_recordings"

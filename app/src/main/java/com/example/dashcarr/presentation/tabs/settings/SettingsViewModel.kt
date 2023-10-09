@@ -12,11 +12,10 @@ import javax.inject.Inject
 @HiltViewModel
 class SettingsViewModel @Inject constructor(
 
-): ViewModel() {
+) : ViewModel() {
 
     private val _logOutState = MutableSharedFlow<Unit>()
     val logOutState = _logOutState.asSharedFlow()
-
     fun logOut() {
         viewModelScope.launch {
             FirebaseAuthRepository().logOutUser()
