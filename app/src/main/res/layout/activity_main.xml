@@ -39,7 +39,7 @@
             app:layout_constraintEnd_toStartOf="@+id/saved_recordings_button"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/security_camera_button"
-            app:tint="#E13232" />
+            app:tint="@color/recording_red" />
 
         <ImageButton
             android:id="@+id/saved_recordings_button"
@@ -55,7 +55,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:tint="#000000" />
+            app:tint="@color/black" />
 
         <ImageButton
             android:id="@+id/security_camera_button"
@@ -68,7 +68,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/saved_recordings_button"
             app:srcCompat="@android:drawable/ic_notification_overlay"
-            app:tint="#E13232" />
+            app:tint="@color/recording_red" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
