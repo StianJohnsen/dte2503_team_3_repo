@@ -69,7 +69,7 @@
             android:id="@+id/text_total_storage"
             android:layout_width="137dp"
             android:layout_height="27dp"
-            android:layout_marginStart="51dp"
+            android:layout_marginStart="40dp"
             android:layout_marginTop="50dp"
             android:text="@string/total_storage"
             android:textColor="@color/mainBlue"
@@ -82,7 +82,7 @@
             android:id="@+id/text_number_of_files"
             android:layout_width="165dp"
             android:layout_height="26dp"
-            android:layout_marginStart="48dp"
+            android:layout_marginStart="40dp"
             android:layout_marginTop="100dp"
             android:text="@string/number_of_files"
             android:textColor="@color/mainBlue"
@@ -95,15 +95,28 @@
             android:id="@+id/text_other"
             android:layout_width="137dp"
             android:layout_height="27dp"
-            android:layout_marginStart="48dp"
+            android:layout_marginStart="40dp"
             android:layout_marginTop="150dp"
-            android:text="@string/incoming"
+            android:text="@string/avg_time"
             android:textColor="@color/mainBlue"
             android:textSize="20sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/text_bar_stat_2" />
 
+
+        <TextView
+            android:id="@+id/text_other2"
+            android:layout_width="137dp"
+            android:layout_height="27dp"
+            android:layout_marginStart="40dp"
+            android:layout_marginTop="200dp"
+            android:text="@string/avg_size"
+            android:textColor="@color/mainBlue"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/text_bar_stat_2" />
 
         <com.github.mikephil.charting.charts.PieChart
             android:id="@+id/pieChart_stats"
@@ -136,6 +149,30 @@
             android:textSize="20sp"
             android:textStyle="bold"
             app:layout_constraintStart_toEndOf="@+id/text_number_of_files"
+            app:layout_constraintTop_toBottomOf="@+id/text_bar_stat_2" />
+
+        <TextView
+            android:id="@+id/inputAvgTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="150dp"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@+id/text_other"
+            app:layout_constraintTop_toBottomOf="@+id/text_bar_stat_2" />
+
+        <TextView
+            android:id="@+id/inputAvgSize"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="200dp"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@+id/text_other2"
             app:layout_constraintTop_toBottomOf="@+id/text_bar_stat_2" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

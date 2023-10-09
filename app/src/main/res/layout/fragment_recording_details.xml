@@ -16,8 +16,8 @@
 
         <TextView
             android:id="@+id/text_recording_name"
-            android:layout_width="304dp"
-            android:layout_height="48dp"
+            android:layout_width="309dp"
+            android:layout_height="59dp"
             android:layout_marginStart="52dp"
             android:layout_marginTop="16dp"
             android:ems="10"
@@ -26,7 +26,6 @@
             android:textColor="@color/white"
             android:textSize="24sp"
             android:textStyle="bold"
-            app:layout_constraintHorizontal_bias="0.116"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -124,11 +123,11 @@
             app:srcCompat="@drawable/baseline_arrow_back_24" />
 
         <TextView
-            android:id="@+id/input_length"
+            android:id="@+id/inputDataSize"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
-            android:layout_marginTop="631dp"
+            android:layout_marginTop="640dp"
             android:textColor="@color/white"
             android:textSize="20sp"
             android:textStyle="bold"
@@ -140,7 +139,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
-            android:layout_marginTop="557dp"
+            android:layout_marginTop="564dp"
             android:textColor="@color/white"
             android:textSize="20sp"
             android:textStyle="bold"
@@ -148,22 +147,37 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <com.github.mikephil.charting.charts.LineChart
-            android:id="@+id/graph_accel"
-            android:layout_width="385dp"
-            android:layout_height="164dp"
-            android:layout_marginStart="12dp"
-            android:layout_marginTop="8dp"
+            android:id="@+id/graph_gyro"
+            android:layout_width="388dp"
+            android:layout_height="272dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="60dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/text_recording_name" />
 
-        <com.github.mikephil.charting.charts.LineChart
-            android:id="@+id/graph_gyro"
-            android:layout_width="385dp"
-            android:layout_height="164dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="204dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/text_recording_name" />
+        <TextView
+            android:id="@+id/inputElapsedTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="14dp"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@+id/text_lenght"
+            app:layout_constraintTop_toBottomOf="@+id/text_bar_record_1" />
+
+        <TextView
+            android:id="@+id/inputFileDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="14dp"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@+id/text_date"
+            app:layout_constraintTop_toBottomOf="@+id/text_datapoint" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

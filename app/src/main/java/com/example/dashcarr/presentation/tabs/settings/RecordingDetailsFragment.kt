@@ -17,6 +17,7 @@ import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import org.json.JSONArray
 import java.io.BufferedReader
 import java.io.IOException
 import java.io.InputStream
@@ -52,91 +53,54 @@ class RecordingDetailsFragment : BaseFragment<FragmentRecordingDetailsBinding>(
 
         val args: RecordingDetailsFragmentArgs by navArgs()
         val fileName = args.selectedFileName
-
-        binding.textRecordingName.text = fileName
+        val completeFileDate = fileName.substringBefore("_")
+        val elapsedTime = getElapsedTime("sensor_config.json", "$completeFileDate")
+        val fileDate = fileName.substringBefore("T")
+        binding.textRecordingName.text = fileDate + "\n" + fileName.substringAfter("_").substringBefore('.')
 
         try {
-            println("FILENAME: $fileName")
-            val inputStream: InputStream = requireContext().assets.open("$fileName.csv")
-            val fileSize = inputStream.available()
+            val inputStream: InputStream = requireContext().openFileInput("$fileName")
             val reader = BufferedReader(InputStreamReader(inputStream, Charset.forName("UTF-8")))
-            var line: String? = ""
-            var lastID: String? = ""
-            val entriesAccelX = ArrayList<Entry>()
-            val entriesAccelY = ArrayList<Entry>()
-            val entriesAccelZ = ArrayList<Entry>()
-            val entriesGyroX = ArrayList<Entry>()
-            val entriesGyroY = ArrayList<Entry>()
-            val entriesGyroZ = ArrayList<Entry>()
+            var fileLength = inputStream.available()
+            fileLength /= 1024
+            var line: String?
+            val entriesX = ArrayList<Entry>()
+            val entriesY = ArrayList<Entry>()
+            val entriesZ = ArrayList<Entry>()
 
             reader.readLine()
+            var lineNumber = 0
             while (reader.readLine().also { line = it } != null) {
                 val tokens = line?.split(",") ?: continue
-                lastID = tokens[0]
+                if (tokens.size < 5) continue
+                entriesX.add(Entry(lineNumber.toFloat(), tokens[2].toFloat()))
+                entriesY.add(Entry(lineNumber.toFloat(), tokens[3].toFloat()))
+                entriesZ.add(Entry(lineNumber.toFloat(), tokens[4].toFloat()))
+                lineNumber++
             }
+            val amountDataPoints = lineNumber - 1
             reader.close()
             inputStream.close()
 
-            val inputStream2: InputStream = requireContext().assets.open("$fileName.csv")
-            val reader2 = BufferedReader(InputStreamReader(inputStream2, Charset.forName("UTF-8")))
-            reader2.readLine()
-            var lineNumber = 0
-            while (reader2.readLine().also { line = it } != null) {
-                val tokens = line?.split(",") ?: continue
-                if (tokens.size < 8) continue
-                entriesAccelX.add(Entry(lineNumber.toFloat(), tokens[2].toFloat()))
-                entriesAccelY.add(Entry(lineNumber.toFloat(), tokens[3].toFloat()))
-                entriesAccelZ.add(Entry(lineNumber.toFloat(), tokens[4].toFloat()))
-                entriesGyroX.add(Entry(lineNumber.toFloat(), tokens[6].toFloat()))
-                entriesGyroY.add(Entry(lineNumber.toFloat(), tokens[7].toFloat()))
-                entriesGyroZ.add(Entry(lineNumber.toFloat(), tokens[8].toFloat()))
-                lineNumber++
-            }
+            val lineDataSetX = LineDataSet(entriesX, "X")
+            lineDataSetX.setColor(Color.BLUE)
+            lineDataSetX.setDrawCircles(false)
 
-            reader2.close()
-            inputStream2.close()
+            val lineDataSetY = LineDataSet(entriesY, "Y")
+            lineDataSetY.setColor(Color.GREEN)
+            lineDataSetY.setDrawCircles(false)
 
-            val fileSizeInMB = fileSize.toDouble() / (1024 * 1024)
-            binding.inputLength.text = "%.2f MB".format(fileSizeInMB)
-            binding.inputAmountOfDatapoints.text = "$lastID"
-
-            val lineDataSetAccelX = LineDataSet(entriesAccelX, "Accel_X")
-            lineDataSetAccelX.setColor(Color.RED)
-            lineDataSetAccelX.setDrawCircles(false)
-
-            val lineDataSetAccelY = LineDataSet(entriesAccelY, "Accel_Y")
-            lineDataSetAccelY.setColor(Color.GREEN)
-            lineDataSetAccelY.setDrawCircles(false)
-
-            val lineDataSetAccelZ = LineDataSet(entriesAccelZ, "Accel_Z")
-            lineDataSetAccelZ.setColor(Color.BLUE)
-            lineDataSetAccelZ.setDrawCircles(false)
-
-            val lineDataSetGyroX = LineDataSet(entriesGyroX, "Gyro_X")
-            lineDataSetGyroX.setColor(Color.YELLOW)
-            lineDataSetGyroX.setDrawCircles(false)
-
-            val lineDataSetGyroY = LineDataSet(entriesGyroY, "Gyro_Y")
-            lineDataSetGyroY.setColor(Color.CYAN)
-            lineDataSetGyroY.setDrawCircles(false)
-
-            val lineDataSetGyroZ = LineDataSet(entriesGyroZ, "Gyro_Z")
-            lineDataSetGyroY.setColor(Color.MAGENTA)
-            lineDataSetGyroZ.setDrawCircles(false)
-
-            val dataSetsAccel: ArrayList<ILineDataSet> = ArrayList()
-            dataSetsAccel.add(lineDataSetAccelX)
-            dataSetsAccel.add(lineDataSetAccelY)
-            dataSetsAccel.add(lineDataSetAccelZ)
+            val lineDataSetZ = LineDataSet(entriesZ, "Z")
+            lineDataSetZ.setColor(Color.YELLOW)
+            lineDataSetZ.setDrawCircles(false)
 
             val dataSetsGyro: ArrayList<ILineDataSet> = ArrayList()
-            dataSetsGyro.add(lineDataSetGyroX)
-            dataSetsGyro.add(lineDataSetGyroY)
-            dataSetsGyro.add(lineDataSetGyroZ)
+            dataSetsGyro.add(lineDataSetX)
+            dataSetsGyro.add(lineDataSetY)
+            dataSetsGyro.add(lineDataSetZ)
 
-            val data = LineData(dataSetsAccel)
-            val lineChart: LineChart = view.findViewById(R.id.graph_accel)
-            lineChart.data = data
+            val data = LineData(dataSetsGyro)
+            val lineChart: LineChart = view.findViewById(R.id.graph_gyro)
             val legend = lineChart.legend
             legend.textColor = Color.WHITE
             legend.isEnabled = true
@@ -149,23 +113,14 @@ class RecordingDetailsFragment : BaseFragment<FragmentRecordingDetailsBinding>(
 
             val yAxisRight = lineChart.axisRight
             yAxisRight.textColor = Color.WHITE
+
+            lineChart.data = data
             lineChart.invalidate()
 
-            val data1 = LineData(dataSetsGyro)
-            val lineChart1: LineChart = view.findViewById(R.id.graph_gyro)
-            lineChart1.data = data1
-            val legend1 = lineChart1.legend
-            legend1.textColor = Color.WHITE
-            legend1.isEnabled = true
-            val xAxis1 = lineChart1.xAxis
-            xAxis1.textColor = Color.WHITE
-
-            val yAxisLeft1 = lineChart1.axisLeft
-            yAxisLeft1.textColor = Color.WHITE
-
-            val yAxisRight1 = lineChart1.axisRight
-            yAxisRight1.textColor = Color.WHITE
-            lineChart1.invalidate()
+            binding.inputElapsedTime.text = "$elapsedTime"
+            binding.inputFileDate.text = "$fileDate"
+            binding.inputAmountOfDatapoints.text = "$amountDataPoints"
+            binding.inputDataSize.text = "$fileLength KB"
 
         } catch (e: IOException) {
             e.printStackTrace()
@@ -178,5 +133,28 @@ class RecordingDetailsFragment : BaseFragment<FragmentRecordingDetailsBinding>(
         binding.imageBackDetails.setOnClickListener {
             findNavController().navigate(R.id.action_action_details_to_SavedRecordingsFragment)
         }
+    }
+
+    fun getElapsedTime(fileName: String, csvFile: String): String {
+        var jsonArray = JSONArray()
+        var value = ""
+        try {
+            val inputStream = context?.openFileInput(fileName)
+            val reader = BufferedReader(InputStreamReader(inputStream, Charset.forName("UTF-8")))
+            val line = reader.readLine()
+            jsonArray = JSONArray(line)
+            inputStream?.close()
+            for (i in 0 until jsonArray.length()) {
+                val jsonObject = jsonArray.getJSONObject(i)
+                val name = jsonObject.getString("name")
+                if (name == "$csvFile") {
+                    value = jsonObject.getString("elapsed_time")
+                    break
+                }
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+        return value
     }
 }

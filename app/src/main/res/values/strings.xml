@@ -65,6 +65,8 @@
     <string name="total_storage">Total Storage:</string>
     <string name="number_of_files">Number Of Files:</string>
     <string name="incoming">...</string>
+    <string name="avg_time">Average Time:</string>
+    <string name="avg_size">Average size:</string>
 
     <!--RecordingDetailsFragment-->
 

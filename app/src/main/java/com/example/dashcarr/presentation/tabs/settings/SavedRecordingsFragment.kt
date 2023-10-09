@@ -1,15 +1,21 @@
 package com.example.dashcarr.presentation.tabs.settings
 
+import android.graphics.Color
 import android.os.Bundle
 import android.view.View
-import android.widget.Button
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import android.widget.LinearLayout
+import android.widget.Spinner
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.dashcarr.R
 import com.example.dashcarr.databinding.FragmentSavedRecordingsBinding
 import com.example.dashcarr.presentation.core.BaseFragment
-import java.io.IOException
+import org.json.JSONArray
+import java.io.BufferedReader
+import java.io.InputStreamReader
+import java.nio.charset.Charset
 
 class SavedRecordingsFragment : BaseFragment<FragmentSavedRecordingsBinding>(
     FragmentSavedRecordingsBinding::inflate,
@@ -38,31 +44,71 @@ class SavedRecordingsFragment : BaseFragment<FragmentSavedRecordingsBinding>(
             findNavController().navigate(R.id.action_action_savedrecordings_to_SettingsFragment)
         }
 
+        createDropdownsFromJson()
+    }
+
+    fun readJsonFromFile(fileName: String): JSONArray {
+        var jsonArray = JSONArray()
         try {
-            val assetManager = requireContext().assets
-            val fileList = assetManager.list("")?.filter { it.endsWith(".csv") }
+            val inputStream = context?.openFileInput(fileName)
+            val reader = BufferedReader(InputStreamReader(inputStream, Charset.forName("UTF-8")))
+            val line = reader.readLine()
+            jsonArray = JSONArray(line)
+            inputStream?.close()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+        return jsonArray
+    }
 
-            if (fileList != null && fileList.isNotEmpty()) {
+    fun createDropdownsFromJson() {
+        val jsonArray = readJsonFromFile("sensor_config.json")
+        val linearLayout = view?.findViewById<LinearLayout>(R.id.linear_recordings_buttons)
+        linearLayout?.removeAllViews()
 
-                val linearLayout: LinearLayout = view.findViewById(R.id.linear_recordings_buttons)
+        for (i in 0 until jsonArray.length()) {
+            val jsonObject = jsonArray.getJSONObject(i)
+            val spinner = Spinner(context).apply {
+                layoutParams = LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT
+                ).apply {
+                    setMargins(30, 30, 30, 5)
+                }
+                setBackgroundColor(Color.WHITE)
+            }
 
-                // Create button by file
-                for (fileName in fileList) {
-                    val button = Button(context)
-                    button.text =
-                        fileName.removeSuffix(".csv")
-                    button.setOnClickListener {
+            val options = listOf(
+                jsonObject.getString("name"),
+                jsonObject.getString("unfil_gyro"),
+                jsonObject.getString("fil_gyro"),
+                jsonObject.getString("unfil_accel"),
+                jsonObject.getString("fil_accel")
+            )
+
+            ArrayAdapter<String>(requireContext(), android.R.layout.simple_spinner_item, options).apply {
+                setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                spinner.adapter = this
+            }
+
+            spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+                override fun onNothingSelected(parent: AdapterView<*>?) {
+                    // No action needed
+                }
+
+                override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                    if (position > 0) {
+                        val selectedFile = options[position]
                         val action =
                             SavedRecordingsFragmentDirections.actionActionSavedrecordingsToRecordingDetailsFragment(
-                                fileName.removeSuffix(".csv")
+                                selectedFile
                             )
                         findNavController().navigate(action)
                     }
-                    linearLayout.addView(button)
                 }
             }
-        } catch (e: IOException) {
-            e.printStackTrace()
+
+            linearLayout?.addView(spinner)
         }
     }
 }
