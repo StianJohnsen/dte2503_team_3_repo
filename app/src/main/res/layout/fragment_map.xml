@@ -1,25 +1,232 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-<!--    <data>-->
-<!--        <variable-->
-<!--            name="mapFragment"-->
-<!--            type="com.example.dashcarr.presentation.tabs.map.MapFragment" />-->
-<!--    </data>-->
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        
+
         <org.osmdroid.views.MapView
             android:id="@+id/mapView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:clickable="true"
-            android:focusable="true">
-        </org.osmdroid.views.MapView>
+            android:focusable="true"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="@dimen/margin_padding_size_16"
+            android:layout_marginEnd="@dimen/margin_padding_size_18"
+            android:paddingVertical="@dimen/margin_padding_size_8"
+            android:paddingHorizontal="@dimen/margin_padding_size_8"
+            android:background="@drawable/blue_rounded_16dp_background"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnShowHideBar"
+                android:layout_width="@dimen/standard_touch_size"
+                android:layout_height="@dimen/standard_touch_size"
+                android:backgroundTint="@color/white"
+                android:insetTop="@dimen/margin_padding_size_0"
+                android:insetBottom="@dimen/margin_padding_size_0"
+                app:iconPadding="@dimen/margin_padding_size_0"
+                android:paddingTop="0dp"
+                app:icon="@drawable/ic_menu"
+                app:iconGravity="top"
+                app:iconTint="@null"
+                app:iconSize="@dimen/standard_touch_size"
+                android:gravity="center_vertical"/>
+
+            <LinearLayout
+                android:id="@+id/llExpandedBar"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:orientation="vertical">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnStart"
+                    android:layout_width="@dimen/standard_touch_size"
+                    android:layout_height="@dimen/standard_touch_size"
+                    android:backgroundTint="@color/white"
+                    android:insetTop="@dimen/margin_padding_size_0"
+                    android:insetBottom="@dimen/margin_padding_size_0"
+                    android:paddingTop="0dp"
+                    android:layout_marginTop="@dimen/margin_padding_size_6"
+                    android:layout_marginBottom="@dimen/margin_padding_size_6"
+                    app:icon="@drawable/ic_start"
+                    app:iconGravity="top"
+                    app:iconTint="@null"
+                    app:iconSize="@dimen/standard_touch_size"
+                    android:gravity="start|center_vertical"/>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnPause"
+                    android:layout_width="@dimen/standard_touch_size"
+                    android:layout_height="@dimen/standard_touch_size"
+                    android:backgroundTint="@color/white"
+                    android:insetTop="@dimen/margin_padding_size_0"
+                    android:insetBottom="@dimen/margin_padding_size_0"
+                    android:paddingTop="0dp"
+                    android:layout_marginBottom="@dimen/margin_padding_size_6"
+                    app:icon="@drawable/ic_pause"
+                    app:iconGravity="top"
+                    app:iconTint="@null"
+                    app:iconSize="@dimen/standard_touch_size"
+                    android:gravity="start|center_vertical"/>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnResume"
+                    android:layout_width="@dimen/standard_touch_size"
+                    android:layout_height="@dimen/standard_touch_size"
+                    android:backgroundTint="@color/white"
+                    android:insetTop="@dimen/margin_padding_size_0"
+                    android:insetBottom="@dimen/margin_padding_size_0"
+                    android:paddingTop="0dp"
+                    android:layout_marginBottom="@dimen/margin_padding_size_6"
+                    app:icon="@drawable/ic_resume"
+                    app:iconGravity="top"
+                    app:iconTint="@null"
+                    app:iconSize="@dimen/standard_touch_size"
+                    android:gravity="start|center_vertical"/>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnStop"
+                    android:layout_width="@dimen/standard_touch_size"
+                    android:layout_height="@dimen/standard_touch_size"
+                    android:backgroundTint="@color/white"
+                    android:insetTop="@dimen/margin_padding_size_0"
+                    android:insetBottom="@dimen/margin_padding_size_0"
+                    android:paddingTop="0dp"
+                    android:layout_marginBottom="@dimen/margin_padding_size_6"
+                    app:icon="@drawable/ic_stop"
+                    app:iconGravity="top"
+                    app:iconTint="@null"
+                    app:iconSize="@dimen/standard_touch_size"
+                    android:gravity="start|center_vertical"/>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnDelete"
+                    android:layout_width="@dimen/standard_touch_size"
+                    android:layout_height="@dimen/standard_touch_size"
+                    android:backgroundTint="@color/white"
+                    android:insetTop="@dimen/margin_padding_size_0"
+                    android:insetBottom="@dimen/margin_padding_size_0"
+                    android:paddingTop="0dp"
+                    app:icon="@drawable/ic_delete"
+                    app:iconGravity="top"
+                    app:iconTint="@null"
+                    app:iconSize="@dimen/standard_touch_size"
+                    android:gravity="start|center_vertical"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <FrameLayout
+            android:id="@+id/flCreateMarkerLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/black20"
+            android:visibility="gone">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_gravity="center_vertical"
+                android:layout_marginHorizontal="@dimen/margin_padding_size_18"
+                android:background="@drawable/white_rounded_16dp_background">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/tilMarkerName"
+                    style="@style/PrimaryTextInputLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_padding_size_8"
+                    app:boxStrokeErrorColor="@color/red"
+                    app:boxStrokeWidth="1dp"
+                    app:errorEnabled="false"
+                    app:endIconMode="custom"
+                    app:errorIconDrawable="@null"
+                    app:hintAnimationEnabled="false"
+                    app:hintEnabled="true"
+                    android:hint="@string/marker_name"
+                    app:expandedHintEnabled="false"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/loginLabel"
+                    android:layout_marginHorizontal="@dimen/margin_padding_size_46">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etMarkerName"
+                        style="@style/PrimaryTextInputEditText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:maxLength="255"
+                        android:imeOptions="actionNext"
+                        android:includeFontPadding="false"
+                        android:inputType="textEmailAddress"/>
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:weightSum="2"
+                    android:layout_marginHorizontal="@dimen/margin_padding_size_20">
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnSave"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/standard_touch_size"
+                        android:layout_marginTop="@dimen/margin_padding_size_10"
+                        android:layout_marginBottom="@dimen/margin_padding_size_10"
+                        app:cornerRadius="20dp"
+                        android:backgroundTint="@color/black"
+                        android:insetTop="@dimen/margin_padding_size_0"
+                        android:insetBottom="@dimen/margin_padding_size_0"
+                        android:text="@string/save_poi"
+                        android:textSize="@dimen/text_size_14"
+                        android:textStyle="bold"
+                        app:icon="@drawable/ic_save_small"
+                        app:iconTint="@null"
+                        app:iconGravity="textStart"
+                        android:layout_weight="1"
+                        android:layout_marginEnd="@dimen/margin_padding_size_6"
+                        app:layout_constraintEnd_toEndOf="@+id/tilPassword"
+                        app:layout_constraintTop_toBottomOf="@id/tilPassword" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnCancel"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/standard_touch_size"
+                        android:layout_marginTop="@dimen/margin_padding_size_10"
+                        app:cornerRadius="20dp"
+                        android:backgroundTint="@color/black"
+                        android:insetTop="@dimen/margin_padding_size_0"
+                        android:layout_marginStart="@dimen/margin_padding_size_6"
+                        android:insetBottom="@dimen/margin_padding_size_0"
+                        android:text="@string/cancel_poi"
+                        android:layout_weight="1"
+                        android:textSize="@dimen/text_size_14"
+                        android:textStyle="bold"
+                        app:icon="@drawable/ic_cancel_small"
+                        app:iconTint="@null"
+                        app:iconGravity="textStart"
+                        app:layout_constraintEnd_toEndOf="@+id/tilPassword"
+                        app:layout_constraintTop_toBottomOf="@id/tilPassword" />
+
+                </LinearLayout>
 
 
+            </LinearLayout>
+
+        </FrameLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

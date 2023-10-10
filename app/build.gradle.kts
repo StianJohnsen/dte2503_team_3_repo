@@ -59,6 +59,14 @@ kapt {
 
 dependencies {
 
+    //room
+    implementation("androidx.room:room-runtime:2.6.0-alpha03")
+    //annotationProcessor("androidx.room:room-compiler:2.5.2") // use kapt for Kotlin
+    kapt("androidx.room:room-compiler:2.6.0-alpha03") // use kapt for Kotlin
+    implementation("androidx.room:room-ktx:2.6.0-alpha03")
+
+    //JSON Converter
+    implementation("com.google.code.gson:gson:2.9.0")
 
     implementation("androidx.fragment:fragment-ktx:1.6.1")
 

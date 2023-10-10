@@ -6,10 +6,45 @@
     android:background="@color/mainBlue"
     tools:context=".presentation.AnimationSampleFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="this is fragment animation sample" />
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_gravity="center"
+        android:layout_marginHorizontal="@dimen/margin_padding_size_18"
+        android:paddingHorizontal="@dimen/margin_padding_size_20"
+        android:paddingVertical="@dimen/margin_padding_size_20"
+        android:background="@drawable/white_rounded_16dp_background">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/app_name"
+            android:textSize="@dimen/text_size_24"
+            android:layout_marginBottom="@dimen/margin_padding_size_8">
+        </TextView>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/version_0_5"
+            android:textSize="@dimen/text_size_16">
+        </TextView>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/_2023_uit"
+            android:textSize="@dimen/text_size_16">
+        </TextView>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/icons8"
+            android:textSize="@dimen/text_size_16">
+        </TextView>
+
+    </LinearLayout>
 
 </FrameLayout>

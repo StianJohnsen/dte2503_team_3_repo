@@ -97,4 +97,15 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
+    <!--MapFragment-->
+
+    <string name="marker_name">Marker name</string>
+    <string name="save_poi">save</string>
+    <string name="cancel_poi">cancel</string>
+
+    <!--Copyright-->
+    <string name="version_0_5">Version: 0.5</string>
+    <string name="_2023_uit">© 2023 UIT</string>
+    <string name="icons8">Icons by icons8.com</string>
+
 </resources>
