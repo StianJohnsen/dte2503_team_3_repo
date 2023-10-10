@@ -1,10 +1,15 @@
 package com.example.dashcarr.presentation.tabs.settings
 
+import android.Manifest
+import android.annotation.SuppressLint
 import android.content.Context
 import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.hardware.SensorManager
+import android.location.Location
+import android.location.LocationListener
+import android.location.LocationManager
 import android.os.Bundle
 import android.os.Handler
 import android.os.SystemClock
@@ -12,6 +17,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.dashcarr.R
@@ -28,11 +34,43 @@ import java.time.LocalDateTime
 class RecordingFragment : BaseFragment<FragmentRecordingBinding>(
     FragmentRecordingBinding::inflate,
     showBottomNavBar = false
-), SensorEventListener {
+), SensorEventListener, LocationListener {
     private lateinit var bottomNavigationView: BottomNavigationView
     //private val viewModel: RecordingViewModel by viewModels()
 
     private val settingsViewModel: SettingsViewModel by viewModels()
+
+    private val locationManager by lazy { requireContext().getSystemService(Context.LOCATION_SERVICE) as LocationManager }
+
+    private val requestLocationPermissionLauncher = registerForActivityResult(
+        ActivityResultContracts.RequestMultiplePermissions()
+    ) { permissionResult ->
+        if (permissionResult.values.isEmpty())
+            return@registerForActivityResult
+        if (permissionResult.values.contains(false)) {
+            Log.e("gotLocationStatus", "Permission not activitated")
+
+        } else {
+            Log.e("gotLocationStatus", "Permission activitated")
+            createLocationRequest()
+        }
+    }
+
+        val gpsLocationListener: LocationListener = object: LocationListener{
+            override fun onLocationChanged(location: Location) {
+                Log.d("plass",location.altitude.toString() + location.latitude.toString() + location.longitude.toString())
+            }
+        }
+        private val REQUEST_PERMISSIONS_REQUEST_CODE = 1
+
+
+
+    @SuppressLint("MissingPermission")
+    private fun createLocationRequest() {
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,5,0f,this)
+    }
+
+
 
 
     private lateinit var sensorManager: SensorManager
@@ -74,6 +112,9 @@ class RecordingFragment : BaseFragment<FragmentRecordingBinding>(
     private val magnetometerReading = FloatArray(3)
     private val rotationMatrix = FloatArray(9)
     private val orientationAngles = FloatArray(3)
+
+    // Location
+    val rawLocationRecord = mutableListOf<SensorData>()
 
     private val recordingJson = JSONObject()
 
@@ -120,6 +161,7 @@ class RecordingFragment : BaseFragment<FragmentRecordingBinding>(
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        requestLocationPermission()
         isFiltered = arguments?.getBoolean("isFiltered")
         isAccel = arguments?.getBoolean("isAccel")
         isGyro = arguments?.getBoolean("isGyro")
@@ -141,6 +183,11 @@ class RecordingFragment : BaseFragment<FragmentRecordingBinding>(
         magnetoSensor = sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD)!!
 
     }
+
+    private fun requestLocationPermission() {
+        requestLocationPermissionLauncher.launch(arrayOf(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION))
+    }
+
 
     fun updateElapsedTime() {
         val currentTimeMillis = SystemClock.elapsedRealtime()
@@ -277,19 +324,6 @@ class RecordingFragment : BaseFragment<FragmentRecordingBinding>(
 
         }
 
-        /*
-                newRecording.put("name", stopDateTime)
-        newRecording.put("elapsed_time", elapsedTime)
-        newRecording.put("date", stopDateTime)
-
-        newRecording.put("unfil_gyro", "${stopDateTime}_unfiltered_gyro.csv")
-        newRecording.put("fil_gyro", "${stopDateTime}_filtered_gyro.csv")
-        newRecording.put("unfil_accel", "${stopDateTime}_unfiltered_accel.csv")
-        newRecording.put("fil_accel", "${stopDateTime}_filtered_accel.csv")
-
-        Log.d("newRecording", newRecording.toString())
-         */
-
 
         val existingJSONArray = readJsonFromFile("sensor_config.json")
         Log.d("jsonArrayTest", existingJSONArray.toString())
@@ -308,38 +342,7 @@ class RecordingFragment : BaseFragment<FragmentRecordingBinding>(
             }
         }
 
-        /*
 
-
-        context?.openFileOutput("${stopDateTime}_unfiltered_accel.csv", Context.MODE_PRIVATE).use {
-            if (it != null) {
-                it.write(unfilteredAccelCsvStringBuilder.toString().toByteArray())
-            }
-        }
-
-        context?.openFileOutput("${stopDateTime}_filtered_accel.csv", Context.MODE_PRIVATE).use {
-            if (it != null) {
-                it.write(filteredAccelCsvStringBuilder.toString().toByteArray())
-            }
-        }
-
-                context?.openFileOutput("${stopDateTime}_unfiltered_gyro.csv", Context.MODE_PRIVATE).use {
-            if (it != null) {
-                it.write(unfilteredGyroCsvStringBuilder.toString().toByteArray())
-            }
-        }
-
-        context?.openFileOutput("${stopDateTime}_filtered_gyro.csv", Context.MODE_PRIVATE).use {
-            if (it != null) {
-                it.write(filteredGyroCsvStringBuilder.toString().toByteArray())
-            }
-        }
-
-
-
-        Log.d("lenJsonArray", existingJSONArray.length().toString())
-
-         */
 
 
     }
@@ -383,6 +386,18 @@ class RecordingFragment : BaseFragment<FragmentRecordingBinding>(
         isRecording = false
         saveToCSV()
         //binding.showRecordStat.visibility = View.VISIBLE
+    }
+
+    override fun onLocationChanged(location: Location) {
+        Log.d("plass",location.altitude.toString() + location.latitude.toString() + location.longitude.toString())
+        if (isRecording){
+            rawLocationRecord.add(SensorData(
+                location.time,
+                location.longitude.toFloat(),
+                location.latitude.toFloat(),
+                location.altitude.toFloat()
+            ))
+        }
     }
 
 
