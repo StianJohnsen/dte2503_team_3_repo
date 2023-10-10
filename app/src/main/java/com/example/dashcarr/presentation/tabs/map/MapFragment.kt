@@ -9,22 +9,32 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.viewModels
 import androidx.preference.PreferenceManager
 import com.example.dashcarr.databinding.FragmentMapBinding
+import com.example.dashcarr.extensions.collectWithLifecycle
 import com.example.dashcarr.extensions.locationPermissions
+import com.example.dashcarr.extensions.setHeightSmooth
+import com.example.dashcarr.extensions.toastThrowableShort
 import com.example.dashcarr.presentation.core.BaseFragment
+import com.example.dashcarr.presentation.mapper.toMarker
+import com.example.dashcarr.presentation.tabs.map.data.PointOfInterest
+import dagger.hilt.android.AndroidEntryPoint
 import org.osmdroid.config.Configuration
+import org.osmdroid.events.MapEventsReceiver
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory
 import org.osmdroid.util.GeoPoint
 import org.osmdroid.views.MapView
+import org.osmdroid.views.overlay.MapEventsOverlay
 import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay
 
 
+@AndroidEntryPoint
 class MapFragment : BaseFragment<FragmentMapBinding>(
     FragmentMapBinding::inflate,
     showBottomNavBar = true
-), LocationListener {
+), LocationListener, MapEventsReceiver {
 
     private val locationManager by lazy { requireContext().getSystemService(Context.LOCATION_SERVICE) as LocationManager }
 
@@ -40,38 +50,45 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
         }
     }
 
-    val gpsLocationListener: LocationListener = object : LocationListener {
-        override fun onLocationChanged(location: Location) {
-            Log.e("MapSomeStuff", "OnLocationChanged 1 = ${location.latitude}, long = ${location.longitude}")
-        }
-    }
-    private val REQUEST_PERMISSIONS_REQUEST_CODE = 1
-    private lateinit var map : MapView
-
     private val viewModel: MapViewModel by viewModels()
     override fun observeViewModel() {
+        viewModel.lastSavedUserLocation.collectWithLifecycle(viewLifecycleOwner) {
+            binding.mapView.controller.animateTo(it)
+        }
+        viewModel.currentLocation.collectWithLifecycle(viewLifecycleOwner) {
+            it?.let {
+                binding.mapView.controller.animateTo(GeoPoint(it))
+            }
+        }
+        viewModel.createMarkerState.collectWithLifecycle(viewLifecycleOwner) {
+            when (it) {
+                is CreateMarkerState.CreateMarker -> showCreateMarkerDialog(it.geoPoint)
+                is CreateMarkerState.HideMarker -> hideCreateMarkerDialog()
+                is CreateMarkerState.OnSaveError -> {
+                    toastThrowableShort(it.throwable)
+                    hideCreateMarkerDialog()
+                }
+            }
+        }
+        viewModel.pointsOfInterestState.observe(viewLifecycleOwner) {
+            if (it.isEmpty()) return@observe
+            it.forEach { pointOfInterest ->
+                binding.mapView.overlays.add(pointOfInterest.toMarker(binding.mapView))
+            }
+        }
+        viewModel.showButtonsBarState.collectWithLifecycle(viewLifecycleOwner) { show ->
+            show?.let {
+                binding.llExpandedBar.setHeightSmooth(newHeight = if (show) -2 else 0)
+            }
+        }
     }
+
 
     override fun initListeners() {
-    }
+        binding.btnShowHideBar.setOnClickListener {
+            viewModel.showHideBar()
+        }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        //handle permissions first, before map is created. not depicted here
-
-        //load/initialize the osmdroid configuration, this can be done
-        // This won't work unless you have imported this: org.osmdroid.config.Configuration.*
-
-        //setting this before the layout is inflated is a good idea
-        //it 'should' ensure that the map has a writable location for the map cache, even without permissions
-        //if no tiles are displayed, you can try overriding the cache path using Configuration.getInstance().setCachePath
-        //see also StorageUtils
-        //note, the load method also sets the HTTP User Agent to your application's package name, if you abuse osm's
-        //tile servers will get you banned based on this string.
-
-//        map = binding.mapView
-//        map.setTileSource(TileSourceFactory.MAPNIK)
     }
 
 //    override fun onResume() {
@@ -92,39 +109,6 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
 //        map.onPause()  //needed for compass, my location overlays, v6.0.0 and up
 //    }
 
-//    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
-//        val permissionsToRequest = ArrayList<String>()
-//        var i = 0
-//        while (i < grantResults.size) {
-//            permissionsToRequest.add(permissions[i])
-//            i++
-//        }
-//        if (permissionsToRequest.size > 0) {
-//            ActivityCompat.requestPermissions(
-//                requireActivity(),
-//                permissionsToRequest.toTypedArray(),
-//                REQUEST_PERMISSIONS_REQUEST_CODE)
-//        }
-//    }
-
-
-    /*private fun requestPermissionsIfNecessary(String[] permissions) {
-        val permissionsToRequest = ArrayList<String>();
-        permissions.forEach { permission ->
-        if (ContextCompat.checkSelfPermission(this, permission)
-                != PackageManager.PERMISSION_GRANTED) {
-            // Permission is not granted
-            permissionsToRequest.add(permission);
-        }
-    }
-        if (permissionsToRequest.size() > 0) {
-            ActivityCompat.requestPermissions(
-                    this,
-                    permissionsToRequest.toArray(new String[0]),
-                    REQUEST_PERMISSIONS_REQUEST_CODE);
-        }
-    }*/
-
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -132,7 +116,6 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
         observeViewModel()
         initMap()
         requestLocationPermission()
-//        initMap()
     }
 
     private fun requestLocationPermission() {
@@ -148,30 +131,73 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
         binding.mapView.setScrollableAreaLimitLongitude(MapView.getTileSystem().minLongitude, MapView.getTileSystem().maxLongitude, 0)
         binding.mapView.minZoomLevel = 4.0
         binding.mapView.controller.setZoom(15.0)
-
-
-        //mMapView.getOverlays().add(this.mLocationOverlay)
-
-        //binding.mapView.
-
-
-        //val llp = LocationListenerProxy(requireContext().getSystemService(LOCATION_SERVICE))
-        //llp.startListening(gpsLocationListener, 1, 1f)
+        binding.mapView.isTilesScaledToDpi = true
+//        binding.mapView.tilesScaleFactor = 3.0f
+        binding.mapView.overlays.add(MapEventsOverlay(this))
 
     }
 
     @SuppressLint("MissingPermission")
     fun createLocationRequest() {
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5, 0f, this);
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 2000, 100f, this)
+        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 2000, 100f, this)
         val overlay = MyLocationNewOverlay(binding.mapView)
         overlay.enableMyLocation()
+        overlay.enableFollowLocation()
         binding.mapView.overlays.add(overlay)
     }
 
     override fun onLocationChanged(location: Location) {
+        viewModel.saveCurrentLocation(location)
         Log.e("MapSomeStuff", "OnLocChanged")
         Log.e("MapSomeStuff", "location changed! lat = ${location.latitude} , long = ${location.longitude}")
-        binding.mapView.controller.animateTo(GeoPoint(location))
+    }
+
+    override fun onStop() {
+        viewModel.saveLastKnownLocation()
+        super.onStop()
+    }
+
+    override fun singleTapConfirmedHelper(geoPoint: GeoPoint?): Boolean {
+        return false
+    }
+
+    override fun longPressHelper(geoPoint: GeoPoint?): Boolean {
+        Log.e("WatchingMapStuff", "Long press geo = $geoPoint")
+        geoPoint?.let { viewModel.createMarker(it) }
+        return false
+    }
+
+    private fun hideCreateMarkerDialog() {
+        binding.tilMarkerName.isErrorEnabled = false
+        binding.etMarkerName.setText("")
+        binding.btnSave.setOnClickListener(null)
+        binding.btnCancel.setOnClickListener(null)
+        binding.flCreateMarkerLayout.visibility = View.GONE
+    }
+
+    private fun showCreateMarkerDialog(geoPoint: GeoPoint) {
+        binding.flCreateMarkerLayout.visibility = View.VISIBLE
+        binding.etMarkerName.doAfterTextChanged {
+            //@TODO check marker - send to viewModel - if wrong = show error
+        }
+        binding.btnSave.setOnClickListener {
+            viewModel.saveNewMarker(PointOfInterest(
+                latitude = geoPoint.latitude,
+                longitude = geoPoint.longitude,
+                name = binding.etMarkerName.text.toString()
+            ))
+        }
+        binding.btnCancel.setOnClickListener {
+            viewModel.cancelMarkerCreation()
+        }
+    }
+
+    sealed class CreateMarkerState {
+        class CreateMarker(val geoPoint: GeoPoint): CreateMarkerState()
+        class OnSaveError(val throwable: Throwable): CreateMarkerState()
+        data object HideMarker: CreateMarkerState()
+
     }
 
 }
