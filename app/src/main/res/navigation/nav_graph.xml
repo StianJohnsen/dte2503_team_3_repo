@@ -7,15 +7,11 @@
     <fragment
         android:id="@+id/action_map"
         android:name="com.example.dashcarr.presentation.tabs.map.MapFragment"
-        android:label="MapFragment">
-
-    </fragment>
+        android:label="MapFragment" />
     <fragment
         android:id="@+id/action_dash_cam"
         android:name="com.example.dashcarr.presentation.tabs.camera.dashcam.DashcamFragment"
-        android:label="DashCamFragment">
-
-    </fragment>
+        android:label="DashCamFragment" />
     <fragment
         android:id="@+id/action_settings"
         android:name="com.example.dashcarr.presentation.tabs.settings.SettingsFragment"

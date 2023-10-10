@@ -26,6 +26,7 @@ import com.example.dashcarr.R
 import com.example.dashcarr.extensions.collectWithLifecycle
 import com.example.dashcarr.presentation.tabs.camera.dashcam.DashcamFragment
 import com.example.dashcarr.presentation.tabs.camera.security.SecurityCameraFragment
+import com.example.dashcarr.presentation.tabs.map.HudFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import dagger.hilt.android.AndroidEntryPoint
@@ -37,17 +38,25 @@ class MainActivity : AppCompatActivity() {
     private val viewModel: MainViewModel by viewModels()
     private val navHostFragment by lazy { supportFragmentManager.findFragmentById(R.id.nav_host_container) as NavHostFragment }
     private val navController by lazy { navHostFragment.navController }
-    private val dashcamButtons by lazy { findViewById<ConstraintLayout>(R.id.floating_buttons) }
+    private val floatingCameraButtons by lazy { findViewById<ConstraintLayout>(R.id.floating_buttons) }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         addCameraListener()
-        findViewById<BottomNavigationView>(R.id.bottom_nav).setupWithNavController(navController)
+        val bottomNavBar = findViewById<BottomNavigationView>(R.id.bottom_nav)
+        bottomNavBar.setupWithNavController(navController)
+        bottomNavBar.findViewById<View>(R.id.action_map).setOnLongClickListener {
+            val transaction = supportFragmentManager.beginTransaction()
+            transaction.replace(R.id.nav_host_container, HudFragment())
+            transaction.addToBackStack(null)
+            transaction.commit()
+            true
+        }
+
+
 
         initViewModels()
         viewModel.checkAuthentication()
-
-
     }
 
     private fun initViewModels() {
@@ -59,24 +68,24 @@ class MainActivity : AppCompatActivity() {
 
     @SuppressLint("ResourceType")
     private fun addCameraListener() {
-        val buttonShowAnimation = ObjectAnimator.ofFloat(dashcamButtons, "translationY", 150F, 0F).apply {
+        val buttonShowAnimation = ObjectAnimator.ofFloat(floatingCameraButtons, "translationY", 150F, 0F).apply {
             duration = 600L
             interpolator = BounceInterpolator()
         }
-        buttonShowAnimation.doOnStart { dashcamButtons.visibility = View.VISIBLE }
-        val buttonHideAnimation = ObjectAnimator.ofFloat(dashcamButtons, "translationY", 0F, 150F).apply {
+        buttonShowAnimation.doOnStart { floatingCameraButtons.visibility = View.VISIBLE }
+        val buttonHideAnimation = ObjectAnimator.ofFloat(floatingCameraButtons, "translationY", 0F, 150F).apply {
             duration = 300L
             interpolator = LinearInterpolator()
         }
-        buttonHideAnimation.doOnEnd { dashcamButtons.visibility = View.GONE }
+        buttonHideAnimation.doOnEnd { floatingCameraButtons.visibility = View.GONE }
         val list =
-            NavController.OnDestinationChangedListener { controller, destination, arguments ->
+            NavController.OnDestinationChangedListener { _, _, _ ->
                 buttonHideAnimation.start()
             }
         navController.addOnDestinationChangedListener(list)
 
         findViewById<FloatingActionButton>(R.id.camera_button).setOnClickListener {
-            if (dashcamButtons.isVisible) {
+            if (floatingCameraButtons.isVisible) {
                 buttonHideAnimation.start()
             } else {
                 buttonShowAnimation.start()
@@ -89,11 +98,11 @@ class MainActivity : AppCompatActivity() {
             transaction.replace(R.id.nav_host_container, SecurityCameraFragment())
             transaction.commit()
             findViewById<Group>(R.id.nav_bar_group).visibility = View.GONE
-            dashcamButtons.visibility = View.GONE
+            floatingCameraButtons.visibility = View.GONE
             supportFragmentManager.addOnBackStackChangedListener {
                 if (supportFragmentManager.fragments[0] !is SecurityCameraFragment) {
                     findViewById<Group>(R.id.nav_bar_group).visibility = View.VISIBLE
-                    dashcamButtons.visibility = View.VISIBLE
+                    floatingCameraButtons.visibility = View.VISIBLE
                 }
             }
         }
