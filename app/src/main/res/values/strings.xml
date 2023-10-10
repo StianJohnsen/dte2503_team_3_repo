@@ -92,5 +92,7 @@
     <string name="include_orientation">Include orientation</string>
     <string name="configure_start_recording">Start recording</string>
     <string name="enter_file_name">Enter file name</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>
