@@ -68,6 +68,9 @@
         <argument
             android:name="isGyro"
             app:argType="boolean" />
+        <action
+            android:id="@+id/action_action_recording_to_action_configure_recording"
+            app:destination="@id/action_configure_recording" />
     </fragment>
     <fragment
         android:id="@+id/action_saved_recordings"
