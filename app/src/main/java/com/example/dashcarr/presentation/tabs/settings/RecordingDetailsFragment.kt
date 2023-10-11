@@ -121,8 +121,7 @@ class RecordingDetailsFragment : BaseFragment<FragmentRecordingDetailsBinding>(
             binding.inputElapsedTime.text = elapsedTime
             binding.inputFileDate.text = fileDate
             binding.inputAmountOfDatapoints.text = "$amountDataPoints"
-            val dataSize = "$fileLength KB"
-            binding.inputDataSize.text = dataSize
+            binding.inputDataSize.text = "$fileLength KB"
 
         } catch (e: IOException) {
             e.printStackTrace()
