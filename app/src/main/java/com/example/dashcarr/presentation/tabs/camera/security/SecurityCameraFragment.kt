@@ -13,7 +13,7 @@ import com.example.dashcarr.presentation.core.BaseFragment
 
 class SecurityCameraFragment : BaseFragment<FragmentSecurityCameraBinding>(
     FragmentSecurityCameraBinding::inflate,
-    showBottomNavBar = true
+    showBottomNavBar = false
 ) {
     private val viewModel: SecurityCameraViewModel by viewModels()
 
