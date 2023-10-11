@@ -42,6 +42,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(
                         saveCredentialsToFirebase(response.idpToken)
                     }
                     else findNavController().navigate(R.id.action_loginFragment_to_action_map)
+
                 }
             }
             else -> if (response != null) {
