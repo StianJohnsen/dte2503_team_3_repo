@@ -35,6 +35,43 @@
         <action
             android:id="@+id/action_action_settings_to_action_recording_details"
             app:destination="@id/action_recording_details" />
+        <action
+            android:id="@+id/action_action_settings_to_action_configure_recording"
+            app:destination="@id/action_configure_recording" />
+        <action
+            android:id="@+id/action_action_settings_to_productFrontPage"
+            app:destination="@id/productFrontPage" />
+    </fragment>
+    <fragment
+        android:id="@+id/action_configure_recording"
+        android:name="com.example.dashcarr.presentation.tabs.settings.ConfigureRecordingFragment"
+        android:label="ConfigureRecordingFragment">
+        <action
+            android:id="@+id/action_action_configure_to_SettingsFragment"
+            app:destination="@id/action_settings" />
+        <action
+            android:id="@+id/action_action_configure_to_RecordingFragment"
+            app:destination="@id/action_recording" />
+    </fragment>
+    <fragment
+        android:id="@+id/action_recording"
+        android:name="com.example.dashcarr.presentation.tabs.settings.RecordingFragment"
+        android:label="RecordingFragment">
+        <action
+            android:id="@+id/action_action_recording_to_SavedRecordingsFragment"
+            app:destination="@id/action_history" />
+        <argument
+            android:name="isFiltered"
+            app:argType="boolean" />
+        <argument
+            android:name="isAccel"
+            app:argType="boolean" />
+        <argument
+            android:name="isGyro"
+            app:argType="boolean" />
+        <action
+            android:id="@+id/action_action_recording_to_action_configure_recording"
+            app:destination="@id/action_configure_recording" />
 
     </fragment>
 
@@ -98,6 +135,10 @@
         android:id="@+id/action_social"
         android:name="com.example.dashcarr.presentation.tabs.social.SocialFragment"
         android:label="SocialFragment" />
+    <fragment
+        android:id="@+id/productFrontPage"
+        android:name="com.example.dashcarr.presentation.tabs.settings.ProductFrontPage"
+        android:label="ProductFrontPage" />
 
 
 </navigation>
