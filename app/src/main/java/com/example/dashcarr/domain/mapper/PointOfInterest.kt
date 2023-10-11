@@ -7,5 +7,6 @@ fun PointOfInterest.toEntity() =
     PointOfInterestEntity(
         latitude = latitude,
         longitude = longitude,
-        name = name
+        name = name,
+        createdTimeStamp = createdTimeStamp
     )
