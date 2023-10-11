@@ -18,7 +18,8 @@ import com.example.dashcarr.presentation.core.BaseFragment
 import kotlin.math.roundToInt
 
 class HudFragment : BaseFragment<FragmentHudBinding>(
-    FragmentHudBinding::inflate
+    FragmentHudBinding::inflate,
+    showBottomNavBar = false
 ) {
     companion object {
         const val MIN_DISTANCE_CHANGE_FOR_UPDATES = 1F
