@@ -3,12 +3,16 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="red">#DD2421</color>
+    <color name="desaturate_red">#8c7b78</color>
     <color name="recording_red">#E13232</color>
     <color name="mainBlue">#379DD7</color>
     <color name="gray1">#C5C6CC</color>
     <color name="gray2">#8F9098</color>
     <color name="gray3">#2F3036</color>
+    <color name="yellow">#ffb242</color>
+    <color name="blue">#428fff</color>
 
     <!--Transparent-->
     <color name="black20">#40000000</color>
+
 </resources>

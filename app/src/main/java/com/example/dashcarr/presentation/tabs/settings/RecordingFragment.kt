@@ -56,21 +56,18 @@ class RecordingFragment : BaseFragment<FragmentRecordingBinding>(
         }
     }
 
-        val gpsLocationListener: LocationListener = object: LocationListener{
-            override fun onLocationChanged(location: Location) {
-                Log.d("plass",location.altitude.toString() + location.latitude.toString() + location.longitude.toString())
-            }
+    val gpsLocationListener: LocationListener = object : LocationListener {
+        override fun onLocationChanged(location: Location) {
+            Log.d("plass", location.altitude.toString() + location.latitude.toString() + location.longitude.toString())
         }
-        private val REQUEST_PERMISSIONS_REQUEST_CODE = 1
-
+    }
+    private val REQUEST_PERMISSIONS_REQUEST_CODE = 1
 
 
     @SuppressLint("MissingPermission")
     private fun createLocationRequest() {
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,5,0f,this)
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5, 0f, this)
     }
-
-
 
 
     private lateinit var sensorManager: SensorManager
@@ -78,8 +75,10 @@ class RecordingFragment : BaseFragment<FragmentRecordingBinding>(
     private var gyroSensor: Sensor? = null
     private var magnetoSensor: Sensor? = null
     private var isRecording = true
+    private var isTimerPaused = false
 
     var elapsedTime = ""
+
 
     private var isFiltered: Boolean? = false
     private var isAccel: Boolean? = false
@@ -114,6 +113,8 @@ class RecordingFragment : BaseFragment<FragmentRecordingBinding>(
     private val orientationAngles = FloatArray(3)
 
     // Location
+    val rawLocationData = FloatArray(3)
+    val rawLocationDataIndex = 0
     val rawLocationRecord = mutableListOf<SensorData>()
 
     private val recordingJson = JSONObject()
@@ -126,6 +127,10 @@ class RecordingFragment : BaseFragment<FragmentRecordingBinding>(
 
 
     private var startTimeMillis: Long = 0
+    private var pauseTimeMillis: Long = 0
+    private var totalElapsedTimeMillis: Long = 0
+    private var pauseElapsedTimeMillis: Long = 0
+
     var handler = Handler()
     private val updateTimeRunnable = object : Runnable {
         override fun run() {
@@ -166,14 +171,28 @@ class RecordingFragment : BaseFragment<FragmentRecordingBinding>(
         isAccel = arguments?.getBoolean("isAccel")
         isGyro = arguments?.getBoolean("isGyro")
 
-        //Log.d("args", arg1.toString() + arg2.toString() + arg3.toString())
-
         binding.apply {
             lifecycleOwner = viewLifecycleOwner
             recordingFragment = this@RecordingFragment
             buttonStopRecording.setOnClickListener {
                 stopRecording()
                 findNavController().navigate(R.id.action_action_recording_to_SavedRecordingsFragment)
+            }
+            buttonPauseRecording.setOnClickListener {
+                pauseRecording()
+                it.visibility = View.GONE
+                binding.buttonResumeRecording.visibility = View.VISIBLE
+
+            }
+            buttonResumeRecording.setOnClickListener {
+                resumeRecording()
+                it.visibility = View.GONE
+                binding.buttonPauseRecording.visibility = View.VISIBLE
+            }
+
+            buttonDeleteRecording.setOnClickListener {
+                pauseRecording()
+                findNavController().navigate(R.id.action_action_recording_to_action_configure_recording)
             }
         }
 
@@ -185,20 +204,27 @@ class RecordingFragment : BaseFragment<FragmentRecordingBinding>(
     }
 
     private fun requestLocationPermission() {
-        requestLocationPermissionLauncher.launch(arrayOf(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION))
+        requestLocationPermissionLauncher.launch(
+            arrayOf(
+                Manifest.permission.ACCESS_FINE_LOCATION,
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            )
+        )
     }
 
 
     fun updateElapsedTime() {
-        val currentTimeMillis = SystemClock.elapsedRealtime()
-        val elapsedTimeMillis = currentTimeMillis - startTimeMillis
-        val seconds = ((elapsedTimeMillis / 1000) % 60).toInt()
-        val minutes = ((elapsedTimeMillis / (1000 * 60)) % 60).toInt()
-        val hours = ((elapsedTimeMillis / (1000 * 60 * 60)) % 24).toInt()
+        if (isRecording) {
+            val currentTimeMillis = SystemClock.elapsedRealtime()
+            totalElapsedTimeMillis = (currentTimeMillis - startTimeMillis) + pauseElapsedTimeMillis
+        }
+
+        val seconds = ((totalElapsedTimeMillis / 1000) % 60).toInt()
+        val minutes = ((totalElapsedTimeMillis / (1000 * 60)) % 60).toInt()
+        val hours = ((totalElapsedTimeMillis / (1000 * 60 * 60)) % 24).toInt()
+
         elapsedTime = String.format("%02d:%02d:%02d", hours, minutes, seconds)
-        binding.textElapsedTime.text = getString(
-            R.string.elapsed_time, elapsedTime
-        )
+        binding.textElapsedTime.text = getString(R.string.elapsed_time, elapsedTime)
     }
 
 
@@ -219,7 +245,19 @@ class RecordingFragment : BaseFragment<FragmentRecordingBinding>(
         return jsonArray
     }
 
-    fun writeToFile(sensor: String, sensorList: MutableList<SensorData>): StringBuilder {
+    fun writeToLocationFile(gpsList: MutableList<SensorData>): StringBuilder {
+        var stringBuilder = StringBuilder()
+        var ID = 0
+        stringBuilder.append("ID, GPS_Timestamp(ms), Longitude, Latitude, Altitude\n")
+        gpsList.forEach {
+            stringBuilder.append("$ID, ${it.timestamp}, ${it.x}, ${it.y}, ${it.z}\n")
+            ID++
+        }
+        return stringBuilder
+
+    }
+
+    fun writeToSensorFile(sensor: String, sensorList: MutableList<SensorData>): StringBuilder {
         var stringBuilder = StringBuilder()
         var ID = 0
         stringBuilder.append("ID, ${sensor}_Timestamp(ms), ${sensor}_X, ${sensor}_Y, ${sensor}_Z\n")
@@ -250,12 +288,6 @@ class RecordingFragment : BaseFragment<FragmentRecordingBinding>(
         else
             recordingJson.put("${filtered}_${sensor}", "")
     }
-    /*
-        newRecording.put("unfil_gyro", "${stopDateTime}_unfiltered_gyro.csv")
-    newRecording.put("fil_gyro", "${stopDateTime}_filtered_gyro.csv")
-    newRecording.put("unfil_accel", "${stopDateTime}_unfiltered_accel.csv")
-    newRecording.put("fil_accel", "${stopDateTime}_filtered_accel.csv")
-     */
 
     fun saveToCSV() {
 
@@ -267,13 +299,17 @@ class RecordingFragment : BaseFragment<FragmentRecordingBinding>(
         recordingJson.put("elapsed_time", elapsedTime)
         recordingJson.put("date", stopDateTime)
 
+        currentStringBuilder = writeToLocationFile(rawLocationRecord)
+        saveToFile(currentStringBuilder, "unfiltered", "GPS", stopDateTime)
+        makeJSONObject(stopDateTime, "unfil", "GPS", true)
+
         if (isFiltered == true) {
             if (isAccel == true) {
-                currentStringBuilder = writeToFile("accel", filtAcclRecord)
+                currentStringBuilder = writeToSensorFile("accel", filtAcclRecord)
                 saveToFile(currentStringBuilder, "filtered", "accel", stopDateTime)
                 makeJSONObject(stopDateTime, "fil", "accel", true)
 
-                currentStringBuilder = writeToFile("accel", rawAcclRecord)
+                currentStringBuilder = writeToSensorFile("accel", rawAcclRecord)
                 saveToFile(currentStringBuilder, "unfiltered", "accel", stopDateTime)
                 makeJSONObject(stopDateTime, "unfil", "accel", true)
 
@@ -284,11 +320,11 @@ class RecordingFragment : BaseFragment<FragmentRecordingBinding>(
             }
 
             if (isGyro == true) {
-                currentStringBuilder = writeToFile("gyro", filtGyroRecord)
+                currentStringBuilder = writeToSensorFile("gyro", filtGyroRecord)
                 saveToFile(currentStringBuilder, "filtered", "gyro", stopDateTime)
                 makeJSONObject(stopDateTime, "fil", "gyro", true)
 
-                currentStringBuilder = writeToFile("Gyro", rawGyroRecord)
+                currentStringBuilder = writeToSensorFile("Gyro", rawGyroRecord)
                 saveToFile(currentStringBuilder, "unfiltered", "gyro", stopDateTime)
                 makeJSONObject(stopDateTime, "unfil", "gyro", true)
 
@@ -300,7 +336,7 @@ class RecordingFragment : BaseFragment<FragmentRecordingBinding>(
             }
         } else {
             if (isAccel == true) {
-                currentStringBuilder = writeToFile("Accel", rawAcclRecord)
+                currentStringBuilder = writeToSensorFile("Accel", rawAcclRecord)
                 saveToFile(currentStringBuilder, "unfiltered", "accel", stopDateTime)
                 makeJSONObject(stopDateTime, "fil", "accel", false)
                 makeJSONObject(stopDateTime, "unfil", "accel", true)
@@ -311,7 +347,7 @@ class RecordingFragment : BaseFragment<FragmentRecordingBinding>(
             }
 
             if (isGyro == true) {
-                currentStringBuilder = writeToFile("Gyro", rawGyroRecord)
+                currentStringBuilder = writeToSensorFile("Gyro", rawGyroRecord)
                 saveToFile(currentStringBuilder, "unfiltered", "gyro", stopDateTime)
                 makeJSONObject(stopDateTime, "fil", "gyro", false)
                 makeJSONObject(stopDateTime, "unfil", "gyro", true)
@@ -341,8 +377,6 @@ class RecordingFragment : BaseFragment<FragmentRecordingBinding>(
                 it.write(jsonArray.toString().toByteArray())
             }
         }
-
-
 
 
     }
@@ -385,18 +419,36 @@ class RecordingFragment : BaseFragment<FragmentRecordingBinding>(
     fun stopRecording() {
         isRecording = false
         saveToCSV()
-        //binding.showRecordStat.visibility = View.VISIBLE
+        rawLocationRecord.forEach {
+
+            Log.d("Location_list", "time: ${it.timestamp} longitude: ${it.x}, latitude: ${it.y}, altitude: ${it.z}")
+
+        }
+    }
+
+    fun pauseRecording() {
+        isRecording = false
+        isTimerPaused = true
+        pauseElapsedTimeMillis += SystemClock.elapsedRealtime() - startTimeMillis
+    }
+
+    fun resumeRecording() {
+        isRecording = true
+        isTimerPaused = false
+        startTimeMillis = SystemClock.elapsedRealtime()
     }
 
     override fun onLocationChanged(location: Location) {
-        Log.d("plass",location.altitude.toString() + location.latitude.toString() + location.longitude.toString())
-        if (isRecording){
-            rawLocationRecord.add(SensorData(
-                location.time,
-                location.longitude.toFloat(),
-                location.latitude.toFloat(),
-                location.altitude.toFloat()
-            ))
+        Log.d("plass", location.altitude.toString() + location.latitude.toString() + location.longitude.toString())
+        if (isRecording) {
+            rawLocationRecord.add(
+                SensorData(
+                    location.time,
+                    location.longitude.toFloat(),
+                    location.latitude.toFloat(),
+                    location.altitude.toFloat()
+                )
+            )
         }
     }
 
