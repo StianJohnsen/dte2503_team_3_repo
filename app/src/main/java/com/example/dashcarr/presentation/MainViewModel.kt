@@ -1,9 +1,5 @@
 package com.example.dashcarr.presentation
 
-import android.content.pm.PackageManager
-import android.util.Log
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.dashcarr.domain.repository.IFirebaseAuthRepository
@@ -21,11 +17,13 @@ class MainViewModel @Inject constructor(
     private val _isUserLoggedIn = Channel<Boolean>()
     val isUserLoggedIn = _isUserLoggedIn.receiveAsFlow()
     
-    fun checkAuthentication() {
-        Log.e("WatchingSomeStuff", "ChecKAuth")
-        Log.e("WatchingSomeStuff", "GetUser = ${firebaseAuthRepository.getUser()}")
+    private fun checkAuthentication() {
         viewModelScope.launch {
-            if (firebaseAuthRepository.getUser() == null) _isUserLoggedIn.send(false)
+            if (firebaseAuthRepository.getUser() != null) _isUserLoggedIn.send(true)
         }
+    }
+
+    init {
+        checkAuthentication()
     }
 }

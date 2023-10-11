@@ -2,6 +2,7 @@ package com.example.dashcarr.presentation.tabs.map
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.icu.util.Calendar
 import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
@@ -9,11 +10,11 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.viewModels
 import androidx.preference.PreferenceManager
 import com.example.dashcarr.databinding.FragmentMapBinding
 import com.example.dashcarr.extensions.collectWithLifecycle
+import com.example.dashcarr.extensions.getFormattedDate
 import com.example.dashcarr.extensions.locationPermissions
 import com.example.dashcarr.extensions.setHeightSmooth
 import com.example.dashcarr.extensions.toastThrowableShort
@@ -25,6 +26,7 @@ import org.osmdroid.config.Configuration
 import org.osmdroid.events.MapEventsReceiver
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory
 import org.osmdroid.util.GeoPoint
+import org.osmdroid.views.CustomZoomButtonsController
 import org.osmdroid.views.MapView
 import org.osmdroid.views.overlay.MapEventsOverlay
 import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay
@@ -51,14 +53,10 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
     }
 
     private val viewModel: MapViewModel by viewModels()
+
     override fun observeViewModel() {
         viewModel.lastSavedUserLocation.collectWithLifecycle(viewLifecycleOwner) {
-            binding.mapView.controller.animateTo(it)
-        }
-        viewModel.currentLocation.collectWithLifecycle(viewLifecycleOwner) {
-            it?.let {
-                binding.mapView.controller.animateTo(GeoPoint(it))
-            }
+            binding.mapView.controller.setCenter(it)
         }
         viewModel.createMarkerState.collectWithLifecycle(viewLifecycleOwner) {
             when (it) {
@@ -69,11 +67,11 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
                     hideCreateMarkerDialog()
                 }
             }
+            Log.e("MapSomeStuff", "createMarkerState = ${getFormattedDate(Calendar.getInstance().timeInMillis)}")
         }
         viewModel.pointsOfInterestState.observe(viewLifecycleOwner) {
             if (it.isEmpty()) return@observe
-            it.forEach { pointOfInterest ->
-                binding.mapView.overlays.add(pointOfInterest.toMarker(binding.mapView))
+            it.forEach { pointOfInterest ->binding.mapView.overlays.add(pointOfInterest.toMarker(binding.mapView))
             }
         }
         viewModel.showButtonsBarState.collectWithLifecycle(viewLifecycleOwner) { show ->
@@ -83,32 +81,11 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
         }
     }
 
-
     override fun initListeners() {
         binding.btnShowHideBar.setOnClickListener {
             viewModel.showHideBar()
         }
-
     }
-
-//    override fun onResume() {
-//        super.onResume()
-//        //this will refresh the osmdroid configuration on resuming.
-//        //if you make changes to the configuration, use
-//        //SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-//        //Configuration.getInstance().load(this, PreferenceManager.getDefaultSharedPreferences(this));
-//        map.onResume() //needed for compass, my location overlays, v6.0.0 and up
-//    }
-
-//    override fun onPause() {
-//        super.onPause()
-//        //this will refresh the osmdroid configuration on resuming.
-//        //if you make changes to the configuration, use
-//        //SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-//        //Configuration.getInstance().save(this, prefs);
-//        map.onPause()  //needed for compass, my location overlays, v6.0.0 and up
-//    }
-
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -132,9 +109,9 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
         binding.mapView.minZoomLevel = 4.0
         binding.mapView.controller.setZoom(15.0)
         binding.mapView.isTilesScaledToDpi = true
-//        binding.mapView.tilesScaleFactor = 3.0f
         binding.mapView.overlays.add(MapEventsOverlay(this))
-
+        binding.mapView.setMultiTouchControls(true)
+        binding.mapView.zoomController.setVisibility(CustomZoomButtonsController.Visibility.NEVER) // hide zoom buttons
     }
 
     @SuppressLint("MissingPermission")
@@ -149,7 +126,6 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
 
     override fun onLocationChanged(location: Location) {
         viewModel.saveCurrentLocation(location)
-        Log.e("MapSomeStuff", "OnLocChanged")
         Log.e("MapSomeStuff", "location changed! lat = ${location.latitude} , long = ${location.longitude}")
     }
 
@@ -163,7 +139,6 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
     }
 
     override fun longPressHelper(geoPoint: GeoPoint?): Boolean {
-        Log.e("WatchingMapStuff", "Long press geo = $geoPoint")
         geoPoint?.let { viewModel.createMarker(it) }
         return false
     }
@@ -178,14 +153,12 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
 
     private fun showCreateMarkerDialog(geoPoint: GeoPoint) {
         binding.flCreateMarkerLayout.visibility = View.VISIBLE
-        binding.etMarkerName.doAfterTextChanged {
-            //@TODO check marker - send to viewModel - if wrong = show error
-        }
         binding.btnSave.setOnClickListener {
             viewModel.saveNewMarker(PointOfInterest(
                 latitude = geoPoint.latitude,
                 longitude = geoPoint.longitude,
-                name = binding.etMarkerName.text.toString()
+                name = binding.etMarkerName.text.toString(),
+                createdTimeStamp = Calendar.getInstance().timeInMillis
             ))
         }
         binding.btnCancel.setOnClickListener {

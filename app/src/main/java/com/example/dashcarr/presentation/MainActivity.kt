@@ -6,7 +6,6 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
-import android.util.Log
 import android.view.View
 import android.view.animation.BounceInterpolator
 import android.view.animation.LinearInterpolator
@@ -43,6 +42,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         addCameraListener()
+        findViewById<BottomNavigationView>(R.id.bottom_nav).setupWithNavController(navController)
         val bottomNavBar = findViewById<BottomNavigationView>(R.id.bottom_nav)
         bottomNavBar.setupWithNavController(navController)
         bottomNavBar.findViewById<View>(R.id.action_map).setOnLongClickListener {
@@ -53,16 +53,12 @@ class MainActivity : AppCompatActivity() {
             true
         }
 
-
-
         initViewModels()
-        viewModel.checkAuthentication()
     }
 
     private fun initViewModels() {
         viewModel.isUserLoggedIn.collectWithLifecycle(this) {
-            Log.e("WatchingSomeStuff", "Is userlogged in = $it")
-            if (!it) navController.navigate(R.id.action_global_loginFragment)
+            if (it) navController.navigate(R.id.action_loginFragment_to_action_map)
         }
     }
 

@@ -1,7 +1,6 @@
 package com.example.dashcarr.presentation.tabs.map
 
 import android.location.Location
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.dashcarr.domain.preferences.IPreferences
@@ -27,14 +26,12 @@ class MapViewModel @Inject constructor(
     private val _lastSavedUserLocation = Channel<GeoPoint>()
     val lastSavedUserLocation = _lastSavedUserLocation.receiveAsFlow()
     private val _currentLocation = MutableStateFlow<Location?>(null)
-    val currentLocation = _currentLocation.asStateFlow()
     private val _createMarkerState = MutableSharedFlow<MapFragment.CreateMarkerState>()
     val createMarkerState = _createMarkerState.asSharedFlow()
     private val _showButtonsBarState = MutableStateFlow<Boolean?>(null)
     val showButtonsBarState = _showButtonsBarState.asStateFlow()
 
     val pointsOfInterestState = pointsOfInterestRepository.getAllPointsLiveData()
-    //val pointsOfInterestState = _pointsOfInterestState
 
     init {
         viewModelScope.launch {
@@ -60,17 +57,8 @@ class MapViewModel @Inject constructor(
         }
     }
 
-    fun hideCreateMarker() {
-        viewModelScope.launch {
-            _createMarkerState.emit(MapFragment.CreateMarkerState.HideMarker)
-        }
-
-    }
-
     fun saveNewMarker(pointOfInterest: PointOfInterest) {
         viewModelScope.launch {
-            Log.e("WatchingMapStuff", "Saving new marker $pointOfInterest")
-            //@TODO Validate name then save
             val result = pointsOfInterestRepository.saveNewPoint(pointOfInterest)
             result.onSuccess {
                 _createMarkerState.emit(MapFragment.CreateMarkerState.HideMarker)
@@ -89,7 +77,8 @@ class MapViewModel @Inject constructor(
 
     fun showHideBar() {
         viewModelScope.launch {
-            _showButtonsBarState.emit(_showButtonsBarState.value == false)
+            val currentShowValue = _showButtonsBarState.value
+            _showButtonsBarState.emit(if (currentShowValue == null) true else currentShowValue == false)
         }
     }
 }
