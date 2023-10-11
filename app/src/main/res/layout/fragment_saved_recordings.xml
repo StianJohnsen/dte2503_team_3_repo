@@ -29,7 +29,7 @@
                 android:text="@string/saved_recordings"
                 android:textAlignment="center"
                 android:textColor="@color/white"
-                android:textSize="34sp"
+                android:textSize="@dimen/text_size_34"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toTopOf="@+id/linear_recordings_buttons"
                 app:layout_constraintEnd_toEndOf="parent"

@@ -105,7 +105,6 @@ class RecordingStatisticsFragment : BaseFragment<FragmentRecordingStatisticsBind
             val elapsedTimeDate = dateFormat.parse(elapsedTimeStr)
             val elapsedTimeMillis = elapsedTimeDate?.time ?: 0L
 
-            // Convertir le temps en millisecondes vers des secondes
             val elapsedTimeSeconds = TimeUnit.MILLISECONDS.toSeconds(elapsedTimeMillis)
 
             totalElapsedTime += elapsedTimeSeconds
@@ -120,11 +119,11 @@ class RecordingStatisticsFragment : BaseFragment<FragmentRecordingStatisticsBind
             averageElapsedTime % 60
         )
 
-        binding.inputAvgTime.text = "$averageElapsedTimeStr"
+        binding.inputAvgTime.text = averageElapsedTimeStr
 
         val averageSizeFile = averageFileSize(requireContext())
 
-        binding.inputAvgSize.text = "$averageSizeFile"
+        binding.inputAvgSize.text = averageSizeFile
 
         val dir = File(requireContext().filesDir, "")
         val size = getFolderSize(dir)
@@ -137,8 +136,8 @@ class RecordingStatisticsFragment : BaseFragment<FragmentRecordingStatisticsBind
         binding.inputNumberOfFiles.text = "$numberOfFiles"
     }
 
-    fun getFolderSize(folder: File): Long {
-        var length: Long = 0
+    fun getFolderSize(folder: File): Double {
+        var length = 0.0
         val files = folder.listFiles()
 
         if (files != null) {

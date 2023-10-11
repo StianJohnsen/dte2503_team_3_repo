@@ -54,12 +54,13 @@ class RecordingDetailsFragment : BaseFragment<FragmentRecordingDetailsBinding>(
         val args: RecordingDetailsFragmentArgs by navArgs()
         val fileName = args.selectedFileName
         val completeFileDate = fileName.substringBefore("_")
-        val elapsedTime = getElapsedTime("sensor_config.json", "$completeFileDate")
+        val elapsedTime = getElapsedTime("sensor_config.json", completeFileDate)
         val fileDate = fileName.substringBefore("T")
-        binding.textRecordingName.text = fileDate + "\n" + fileName.substringAfter("_").substringBefore('.')
+        val recordingName = fileDate + "\n" + fileName.substringAfter("_").substringBefore('.')
+        binding.textRecordingName.text = recordingName
 
         try {
-            val inputStream: InputStream = requireContext().openFileInput("$fileName")
+            val inputStream: InputStream = requireContext().openFileInput(fileName)
             val reader = BufferedReader(InputStreamReader(inputStream, Charset.forName("UTF-8")))
             var fileLength = inputStream.available()
             fileLength /= 1024
@@ -117,10 +118,11 @@ class RecordingDetailsFragment : BaseFragment<FragmentRecordingDetailsBinding>(
             lineChart.data = data
             lineChart.invalidate()
 
-            binding.inputElapsedTime.text = "$elapsedTime"
-            binding.inputFileDate.text = "$fileDate"
+            binding.inputElapsedTime.text = elapsedTime
+            binding.inputFileDate.text = fileDate
             binding.inputAmountOfDatapoints.text = "$amountDataPoints"
-            binding.inputDataSize.text = "$fileLength KB"
+            val dataSize = "$fileLength KB"
+            binding.inputDataSize.text = dataSize
 
         } catch (e: IOException) {
             e.printStackTrace()
@@ -147,7 +149,7 @@ class RecordingDetailsFragment : BaseFragment<FragmentRecordingDetailsBinding>(
             for (i in 0 until jsonArray.length()) {
                 val jsonObject = jsonArray.getJSONObject(i)
                 val name = jsonObject.getString("name")
-                if (name == "$csvFile") {
+                if (name == csvFile) {
                     value = jsonObject.getString("elapsed_time")
                     break
                 }
