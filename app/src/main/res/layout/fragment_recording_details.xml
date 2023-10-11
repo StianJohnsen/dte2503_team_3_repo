@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:tools="http://schemas.android.com/tools"
+<layout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
@@ -19,14 +19,15 @@
             android:id="@+id/text_recording_name"
             android:layout_width="309dp"
             android:layout_height="59dp"
-            android:layout_marginStart="52dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="@dimen/margin_padding_size_10"
             android:ems="10"
             android:text="@string/incoming"
             android:textAlignment="center"
             android:textColor="@color/white"
             android:textSize="24sp"
             android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/graph_gyro"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -34,40 +35,46 @@
             android:id="@+id/text_bar_record_1"
             android:layout_width="415dp"
             android:layout_height="45dp"
-            android:layout_marginTop="388dp"
+            android:layout_marginTop="@dimen/margin_padding_size_32"
             android:ems="10"
             android:text="@string/bar"
             android:textAlignment="center"
             android:textColor="@color/black"
             android:textSize="18sp"
             android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/text_lenght"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/text_recording_name" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/graph_gyro" />
 
         <TextView
             android:id="@+id/text_bar_record_2"
             android:layout_width="415dp"
             android:layout_height="48dp"
-            android:layout_marginTop="6dp"
+            android:layout_marginTop="@dimen/margin_padding_size_10"
             android:ems="10"
             android:text="@string/bar"
             android:textAlignment="center"
             android:textColor="@color/black"
             android:textSize="18sp"
             android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/text_datasize" />
 
         <TextView
             android:id="@+id/text_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="56dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="@dimen/margin_padding_size_10"
             android:text="@string/date_of_recording"
             android:textColor="@color/white"
             android:textSize="20sp"
             android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/text_datasize"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.20"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/text_datapoint" />
 
@@ -75,12 +82,14 @@
             android:id="@+id/text_lenght"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="56dp"
-            android:layout_marginTop="9dp"
+            android:layout_marginTop="@dimen/margin_padding_size_10"
             android:text="@string/length"
             android:textColor="@color/white"
             android:textSize="20sp"
             android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/text_datapoint"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.15"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/text_bar_record_1" />
 
@@ -88,12 +97,14 @@
             android:id="@+id/text_datasize"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="56dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="@dimen/margin_padding_size_10"
             android:text="@string/data_size"
             android:textColor="@color/white"
             android:textSize="20sp"
             android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/text_bar_record_2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.155"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/text_date" />
 
@@ -101,12 +112,14 @@
             android:id="@+id/text_datapoint"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="56dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="@dimen/margin_padding_size_10"
             android:text="@string/amount_of_datapoints"
             android:textColor="@color/white"
             android:textSize="20sp"
             android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/text_date"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.24"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/text_lenght" />
 
@@ -114,11 +127,11 @@
             android:id="@+id/image_back_details"
             android:layout_width="42dp"
             android:layout_height="30dp"
-            android:layout_marginStart="9dp"
-            android:layout_marginTop="26dp"
             android:contentDescription="@null"
+            app:layout_constraintBottom_toBottomOf="@+id/text_recording_name"
+            app:layout_constraintEnd_toStartOf="@+id/text_recording_name"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/text_recording_name"
             app:srcCompat="@drawable/baseline_arrow_back_24" />
 
         <TextView
@@ -126,31 +139,38 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
-            android:layout_marginTop="640dp"
+            android:layout_marginEnd="12dp"
             android:textColor="@color/black"
             android:textSize="20sp"
             android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/text_datasize"
+            app:layout_constraintEnd_toStartOf="@+id/text_bar_record_2"
+            app:layout_constraintHorizontal_bias="0.1"
             app:layout_constraintStart_toEndOf="@+id/text_datasize"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="@+id/text_datasize" />
 
         <TextView
             android:id="@+id/input_amount_of_datapoints"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="564dp"
             android:textColor="@color/black"
             android:textSize="20sp"
             android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/text_datapoint"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.10"
             app:layout_constraintStart_toEndOf="@+id/text_datapoint"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="@+id/text_datapoint"
+            app:layout_constraintVertical_bias="0.705" />
 
         <com.github.mikephil.charting.charts.LineChart
             android:id="@+id/graph_gyro"
             android:layout_width="388dp"
             android:layout_height="272dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="60dp"
+            android:layout_marginTop="@dimen/margin_padding_size_32"
+            app:layout_constraintBottom_toTopOf="@+id/text_bar_record_1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.478"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/text_recording_name" />
 
@@ -158,25 +178,29 @@
             android:id="@+id/inputElapsedTime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="9dp"
             android:textColor="@color/black"
             android:textSize="20sp"
             android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/text_lenght"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.1"
             app:layout_constraintStart_toEndOf="@+id/text_lenght"
-            app:layout_constraintTop_toBottomOf="@+id/text_bar_record_1" />
+            app:layout_constraintTop_toTopOf="@+id/text_lenght"
+            app:layout_constraintVertical_bias="0.0" />
 
         <TextView
             android:id="@+id/inputFileDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="14dp"
             android:textColor="@color/black"
             android:textSize="20sp"
             android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/text_date"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.1"
             app:layout_constraintStart_toEndOf="@+id/text_date"
-            app:layout_constraintTop_toBottomOf="@+id/text_datapoint" />
+            app:layout_constraintTop_toTopOf="@+id/text_date"
+            app:layout_constraintVertical_bias="0.06999999" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
