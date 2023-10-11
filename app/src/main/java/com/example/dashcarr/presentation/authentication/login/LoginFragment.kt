@@ -3,7 +3,6 @@ package com.example.dashcarr.presentation.authentication.login
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,14 +13,12 @@ import androidx.navigation.fragment.findNavController
 import com.example.dashcarr.R
 import com.example.dashcarr.databinding.FragmentLoginBinding
 import com.example.dashcarr.extensions.collectWithLifecycle
-import com.example.dashcarr.presentation.authentication.login.loginUser.LoginUser
 import com.example.dashcarr.presentation.core.BaseFragment
 import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FacebookAuthProvider
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import dagger.hilt.android.AndroidEntryPoint
@@ -34,36 +31,20 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(
     private lateinit var bottomNavigationView: BottomNavigationView
     private val viewModel: LoginViewModel by viewModels()
 
-//    private val callbackManager = CallbackManager.Factory.create()
-
     @SuppressLint("RestrictedApi")
     private val signInLauncher = registerForActivityResult(FirebaseAuthUIActivityResultContract()) {
-        Log.e("WatchingSomeStuff", "FireabaseAuthResult = $it")
         val response = it.idpResponse
         when (it.resultCode) {
             Activity.RESULT_OK -> {
                 if (response == null) {
-                    Log.d("WatchingSomeStuff", "Sign in failure. response = $response")
-                    //toastL(R.string.error_something_wrong)
-                    //Log.e(TAG, "Sign in failed. response = $response")
                 } else {
                     if (response.user.providerId.lowercase().contains("facebook")) {
-                        Log.d("WatchingSomeStuff", "Sign in success. FACEBOOK response = $response")
                         saveCredentialsToFirebase(response.idpToken)
                     }
                     else findNavController().navigate(R.id.action_loginFragment_to_action_map)
-
-                    Log.d("WatchingSomeStuff", "Sign in success. response = $response")
-                    //viewModel.syncRemoteBookmarks()
                 }
             }
             else -> if (response != null) {
-                Log.d("WatchingSomeStuff", "Sign in WRONG. response = $response")
-//                Log.e(TAG, "Result Error. response = $response")
-//                toastL(
-//                    if (response.error?.errorCode == NO_NETWORK)
-//                        R.string.error_internet_connection else R.string.error_something_wrong
-//                )
             }
         }
     }
@@ -89,7 +70,6 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(
         super.onViewCreated(view, savedInstanceState)
         initListeners()
         observeViewModel()
-        Log.e("WatchingSomeStuff", "Current user = ${Firebase.auth.currentUser}")
     }
 
     override fun observeViewModel() {
@@ -166,7 +146,6 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(
     }
 
     private fun showAuth(provider: AuthUI.IdpConfig) {
-//        showLoading(true)
         signInLauncher.launch(
             AuthUI.getInstance()
                 .createSignInIntentBuilder()
@@ -176,17 +155,6 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(
         )
     }
 
-    private fun signUp(user: LoginUser) {
-        FirebaseAuth.getInstance().createUserWithEmailAndPassword(user.email, user.password)
-            .addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    Log.e("WatchingSomeStuff", "Success registration!")
-                } else {
-
-                    Log.e("watchingSomeStuff", "Failed signUp error = ${task.exception?.cause} = ${task.exception?.message} =}")
-                }
-            }
-    }
 
     private fun saveCredentialsToFirebase(accessToken: String?) {
         if (accessToken.isNullOrEmpty()) return
