@@ -47,8 +47,9 @@ class SavedRecordingsFragment : BaseFragment<FragmentSavedRecordingsBinding>(
         createDropdownsFromJson()
     }
 
-    fun readJsonFromFile(fileName: String): JSONArray {
+    public fun readJsonFromFile(): JSONArray {
         var jsonArray = JSONArray()
+        val fileName = "sensor_config.json"
         try {
             val inputStream = context?.openFileInput(fileName)
             val reader = BufferedReader(InputStreamReader(inputStream, Charset.forName("UTF-8")))
@@ -61,8 +62,8 @@ class SavedRecordingsFragment : BaseFragment<FragmentSavedRecordingsBinding>(
         return jsonArray
     }
 
-    fun createDropdownsFromJson() {
-        val jsonArray = readJsonFromFile("sensor_config.json")
+    private fun createDropdownsFromJson() {
+        val jsonArray = readJsonFromFile()
         val linearLayout = view?.findViewById<LinearLayout>(R.id.linear_recordings_buttons)
         linearLayout?.removeAllViews()
 

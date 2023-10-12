@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.dashcarr.R
 import com.example.dashcarr.databinding.FragmentRecordingStatisticsBinding
@@ -16,7 +15,6 @@ import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
 import com.github.mikephil.charting.utils.ColorTemplate
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import org.json.JSONArray
 import java.io.BufferedReader
 import java.io.File
@@ -29,13 +27,11 @@ class RecordingStatisticsFragment : BaseFragment<FragmentRecordingStatisticsBind
     FragmentRecordingStatisticsBinding::inflate,
     showBottomNavBar = false
 ) {
-    private lateinit var bottomNavigationView: BottomNavigationView
-    private val viewModel: RecordingStatisticsViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         super.onCreateView(inflater, container, savedInstanceState)
         return binding.root
     }
@@ -59,7 +55,7 @@ class RecordingStatisticsFragment : BaseFragment<FragmentRecordingStatisticsBind
             findNavController().navigate(R.id.action_action_statistics_to_SavedRecordingsFragment)
         }
 
-        val jsonArray = readJsonFromFile("sensor_config.json")
+        val jsonArray = readJsonFromFile()
 
         val categoryCount = mutableMapOf<String, Float>()
 
@@ -162,8 +158,9 @@ class RecordingStatisticsFragment : BaseFragment<FragmentRecordingStatisticsBind
         return length
     }
 
-    fun readJsonFromFile(fileName: String): JSONArray {
+    private fun readJsonFromFile(): JSONArray {
         var jsonArray = JSONArray()
+        val fileName = "sensor_config.json"
         try {
             val inputStream = context?.openFileInput(fileName)
             val reader = BufferedReader(InputStreamReader(inputStream, Charset.forName("UTF-8")))
@@ -176,7 +173,7 @@ class RecordingStatisticsFragment : BaseFragment<FragmentRecordingStatisticsBind
         return jsonArray
     }
 
-    fun averageFileSize(context: Context): String {
+    private fun averageFileSize(context: Context): String {
         val files = context.fileList()
         var totalSize = 0
         var fileCount = 0

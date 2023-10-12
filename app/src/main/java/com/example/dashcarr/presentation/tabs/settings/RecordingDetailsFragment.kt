@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.dashcarr.R
@@ -16,7 +15,6 @@ import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import org.json.JSONArray
 import java.io.BufferedReader
 import java.io.IOException
@@ -29,13 +27,10 @@ class RecordingDetailsFragment : BaseFragment<FragmentRecordingDetailsBinding>(
     FragmentRecordingDetailsBinding::inflate,
     showBottomNavBar = false
 ) {
-    private lateinit var bottomNavigationView: BottomNavigationView
-    private val viewModel: RecordingDetailsViewModel by viewModels()
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         super.onCreateView(inflater, container, savedInstanceState)
         return binding.root
     }
