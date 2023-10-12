@@ -61,7 +61,7 @@ kapt {
 dependencies {
 
 
-    implementation ("com.facebook.android:facebook-android-sdk:[8,9)")
+    implementation("com.facebook.android:facebook-android-sdk:[8,9)")
     implementation("com.facebook.android:facebook-login:16.2.0")
 
     implementation(platform("com.google.firebase:firebase-bom:32.3.1"))
@@ -81,6 +81,7 @@ dependencies {
 
     implementation("androidx.core:core-ktx:1.12.0")
     implementation("androidx.appcompat:appcompat:1.6.1")
+    //noinspection GradleDependency
     implementation("com.google.android.material:material:1.9.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
 
@@ -91,7 +92,9 @@ dependencies {
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
 
     //Navigation
+    //noinspection GradleDependency
     implementation("androidx.navigation:navigation-fragment-ktx:2.7.2")
+    //noinspection GradleDependency
     implementation("androidx.navigation:navigation-ui-ktx:2.7.2")
 
     //Livedata
@@ -101,7 +104,6 @@ dependencies {
     implementation("com.google.android.gms:play-services-location:21.0.1")
 
     //OSMdroid
-
     implementation("org.osmdroid:osmdroid-android:6.1.16")
     implementation("org.osmdroid:osmdroid-wms:6.1.16")
     implementation("org.osmdroid:osmdroid-mapsforge:6.1.16")
@@ -113,14 +115,17 @@ dependencies {
     // Visualization
     implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
 
-
-    //implementation ("org.osmdroid:osmdroid-geopackage:6.1.16")
-
+    //noinspection GradleDependency
     implementation("androidx.camera:camera-core:1.3.0-alpha02")
+    //noinspection GradleDependency
     implementation("androidx.camera:camera-camera2:1.3.0-alpha02")
+    //noinspection GradleDependency
     implementation("androidx.camera:camera-lifecycle:1.3.0-alpha02")
+    //noinspection GradleDependency
     implementation("androidx.camera:camera-video:1.3.0-alpha02")
+    //noinspection GradleDependency
     implementation("androidx.camera:camera-view:1.3.0-alpha02")
+    //noinspection GradleDependency
     implementation("androidx.camera:camera-extensions:1.3.0-alpha02")
 
 }
