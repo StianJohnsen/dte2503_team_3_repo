@@ -67,13 +67,22 @@ class RecordingStatisticsFragment : BaseFragment<FragmentRecordingStatisticsBind
 
         for (i in 0 until jsonArray.length()) {
             val jsonObject = jsonArray.getJSONObject(i)
-            if (jsonObject.has("unfil_gyro")) categoryCount["unfil_gyro"] =
-                categoryCount.getOrDefault("unfil_gyro", 0f) + 1f
-            if (jsonObject.has("unfil_accel")) categoryCount["unfil_accel"] =
-                categoryCount.getOrDefault("unfil_accel", 0f) + 1f
-            if (jsonObject.has("fil_gyro")) categoryCount["fil_gyro"] = categoryCount.getOrDefault("fil_gyro", 0f) + 1f
-            if (jsonObject.has("fil_accel")) categoryCount["fil_accel"] =
-                categoryCount.getOrDefault("fil_accel", 0f) + 1f
+
+            if (jsonObject.has("unfil_gyro")) {
+                categoryCount["unfil_gyro"] = categoryCount.getOrDefault("unfil_gyro", 0f) + 1f
+            }
+
+            if (jsonObject.has("unfil_accel")) {
+                categoryCount["unfil_accel"] = categoryCount.getOrDefault("unfil_accel", 0f) + 1f
+            }
+
+            if (jsonObject.has("fil_gyro")) {
+                categoryCount["fil_gyro"] = categoryCount.getOrDefault("fil_gyro", 0f) + 1f
+            }
+
+            if (jsonObject.has("fil_accel")) {
+                categoryCount["fil_accel"] = categoryCount.getOrDefault("fil_accel", 0f) + 1f
+            }
         }
 
         val entries = ArrayList<PieEntry>()
@@ -128,15 +137,15 @@ class RecordingStatisticsFragment : BaseFragment<FragmentRecordingStatisticsBind
         val dir = File(requireContext().filesDir, "")
         val size = getFolderSize(dir)
         val fileSizeInMB = size.toDouble() / (1024 * 1024)
-
-        binding.inputTotalStorage.text = "%.2f MB".format(fileSizeInMB)
+        val totalStorage = "%.2f MB".format(fileSizeInMB)
+        binding.inputTotalStorage.text = totalStorage
 
         val files = context?.fileList()
         val numberOfFiles = files?.size
         binding.inputNumberOfFiles.text = "$numberOfFiles"
     }
 
-    fun getFolderSize(folder: File): Double {
+    private fun getFolderSize(folder: File): Double {
         var length = 0.0
         val files = folder.listFiles()
 
