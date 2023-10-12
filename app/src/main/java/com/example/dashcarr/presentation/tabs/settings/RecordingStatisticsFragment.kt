@@ -22,8 +22,6 @@ import java.io.BufferedReader
 import java.io.File
 import java.io.InputStreamReader
 import java.nio.charset.Charset
-import java.text.SimpleDateFormat
-import java.util.Locale
 import java.util.concurrent.TimeUnit
 
 
@@ -106,15 +104,17 @@ class RecordingStatisticsFragment : BaseFragment<FragmentRecordingStatisticsBind
         pieChart.invalidate()
 
         var totalElapsedTime: Long = 0
-        val dateFormat = SimpleDateFormat("HH:mm:ss", Locale.getDefault())
 
         for (i in 0 until jsonArray.length()) {
             val jsonObject = jsonArray.getJSONObject(i)
             val elapsedTimeStr = jsonObject.getString("elapsed_time")
-            val elapsedTimeDate = dateFormat.parse(elapsedTimeStr)
-            val elapsedTimeMillis = elapsedTimeDate?.time ?: 0L
 
-            val elapsedTimeSeconds = TimeUnit.MILLISECONDS.toSeconds(elapsedTimeMillis)
+            val timeParts = elapsedTimeStr.split(":")
+            val hours = timeParts[0].toLong()
+            val minutes = timeParts[1].toLong()
+            val seconds = timeParts[2].toLong()
+
+            val elapsedTimeSeconds = hours * 3600 + minutes * 60 + seconds
 
             totalElapsedTime += elapsedTimeSeconds
         }
@@ -129,6 +129,7 @@ class RecordingStatisticsFragment : BaseFragment<FragmentRecordingStatisticsBind
         )
 
         binding.inputAvgTime.text = averageElapsedTimeStr
+
 
         val averageSizeFile = averageFileSize(requireContext())
 
