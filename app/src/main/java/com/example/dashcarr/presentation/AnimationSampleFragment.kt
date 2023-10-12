@@ -8,13 +8,7 @@ class AnimationSampleFragment : BaseFragment<FragmentAnimationSampleBinding>(
     showBottomNavBar = false
 ) {
 
-    override fun observeViewModel() {
-        TODO("Not yet implemented")
-    }
 
-    override fun initListeners() {
-        TODO("Not yet implemented")
-    }
 
 
 }

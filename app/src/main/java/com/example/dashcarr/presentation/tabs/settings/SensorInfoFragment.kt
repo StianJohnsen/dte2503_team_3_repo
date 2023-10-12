@@ -10,13 +10,7 @@ class SensorInfoFragment : BaseFragment<FragmentSensorInfoBinding>(
     FragmentSensorInfoBinding::inflate,
     showBottomNavBar = false
 ) {
-    override fun observeViewModel() {
-        TODO("Not yet implemented")
-    }
 
-    override fun initListeners() {
-        TODO("Not yet implemented")
-    }
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

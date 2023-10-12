@@ -35,13 +35,7 @@ class RecordingDetailsFragment : BaseFragment<FragmentRecordingDetailsBinding>(
         return binding.root
     }
 
-    override fun observeViewModel() {
-        TODO("Not yet implemented")
-    }
 
-    override fun initListeners() {
-        TODO("Not yet implemented")
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

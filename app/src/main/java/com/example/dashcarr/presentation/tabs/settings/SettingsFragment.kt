@@ -17,13 +17,13 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>(
 ) {
     private val viewModel: SettingsViewModel by viewModels()
 
-    override fun observeViewModel() {
+     fun observeViewModel() {
         viewModel.logOutState.collectWithLifecycle(viewLifecycleOwner) {
             findNavController().navigate(R.id.action_global_loginFragment)
         }
     }
 
-    override fun initListeners() {
+     fun initListeners() {
         binding.btnProfileSettings.setOnClickListener {
             showBottomNavigation(false)
             findNavController().navigate(R.id.action_action_settings_to_animationSampleFragment)

@@ -27,13 +27,8 @@ class HudFragment : BaseFragment<FragmentHudBinding>(
     }
 
     private val textCanvas = TextDrawable()
-    override fun observeViewModel() {
-        // NOOP
-    }
 
-    override fun initListeners() {
-        // NOOP
-    }
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

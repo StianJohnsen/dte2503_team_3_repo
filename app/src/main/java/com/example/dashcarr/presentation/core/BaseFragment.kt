@@ -36,12 +36,11 @@ abstract class BaseFragment<VB: ViewBinding>(
 
     protected fun showBottomNavigation(show: Boolean) {
         val bottomNavigationView = activity?.findViewById<Group>(R.id.nav_bar_group)!!
-        bottomNavigationView?.visibility =
+        bottomNavigationView.visibility =
             if (show) View.VISIBLE
             else View.GONE
     }
 
-    abstract fun observeViewModel()
-    abstract fun initListeners()
+
 
 }
