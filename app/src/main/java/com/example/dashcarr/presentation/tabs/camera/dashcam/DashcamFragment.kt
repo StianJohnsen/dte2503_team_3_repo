@@ -84,11 +84,5 @@ class DashcamFragment : BaseFragment<FragmentDashcamBinding>(
         super.onDestroyView()
     }
 
-    override fun observeViewModel() {
-        // NOOP
-    }
 
-    override fun initListeners() {
-        // NOOP
-    }
 }

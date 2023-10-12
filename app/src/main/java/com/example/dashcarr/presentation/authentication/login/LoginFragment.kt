@@ -17,7 +17,6 @@ import com.example.dashcarr.presentation.core.BaseFragment
 import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FacebookAuthProvider
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
@@ -28,7 +27,6 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(
     FragmentLoginBinding::inflate,
     showBottomNavBar = false
 ) {
-    private lateinit var bottomNavigationView: BottomNavigationView
     private val viewModel: LoginViewModel by viewModels()
 
     @SuppressLint("RestrictedApi")
@@ -62,7 +60,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         super.onCreateView(inflater, container, savedInstanceState)
         return binding.root
     }
@@ -73,7 +71,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(
         observeViewModel()
     }
 
-    override fun observeViewModel() {
+     fun observeViewModel() {
         viewModel.emailErrorState.collectWithLifecycle(viewLifecycleOwner) {
             if (it != null) {
                 binding.tilEmail.isErrorEnabled = true
@@ -110,7 +108,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(
     }
 
 
-    override fun initListeners() {
+     fun initListeners() {
         binding.etEmail.doOnTextChanged { _, _, _, _ ->
             viewModel.updateEmail(binding.etEmail.text.toString())
         }
@@ -141,10 +139,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(
         }
     }
 
-    fun moveToMap(){
-        findNavController().navigate(R.id.action_loginFragment_to_action_map)
-        bottomNavigationView.visibility = View.VISIBLE
-    }
+
 
     private fun showAuth(provider: AuthUI.IdpConfig) {
         signInLauncher.launch(

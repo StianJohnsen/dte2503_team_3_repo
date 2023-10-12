@@ -36,13 +36,6 @@ class RecordingStatisticsFragment : BaseFragment<FragmentRecordingStatisticsBind
         return binding.root
     }
 
-    override fun observeViewModel() {
-        TODO("Not yet implemented")
-    }
-
-    override fun initListeners() {
-        TODO("Not yet implemented")
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -133,7 +126,7 @@ class RecordingStatisticsFragment : BaseFragment<FragmentRecordingStatisticsBind
 
         val dir = File(requireContext().filesDir, "")
         val size = getFolderSize(dir)
-        val fileSizeInMB = size.toDouble() / (1024 * 1024)
+        val fileSizeInMB = size / (1024 * 1024)
         val totalStorage = "%.2f MB".format(fileSizeInMB)
         binding.inputTotalStorage.text = totalStorage
 

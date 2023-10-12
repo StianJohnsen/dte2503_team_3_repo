@@ -51,13 +51,7 @@ class SensorFragment : BaseFragment<FragmentSensorBinding>(
     private val magnetometerReading = FloatArray(3)
     private val rotationMatrix = FloatArray(9)
     private val orientationAngles = FloatArray(3)
-    override fun observeViewModel() {
-        TODO("Not yet implemented")
-    }
 
-    override fun initListeners() {
-        TODO("Not yet implemented")
-    }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -144,11 +138,7 @@ class SensorFragment : BaseFragment<FragmentSensorBinding>(
             filteredCsvStringBuilder.append("$id, $accelTimestamp, $accelX, $accelY, $accelZ, $gyroTimestamp, $gyroX, $gyroY, $gyroZ\n")
         }
 
-        val unfilteredFileContents = unfilteredCsvStringBuilder.toString()
-        val filteredFileContents = filteredCsvStringBuilder.toString()
 
-
-        //val fileContents = rawAcclRecord.toString()
 
 
     }
@@ -177,22 +167,14 @@ class SensorFragment : BaseFragment<FragmentSensorBinding>(
                 }
 
             }
-            /*
-            showRecordStat.setOnClickListener {
-                moveToStat()
-            }
-             */
+
 
         }
 
 
     }
 
-    /*
-        fun moveToStat(){
-        findNavController().navigate(R.id.action_sensorFragment_to_sensorInfoFragment)
-    }
-     */
+
 
 
     fun startRecording() {
@@ -208,7 +190,7 @@ class SensorFragment : BaseFragment<FragmentSensorBinding>(
 
     override fun onSensorChanged(event: SensorEvent?) {
         if (event?.values != null) {
-            if (event?.sensor == accelSensor) {
+            if (event.sensor == accelSensor) {
                 // Unfiltered Accelerometer
                 binding.accelUnfiltered.text = getString(
                     R.string.accelerometer_unfiltered_template,
@@ -234,7 +216,7 @@ class SensorFragment : BaseFragment<FragmentSensorBinding>(
 
             }
             // Unfiltered Gyroscope
-            if (event?.sensor == gyroSensor) {
+            if (event.sensor == gyroSensor) {
                 binding.gyroUnfiltered.text = getString(
                     R.string.gyroscope_unfiltered_template,
 

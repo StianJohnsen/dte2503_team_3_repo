@@ -8,7 +8,6 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.LinearLayout
 import android.widget.Spinner
-import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.dashcarr.R
 import com.example.dashcarr.databinding.FragmentSavedRecordingsBinding
@@ -17,23 +16,13 @@ import org.json.JSONArray
 import java.io.BufferedReader
 import java.io.InputStreamReader
 import java.nio.charset.Charset
-import java.io.BufferedReader
-import java.io.IOException
-import java.io.InputStreamReader
-import java.nio.charset.Charset
+
 
 class SavedRecordingsFragment : BaseFragment<FragmentSavedRecordingsBinding>(
     FragmentSavedRecordingsBinding::inflate,
     showBottomNavBar = false
 ) {
-    private val viewModel: SavedRecordingsViewModel by viewModels()
-    override fun observeViewModel() {
-        TODO("Not yet implemented")
-    }
 
-    override fun initListeners() {
-        TODO("Not yet implemented")
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -52,7 +41,7 @@ class SavedRecordingsFragment : BaseFragment<FragmentSavedRecordingsBinding>(
         createDropdownsFromJson()
     }
 
-    public fun readJsonFromFile(): JSONArray {
+    fun readJsonFromFile(): JSONArray {
         var jsonArray = JSONArray()
         val fileName = "sensor_config.json"
         try {
