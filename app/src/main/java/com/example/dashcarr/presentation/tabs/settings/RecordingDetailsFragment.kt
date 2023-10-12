@@ -63,7 +63,8 @@ class RecordingDetailsFragment : BaseFragment<FragmentRecordingDetailsBinding>(
             val inputStream: InputStream = requireContext().openFileInput(fileName)
             val reader = BufferedReader(InputStreamReader(inputStream, Charset.forName("UTF-8")))
             var fileLength = inputStream.available()
-            fileLength /= 1024
+            val getToKB = 1024
+            fileLength /= getToKB
             var line: String?
             val entriesX = ArrayList<Entry>()
             val entriesY = ArrayList<Entry>()
@@ -140,7 +141,7 @@ class RecordingDetailsFragment : BaseFragment<FragmentRecordingDetailsBinding>(
     }
 
     fun getElapsedTime(fileName: String, csvFile: String): String {
-        var jsonArray = JSONArray()
+        val jsonArray: JSONArray
         var value = ""
         try {
             val inputStream = context?.openFileInput(fileName)
@@ -156,7 +157,7 @@ class RecordingDetailsFragment : BaseFragment<FragmentRecordingDetailsBinding>(
                     break
                 }
             }
-        } catch (e: Exception) {
+        } catch (e: IOException) {
             e.printStackTrace()
         }
         return value
