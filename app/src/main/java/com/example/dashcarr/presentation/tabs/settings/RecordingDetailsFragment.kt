@@ -27,7 +27,7 @@ import java.nio.charset.Charset
 
 class RecordingDetailsFragment : BaseFragment<FragmentRecordingDetailsBinding>(
     FragmentRecordingDetailsBinding::inflate,
-    showBottomNavBar = true
+    showBottomNavBar = false
 ) {
     private lateinit var bottomNavigationView: BottomNavigationView
     private val viewModel: RecordingDetailsViewModel by viewModels()
