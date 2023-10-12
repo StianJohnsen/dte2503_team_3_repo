@@ -25,7 +25,7 @@
 
     <string name="start_recording">Start</string>
     <string name="stop_recording">Stop</string>
-    <string name="recording">Recording...</string>
+    <string name="recording">Recording…</string>
 
     <!--Error-->
 
@@ -64,9 +64,9 @@
     <string name="statistics">Statistics</string>
     <string name="total_storage">Total Storage:</string>
     <string name="number_of_files">Number Of Files:</string>
-    <string name="incoming">...</string>
+    <string name="incoming">…</string>
     <string name="avg_time">Average Time:</string>
-    <string name="avg_size">Average size:</string>
+    <string name="avg_size">Average file size:</string>
 
     <!--RecordingDetailsFragment-->
 

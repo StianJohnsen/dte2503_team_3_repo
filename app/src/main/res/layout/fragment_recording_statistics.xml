@@ -20,7 +20,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_padding_size_10"
-            android:layout_marginEnd="@dimen/margin_padding_size_56"
             android:text="@string/statistics"
             android:textAlignment="center"
             android:textColor="@color/white"
@@ -28,7 +27,7 @@
             android:textStyle="bold"
             app:layout_constraintBottom_toTopOf="@+id/pieChart_stats"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/image_back_stats"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView

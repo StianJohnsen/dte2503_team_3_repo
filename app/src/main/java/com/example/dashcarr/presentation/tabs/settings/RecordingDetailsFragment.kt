@@ -115,13 +115,16 @@ class RecordingDetailsFragment : BaseFragment<FragmentRecordingDetailsBinding>(
             val yAxisRight = lineChart.axisRight
             yAxisRight.textColor = Color.WHITE
 
+            lineChart.description.isEnabled = false
+
             lineChart.data = data
             lineChart.invalidate()
 
             binding.inputElapsedTime.text = elapsedTime
             binding.inputFileDate.text = fileDate
             binding.inputAmountOfDatapoints.text = "$amountDataPoints"
-            binding.inputDataSize.text = "$fileLength KB"
+            val lengthInKB = "$fileLength KB"
+            binding.inputDataSize.text = lengthInKB
 
         } catch (e: IOException) {
             e.printStackTrace()

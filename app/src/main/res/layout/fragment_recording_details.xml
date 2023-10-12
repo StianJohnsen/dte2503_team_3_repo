@@ -139,13 +139,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
-            android:layout_marginEnd="12dp"
             android:textColor="@color/black"
             android:textSize="@dimen/text_size_20"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@+id/text_datasize"
-            app:layout_constraintEnd_toStartOf="@+id/text_bar_record_2"
-            app:layout_constraintHorizontal_bias="0.1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.05"
             app:layout_constraintStart_toEndOf="@+id/text_datasize"
             app:layout_constraintTop_toTopOf="@+id/text_datasize" />
 
