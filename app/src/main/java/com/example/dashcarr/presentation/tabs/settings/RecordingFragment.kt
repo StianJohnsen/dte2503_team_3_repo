@@ -22,7 +22,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class RecordingFragment : BaseFragment<FragmentRecordingBinding>(
     FragmentRecordingBinding::inflate,
-    showBottomNavBar = true
+    showBottomNavBar = false
 ), SensorEventListener {
     private lateinit var bottomNavigationView: BottomNavigationView
     private val viewModel: RecordingViewModel by viewModels()

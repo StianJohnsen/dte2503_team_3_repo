@@ -14,7 +14,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class ConfigureRecordingFragment : BaseFragment<FragmentConfigureRecordingBinding>(
     FragmentConfigureRecordingBinding::inflate,
-    showBottomNavBar = true
+    showBottomNavBar = false
 ) {
     private lateinit var bottomNavigationView: BottomNavigationView
     private val viewModel: ConfigureRecordingViewModel by viewModels()

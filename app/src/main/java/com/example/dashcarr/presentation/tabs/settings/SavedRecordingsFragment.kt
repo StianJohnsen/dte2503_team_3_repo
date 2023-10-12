@@ -19,7 +19,7 @@ import java.nio.charset.Charset
 
 class SavedRecordingsFragment : BaseFragment<FragmentSavedRecordingsBinding>(
     FragmentSavedRecordingsBinding::inflate,
-    showBottomNavBar = true
+    showBottomNavBar = false
 ) {
     private val viewModel: SavedRecordingsViewModel by viewModels()
     override fun observeViewModel() {

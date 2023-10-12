@@ -29,7 +29,7 @@ import java.util.concurrent.TimeUnit
 
 class RecordingStatisticsFragment : BaseFragment<FragmentRecordingStatisticsBinding>(
     FragmentRecordingStatisticsBinding::inflate,
-    showBottomNavBar = true
+    showBottomNavBar = false
 ) {
     private lateinit var bottomNavigationView: BottomNavigationView
     private val viewModel: RecordingStatisticsViewModel by viewModels()
