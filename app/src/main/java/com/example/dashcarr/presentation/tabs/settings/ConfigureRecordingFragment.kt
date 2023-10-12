@@ -5,7 +5,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.dashcarr.R
 import com.example.dashcarr.databinding.FragmentConfigureRecordingBinding
@@ -18,21 +17,19 @@ class ConfigureRecordingFragment : BaseFragment<FragmentConfigureRecordingBindin
     showBottomNavBar = false
 ) {
     private lateinit var bottomNavigationView: BottomNavigationView
-    private val viewModel: ConfigureRecordingViewModel by viewModels()
-    private val settingsViewModel: SettingsViewModel by viewModels()
 
-    private var startTimeMillis: Long = 0
-
-    var isFilteredChecked = false
-    var isAccelChecked = false
-    var isGyroChecked = false
+    private var isFilteredChecked = false
+    private var isAccelChecked = false
+    private var isGyroChecked = false
 
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         super.onCreateView(inflater, container, savedInstanceState)
+        bottomNavigationView = activity?.findViewById(R.id.bottom_nav)!!
+        bottomNavigationView.visibility = View.VISIBLE
         return binding.root
     }
 
@@ -54,18 +51,18 @@ class ConfigureRecordingFragment : BaseFragment<FragmentConfigureRecordingBindin
                 startRecording()
             }
             imageBackConfigure.setOnClickListener {
-                startRecording()
+                findNavController().navigate(R.id.action_action_configure_to_SettingsFragment)
             }
-            checkBoxFilterData.setOnCheckedChangeListener { buttonView, isChecked ->
+            checkBoxFilterData.setOnCheckedChangeListener { _, isChecked ->
                 isFilteredChecked = isChecked
 
 
             }
-            checkBoxAcc.setOnCheckedChangeListener { buttonView, isChecked ->
+            checkBoxAcc.setOnCheckedChangeListener { _, isChecked ->
                 isAccelChecked = isChecked
             }
 
-            checkBoxGyro.setOnCheckedChangeListener { buttonView, isChecked ->
+            checkBoxGyro.setOnCheckedChangeListener { _, isChecked ->
                 isGyroChecked = isChecked
             }
         }
@@ -74,19 +71,12 @@ class ConfigureRecordingFragment : BaseFragment<FragmentConfigureRecordingBindin
     }
 
 
-    fun startRecording() {
+    private fun startRecording() {
         Log.d("checking", isFilteredChecked.toString() + "\n" + isAccelChecked + "\n" + isGyroChecked)
         val args = Bundle()
         args.putBoolean("isFiltered", isFilteredChecked)
         args.putBoolean("isAccel", isAccelChecked)
         args.putBoolean("isGyro", isGyroChecked)
-        /*
-                val action = ConfigureRecordingFragmentDirections.actionActionConfigureToRecordingFragment(
-                    isFilteredChecked,
-                    isAccelChecked,
-                    isGyroChecked
-                )
-         */
 
         findNavController().navigate(R.id.action_action_configure_to_RecordingFragment, args)
 
