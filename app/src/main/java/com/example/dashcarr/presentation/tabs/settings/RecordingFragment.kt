@@ -12,13 +12,13 @@ import android.location.LocationListener
 import android.location.LocationManager
 import android.os.Bundle
 import android.os.Handler
+import android.os.Looper
 import android.os.SystemClock
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.dashcarr.R
 import com.example.dashcarr.databinding.FragmentRecordingBinding
@@ -36,9 +36,6 @@ class RecordingFragment : BaseFragment<FragmentRecordingBinding>(
     showBottomNavBar = false
 ), SensorEventListener, LocationListener {
     private lateinit var bottomNavigationView: BottomNavigationView
-    //private val viewModel: RecordingViewModel by viewModels()
-
-    private val settingsViewModel: SettingsViewModel by viewModels()
 
     private val locationManager by lazy { requireContext().getSystemService(Context.LOCATION_SERVICE) as LocationManager }
 
@@ -48,20 +45,13 @@ class RecordingFragment : BaseFragment<FragmentRecordingBinding>(
         if (permissionResult.values.isEmpty())
             return@registerForActivityResult
         if (permissionResult.values.contains(false)) {
-            Log.e("gotLocationStatus", "Permission not activitated")
+            Log.e("gotLocationStatus", "Permission not activated")
 
         } else {
-            Log.e("gotLocationStatus", "Permission activitated")
+            Log.e("gotLocationStatus", "Permission activated")
             createLocationRequest()
         }
     }
-
-    val gpsLocationListener: LocationListener = object : LocationListener {
-        override fun onLocationChanged(location: Location) {
-            Log.d("plass", location.altitude.toString() + location.latitude.toString() + location.longitude.toString())
-        }
-    }
-    private val REQUEST_PERMISSIONS_REQUEST_CODE = 1
 
 
     @SuppressLint("MissingPermission")
@@ -77,7 +67,7 @@ class RecordingFragment : BaseFragment<FragmentRecordingBinding>(
     private var isRecording = true
     private var isTimerPaused = false
 
-    var elapsedTime = ""
+    private var elapsedTime = ""
 
 
     private var isFiltered: Boolean? = false
@@ -86,36 +76,34 @@ class RecordingFragment : BaseFragment<FragmentRecordingBinding>(
 
 
     // Accelerometer
-    val rawAccData = FloatArray(3)
-    val rawAccDataIndex = 0
-    val filtAccData = FloatArray(3)
-    val filtAccPrevData = FloatArray(3)
+    private val rawAccData = FloatArray(3)
+    private val rawAccDataIndex = 0
+    private val filtAccData = FloatArray(3)
+    private val filtAccPrevData = FloatArray(3)
     private val rawAcclRecord = mutableListOf<SensorData>()
     private val filtAcclRecord = mutableListOf<SensorData>()
 
-    var count = 0
-    val beginTime = System.nanoTime()
-    val rc = 0.002f
+    private var count = 0
+    private val beginTime = System.nanoTime()
+    private val rc = 0.002f
 
     // Gyroscope
-    val rawGyroData = FloatArray(3)
-    val rawGyroDataIndex = 0
-    val filtGyroData = FloatArray(3)
-    val filtGyroPrevData = FloatArray(3)
+    private val rawGyroData = FloatArray(3)
+    private val rawGyroDataIndex = 0
+    private val filtGyroData = FloatArray(3)
+    private val filtGyroPrevData = FloatArray(3)
     private val rawGyroRecord = mutableListOf<SensorData>()
     private val filtGyroRecord = mutableListOf<SensorData>()
 
 
     // Orientation
-    private val accelerometerRading = FloatArray(3)
+    private val accelerometerReading = FloatArray(3)
     private val magnetometerReading = FloatArray(3)
     private val rotationMatrix = FloatArray(9)
     private val orientationAngles = FloatArray(3)
 
     // Location
-    val rawLocationData = FloatArray(3)
-    val rawLocationDataIndex = 0
-    val rawLocationRecord = mutableListOf<SensorData>()
+    private val rawLocationRecord = mutableListOf<SensorData>()
 
     private val recordingJson = JSONObject()
 
@@ -127,11 +115,10 @@ class RecordingFragment : BaseFragment<FragmentRecordingBinding>(
 
 
     private var startTimeMillis: Long = 0
-    private var pauseTimeMillis: Long = 0
     private var totalElapsedTimeMillis: Long = 0
     private var pauseElapsedTimeMillis: Long = 0
 
-    var handler = Handler()
+    var handler = Handler(Looper.getMainLooper())
     private val updateTimeRunnable = object : Runnable {
         override fun run() {
             updateElapsedTime()
@@ -142,10 +129,10 @@ class RecordingFragment : BaseFragment<FragmentRecordingBinding>(
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         super.onCreateView(inflater, container, savedInstanceState)
-        bottomNavigationView = activity?.findViewById<BottomNavigationView>(R.id.bottom_nav)!!
-        bottomNavigationView?.visibility = View.VISIBLE
+        bottomNavigationView = activity?.findViewById(R.id.bottom_nav)!!
+        bottomNavigationView.visibility = View.VISIBLE
         return binding.root
     }
 
@@ -156,13 +143,6 @@ class RecordingFragment : BaseFragment<FragmentRecordingBinding>(
     override fun initListeners() {
         TODO("Not yet implemented")
     }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        // Cancel the coroutine job associated with the collection
-        //settingsViewModel.isFilteredChecked.collect {}.cancel()
-    }
-
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -228,13 +208,13 @@ class RecordingFragment : BaseFragment<FragmentRecordingBinding>(
     }
 
 
-    fun readJsonFromFile(fileName: String): JSONArray {
+    private fun readJsonFromFile(): JSONArray {
         var jsonArray = JSONArray()
         try {
-            val inputStream = context?.openFileInput(fileName)
+            val inputStream = context?.openFileInput("sensor_config.json")
             if (inputStream != null) {
                 val reader = BufferedReader(InputStreamReader(inputStream, Charset.forName("UTF-8")))
-                var line: String? = reader.readLine()
+                val line: String? = reader.readLine()
                 jsonArray = JSONArray(line.toString())
 
                 inputStream.close()
@@ -245,39 +225,37 @@ class RecordingFragment : BaseFragment<FragmentRecordingBinding>(
         return jsonArray
     }
 
-    fun writeToLocationFile(gpsList: MutableList<SensorData>): StringBuilder {
-        var stringBuilder = StringBuilder()
-        var ID = 0
+    private fun writeToLocationFile(gpsList: MutableList<SensorData>): StringBuilder {
+        val stringBuilder = StringBuilder()
+        var id = 0
         stringBuilder.append("ID, GPS_Timestamp(ms), Longitude, Latitude, Altitude\n")
         gpsList.forEach {
-            stringBuilder.append("$ID, ${it.timestamp}, ${it.x}, ${it.y}, ${it.z}\n")
-            ID++
+            stringBuilder.append("$id, ${it.timestamp}, ${it.x}, ${it.y}, ${it.z}\n")
+            id++
         }
         return stringBuilder
 
     }
 
-    fun writeToSensorFile(sensor: String, sensorList: MutableList<SensorData>): StringBuilder {
-        var stringBuilder = StringBuilder()
-        var ID = 0
+    private fun writeToSensorFile(sensor: String, sensorList: MutableList<SensorData>): StringBuilder {
+        val stringBuilder = StringBuilder()
+        var id = 0
         stringBuilder.append("ID, ${sensor}_Timestamp(ms), ${sensor}_X, ${sensor}_Y, ${sensor}_Z\n")
         sensorList.forEach {
-            stringBuilder.append("$ID, ${it.timestamp}, ${it.x}, ${it.y}, ${it.z}\n")
-            ID++
+            stringBuilder.append("$id, ${it.timestamp}, ${it.x}, ${it.y}, ${it.z}\n")
+            id++
         }
         return stringBuilder
     }
 
-    fun saveToFile(stringBuilder: StringBuilder, filtered: String, sensor: String, dateTime: LocalDateTime) {
+    private fun saveToFile(stringBuilder: StringBuilder, filtered: String, sensor: String, dateTime: LocalDateTime) {
         context?.openFileOutput("${dateTime}_${filtered}_${sensor}.csv", Context.MODE_PRIVATE).use {
-            if (it != null) {
-                it.write(stringBuilder.toString().toByteArray())
-            }
+            it?.write(stringBuilder.toString().toByteArray())
         }
     }
 
 
-    fun makeJSONObject(
+    private fun makeJSONObject(
         dateTime: LocalDateTime,
         filtered: String,
         sensor: String,
@@ -289,9 +267,9 @@ class RecordingFragment : BaseFragment<FragmentRecordingBinding>(
             recordingJson.put("${filtered}_${sensor}", "")
     }
 
-    fun saveToCSV() {
+    private fun saveToCSV() {
 
-        var currentStringBuilder = StringBuilder()
+        var currentStringBuilder: StringBuilder
 
         val stopDateTime = LocalDateTime.now()
 
@@ -361,21 +339,15 @@ class RecordingFragment : BaseFragment<FragmentRecordingBinding>(
         }
 
 
-        val existingJSONArray = readJsonFromFile("sensor_config.json")
+        val existingJSONArray = readJsonFromFile()
         Log.d("jsonArrayTest", existingJSONArray.toString())
 
-        val jsonArray: JSONArray = if (existingJSONArray is JSONArray) {
-            existingJSONArray
-        } else {
-            JSONArray()
-        }
+        val jsonArray: JSONArray = existingJSONArray
 
         jsonArray.put(recordingJson)
 
         context?.openFileOutput("sensor_config.json", Context.MODE_PRIVATE).use {
-            if (it != null) {
-                it.write(jsonArray.toString().toByteArray())
-            }
+            it?.write(jsonArray.toString().toByteArray())
         }
 
 
@@ -416,7 +388,7 @@ class RecordingFragment : BaseFragment<FragmentRecordingBinding>(
         sensorManager.unregisterListener(this)
     }
 
-    fun stopRecording() {
+    private fun stopRecording() {
         isRecording = false
         saveToCSV()
         rawLocationRecord.forEach {
@@ -426,13 +398,13 @@ class RecordingFragment : BaseFragment<FragmentRecordingBinding>(
         }
     }
 
-    fun pauseRecording() {
+    private fun pauseRecording() {
         isRecording = false
         isTimerPaused = true
         pauseElapsedTimeMillis += SystemClock.elapsedRealtime() - startTimeMillis
     }
 
-    fun resumeRecording() {
+    private fun resumeRecording() {
         isRecording = true
         isTimerPaused = false
         startTimeMillis = SystemClock.elapsedRealtime()
@@ -455,7 +427,7 @@ class RecordingFragment : BaseFragment<FragmentRecordingBinding>(
 
     override fun onSensorChanged(event: SensorEvent?) {
         if (event?.values != null) {
-            if (event?.sensor == accelSensor) {
+            if (event.sensor == accelSensor) {
                 // Unfiltered Accelerometer
                 binding.unfilAccelField.text = getString(
                     R.string.accelerometer_unfiltered_template,
@@ -481,7 +453,7 @@ class RecordingFragment : BaseFragment<FragmentRecordingBinding>(
 
             }
             // Unfiltered Gyroscope
-            if (event?.sensor == gyroSensor) {
+            if (event.sensor == gyroSensor) {
                 binding.unfilGyroField.text = getString(
                     R.string.gyroscope_unfiltered_template,
 
@@ -509,7 +481,7 @@ class RecordingFragment : BaseFragment<FragmentRecordingBinding>(
             // Orientation
             if (event.sensor.type == Sensor.TYPE_ACCELEROMETER) {
                 System.arraycopy(
-                    event.values, 0, accelerometerRading, 0, accelerometerRading.size
+                    event.values, 0, accelerometerReading, 0, accelerometerReading.size
                 )
             } else if (event.sensor.type == Sensor.TYPE_MAGNETIC_FIELD) {
                 System.arraycopy(
@@ -526,9 +498,9 @@ class RecordingFragment : BaseFragment<FragmentRecordingBinding>(
     }
 
 
-    fun updateOrientationAngles() {
+    private fun updateOrientationAngles() {
         SensorManager.getRotationMatrix(
-            rotationMatrix, null, accelerometerRading, magnetometerReading
+            rotationMatrix, null, accelerometerReading, magnetometerReading
         )
         SensorManager.getOrientation(rotationMatrix, orientationAngles)
     }
