@@ -29,7 +29,7 @@ class SavedRecordingsFragment : BaseFragment<FragmentSavedRecordingsBinding>(
 
 
     enum class CarState {
-        ACCELERATING, IDLING, DECELERATING, UNKNOWN
+        ACCELERATING, IDLING, DECELERATING, SHAKING, UNKNOWN
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -135,77 +135,91 @@ class SavedRecordingsFragment : BaseFragment<FragmentSavedRecordingsBinding>(
         return lines
     }
 
+    private fun median(list: List<Float>) = list.sorted().let {
+        if (it.size % 2 == 0)
+            (it[it.size / 2] + it[(it.size - 1) / 2]) / 2
+        else
+            it[it.size / 2]
+    }
 
-    private fun calculateAbsoluteDerivative(input: List<Float>, averaging: Int): List<Float> {
+    private fun lowPassFilter(input: List<Float>, averaging: Int): List<Float> {
         val averagingValues = emptyList<Float>().toMutableList()
         val result = emptyList<Float>().toMutableList()
-        fun med(list: List<Float>) = list.sorted().let {
-            if (it.size % 2 == 0)
-                (it[it.size / 2] + it[(it.size - 1) / 2]) / 2
-            else
-                it[it.size / 2]
-        }
 
-        var lastValue = 0F
+
         var currentIndex = 0
         for (value in input) {
             if (averagingValues.size < averaging) {
-                averagingValues.add((value - lastValue).absoluteValue)
+                averagingValues.add(value)
             } else {
-                averagingValues[currentIndex] = (value - lastValue).absoluteValue
+                averagingValues[currentIndex] = value
                 currentIndex += 1
                 currentIndex %= averaging
             }
-            result.add(med(averagingValues))
-            lastValue = value
+            result.add(median(averagingValues))
         }
         return result
     }
 
     private fun analyseCarStates(accFilePath: String, gyroFilePath: String): String {
-        val accData = getListFromFile(accFilePath)
+        var accData = getListFromFile(accFilePath).map { it[4] }
+        accData = lowPassFilter(accData, 50)
+
         val gyroData = getListFromFile(gyroFilePath)
         var processedGyroData = List(gyroData.size) { 0F }
         for (i in 2..4) {
+            val derivative = gyroData.zipWithNext().map { (it.first[i] - it.second[i]).absoluteValue }
             processedGyroData =
-                processedGyroData.zip(calculateAbsoluteDerivative(gyroData.map { list -> list[3] }, 200))
+                processedGyroData.zip(lowPassFilter(derivative, 200))
                     .map { it.first + it.second }
         }
 
         val fileName = "${LocalDateTime.now()}_car_states.csv"
         val fileOutput = requireContext().openFileOutput(fileName, Context.MODE_PRIVATE)
         fileOutput.write("car_states\n".toByteArray())
-        var currentState = CarState.UNKNOWN
+
+        val relevantAccelerationValues = emptyList<Float>().toMutableList()
+        val allCarStates = emptyList<CarState>().toMutableList()
+        var lastState = CarState.UNKNOWN
         for (i in 0..<min(accData.size, processedGyroData.size)) {
-            currentState =
-                if (currentState == CarState.UNKNOWN && processedGyroData[i] > 0.03 || processedGyroData[i] > 0.06) {
-                    CarState.UNKNOWN
+            val currentState =
+                if (lastState == CarState.SHAKING && processedGyroData[i] > 0.03 || processedGyroData[i] > 0.06) {
+                    CarState.SHAKING
                 } else {
-                    when {
-                        accData[i][4] > 0.5 -> CarState.ACCELERATING
-
-                        0 < accData[i][4] && accData[i][4] <= 0.5 ->
-                            if (currentState == CarState.DECELERATING) {
-                                CarState.IDLING
-                            } else {
-                                currentState
-                            }
-
-                        -0.5 < accData[i][4] && accData[i][4] <= 0 ->
-                            if (currentState == CarState.ACCELERATING) {
-                                CarState.IDLING
-                            } else {
-                                currentState
-                            }
-
-                        accData[i][4] <= -0.5 -> CarState.DECELERATING
-
-                        // should never
-                        else -> CarState.UNKNOWN
-                    }
+                    relevantAccelerationValues.add(accData[i])
+                    CarState.UNKNOWN
                 }
+            allCarStates.add(currentState)
+            lastState = currentState
+        }
+        val zOffset = median(relevantAccelerationValues)
+        for (i in 0..<allCarStates.size) {
+            if (allCarStates[i] == CarState.UNKNOWN) {
+                val currentAcceleration = accData[i] - zOffset
+                allCarStates[i] = when {
+                    currentAcceleration > 0.5 -> CarState.ACCELERATING
 
-            fileOutput.write("${i}, ${accData[i][1]}, ${processedGyroData[i]}, ${currentState.ordinal}\n".toByteArray())
+                    0 < currentAcceleration && currentAcceleration <= 0.5 ->
+                        if (i == 0 || allCarStates[i - 1] == CarState.DECELERATING) {
+                            CarState.IDLING
+                        } else {
+                            allCarStates[i - 1]
+                        }
+
+                    -0.5 < currentAcceleration && currentAcceleration <= 0 ->
+                        if (i == 0 || allCarStates[i - 1] == CarState.ACCELERATING) {
+                            CarState.IDLING
+                        } else {
+                            allCarStates[i - 1]
+                        }
+
+                    currentAcceleration <= -0.5 -> CarState.DECELERATING
+
+                    // should never happen
+                    else -> CarState.UNKNOWN
+                }
+            }
+            fileOutput.write("${i}, ${gyroData[i][1]}, ${processedGyroData[i]}, ${allCarStates[i].ordinal}\n".toByteArray())
         }
         fileOutput.close()
         return fileName
