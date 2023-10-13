@@ -58,7 +58,7 @@
     <string name="saved_recordings">Saved Recordings</string>
     <string name="new_recording">New Recording</string>
 
-    <!--SavedRecordingsFragment-->
+    <!--HistoryFragment-->
 
     <string name="show_statistics">Show Statistics</string>
 

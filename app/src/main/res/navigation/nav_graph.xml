@@ -27,13 +27,13 @@
 
         <action
             android:id="@+id/action_action_settings_to_SavedRecordingsFragment"
-            app:destination="@id/action_saved_recordings" />
+            app:destination="@id/action_history" />
         <action
             android:id="@+id/action_action_settings_to_ConfigureFragment"
             app:destination="@id/action_configure_recording" />
         <action
             android:id="@+id/action_action_settings_to_action_saved_recordings"
-            app:destination="@id/action_saved_recordings" />
+            app:destination="@id/action_history" />
         <action
             android:id="@+id/action_action_settings_to_action_recording_details"
             app:destination="@id/action_recording_details" />
@@ -58,7 +58,7 @@
         android:label="RecordingFragment">
         <action
             android:id="@+id/action_action_recording_to_SavedRecordingsFragment"
-            app:destination="@id/action_saved_recordings" />
+            app:destination="@id/action_history" />
         <argument
             android:name="isFiltered"
             app:argType="boolean" />
@@ -73,33 +73,19 @@
             app:destination="@id/action_configure_recording" />
     </fragment>
     <fragment
-        android:id="@+id/action_saved_recordings"
-        android:name="com.example.dashcarr.presentation.tabs.settings.SavedRecordingsFragment"
-        android:label="SavedRecordingsFragment">
-        <action
-            android:id="@+id/action_action_savedrecordings_to_StatisticsFragment"
-            app:destination="@id/action_recordings_statistics" />
-        <action
-            android:id="@+id/action_action_savedrecordings_to_SettingsFragment"
-            app:destination="@id/action_settings" />
-        <action
-            android:id="@+id/action_action_savedrecordings_to_RecordingDetailsFragment"
-            app:destination="@id/action_recording_details" />
-    </fragment>
-    <fragment
         android:id="@+id/action_recordings_statistics"
-        android:name="com.example.dashcarr.presentation.tabs.settings.RecordingStatisticsFragment"
+        android:name="com.example.dashcarr.presentation.tabs.history.RecordingStatisticsFragment"
         android:label="RecordingStatisticsFragment" />
     <action
         android:id="@+id/action_action_statistics_to_SavedRecordingsFragment"
-        app:destination="@id/action_saved_recordings" />
+        app:destination="@id/action_history" />
     <fragment
         android:id="@+id/action_recording_details"
-        android:name="com.example.dashcarr.presentation.tabs.settings.RecordingDetailsFragment"
+        android:name="com.example.dashcarr.presentation.tabs.history.RecordingDetailsFragment"
         android:label="RecordingDetailsFragment">
         <action
             android:id="@+id/action_action_details_to_SavedRecordingsFragment"
-            app:destination="@id/action_saved_recordings" />
+            app:destination="@id/action_history" />
         <argument
             android:name="selectedFileName"
             app:argType="string" />
@@ -117,7 +103,14 @@
     <fragment
         android:id="@+id/action_history"
         android:name="com.example.dashcarr.presentation.tabs.history.HistoryFragment"
-        android:label="HistoryFragment" />
+        android:label="HistoryFragment">
+        <action
+            android:id="@+id/action_action_history_to_StatisticsFragment"
+            app:destination="@id/action_recordings_statistics" />
+        <action
+            android:id="@+id/action_action_history_to_RecordingDetailsFragment"
+            app:destination="@id/action_recording_details" />
+    </fragment>
     <fragment
         android:id="@+id/animationSampleFragment"
         android:name="com.example.dashcarr.presentation.AnimationSampleFragment"

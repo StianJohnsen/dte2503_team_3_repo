@@ -1,4 +1,4 @@
-package com.example.dashcarr.presentation.tabs.settings
+package com.example.dashcarr.presentation.tabs.history
 
 import android.graphics.Color
 import android.os.Bundle

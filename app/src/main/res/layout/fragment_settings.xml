@@ -159,27 +159,6 @@
             android:background="@drawable/white_rounded_16dp_background">
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnSavedRecordings"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/standard_touch_size"
-            android:backgroundTint="@color/black"
-            android:insetTop="@dimen/margin_padding_size_0"
-            android:insetBottom="@dimen/margin_padding_size_0"
-            android:text="@string/saved_recordings"
-            android:textSize="@dimen/text_size_14"
-            android:textStyle="bold"
-            android:textColor="?settingButtonTextColor"
-            app:cornerRadius="@dimen/margin_padding_size_20"
-            app:icon="@drawable/ic_saved_recordings"
-            app:iconGravity="textStart"
-            app:iconTint="@null"
-            app:iconSize="32dp"
-            android:layout_marginBottom="@dimen/margin_padding_size_4"
-            app:layout_constraintTop_toBottomOf="@id/btnPreferences"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
-
-        <com.google.android.material.button.MaterialButton
             android:id="@+id/btnNewRecording"
             android:layout_width="match_parent"
             android:layout_height="@dimen/standard_touch_size"
@@ -193,7 +172,6 @@
             app:icon="@drawable/ic_new_recording_small"
             app:iconGravity="textStart"
             app:iconTint="@null"
-            app:layout_constraintTop_toBottomOf="@id/btnSavedRecordings"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
