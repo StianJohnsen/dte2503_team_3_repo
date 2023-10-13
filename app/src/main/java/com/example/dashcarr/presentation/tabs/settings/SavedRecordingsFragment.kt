@@ -16,10 +16,10 @@ import org.json.JSONArray
 import java.io.BufferedReader
 import java.io.InputStream
 import java.io.InputStreamReader
-import java.lang.Math.min
 import java.nio.charset.Charset
 import java.time.LocalDateTime
-import kotlin.math.abs
+import kotlin.math.absoluteValue
+import kotlin.math.min
 
 
 class SavedRecordingsFragment : BaseFragment<FragmentSavedRecordingsBinding>(
@@ -27,15 +27,10 @@ class SavedRecordingsFragment : BaseFragment<FragmentSavedRecordingsBinding>(
     showBottomNavBar = false
 ) {
 
+
     enum class CarState {
         ACCELERATING, IDLING, DECELERATING, UNKNOWN
     }
-
-    private val viewModel: SavedRecordingsViewModel by viewModels()
-    override fun observeViewModel() {
-        TODO("Not yet implemented")
-    }
-
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -91,13 +86,12 @@ class SavedRecordingsFragment : BaseFragment<FragmentSavedRecordingsBinding>(
                 "unfiltered gyroscope" to jsonObject.getString("unfil_gyro"),
                 "filtered gyroscope" to jsonObject.getString("fil_gyro"),
                 "unfiltered acceleration" to jsonObject.getString("unfil_accel"),
-                "filtered acceleration" to jsonObject.getString("fil_accel"),
                 "filtered acceleration" to jsonObject.getString("fil_accel")
             ).filterNot { it.value.isEmpty() } as HashMap
-            if(jsonObject.has("car_states")){
-                options.put("open car analysis", jsonObject.getString("car_states"))
+            if (jsonObject.has("car_states")) {
+                options["open car analysis"] = jsonObject.getString("car_states")
             } else {
-                options.put("analyse car states", "")
+                options["analyse car states"] = ""
             }
 
             ArrayAdapter<String>(requireContext(), android.R.layout.simple_spinner_item, options.keys.toList()).apply {
@@ -111,12 +105,11 @@ class SavedRecordingsFragment : BaseFragment<FragmentSavedRecordingsBinding>(
                 }
 
                 override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                    if(position == 0) return
+                    if (position == 0) return
                     var filename = options.toList()[position].second
                     if (filename.isEmpty()) {
-                        val accFile = options.getOrDefault("filtered acceleration", options["unfiltered acceleration"])
-                        val gyroFile = options.getOrDefault("filtered gyroscope", options["unfiltered gyroscope"])
-                        filename = analyseCarStates(accFile, gyroFile)
+                        filename =
+                            analyseCarStates(options["filtered acceleration"]!!, options["filtered gyroscope"]!!)
                         jsonObject.put("car_states", filename)
                         context?.openFileOutput("sensor_config.json", Context.MODE_PRIVATE).use {
                             it?.write(jsonArray.toString().toByteArray())
@@ -138,23 +131,81 @@ class SavedRecordingsFragment : BaseFragment<FragmentSavedRecordingsBinding>(
         val stream: InputStream = requireContext().openFileInput(file)
         val reader = BufferedReader(InputStreamReader(stream, Charset.forName("UTF-8")))
         reader.readLine()
-        val lines = reader.readLines().map { line -> line.split(",").map { str->str.toFloat() } }
+        val lines = reader.readLines().map { line -> line.split(",").map { str -> str.toFloat() } }
         return lines
     }
+
+
+    private fun calculateAbsoluteDerivative(input: List<Float>, averaging: Int): List<Float> {
+        val averagingValues = emptyList<Float>().toMutableList()
+        val result = emptyList<Float>().toMutableList()
+        fun med(list: List<Float>) = list.sorted().let {
+            if (it.size % 2 == 0)
+                (it[it.size / 2] + it[(it.size - 1) / 2]) / 2
+            else
+                it[it.size / 2]
+        }
+
+        var lastValue = 0F
+        var currentIndex = 0
+        for (value in input) {
+            if (averagingValues.size < averaging) {
+                averagingValues.add((value - lastValue).absoluteValue)
+            } else {
+                averagingValues[currentIndex] = (value - lastValue).absoluteValue
+                currentIndex += 1
+                currentIndex %= averaging
+            }
+            result.add(med(averagingValues))
+            lastValue = value
+        }
+        return result
+    }
+
     private fun analyseCarStates(accFilePath: String, gyroFilePath: String): String {
         val accData = getListFromFile(accFilePath)
         val gyroData = getListFromFile(gyroFilePath)
+        var processedGyroData = List(gyroData.size) { 0F }
+        for (i in 2..4) {
+            processedGyroData =
+                processedGyroData.zip(calculateAbsoluteDerivative(gyroData.map { list -> list[3] }, 200))
+                    .map { it.first + it.second }
+        }
+
         val fileName = "${LocalDateTime.now()}_car_states.csv"
         val fileOutput = requireContext().openFileOutput(fileName, Context.MODE_PRIVATE)
         fileOutput.write("car_states\n".toByteArray())
-        for (i in 0 .. min(accData.size, gyroData.size) - 1) {
-            val currentState = when {
-                gyroData[i].subList(2,5).map { abs(it) }.sum() > 0.3 -> CarState.UNKNOWN
-                accData[i][4] > 0.4 -> CarState.ACCELERATING
-                accData[i][4] < -0.4 -> CarState.DECELERATING
-                else -> CarState.IDLING
-            }
-            fileOutput.write("${i}, ${accData[i][1]}, ${currentState.ordinal}\n".toByteArray())
+        var currentState = CarState.UNKNOWN
+        for (i in 0..<min(accData.size, processedGyroData.size)) {
+            currentState =
+                if (currentState == CarState.UNKNOWN && processedGyroData[i] > 0.03 || processedGyroData[i] > 0.06) {
+                    CarState.UNKNOWN
+                } else {
+                    when {
+                        accData[i][4] > 0.5 -> CarState.ACCELERATING
+
+                        0 < accData[i][4] && accData[i][4] <= 0.5 ->
+                            if (currentState == CarState.DECELERATING) {
+                                CarState.IDLING
+                            } else {
+                                currentState
+                            }
+
+                        -0.5 < accData[i][4] && accData[i][4] <= 0 ->
+                            if (currentState == CarState.ACCELERATING) {
+                                CarState.IDLING
+                            } else {
+                                currentState
+                            }
+
+                        accData[i][4] <= -0.5 -> CarState.DECELERATING
+
+                        // should never
+                        else -> CarState.UNKNOWN
+                    }
+                }
+
+            fileOutput.write("${i}, ${accData[i][1]}, ${processedGyroData[i]}, ${currentState.ordinal}\n".toByteArray())
         }
         fileOutput.close()
         return fileName
