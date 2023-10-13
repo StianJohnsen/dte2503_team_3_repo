@@ -3,7 +3,6 @@ package com.example.dashcarr.presentation.tabs.settings
 import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Context
-import android.content.pm.ActivityInfo
 import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
@@ -129,12 +128,10 @@ class RecordingFragment : BaseFragment<FragmentRecordingBinding>(
         savedInstanceState: Bundle?
     ): View {
         super.onCreateView(inflater, container, savedInstanceState)
-        requireActivity().requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
         bottomNavigationView = activity?.findViewById(R.id.bottom_nav)!!
         bottomNavigationView.visibility = View.VISIBLE
         return binding.root
     }
-
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -176,10 +173,6 @@ class RecordingFragment : BaseFragment<FragmentRecordingBinding>(
 
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        requireActivity().requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
-    }
 
     private fun requestLocationPermission() {
         requestLocationPermissionLauncher.launch(
