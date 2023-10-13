@@ -7,7 +7,7 @@
 
         <variable
             name="RecordingStatisticsFragment"
-            type="com.example.dashcarr.presentation.tabs.settings.RecordingStatisticsFragment" />
+            type="com.example.dashcarr.presentation.tabs.history.RecordingStatisticsFragment" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
