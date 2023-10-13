@@ -2,11 +2,19 @@ package com.example.dashcarr.presentation.tabs.map
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.hardware.Sensor
+import android.hardware.SensorEvent
+import android.hardware.SensorEventListener
+import android.hardware.SensorManager
 import android.icu.util.Calendar
 import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
+import android.os.SystemClock
+import android.renderscript.ScriptGroup.Input
 import android.util.Log
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
@@ -21,7 +29,10 @@ import com.example.dashcarr.extensions.toastThrowableShort
 import com.example.dashcarr.presentation.core.BaseFragment
 import com.example.dashcarr.presentation.mapper.toMarker
 import com.example.dashcarr.presentation.tabs.map.data.PointOfInterest
+import com.example.dashcarr.presentation.tabs.settings.SensorData
 import dagger.hilt.android.AndroidEntryPoint
+import org.json.JSONArray
+import org.json.JSONObject
 import org.osmdroid.config.Configuration
 import org.osmdroid.events.MapEventsReceiver
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory
@@ -30,13 +41,21 @@ import org.osmdroid.views.CustomZoomButtonsController
 import org.osmdroid.views.MapView
 import org.osmdroid.views.overlay.MapEventsOverlay
 import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay
+import java.io.BufferedReader
+import java.io.InputStreamReader
+import java.nio.charset.Charset
+import java.time.LocalDateTime
+import kotlin.math.min
 
 
 @AndroidEntryPoint
 class MapFragment : BaseFragment<FragmentMapBinding>(
     FragmentMapBinding::inflate,
     showBottomNavBar = true
-), LocationListener, MapEventsReceiver {
+), LocationListener, MapEventsReceiver, SensorEventListener {
+
+    private val viewModel: MapViewModel by viewModels()
+
 
     private val locationManager by lazy { requireContext().getSystemService(Context.LOCATION_SERVICE) as LocationManager }
 
@@ -52,7 +71,66 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
         }
     }
 
-    private val viewModel: MapViewModel by viewModels()
+    private lateinit var sensorManager: SensorManager
+    private var accelSensor: Sensor? = null
+    private var gyroSensor: Sensor? = null
+    private var magnetoSensor: Sensor? = null
+    private var isRecording = false
+    private var isTimerPaused = true
+
+    private var elapsedTime = ""
+
+    /*
+    These variables are not necessary as they will not be used at the current iteration of the app,
+    but can be useful for later
+     */
+    private var isFiltered: Boolean? = false
+    private var isAccel: Boolean? = false
+    private var isGyro: Boolean? = false
+
+    // Accelerometer
+    private var rawAccData = FloatArray(3)
+    private var rawAccDataIndex = 0
+    private var filtAccData = FloatArray(3)
+    private var filtAccPrevData = FloatArray(3)
+    private var rawAcclRecord = mutableListOf<SensorData>()
+    private var filtAcclRecord = mutableListOf<SensorData>()
+
+    private var count = 0
+    private var beginTime = System.nanoTime()
+    private var rc = 0.002f
+
+    // Gyroscope
+    private var rawGyroData = FloatArray(3)
+    private var rawGyroDataIndex = 0
+    private var filtGyroData = FloatArray(3)
+    private var filtGyroPrevData = FloatArray(3)
+    private var rawGyroRecord = mutableListOf<SensorData>()
+    private var filtGyroRecord = mutableListOf<SensorData>()
+
+    // Location
+    private var rawLocationRecord = mutableListOf<SensorData>()
+
+    private var recordingJson = JSONObject()
+
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        sensorManager = context.getSystemService(Context.SENSOR_SERVICE) as SensorManager
+    }
+
+
+    private var startTimeMillis: Long = 0
+    private var totalElapsedTimeMillis: Long = 0
+    private var pausedElapsedTimeMillis: Long = 0
+
+    var handler = Handler(Looper.getMainLooper())
+    private val updateTimeRunnable = object : Runnable {
+        override fun run() {
+            updateElapsedTime()
+            handler.postDelayed(this, 1000)
+        }
+    }
 
     fun observeViewModel() {
         viewModel.lastSavedUserLocation.collectWithLifecycle(viewLifecycleOwner) {
@@ -94,12 +172,244 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
         observeViewModel()
         initMap()
         requestLocationPermission()
+
+        binding.apply {
+            btnStart.setOnClickListener {
+                startRecording()
+            }
+            btnStop.setOnClickListener {
+                stopRecording()
+            }
+            btnPause.setOnClickListener {
+                pauseRecording()
+            }
+            btnResume.setOnClickListener {
+                resumeRecording()
+            }
+            btnDelete.setOnClickListener {
+                deleteRecording()
+            }
+
+
+        }
+
+        accelSensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)
+        gyroSensor = sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE)!!
+        magnetoSensor = sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD)!!
     }
 
     private fun requestLocationPermission() {
         requestLocationPermissionsLauncher.launch(locationPermissions)
     }
 
+    fun updateElapsedTime() {
+        if (isRecording) {
+            val currentTimeMillis = SystemClock.elapsedRealtime()
+            totalElapsedTimeMillis = (currentTimeMillis - startTimeMillis) + pausedElapsedTimeMillis
+        }
+
+        val seconds = ((totalElapsedTimeMillis / 1000) % 60).toInt()
+        val minutes = ((totalElapsedTimeMillis / (1000 * 60)) % 60).toInt()
+        val hours = ((totalElapsedTimeMillis / (1000 * 60 * 60)) % 24).toInt()
+        elapsedTime = String.format("%02d:%02d:%02d", hours, minutes, seconds)
+        // binding.textfield.text = getString(R.string.elapsed_time, elapsedTime)
+    }
+
+    private fun readJsonFromFile(): JSONArray {
+        var jsonArray = JSONArray()
+        try {
+            val inputStream = context?.openFileInput("sensor_config.json")
+            if (inputStream != null) {
+                val reader = BufferedReader(InputStreamReader(inputStream, Charset.forName("UTF-8")))
+                val line: String? = reader.readLine()
+                jsonArray = JSONArray(line.toString())
+                inputStream.close()
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+        return jsonArray
+    }
+
+    private fun writeToLocationStringBuilder(gpsList: MutableList<SensorData>): StringBuilder {
+        val stringBuilder = StringBuilder()
+        var id = 0
+        stringBuilder.append("ID, GPS_Timestamp(ms), Longitude, Latitude, Altitude\n")
+        gpsList.forEach {
+            // Longitude = x, Latitude = y, Altitude = z
+            stringBuilder.append("$id, ${it.timestamp}, ${it.x}, ${it.y}, ${it.z}\n")
+            id++
+        }
+        return stringBuilder
+
+    }
+
+
+    private fun writeToSensorStringBuilder(sensor: String, sensorList: MutableList<SensorData>): StringBuilder {
+        val stringBuilder = StringBuilder()
+        var id = 0
+        stringBuilder.append("ID, ${sensor}_Timestamp(ms), ${sensor}_X, ${sensor}_Y, ${sensor}_Z\n")
+        sensorList.forEach {
+            stringBuilder.append("$id, ${it.timestamp}, ${it.x}, ${it.y}, ${it.z}\n")
+            id++
+        }
+        return stringBuilder
+    }
+
+    private fun saveToFile(stringBuilder: StringBuilder, filtered: String, sensor: String, dateTime: LocalDateTime) {
+        context?.openFileOutput("${dateTime}_${filtered}_${sensor}.csv", Context.MODE_PRIVATE).use {
+            it?.write(stringBuilder.toString().toByteArray())
+        }
+    }
+
+    private fun makeJSONObject(
+        dateTime: LocalDateTime,
+        filtered: String,
+        sensor: String,
+        isChecked: Boolean
+    ) {
+        if (isChecked)
+            recordingJson.put("${filtered}_${sensor}", "${dateTime}_${filtered}tered_${sensor}.csv")
+        else
+            recordingJson.put("${filtered}_${sensor}", "")
+    }
+
+    private fun saveToCSV() {
+
+        var currentStringBuilder: StringBuilder
+
+        val stopDateTime = LocalDateTime.now()
+
+        recordingJson.put("name", stopDateTime)
+        recordingJson.put("elapsed_time", elapsedTime)
+        recordingJson.put("date", stopDateTime)
+
+        // Location
+        currentStringBuilder = writeToLocationStringBuilder(rawLocationRecord)
+        saveToFile(currentStringBuilder, "unfiltered", "GPS", stopDateTime)
+        makeJSONObject(stopDateTime, "unfil", "GPS", true)
+
+        // Accelerometer
+
+        currentStringBuilder = writeToSensorStringBuilder("accel", filtAcclRecord)
+        saveToFile(currentStringBuilder, "filtered", "accel", stopDateTime)
+        makeJSONObject(stopDateTime, "fil", "accel", true)
+
+        currentStringBuilder = writeToSensorStringBuilder("accel", rawAcclRecord)
+        saveToFile(currentStringBuilder, "unfiltered", "accel", stopDateTime)
+        makeJSONObject(stopDateTime, "unfil", "accel", true)
+
+        // Gyroscope
+
+        currentStringBuilder = writeToSensorStringBuilder("gyro", filtGyroRecord)
+        saveToFile(currentStringBuilder, "filtered", "gyro", stopDateTime)
+        makeJSONObject(stopDateTime, "fil", "gyro", true)
+
+        currentStringBuilder = writeToSensorStringBuilder("Gyro", rawGyroRecord)
+        saveToFile(currentStringBuilder, "unfiltered", "gyro", stopDateTime)
+        makeJSONObject(stopDateTime, "unfil", "gyro", true)
+
+
+        val existingJSONArray = readJsonFromFile()
+
+        val jsonArray: JSONArray = existingJSONArray
+
+        jsonArray.put(recordingJson)
+
+        context?.openFileOutput("sensor_config.json", Context.MODE_PRIVATE).use {
+            it?.write(jsonArray.toString().toByteArray())
+        }
+    }
+
+
+    override fun onResume() {
+        super.onResume()
+        startTimeMillis = SystemClock.elapsedRealtime()
+        handler.post(updateTimeRunnable)
+
+        sensorManager.registerListener(
+            this, accelSensor, SensorManager.SENSOR_DELAY_FASTEST
+        )
+        sensorManager.registerListener(
+            this, gyroSensor, SensorManager.SENSOR_DELAY_FASTEST
+        )
+        sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)?.also { accelerometer ->
+            sensorManager.registerListener(
+                this,
+                accelerometer,
+                SensorManager.SENSOR_DELAY_NORMAL,
+                SensorManager.SENSOR_DELAY_UI
+            )
+        }
+        sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD)?.also { magneticField ->
+            sensorManager.registerListener(
+                this,
+                magneticField,
+                SensorManager.SENSOR_DELAY_NORMAL,
+                SensorManager.SENSOR_DELAY_UI
+            )
+        }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        handler.removeCallbacks(updateTimeRunnable)
+        sensorManager.unregisterListener(this)
+    }
+
+    private fun startRecording() {
+        isRecording = true
+        isTimerPaused = false
+    }
+
+    private fun stopRecording() {
+        isRecording = false
+        saveToCSV()
+    }
+
+    private fun pauseRecording() {
+        isRecording = false
+        isTimerPaused = true
+        pausedElapsedTimeMillis += SystemClock.elapsedRealtime() - startTimeMillis
+    }
+
+    private fun resumeRecording() {
+        isRecording = true
+        isTimerPaused = false
+        startTimeMillis = SystemClock.elapsedRealtime()
+    }
+
+    private fun deleteRecording(){
+
+        rawAccData = FloatArray(3)
+        rawAccDataIndex = 0
+        filtAccData = FloatArray(3)
+        filtAccPrevData = FloatArray(3)
+        rawAcclRecord = mutableListOf<SensorData>()
+        filtAcclRecord = mutableListOf<SensorData>()
+
+        count = 0
+        beginTime = System.nanoTime()
+        rc = 0.002f
+
+        // Gyroscope
+        rawGyroData = FloatArray(3)
+        rawGyroDataIndex = 0
+        filtGyroData = FloatArray(3)
+        filtGyroPrevData = FloatArray(3)
+        rawGyroRecord = mutableListOf<SensorData>()
+        filtGyroRecord = mutableListOf<SensorData>()
+
+        // Location
+       rawLocationRecord = mutableListOf<SensorData>()
+
+        recordingJson = JSONObject()
+
+        startTimeMillis = 0
+        totalElapsedTimeMillis = 0
+        pausedElapsedTimeMillis = 0
+
+    }
     private fun initMap() {
         Configuration.getInstance()
             .load(requireContext(), PreferenceManager.getDefaultSharedPreferences(requireContext()))
@@ -137,6 +447,116 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
     override fun onLocationChanged(location: Location) {
         viewModel.saveCurrentLocation(location)
         Log.e("MapSomeStuff", "location changed! lat = ${location.latitude} , long = ${location.longitude}")
+        if (isRecording) {
+            rawLocationRecord.add(
+                SensorData(
+                    location.time,
+                    location.longitude.toFloat(),
+                    location.latitude.toFloat(),
+                    location.altitude.toFloat()
+                )
+            )
+        }
+    }
+
+    override fun onSensorChanged(event: SensorEvent?) {
+        if (event?.values != null) {
+            if (event.sensor == accelSensor) {
+                readAccSensorData(event)
+                if (isRecording) {
+                    rawAcclRecord.add(
+                        SensorData(
+                            event.timestamp, event.values[0], event.values[1], event.values[2]
+                        )
+                    )
+
+                    filtAcclRecord.add(
+                        SensorData(event.timestamp, filtAccData[0], filtAccData[1], filtAccData[2])
+                    )
+                }
+
+
+            }
+
+            if (event.sensor == gyroSensor) {
+                readGyroSensorData(event)
+                if (isRecording) {
+                    rawGyroRecord.add(
+                        SensorData(
+                            event.timestamp, event.values[0], event.values[1], event.values[2]
+                        )
+                    )
+                    filtGyroRecord.add(
+                        SensorData(
+                            event.timestamp, filtGyroData[0], filtGyroData[1], filtGyroData[2]
+
+                        )
+                    )
+                }
+            }
+        }
+    }
+
+    private fun readAccSensorData(event: SensorEvent) {
+        System.arraycopy(event.values, 0, rawAccData, rawAccDataIndex, 3)
+        filterAccData()
+    }
+
+    private fun readGyroSensorData(event: SensorEvent) {
+        System.arraycopy(event.values, 0, rawGyroData, rawGyroDataIndex, 3)
+        filterGyroData()
+    }
+
+
+    private fun filterGyroData() {
+        val tm = System.nanoTime()
+        val dt = ((tm - beginTime) / 1000000000.0f) / count
+        val alpha = rc / (rc + dt)
+        val isStarted = true
+
+        if (count == 0) {
+            filtGyroPrevData[0] = (1 - alpha) * rawGyroData[0]
+            filtGyroPrevData[1] = (1 - alpha) * rawGyroData[1]
+            filtGyroPrevData[2] = (1 - alpha) * rawGyroData[2]
+        } else {
+            filtGyroPrevData[0] = alpha * filtGyroPrevData[0] + (1 - alpha) * rawGyroData[0]
+            filtGyroPrevData[1] = alpha * filtGyroPrevData[1] + (1 - alpha) * rawGyroData[1]
+            filtGyroPrevData[2] = alpha * filtGyroPrevData[2] + (1 - alpha) * rawGyroData[2]
+        }
+        if (isStarted) {
+            filtGyroData[0] = filtGyroPrevData[0]
+            filtGyroData[1] = filtGyroPrevData[1]
+            filtGyroData[2] = filtGyroPrevData[2]
+
+        }
+    }
+
+
+    private fun filterAccData() {
+        val tm = System.nanoTime()
+        val dt = ((tm - beginTime) / 1000000000.0f) / count
+        val alpha = rc / (rc + dt)
+        val isStarted = true
+
+        if (count == 0) {
+            filtAccPrevData[0] = (1 - alpha) * rawAccData[0]
+            filtAccPrevData[1] = (1 - alpha) * rawAccData[1]
+            filtAccPrevData[2] = (1 - alpha) * rawAccData[2]
+        } else {
+            filtAccPrevData[0] = alpha * filtAccPrevData[0] + (1 - alpha) * rawAccData[0]
+            filtAccPrevData[1] = alpha * filtAccPrevData[1] + (1 - alpha) * rawAccData[1]
+            filtAccPrevData[2] = alpha * filtAccPrevData[2] + (1 - alpha) * rawAccData[2]
+        }
+        if (isStarted) {
+            filtAccData[0] = filtAccPrevData[0]
+            filtAccData[1] = filtAccPrevData[1]
+            filtAccData[2] = filtAccPrevData[2]
+        }
+        ++count
+    }
+
+    override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {
+        Log.d("dad", sensor.toString())
     }
 
     override fun onStop() {
