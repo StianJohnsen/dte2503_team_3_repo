@@ -54,7 +54,7 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
 
     private val viewModel: MapViewModel by viewModels()
 
-    override fun observeViewModel() {
+    fun observeViewModel() {
         viewModel.lastSavedUserLocation.collectWithLifecycle(viewLifecycleOwner) {
             binding.mapView.controller.setCenter(it)
         }
@@ -71,7 +71,8 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
         }
         viewModel.pointsOfInterestState.observe(viewLifecycleOwner) {
             if (it.isEmpty()) return@observe
-            it.forEach { pointOfInterest ->binding.mapView.overlays.add(pointOfInterest.toMarker(binding.mapView))
+            it.forEach { pointOfInterest ->
+                binding.mapView.overlays.add(pointOfInterest.toMarker(binding.mapView))
             }
         }
         viewModel.showButtonsBarState.collectWithLifecycle(viewLifecycleOwner) { show ->
@@ -81,7 +82,7 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
         }
     }
 
-    override fun initListeners() {
+    fun initListeners() {
         binding.btnShowHideBar.setOnClickListener {
             viewModel.showHideBar()
         }
@@ -100,12 +101,21 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
     }
 
     private fun initMap() {
-        Configuration.getInstance().load(requireContext(), PreferenceManager.getDefaultSharedPreferences(requireContext()))
+        Configuration.getInstance()
+            .load(requireContext(), PreferenceManager.getDefaultSharedPreferences(requireContext()))
         binding.mapView.setTileSource(TileSourceFactory.MAPNIK)
         binding.mapView.isHorizontalMapRepetitionEnabled = false
         binding.mapView.isVerticalMapRepetitionEnabled = false
-        binding.mapView.setScrollableAreaLimitLatitude(MapView.getTileSystem().maxLatitude, MapView.getTileSystem().minLatitude, 0)
-        binding.mapView.setScrollableAreaLimitLongitude(MapView.getTileSystem().minLongitude, MapView.getTileSystem().maxLongitude, 0)
+        binding.mapView.setScrollableAreaLimitLatitude(
+            MapView.getTileSystem().maxLatitude,
+            MapView.getTileSystem().minLatitude,
+            0
+        )
+        binding.mapView.setScrollableAreaLimitLongitude(
+            MapView.getTileSystem().minLongitude,
+            MapView.getTileSystem().maxLongitude,
+            0
+        )
         binding.mapView.minZoomLevel = 4.0
         binding.mapView.controller.setZoom(15.0)
         binding.mapView.isTilesScaledToDpi = true
@@ -154,12 +164,14 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
     private fun showCreateMarkerDialog(geoPoint: GeoPoint) {
         binding.flCreateMarkerLayout.visibility = View.VISIBLE
         binding.btnSave.setOnClickListener {
-            viewModel.saveNewMarker(PointOfInterest(
-                latitude = geoPoint.latitude,
-                longitude = geoPoint.longitude,
-                name = binding.etMarkerName.text.toString(),
-                createdTimeStamp = Calendar.getInstance().timeInMillis
-            ))
+            viewModel.saveNewMarker(
+                PointOfInterest(
+                    latitude = geoPoint.latitude,
+                    longitude = geoPoint.longitude,
+                    name = binding.etMarkerName.text.toString(),
+                    createdTimeStamp = Calendar.getInstance().timeInMillis
+                )
+            )
         }
         binding.btnCancel.setOnClickListener {
             viewModel.cancelMarkerCreation()
@@ -167,9 +179,9 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
     }
 
     sealed class CreateMarkerState {
-        class CreateMarker(val geoPoint: GeoPoint): CreateMarkerState()
-        class OnSaveError(val throwable: Throwable): CreateMarkerState()
-        data object HideMarker: CreateMarkerState()
+        class CreateMarker(val geoPoint: GeoPoint) : CreateMarkerState()
+        class OnSaveError(val throwable: Throwable) : CreateMarkerState()
+        data object HideMarker : CreateMarkerState()
 
     }
 

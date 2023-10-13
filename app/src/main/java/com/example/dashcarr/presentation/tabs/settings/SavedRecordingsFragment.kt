@@ -2,7 +2,6 @@ package com.example.dashcarr.presentation.tabs.settings
 
 import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
@@ -45,8 +44,6 @@ class SavedRecordingsFragment : BaseFragment<FragmentSavedRecordingsBinding>(
         var jsonArray = JSONArray()
         val fileName = "sensor_config.json"
         try {
-            val testFile = context?.openFileInput("filtered_accl.json")
-            Log.d("flase", BufferedReader(InputStreamReader(testFile, Charset.forName("UTF-8"))).readLine().toString())
             val inputStream = context?.openFileInput(fileName)
             val reader = BufferedReader(InputStreamReader(inputStream, Charset.forName("UTF-8")))
             val line = reader.readLine()
@@ -81,7 +78,7 @@ class SavedRecordingsFragment : BaseFragment<FragmentSavedRecordingsBinding>(
                 jsonObject.getString("fil_gyro"),
                 jsonObject.getString("unfil_accel"),
                 jsonObject.getString("fil_accel")
-            )
+            ).filterNot { it.isEmpty() }
 
             ArrayAdapter<String>(requireContext(), android.R.layout.simple_spinner_item, options).apply {
                 setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
