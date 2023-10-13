@@ -54,12 +54,10 @@ class RecordingFragment : BaseFragment<FragmentRecordingBinding>(
         }
     }
 
-
     @SuppressLint("MissingPermission")
     private fun createLocationRequest() {
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5, 0f, this)
     }
-
 
     private lateinit var sensorManager: SensorManager
     private var accelSensor: Sensor? = null
@@ -69,7 +67,6 @@ class RecordingFragment : BaseFragment<FragmentRecordingBinding>(
     private var isTimerPaused = false
 
     private var elapsedTime = ""
-
 
     private var isFiltered: Boolean? = false
     private var isAccel: Boolean? = false
@@ -139,10 +136,10 @@ class RecordingFragment : BaseFragment<FragmentRecordingBinding>(
     }
 
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         requestLocationPermission()
+        // Gathers the navigation arguments from previous fragment
         isFiltered = arguments?.getBoolean("isFiltered")
         isAccel = arguments?.getBoolean("isAccel")
         isGyro = arguments?.getBoolean("isGyro")
@@ -193,7 +190,6 @@ class RecordingFragment : BaseFragment<FragmentRecordingBinding>(
         )
     }
 
-
     fun updateElapsedTime() {
         if (isRecording) {
             val currentTimeMillis = SystemClock.elapsedRealtime()
@@ -212,6 +208,7 @@ class RecordingFragment : BaseFragment<FragmentRecordingBinding>(
     private fun readJsonFromFile(): JSONArray {
         var jsonArray = JSONArray()
         try {
+            // Filename is static, can be changed in the feautre if we want to read more than one .json file
             val inputStream = context?.openFileInput("sensor_config.json")
             if (inputStream != null) {
                 val reader = BufferedReader(InputStreamReader(inputStream, Charset.forName("UTF-8")))
@@ -226,11 +223,12 @@ class RecordingFragment : BaseFragment<FragmentRecordingBinding>(
         return jsonArray
     }
 
-    private fun writeToLocationFile(gpsList: MutableList<SensorData>): StringBuilder {
+    private fun writeToLocationStringBuilder(gpsList: MutableList<SensorData>): StringBuilder {
         val stringBuilder = StringBuilder()
         var id = 0
         stringBuilder.append("ID, GPS_Timestamp(ms), Longitude, Latitude, Altitude\n")
         gpsList.forEach {
+            // Longitude = x, Latitude = y, Altitude = z
             stringBuilder.append("$id, ${it.timestamp}, ${it.x}, ${it.y}, ${it.z}\n")
             id++
         }
@@ -238,7 +236,7 @@ class RecordingFragment : BaseFragment<FragmentRecordingBinding>(
 
     }
 
-    private fun writeToSensorFile(sensor: String, sensorList: MutableList<SensorData>): StringBuilder {
+    private fun writeToSensorStringBuilder(sensor: String, sensorList: MutableList<SensorData>): StringBuilder {
         val stringBuilder = StringBuilder()
         var id = 0
         stringBuilder.append("ID, ${sensor}_Timestamp(ms), ${sensor}_X, ${sensor}_Y, ${sensor}_Z\n")
@@ -278,17 +276,17 @@ class RecordingFragment : BaseFragment<FragmentRecordingBinding>(
         recordingJson.put("elapsed_time", elapsedTime)
         recordingJson.put("date", stopDateTime)
 
-        currentStringBuilder = writeToLocationFile(rawLocationRecord)
+        currentStringBuilder = writeToLocationStringBuilder(rawLocationRecord)
         saveToFile(currentStringBuilder, "unfiltered", "GPS", stopDateTime)
         makeJSONObject(stopDateTime, "unfil", "GPS", true)
 
         if (isFiltered == true) {
             if (isAccel == true) {
-                currentStringBuilder = writeToSensorFile("accel", filtAcclRecord)
+                currentStringBuilder = writeToSensorStringBuilder("accel", filtAcclRecord)
                 saveToFile(currentStringBuilder, "filtered", "accel", stopDateTime)
                 makeJSONObject(stopDateTime, "fil", "accel", true)
 
-                currentStringBuilder = writeToSensorFile("accel", rawAcclRecord)
+                currentStringBuilder = writeToSensorStringBuilder("accel", rawAcclRecord)
                 saveToFile(currentStringBuilder, "unfiltered", "accel", stopDateTime)
                 makeJSONObject(stopDateTime, "unfil", "accel", true)
 
@@ -299,11 +297,11 @@ class RecordingFragment : BaseFragment<FragmentRecordingBinding>(
             }
 
             if (isGyro == true) {
-                currentStringBuilder = writeToSensorFile("gyro", filtGyroRecord)
+                currentStringBuilder = writeToSensorStringBuilder("gyro", filtGyroRecord)
                 saveToFile(currentStringBuilder, "filtered", "gyro", stopDateTime)
                 makeJSONObject(stopDateTime, "fil", "gyro", true)
 
-                currentStringBuilder = writeToSensorFile("Gyro", rawGyroRecord)
+                currentStringBuilder = writeToSensorStringBuilder("Gyro", rawGyroRecord)
                 saveToFile(currentStringBuilder, "unfiltered", "gyro", stopDateTime)
                 makeJSONObject(stopDateTime, "unfil", "gyro", true)
 
@@ -315,7 +313,7 @@ class RecordingFragment : BaseFragment<FragmentRecordingBinding>(
             }
         } else {
             if (isAccel == true) {
-                currentStringBuilder = writeToSensorFile("Accel", rawAcclRecord)
+                currentStringBuilder = writeToSensorStringBuilder("Accel", rawAcclRecord)
                 saveToFile(currentStringBuilder, "unfiltered", "accel", stopDateTime)
                 makeJSONObject(stopDateTime, "fil", "accel", false)
                 makeJSONObject(stopDateTime, "unfil", "accel", true)
@@ -326,7 +324,7 @@ class RecordingFragment : BaseFragment<FragmentRecordingBinding>(
             }
 
             if (isGyro == true) {
-                currentStringBuilder = writeToSensorFile("Gyro", rawGyroRecord)
+                currentStringBuilder = writeToSensorStringBuilder("Gyro", rawGyroRecord)
                 saveToFile(currentStringBuilder, "unfiltered", "gyro", stopDateTime)
                 makeJSONObject(stopDateTime, "fil", "gyro", false)
                 makeJSONObject(stopDateTime, "unfil", "gyro", true)
@@ -341,7 +339,6 @@ class RecordingFragment : BaseFragment<FragmentRecordingBinding>(
 
 
         val existingJSONArray = readJsonFromFile()
-        Log.d("jsonArrayTest", existingJSONArray.toString())
 
         val jsonArray: JSONArray = existingJSONArray
 
@@ -394,11 +391,6 @@ class RecordingFragment : BaseFragment<FragmentRecordingBinding>(
     private fun stopRecording() {
         isRecording = false
         saveToCSV()
-        rawLocationRecord.forEach {
-
-            Log.d("Location_list", "time: ${it.timestamp} longitude: ${it.x}, latitude: ${it.y}, altitude: ${it.z}")
-
-        }
     }
 
     private fun pauseRecording() {
@@ -413,8 +405,8 @@ class RecordingFragment : BaseFragment<FragmentRecordingBinding>(
         startTimeMillis = SystemClock.elapsedRealtime()
     }
 
+    //Location Listener function
     override fun onLocationChanged(location: Location) {
-        Log.d("plass", location.altitude.toString() + location.latitude.toString() + location.longitude.toString())
         if (isRecording) {
             rawLocationRecord.add(
                 SensorData(
@@ -427,7 +419,7 @@ class RecordingFragment : BaseFragment<FragmentRecordingBinding>(
         }
     }
 
-
+    //Sensor listener function
     override fun onSensorChanged(event: SensorEvent?) {
         if (event?.values != null) {
             if (event.sensor == accelSensor) {
@@ -464,6 +456,7 @@ class RecordingFragment : BaseFragment<FragmentRecordingBinding>(
 
 
                 )
+                // Filters Gyroscope data
                 readGyroSensorData(event)
 
                 if (isRecording) {
@@ -479,7 +472,6 @@ class RecordingFragment : BaseFragment<FragmentRecordingBinding>(
                         )
                     )
                 }
-                // Filtered Gyroscope
             }
             // Orientation
             if (event.sensor.type == Sensor.TYPE_ACCELEROMETER) {

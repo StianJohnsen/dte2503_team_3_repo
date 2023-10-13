@@ -1,7 +1,6 @@
 package com.example.dashcarr.presentation.tabs.settings
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,7 +9,6 @@ import com.example.dashcarr.R
 import com.example.dashcarr.databinding.FragmentConfigureRecordingBinding
 import com.example.dashcarr.presentation.core.BaseFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
-
 
 class ConfigureRecordingFragment : BaseFragment<FragmentConfigureRecordingBinding>(
     FragmentConfigureRecordingBinding::inflate,
@@ -22,7 +20,6 @@ class ConfigureRecordingFragment : BaseFragment<FragmentConfigureRecordingBindin
     private var isAccelChecked = false
     private var isGyroChecked = false
 
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -32,8 +29,6 @@ class ConfigureRecordingFragment : BaseFragment<FragmentConfigureRecordingBindin
         bottomNavigationView.visibility = View.VISIBLE
         return binding.root
     }
-
-
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -49,8 +44,6 @@ class ConfigureRecordingFragment : BaseFragment<FragmentConfigureRecordingBindin
             }
             checkBoxFilterData.setOnCheckedChangeListener { _, isChecked ->
                 isFilteredChecked = isChecked
-
-
             }
             checkBoxAcc.setOnCheckedChangeListener { _, isChecked ->
                 isAccelChecked = isChecked
@@ -60,14 +53,12 @@ class ConfigureRecordingFragment : BaseFragment<FragmentConfigureRecordingBindin
                 isGyroChecked = isChecked
             }
         }
-
-
     }
 
 
     private fun startRecording() {
-        Log.d("checking", isFilteredChecked.toString() + "\n" + isAccelChecked + "\n" + isGyroChecked)
         val args = Bundle()
+        // Navargs used in next fragment
         args.putBoolean("isFiltered", isFilteredChecked)
         args.putBoolean("isAccel", isAccelChecked)
         args.putBoolean("isGyro", isGyroChecked)
