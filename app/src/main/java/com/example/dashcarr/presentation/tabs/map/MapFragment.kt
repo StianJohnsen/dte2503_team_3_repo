@@ -129,7 +129,7 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
     /**
      * Observes the ViewModel's LiveData and updates the UI accordingly.
      */
-    fun observeViewModel() {
+    private fun observeViewModel() {
         viewModel.lastSavedUserLocation.collectWithLifecycle(viewLifecycleOwner) {
             binding.mapView.controller.setCenter(it)
         }
@@ -167,7 +167,7 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
     /**
      * Initializes listeners for UI elements in the fragment.
      */
-    fun initListeners() {
+    private fun initListeners() {
         binding.btnShowHideBar.setOnClickListener {
             viewModel.showHideBar()
         }
@@ -186,6 +186,7 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
         initListeners()
         observeViewModel()
         initMap()
+        initHud()
         requestLocationPermission()
 
         binding.apply {
@@ -644,4 +645,8 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
 
     }
 
+    private fun initHud() {
+//        val inflater = requireContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+//        inflater.inflate(R.layout.fragment_hud, binding.hudView, true)
+    }
 }
