@@ -5,15 +5,21 @@ import android.graphics.Color
 import android.graphics.ColorFilter
 import android.graphics.Paint
 import android.graphics.PixelFormat
+import android.graphics.Rect
 import android.graphics.drawable.Drawable
 
 
-class TextDrawable : Drawable() {
+class TextDrawable(private var text: String, private var onSizeChanged: (Int) -> Unit) : Drawable() {
     private val paint: Paint = Paint()
-    private var text: String = ""
+    private val textBounds = Rect()
+
     fun setText(newText: String) {
         text = newText
         this.invalidateSelf()
+    }
+
+    fun setTextSize(size: Float) {
+        paint.textSize = size
     }
 
     init {
@@ -26,7 +32,14 @@ class TextDrawable : Drawable() {
     }
 
     override fun draw(canvas: Canvas) {
-        canvas.drawText(text, bounds.width() / 2F, bounds.height() / 2F, paint)
+        paint.getTextBounds(text, 0, text.length, textBounds)
+        onSizeChanged(textBounds.height())
+        canvas.drawText(
+            text,
+            bounds.width() / 2F,
+            bounds.height() / 2F - textBounds.exactCenterY(),
+            paint
+        )
     }
 
     override fun setAlpha(alpha: Int) {
@@ -41,4 +54,5 @@ class TextDrawable : Drawable() {
     override fun getOpacity(): Int {
         return PixelFormat.TRANSLUCENT
     }
+
 }

@@ -111,5 +111,8 @@
     <string name="version_0_5">Version: 0.5</string>
     <string name="_2023_uit">© 2023 UIT</string>
     <string name="icons8">Icons by icons8.com</string>
+    
+    <!--HudView-->
+    <string name="search_for_location">Waiting for GPS</string>
 
 </resources>
