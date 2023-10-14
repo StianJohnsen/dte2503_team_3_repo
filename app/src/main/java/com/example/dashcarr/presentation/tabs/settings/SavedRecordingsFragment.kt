@@ -139,7 +139,8 @@ class SavedRecordingsFragment : BaseFragment<FragmentSavedRecordingsBinding>(
                     val action =
                         SavedRecordingsFragmentDirections.actionActionSavedrecordingsToRecordingDetailsFragment(
                             options[position].fileName,
-                            options[position].chartType
+                            options[position].chartType,
+                            jsonObject.getString("elapsed_time")
                         )
                     findNavController().navigate(action)
                 }
