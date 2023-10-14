@@ -66,6 +66,9 @@
         <argument
             android:name="selectedFileName"
             app:argType="string" />
+        <argument
+            android:name="chartType"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/loginFragment"

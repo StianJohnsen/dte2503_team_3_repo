@@ -27,9 +27,26 @@ class SavedRecordingsFragment : BaseFragment<FragmentSavedRecordingsBinding>(
     showBottomNavBar = false
 ) {
 
+    private data class RecordingDescription(val label: String, var fileName: String, val chartType: String = "line") {
+        fun exists(): Boolean = fileName.isNotEmpty()
+    }
 
-    enum class CarState {
-        ACCELERATING, IDLING, DECELERATING, SHAKING, UNKNOWN
+    enum class CarState(val color: Int) {
+        ACCELERATING(
+            Color.rgb(
+                4,
+                47,
+                102
+            )
+        ),
+        IDLING(Color.rgb(185, 116, 85)), DECELERATING(
+            Color.rgb(
+                224,
+                123,
+                57
+            )
+        ),
+        SHAKING(Color.rgb(228, 57, 30)), UNKNOWN(Color.TRANSPARENT)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -81,20 +98,21 @@ class SavedRecordingsFragment : BaseFragment<FragmentSavedRecordingsBinding>(
                 setBackgroundColor(Color.WHITE)
             }
 
-            val options = mapOf(
-                jsonObject.getString("name") to "n.A.",
-                "unfiltered gyroscope" to jsonObject.getString("unfil_gyro"),
-                "filtered gyroscope" to jsonObject.getString("fil_gyro"),
-                "unfiltered acceleration" to jsonObject.getString("unfil_accel"),
-                "filtered acceleration" to jsonObject.getString("fil_accel")
-            ).filterNot { it.value.isEmpty() } as HashMap
+            val options = listOf(
+                RecordingDescription(jsonObject.getString("name"), "n.A."),
+                RecordingDescription("unfiltered gyroscope", jsonObject.getString("unfil_gyro")),
+                RecordingDescription("filtered gyroscope", jsonObject.getString("fil_gyro")),
+                RecordingDescription("unfiltered acceleration", jsonObject.getString("unfil_accel")),
+                RecordingDescription("filtered acceleration", jsonObject.getString("fil_accel"))
+            ).filter { it.exists() }.toMutableList()
+
             if (jsonObject.has("car_states")) {
-                options["open car analysis"] = jsonObject.getString("car_states")
+                options.add(RecordingDescription("open car analysis", jsonObject.getString("car_states"), "bar"))
             } else {
-                options["analyse car states"] = ""
+                options.add(RecordingDescription("open car analysis", "", "bar"))
             }
 
-            ArrayAdapter<String>(requireContext(), android.R.layout.simple_spinner_item, options.keys.toList()).apply {
+            ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, options.map { it.label }).apply {
                 setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
                 spinner.adapter = this
             }
@@ -106,18 +124,22 @@ class SavedRecordingsFragment : BaseFragment<FragmentSavedRecordingsBinding>(
 
                 override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                     if (position == 0) return
-                    var filename = options.toList()[position].second
-                    if (filename.isEmpty()) {
-                        filename =
-                            analyseCarStates(options["filtered acceleration"]!!, options["filtered gyroscope"]!!)
-                        jsonObject.put("car_states", filename)
+                    if (!options[position].exists()) {
+                        val newName =
+                            analyseCarStates(
+                                options.first() { it.label == "filtered acceleration" }.fileName,
+                                options.first() { it.label == "filtered gyroscope" }.fileName
+                            )
+                        jsonObject.put("car_states", newName)
                         context?.openFileOutput("sensor_config.json", Context.MODE_PRIVATE).use {
                             it?.write(jsonArray.toString().toByteArray())
                         }
+                        options[position].fileName = newName
                     }
                     val action =
                         SavedRecordingsFragmentDirections.actionActionSavedrecordingsToRecordingDetailsFragment(
-                            filename
+                            options[position].fileName,
+                            options[position].chartType
                         )
                     findNavController().navigate(action)
                 }
@@ -176,7 +198,7 @@ class SavedRecordingsFragment : BaseFragment<FragmentSavedRecordingsBinding>(
 
         val fileName = "${LocalDateTime.now()}_car_states.csv"
         val fileOutput = requireContext().openFileOutput(fileName, Context.MODE_PRIVATE)
-        fileOutput.write("car_states\n".toByteArray())
+        fileOutput.write("ID, Gyro_Timestamp(ms), car_states\n".toByteArray())
 
         val relevantAccelerationValues = emptyList<Float>().toMutableList()
         val allCarStates = emptyList<CarState>().toMutableList()
@@ -219,7 +241,7 @@ class SavedRecordingsFragment : BaseFragment<FragmentSavedRecordingsBinding>(
                     else -> CarState.UNKNOWN
                 }
             }
-            fileOutput.write("${i}, ${gyroData[i][1]}, ${processedGyroData[i]}, ${allCarStates[i].ordinal}\n".toByteArray())
+            fileOutput.write("${i},${gyroData[i][1]},${allCarStates[i]}\n".toByteArray())
         }
         fileOutput.close()
         return fileName
