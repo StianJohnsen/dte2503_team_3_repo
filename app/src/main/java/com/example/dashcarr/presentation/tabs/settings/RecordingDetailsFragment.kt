@@ -104,15 +104,15 @@ class RecordingDetailsFragment : BaseFragment<FragmentRecordingDetailsBinding>(
         val entriesZ = valuesZ.mapIndexed { index, value -> Entry(index.toFloat(), value) }
 
         val lineDataSetX = LineDataSet(entriesX, "X")
-        lineDataSetX.setColor(Color.BLUE)
+        lineDataSetX.color = Color.BLUE
         lineDataSetX.setDrawCircles(false)
 
         val lineDataSetY = LineDataSet(entriesY, "Y")
-        lineDataSetY.setColor(Color.GREEN)
+        lineDataSetY.color = Color.GREEN
         lineDataSetY.setDrawCircles(false)
 
         val lineDataSetZ = LineDataSet(entriesZ, "Z")
-        lineDataSetZ.setColor(Color.YELLOW)
+        lineDataSetZ.color = Color.YELLOW
         lineDataSetZ.setDrawCircles(false)
 
         val dataSetsGyro: ArrayList<ILineDataSet> = ArrayList()
