@@ -171,7 +171,6 @@ class RecordingDetailsFragment : BaseFragment<FragmentRecordingDetailsBinding>(
         barChart.data = barData
         barChart.setFitBars(true)
 
-
         barChart.xAxis.textColor = Color.TRANSPARENT
         barChart.axisRight.textColor = Color.TRANSPARENT
         barChart.axisLeft.textColor = Color.WHITE

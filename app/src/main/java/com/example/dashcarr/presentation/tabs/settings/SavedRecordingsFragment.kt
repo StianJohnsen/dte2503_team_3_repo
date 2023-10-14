@@ -150,12 +150,11 @@ class SavedRecordingsFragment : BaseFragment<FragmentSavedRecordingsBinding>(
         }
     }
 
-    private fun getListFromFile(file: String): List<List<Float>> {
+    private fun readValuesFromFile(file: String): List<List<Float>> {
         val stream: InputStream = requireContext().openFileInput(file)
         val reader = BufferedReader(InputStreamReader(stream, Charset.forName("UTF-8")))
         reader.readLine()
-        val lines = reader.readLines().map { line -> line.split(",").map { str -> str.toFloat() } }
-        return lines
+        return reader.readLines().map { line -> line.split(",").map { str -> str.toFloat() } }
     }
 
     private fun median(list: List<Float>) = list.sorted().let {
@@ -185,15 +184,15 @@ class SavedRecordingsFragment : BaseFragment<FragmentSavedRecordingsBinding>(
     }
 
     private fun analyseCarStates(accFilePath: String, gyroFilePath: String): String {
-        var accData = getListFromFile(accFilePath).map { it[4] }
+        var accData = readValuesFromFile(accFilePath).map { it[4] }
         accData = lowPassFilter(accData, 50)
 
-        val gyroData = getListFromFile(gyroFilePath)
+        val gyroData = readValuesFromFile(gyroFilePath)
         var processedGyroData = List(gyroData.size) { 0F }
         for (i in 2..4) {
             val derivative = gyroData.zipWithNext().map { (it.first[i] - it.second[i]).absoluteValue }
             processedGyroData =
-                processedGyroData.zip(lowPassFilter(derivative, 200))
+                processedGyroData.zip(lowPassFilter(derivative, 100))
                     .map { it.first + it.second }
         }
 
