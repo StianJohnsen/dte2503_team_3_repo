@@ -21,9 +21,7 @@ import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
-import org.json.JSONArray
 import java.io.BufferedReader
-import java.io.IOException
 import java.io.InputStream
 import java.io.InputStreamReader
 import java.nio.charset.Charset
@@ -48,8 +46,7 @@ class RecordingDetailsFragment : BaseFragment<FragmentRecordingDetailsBinding>(
         val args: RecordingDetailsFragmentArgs by navArgs()
         val fileName = args.selectedFileName
         val chartType = args.chartType
-        val completeFileDate = fileName.substringBefore("_")
-        val elapsedTime = getElapsedTime("sensor_config.json", completeFileDate)
+        val elapsedTime = args.elapsedTime
         val fileDate = fileName.substringBefore("T")
         val recordingName = fileDate + "\n" + fileName.substringAfter("_").substringBefore('.')
         binding.textRecordingName.text = recordingName
@@ -130,7 +127,8 @@ class RecordingDetailsFragment : BaseFragment<FragmentRecordingDetailsBinding>(
         val legend = lineChart.legend
         legend.textColor = Color.WHITE
         legend.isEnabled = true
-        legend.textSize = 18F
+        legend.textSize = 16F
+        legend.formSize = 16F
 
         val xAxis = lineChart.xAxis
         xAxis.textColor = Color.WHITE
@@ -164,9 +162,11 @@ class RecordingDetailsFragment : BaseFragment<FragmentRecordingDetailsBinding>(
         }
         val entry = BarEntry(0F, segmentSizes.toFloatArray())
         val dataset = BarDataSet(listOf(entry), "Car states")
+        dataset.setDrawValues(false)
         dataset.colors = segmentColors
 
         val barData = BarData(dataset)
+        barData.isHighlightEnabled = false
         val barChart = HorizontalBarChart(context)
         barChart.data = barData
         barChart.setFitBars(true)
@@ -175,19 +175,22 @@ class RecordingDetailsFragment : BaseFragment<FragmentRecordingDetailsBinding>(
         barChart.xAxis.textColor = Color.TRANSPARENT
         barChart.axisRight.textColor = Color.TRANSPARENT
         barChart.axisLeft.textColor = Color.WHITE
+        barChart.isScaleYEnabled = false
 
         val legendEntries =
             SavedRecordingsFragment.CarState.entries.filterNot { it == SavedRecordingsFragment.CarState.UNKNOWN }.map {
                 LegendEntry(
                     it.name[0] + it.name.lowercase().substring(1),
                     barChart.legend.form,
-                    18F,
+                    16F,
                     Float.NaN,
                     null,
                     it.color
                 )
             }
         barChart.legend.textColor = Color.WHITE
+        barChart.legend.textSize = 16F
+        barChart.legend.isWordWrapEnabled = true
         barChart.legend.setCustom(legendEntries)
 
         barChart.description.isEnabled = false
@@ -195,26 +198,4 @@ class RecordingDetailsFragment : BaseFragment<FragmentRecordingDetailsBinding>(
         barChart.invalidate()
     }
 
-    fun getElapsedTime(fileName: String, csvFile: String): String {
-        val jsonArray: JSONArray
-        var value = ""
-        try {
-            val inputStream = context?.openFileInput(fileName)
-            val reader = BufferedReader(InputStreamReader(inputStream, Charset.forName("UTF-8")))
-            val line = reader.readLine()
-            jsonArray = JSONArray(line)
-            inputStream?.close()
-            for (i in 0 until jsonArray.length()) {
-                val jsonObject = jsonArray.getJSONObject(i)
-                val name = jsonObject.getString("name")
-                if (name == csvFile) {
-                    value = jsonObject.getString("elapsed_time")
-                    break
-                }
-            }
-        } catch (e: IOException) {
-            e.printStackTrace()
-        }
-        return value
-    }
 }

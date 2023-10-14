@@ -59,6 +59,9 @@
         <argument
             android:name="chartType"
             app:argType="string" />
+        <argument
+            android:name="elapsedTime"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/loginFragment"
