@@ -198,7 +198,7 @@ class SavedRecordingsFragment : BaseFragment<FragmentSavedRecordingsBinding>(
 
         val fileName = "${LocalDateTime.now()}_car_states.csv"
         val fileOutput = requireContext().openFileOutput(fileName, Context.MODE_PRIVATE)
-        fileOutput.write("ID, Gyro_Timestamp(ms), car_states\n".toByteArray())
+        fileOutput.write("ID, Gyro_Timestamp(ms), Car_States\n".toByteArray())
 
         val relevantAccelerationValues = emptyList<Float>().toMutableList()
         val allCarStates = emptyList<CarState>().toMutableList()
