@@ -130,9 +130,9 @@ class RecordingStatisticsFragment : BaseFragment<FragmentRecordingStatisticsBind
         val totalStorage = "%.2f MB".format(fileSizeInMB)
         binding.inputTotalStorage.text = totalStorage
 
-        val files = context?.fileList()
-        val numberOfFiles = files?.size
-        binding.inputNumberOfFiles.text = "$numberOfFiles"
+        val files = context?.fileList()?.filter { it.endsWith(".csv") }
+        val numberOfCsvFiles = files?.size
+        binding.inputNumberOfFiles.text = "$numberOfCsvFiles"
     }
 
     private fun getFolderSize(folder: File): Double {
