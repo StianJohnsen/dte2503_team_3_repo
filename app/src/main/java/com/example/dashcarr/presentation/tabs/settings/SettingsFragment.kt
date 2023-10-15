@@ -9,13 +9,16 @@ import com.example.dashcarr.R
 import com.example.dashcarr.databinding.FragmentSettingsBinding
 import com.example.dashcarr.extensions.collectWithLifecycle
 import com.example.dashcarr.presentation.core.BaseFragment
+import com.example.dashcarr.presentation.tabs.map.MapViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
-
+@AndroidEntryPoint
 class SettingsFragment : BaseFragment<FragmentSettingsBinding>(
     FragmentSettingsBinding::inflate,
     showBottomNavBar = true
 ) {
     private val viewModel: SettingsViewModel by viewModels()
+    private val mapViewModel: MapViewModel by viewModels()
 
      fun observeViewModel() {
         viewModel.logOutState.collectWithLifecycle(viewLifecycleOwner) {
@@ -30,6 +33,7 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>(
         }
         binding.btnLogout.setOnClickListener {
             viewModel.logOut()
+            mapViewModel.updateAppPreferences(false)
         }
 
     }

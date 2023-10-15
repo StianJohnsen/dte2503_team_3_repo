@@ -7,7 +7,12 @@
     <fragment
         android:id="@+id/action_map"
         android:name="com.example.dashcarr.presentation.tabs.map.MapFragment"
-        android:label="MapFragment" />
+        android:label="MapFragment">
+
+        <action
+            android:id="@+id/action_action_map_to_productFrontPage"
+            app:destination="@id/productFrontPage" />
+    </fragment>
     <fragment
         android:id="@+id/action_dash_cam"
         android:name="com.example.dashcarr.presentation.tabs.camera.dashcam.DashcamFragment"
@@ -138,7 +143,11 @@
     <fragment
         android:id="@+id/productFrontPage"
         android:name="com.example.dashcarr.presentation.tabs.settings.ProductFrontPage"
-        android:label="ProductFrontPage" />
+        android:label="ProductFrontPage" >
+        <action
+            android:id="@+id/action_productFrontPage_to_action_map"
+            app:destination="@id/action_map" />
+    </fragment>
 
 
 </navigation>

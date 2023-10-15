@@ -141,4 +141,7 @@ dependencies {
     //noinspection GradleDependency
     implementation("androidx.camera:camera-extensions:1.3.0-alpha02")
 
+    // Preferences DataStore
+    implementation("androidx.datastore:datastore-preferences:1.0.0")
+
 }
