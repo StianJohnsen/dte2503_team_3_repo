@@ -12,12 +12,12 @@ import android.location.LocationListener
 import android.location.LocationManager
 import android.os.Bundle
 import android.os.SystemClock
+import android.preference.PreferenceManager
 import android.util.Log
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.preference.PreferenceManager
 import com.example.dashcarr.databinding.FragmentMapBinding
 import com.example.dashcarr.extensions.collectWithLifecycle
 import com.example.dashcarr.extensions.getFormattedDate
@@ -186,11 +186,6 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
             btnDelete.setOnClickListener {
                 deleteRecording()
             }
-
-
-            //onlyForTesting.text = "Hello world"
-
-
         }
 
         accelSensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)
