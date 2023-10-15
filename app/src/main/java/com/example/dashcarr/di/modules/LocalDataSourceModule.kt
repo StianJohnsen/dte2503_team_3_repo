@@ -7,6 +7,9 @@ import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 
+/**
+ * Dagger Hilt module for providing local data source dependencies.
+ */
 @InstallIn(SingletonComponent::class)
 @Module
 interface LocalDataSourceModule {

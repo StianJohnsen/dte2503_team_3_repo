@@ -9,6 +9,9 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
+/**
+ * Dagger Hilt module for providing database-related dependencies.
+ */
 @Module
 @InstallIn(SingletonComponent::class)
 class DBModule {

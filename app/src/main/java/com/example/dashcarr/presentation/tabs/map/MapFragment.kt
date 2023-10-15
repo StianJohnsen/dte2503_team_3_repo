@@ -45,7 +45,12 @@ import java.io.InputStreamReader
 import java.nio.charset.Charset
 import java.time.LocalDateTime
 
-
+/**
+ * Fragment representing the map screen in the application. This fragment includes the map view,
+ * handles location updates, and provides functionality to create markers on the map.
+ *
+ * @constructor Creates a new instance of MapFragment.
+ */
 @AndroidEntryPoint
 class MapFragment : BaseFragment<FragmentMapBinding>(
     FragmentMapBinding::inflate,
@@ -56,8 +61,10 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
     private val recordingViewModel: RecordingViewModel by viewModels()
 
 
+    // Location manager for handling location updates
     private val locationManager by lazy { requireContext().getSystemService(Context.LOCATION_SERVICE) as LocationManager }
 
+    // Activity Result Launcher for requesting location permissions
     private val requestLocationPermissionsLauncher = registerForActivityResult(
         ActivityResultContracts.RequestMultiplePermissions()
     ) { permissionsResult ->
@@ -119,6 +126,9 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
 
 
 
+    /**
+     * Observes the ViewModel's LiveData and updates the UI accordingly.
+     */
     fun observeViewModel() {
         viewModel.lastSavedUserLocation.collectWithLifecycle(viewLifecycleOwner) {
             binding.mapView.controller.setCenter(it)
@@ -154,12 +164,23 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
         }
     }
 
+    /**
+     * Initializes listeners for UI elements in the fragment.
+     */
     fun initListeners() {
         binding.btnShowHideBar.setOnClickListener {
             viewModel.showHideBar()
         }
     }
 
+    /**
+     * Called when the fragment's view is created. Initializes the map, requests location permissions,
+     * and sets up the ViewModel observation.
+     *
+     * @param view The fragment's root view.
+     * @param savedInstanceState If non-null, this fragment is being re-constructed from a previous
+     * saved state.
+     */
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initListeners()
@@ -192,6 +213,9 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
         magnetoSensor = sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD)!!
     }
 
+    /**
+     * Requests location permissions using the AndroidX Activity Result API.
+     */
     private fun requestLocationPermission() {
         requestLocationPermissionsLauncher.launch(locationPermissions)
     }
@@ -401,6 +425,9 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
 
     }
 
+    /**
+     * Initializes the map settings and overlays.
+     */
     private fun initMap() {
         Configuration.getInstance()
             .load(requireContext(), PreferenceManager.getDefaultSharedPreferences(requireContext()))
@@ -425,6 +452,10 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
         binding.mapView.zoomController.setVisibility(CustomZoomButtonsController.Visibility.NEVER) // hide zoom buttons
     }
 
+    /**
+     * Requests location updates from the LocationManager for both GPS and network providers.
+     * Also enables and adds a MyLocationNewOverlay to the map.
+     */
     @SuppressLint("MissingPermission")
     fun createLocationRequest() {
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 2000, 100f, this)
@@ -589,6 +620,9 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
         }
     }
 
+    /**
+     * State sealed class representing the creation of a marker on the map.
+     */
     sealed class CreateMarkerState {
         class CreateMarker(val geoPoint: GeoPoint) : CreateMarkerState()
         class OnSaveError(val throwable: Throwable) : CreateMarkerState()

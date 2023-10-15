@@ -4,6 +4,9 @@ import androidx.lifecycle.LiveData
 import com.example.dashcarr.domain.entity.PointOfInterestEntity
 import com.example.dashcarr.presentation.tabs.map.data.PointOfInterest
 
+/**
+ * Interface for managing operations related to Points of Interest.
+ */
 interface IPointsOfInterestRepository {
     fun getAllPointsLiveData(): LiveData<List<PointOfInterestEntity>>
 

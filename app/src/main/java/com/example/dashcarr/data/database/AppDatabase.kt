@@ -8,6 +8,14 @@ import androidx.room.RoomDatabase
 import com.example.dashcarr.data.database.dao.PointOfInterestDao
 import com.example.dashcarr.domain.entity.PointOfInterestEntity
 
+/**
+ * Room Database class for the app.
+ *
+ * This database class defines the entities it contains and provides a method to access
+ * the associated Data Access Object (DAO).
+ *
+ * @property isDataBaseCreated A [MutableLiveData] to observe whether the database has been created.
+ */
 @Database(
     entities = [
         PointOfInterestEntity::class

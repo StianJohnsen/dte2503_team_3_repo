@@ -1,5 +1,8 @@
 package com.example.dashcarr.data.repository.model
 
+/**
+ * Constants and keys for the GeoPoint data table.
+ */
 abstract class GeoPointTable {
     companion object {
         const val GEO_POINT_DOCUMENT = "GeoPointDocument"
