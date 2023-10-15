@@ -170,11 +170,16 @@ class RecordingStatisticsFragment : BaseFragment<FragmentRecordingStatisticsBind
         var jsonArray = JSONArray()
         val fileName = "sensor_config.json"
         try {
-            val inputStream = context?.openFileInput(fileName)
-            val reader = BufferedReader(InputStreamReader(inputStream, Charset.forName("UTF-8")))
-            val line = reader.readLine()
-            jsonArray = JSONArray(line)
-            inputStream?.close()
+            val file = File(requireContext().filesDir, fileName)
+            if (file.exists() && file.isFile) {
+                val inputStream = context?.openFileInput(fileName)
+                val reader = BufferedReader(InputStreamReader(inputStream, Charset.forName("UTF-8")))
+                val line = reader.readLine()
+                jsonArray = JSONArray(line)
+                inputStream?.close()
+            } else {
+                println("File Not Found")
+            }
         } catch (e: Exception) {
             e.printStackTrace()
         }
@@ -190,11 +195,16 @@ class RecordingStatisticsFragment : BaseFragment<FragmentRecordingStatisticsBind
         var fileCount = 0
 
         for (fileName in files) {
-            val inputStream = context.openFileInput(fileName)
-            val fileSize = inputStream.available()
-            totalSize += fileSize
-            fileCount++
-            inputStream.close()
+            val file = File(requireContext().filesDir, fileName)
+            if (file.exists() && file.isFile) {
+                val inputStream = context.openFileInput(fileName)
+                val fileSize = inputStream.available()
+                totalSize += fileSize
+                fileCount++
+                inputStream.close()
+            } else {
+                println("File Not Found")
+            }
         }
 
         val averageSizeInKB = if (fileCount > 0) totalSize.toDouble() / fileCount / 1024 else 0.0
