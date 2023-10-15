@@ -9,6 +9,14 @@ import org.osmdroid.util.GeoPoint
 import javax.inject.Inject
 import javax.inject.Singleton
 
+/**
+ * Implementation of [IPreferences] for managing application preferences.
+ *
+ * This class utilizes Android's SharedPreferences to store and retrieve user preferences,
+ * including the last known user location.
+ *
+ * @property context The application context used to access SharedPreferences.
+ */
 @Singleton
 class Preferences @Inject constructor(
     @ApplicationContext context: Context

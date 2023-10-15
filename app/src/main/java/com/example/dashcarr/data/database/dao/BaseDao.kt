@@ -5,7 +5,12 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Update
 
-
+/**
+ * Generic interface for a Data Access Object (DAO) that provides basic CRUD operations
+ * (Create, Read, Update, Delete) for a given entity type [T].
+ *
+ * @param T The type of entity for which the DAO provides operations.
+ */
 interface BaseDao<in T> {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)

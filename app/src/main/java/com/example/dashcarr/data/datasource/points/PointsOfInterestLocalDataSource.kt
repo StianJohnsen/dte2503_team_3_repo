@@ -6,6 +6,11 @@ import com.example.dashcarr.data.mapper.safeCall
 import com.example.dashcarr.domain.entity.PointOfInterestEntity
 import javax.inject.Inject
 
+/**
+ * Local data source for Points of Interest using Room Database.
+ *
+ * @param pointsDao The Data Access Object (DAO) for Point of Interest entities.
+ */
 class PointsOfInterestLocalDataSource @Inject constructor(
     private val pointsDao: PointOfInterestDao
 ): IPointsOfInterestLocalDataSource {

@@ -8,6 +8,11 @@ import com.example.dashcarr.domain.repository.IPointsOfInterestRepository
 import com.example.dashcarr.presentation.tabs.map.data.PointOfInterest
 import javax.inject.Inject
 
+/**
+ * Implementation of [IPointsOfInterestRepository] for managing Points of Interest data.
+ *
+ * @param pointsOfInterestLocalDataSource The local data source for Points of Interest.
+ */
 class PointsOfInterestRepository @Inject constructor(
     private val pointsOfInterestLocalDataSource: IPointsOfInterestLocalDataSource
 ): IPointsOfInterestRepository {

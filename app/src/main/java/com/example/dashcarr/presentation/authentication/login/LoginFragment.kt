@@ -22,6 +22,9 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import dagger.hilt.android.AndroidEntryPoint
 
+/**
+ * Fragment responsible for user login functionality.
+ */
 @AndroidEntryPoint
 class LoginFragment : BaseFragment<FragmentLoginBinding>(
     FragmentLoginBinding::inflate,
@@ -38,9 +41,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(
                 } else {
                     if (response.user.providerId.lowercase().contains("facebook")) {
                         saveCredentialsToFirebase(response.idpToken)
-                    }
-                    else findNavController().navigate(R.id.action_loginFragment_to_action_map)
-
+                    } else findNavController().navigate(R.id.action_loginFragment_to_action_map)
                 }
             }
             else -> if (response != null) {
@@ -71,13 +72,15 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(
         observeViewModel()
     }
 
-     fun observeViewModel() {
+    /**
+     * Observes the ViewModel's LiveData for error states and login status.
+     */
+    private fun observeViewModel() {
         viewModel.emailErrorState.collectWithLifecycle(viewLifecycleOwner) {
             if (it != null) {
                 binding.tilEmail.isErrorEnabled = true
                 binding.tilEmail.error = getString(it)
-            }
-            else {
+            } else {
                 binding.tilEmail.isErrorEnabled = false
             }
         }
@@ -86,8 +89,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(
             if (it != null) {
                 binding.tilPassword.isErrorEnabled = true
                 binding.tilPassword.error = getString(it)
-            }
-            else {
+            } else {
                 binding.tilPassword.isErrorEnabled = false
             }
         }
@@ -95,20 +97,20 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(
         viewModel.loginState.collectWithLifecycle(viewLifecycleOwner) {
             if (it) {
                 findNavController().navigate(R.id.action_loginFragment_to_action_map)
-            }
-            else {
+            } else {
                 Toast.makeText(requireContext(), "Login failed", Toast.LENGTH_SHORT).show()
             }
-
         }
+
         viewModel.googleLoginState.collectWithLifecycle(viewLifecycleOwner) {
             showAuth(googleAuthProvider)
         }
-
     }
 
-
-     fun initListeners() {
+    /**
+     * Initializes listeners for user input and button clicks.
+     */
+    private fun initListeners() {
         binding.etEmail.doOnTextChanged { _, _, _, _ ->
             viewModel.updateEmail(binding.etEmail.text.toString())
         }
@@ -139,8 +141,11 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(
         }
     }
 
-
-
+    /**
+     * Shows the authentication process for the specified provider.
+     *
+     * @param provider The authentication provider configuration.
+     */
     private fun showAuth(provider: AuthUI.IdpConfig) {
         signInLauncher.launch(
             AuthUI.getInstance()
@@ -151,7 +156,6 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(
         )
     }
 
-
     private fun saveCredentialsToFirebase(accessToken: String?) {
         if (accessToken.isNullOrEmpty()) return
         val credentials = FacebookAuthProvider.getCredential(accessToken)
@@ -159,11 +163,9 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     findNavController().navigate(R.id.action_loginFragment_to_action_map)
-                }
-                else {
+                } else {
                     Toast.makeText(requireContext(), getString(R.string.error_unknown), Toast.LENGTH_SHORT).show()
                 }
             }
     }
-
 }

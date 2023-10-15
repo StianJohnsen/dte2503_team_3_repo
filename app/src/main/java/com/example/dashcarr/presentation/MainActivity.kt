@@ -56,6 +56,9 @@ class MainActivity : AppCompatActivity() {
         initViewModels()
     }
 
+    /**
+     * Initializes the [MainViewModel] and observes the user login status.
+     */
     private fun initViewModels() {
         viewModel.isUserLoggedIn.collectWithLifecycle(this) {
             if (it) navController.navigate(R.id.action_loginFragment_to_action_map)

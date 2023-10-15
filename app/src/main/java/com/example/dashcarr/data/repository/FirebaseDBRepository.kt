@@ -10,7 +10,11 @@ import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
-
+/**
+ * Implementation of [IFirebaseDBRepository] for managing interactions with Firebase.
+ *
+ * @param firebaseAuthRepository The repository for managing Firebase Authentication.
+ */
 class FirebaseDBRepository @Inject constructor(
     private val firebaseAuthRepository: IFirebaseAuthRepository
 ): IFirebaseDBRepository {
