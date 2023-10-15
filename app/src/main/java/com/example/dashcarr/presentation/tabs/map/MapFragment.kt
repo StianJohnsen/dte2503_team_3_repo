@@ -149,7 +149,6 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
 
         viewLifecycleOwner.lifecycleScope.launch {
             recordingViewModel.elapsedTime.collect(){
-                Log.d("heia","elapsedTime: $it")
                 elapsedTime = it
             }
         }
@@ -337,36 +336,7 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
 
     private fun startRecording() {
         recordingViewModel.startRecording()
-
-        rawAccData = FloatArray(3)
-        rawAccDataIndex = 0
-        filtAccData = FloatArray(3)
-        filtAccPrevData = FloatArray(3)
-        rawAcclRecord = mutableListOf<SensorData>()
-        filtAcclRecord = mutableListOf<SensorData>()
-
-        count = 0
-        beginTime = System.nanoTime()
-        rc = 0.002f
-
-        // Gyroscope
-        rawGyroData = FloatArray(3)
-        rawGyroDataIndex = 0
-        filtGyroData = FloatArray(3)
-        filtGyroPrevData = FloatArray(3)
-        rawGyroRecord = mutableListOf<SensorData>()
-        filtGyroRecord = mutableListOf<SensorData>()
-
-        // Location
-        rawLocationRecord = mutableListOf<SensorData>()
-
-        recordingJson = JSONObject()
-
-        startTimeMillis = 0
-        totalElapsedTimeMillis = 0
-        pausedElapsedTimeMillis = 0
-
-
+        resetRecording()
         isRecording = true
         isTimerPaused = false
 
@@ -393,6 +363,10 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
 
     private fun deleteRecording() {
         recordingViewModel.stopRecording()
+        resetRecording()
+    }
+
+    fun resetRecording(){
         isRecording = false
         isTimerPaused = true
 
@@ -423,6 +397,7 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
         startTimeMillis = 0
         totalElapsedTimeMillis = 0
         pausedElapsedTimeMillis = 0
+
 
     }
 
