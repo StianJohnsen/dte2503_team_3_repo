@@ -22,7 +22,9 @@ import java.io.InputStream
 import java.io.InputStreamReader
 import java.nio.charset.Charset
 
-
+/**
+ * Fragment for displaying recording details.
+ */
 class RecordingDetailsFragment : BaseFragment<FragmentRecordingDetailsBinding>(
     FragmentRecordingDetailsBinding::inflate,
     showBottomNavBar = false
@@ -35,13 +37,30 @@ class RecordingDetailsFragment : BaseFragment<FragmentRecordingDetailsBinding>(
         return binding.root
     }
 
+    /**
+     * TODO: Implement to observe ViewModel changes.
+     */
+    override fun observeViewModel() {
+        TODO("Not yet implemented")
+    }
 
+    /**
+     * TODO: Implement to initialize UI event listeners.
+     */
+    override fun initListeners() {
+        TODO("Not yet implemented")
+    }
 
+    /**
+     * Initializes view elements, plot graphs, and sets other display info.
+     */
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         val args: RecordingDetailsFragmentArgs by navArgs()
         val fileName = args.selectedFileName
+
+        // Extract time and date details
         val completeFileDate = fileName.substringBefore("_")
         val elapsedTime = getElapsedTime("sensor_config.json", completeFileDate)
         val fileDate = fileName.substringBefore("T")
@@ -49,18 +68,23 @@ class RecordingDetailsFragment : BaseFragment<FragmentRecordingDetailsBinding>(
         binding.textRecordingName.text = recordingName
 
         try {
+            // Open file and prepare for reading
             val inputStream: InputStream = requireContext().openFileInput(fileName)
             val reader = BufferedReader(InputStreamReader(inputStream, Charset.forName("UTF-8")))
             var fileLength = inputStream.available()
             val getToKB = 1024
             fileLength /= getToKB
             var line: String?
+
+            // Initialize lists for storing chart data
             val entriesX = ArrayList<Entry>()
             val entriesY = ArrayList<Entry>()
             val entriesZ = ArrayList<Entry>()
 
             reader.readLine()
             var lineNumber = 0
+
+            // Read each line and populate chart data lists
             while (reader.readLine().also { line = it } != null) {
                 val tokens = line?.split(",") ?: continue
                 if (tokens.size < 5) continue
@@ -73,6 +97,7 @@ class RecordingDetailsFragment : BaseFragment<FragmentRecordingDetailsBinding>(
             reader.close()
             inputStream.close()
 
+            // Prepare chart datasets
             val lineDataSetX = LineDataSet(entriesX, "X")
             lineDataSetX.setColor(Color.BLUE)
             lineDataSetX.setDrawCircles(false)
@@ -90,6 +115,7 @@ class RecordingDetailsFragment : BaseFragment<FragmentRecordingDetailsBinding>(
             dataSetsGyro.add(lineDataSetY)
             dataSetsGyro.add(lineDataSetZ)
 
+            // Customize the chart
             val data = LineData(dataSetsGyro)
             val lineChart: LineChart = view.findViewById(R.id.graph_gyro)
             val legend = lineChart.legend
@@ -110,6 +136,7 @@ class RecordingDetailsFragment : BaseFragment<FragmentRecordingDetailsBinding>(
             lineChart.data = data
             lineChart.invalidate()
 
+            // Fill in the information fields
             binding.inputElapsedTime.text = elapsedTime
             binding.inputFileDate.text = fileDate
             binding.inputAmountOfDatapoints.text = "$amountDataPoints"
@@ -124,11 +151,20 @@ class RecordingDetailsFragment : BaseFragment<FragmentRecordingDetailsBinding>(
             lifecycleOwner = viewLifecycleOwner
             recordingDetailsFragment = this@RecordingDetailsFragment
         }
+
+        // Navigate to History when the button is clicked
         binding.imageBackDetails.setOnClickListener {
             findNavController().navigate(R.id.action_action_details_to_SavedRecordingsFragment)
         }
     }
 
+
+    /**
+     * Gets elapsed time for a specific CSV file.
+     * @param fileName The name of the JSON file containing metadata.
+     * @param csvFile The name of the CSV file to look for.
+     * @return Elapsed time as a String.
+     */
     fun getElapsedTime(fileName: String, csvFile: String): String {
         val jsonArray: JSONArray
         var value = ""

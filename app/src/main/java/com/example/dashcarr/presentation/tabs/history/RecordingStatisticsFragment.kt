@@ -22,7 +22,9 @@ import java.io.InputStreamReader
 import java.nio.charset.Charset
 import java.util.concurrent.TimeUnit
 
-
+/**
+ * Fragment for displaying recording statistics.
+ */
 class RecordingStatisticsFragment : BaseFragment<FragmentRecordingStatisticsBinding>(
     FragmentRecordingStatisticsBinding::inflate,
     showBottomNavBar = false
@@ -37,6 +39,9 @@ class RecordingStatisticsFragment : BaseFragment<FragmentRecordingStatisticsBind
     }
 
 
+    /**
+     * Initializes UI and loads data once the view is created.
+     */
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -52,6 +57,7 @@ class RecordingStatisticsFragment : BaseFragment<FragmentRecordingStatisticsBind
 
         val categoryCount = mutableMapOf<String, Float>()
 
+        // Process JSON data for pie chart
         for (i in 0 until jsonArray.length()) {
             val jsonObject = jsonArray.getJSONObject(i)
 
@@ -78,6 +84,7 @@ class RecordingStatisticsFragment : BaseFragment<FragmentRecordingStatisticsBind
             entries.add(PieEntry(value, key))
         }
 
+        // Customize the pie Chart
         val pieChart: PieChart = view.findViewById(R.id.pieChart_stats)
         val dataSet = PieDataSet(entries, "Categories")
         dataSet.colors = ColorTemplate.COLORFUL_COLORS.toList()
@@ -94,6 +101,7 @@ class RecordingStatisticsFragment : BaseFragment<FragmentRecordingStatisticsBind
 
         var totalElapsedTime: Long = 0
 
+        // Calculate the average elapsed time of records
         for (i in 0 until jsonArray.length()) {
             val jsonObject = jsonArray.getJSONObject(i)
             val elapsedTimeStr = jsonObject.getString("elapsed_time")
@@ -119,7 +127,6 @@ class RecordingStatisticsFragment : BaseFragment<FragmentRecordingStatisticsBind
 
         binding.inputAvgTime.text = averageElapsedTimeStr
 
-
         val averageSizeFile = averageFileSize(requireContext())
 
         binding.inputAvgSize.text = averageSizeFile
@@ -128,13 +135,18 @@ class RecordingStatisticsFragment : BaseFragment<FragmentRecordingStatisticsBind
         val size = getFolderSize(dir)
         val fileSizeInMB = size / (1024 * 1024)
         val totalStorage = "%.2f MB".format(fileSizeInMB)
+
         binding.inputTotalStorage.text = totalStorage
 
         val files = context?.fileList()?.filter { it.endsWith(".csv") }
         val numberOfCsvFiles = files?.size
+
         binding.inputNumberOfFiles.text = "$numberOfCsvFiles"
     }
 
+    /**
+     * Returns the total size of a folder.
+     */
     private fun getFolderSize(folder: File): Double {
         var length = 0.0
         val files = folder.listFiles()
@@ -151,6 +163,9 @@ class RecordingStatisticsFragment : BaseFragment<FragmentRecordingStatisticsBind
         return length
     }
 
+    /**
+     * Reads a JSONArray from a given file.
+     */
     private fun readJsonFromFile(): JSONArray {
         var jsonArray = JSONArray()
         val fileName = "sensor_config.json"
@@ -166,6 +181,9 @@ class RecordingStatisticsFragment : BaseFragment<FragmentRecordingStatisticsBind
         return jsonArray
     }
 
+    /**
+     * Calculates the average file size in the files folder
+     */
     private fun averageFileSize(context: Context): String {
         val files = context.fileList()
         var totalSize = 0
