@@ -39,15 +39,21 @@ class HudFragment : BaseFragment<FragmentHudBinding>(
                 view.systemUiVisibility = View.SYSTEM_UI_FLAG_FULLSCREEN or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
             }
             showBottomNavigation(false)
-            textCanvas = SessionInformationDrawable(requireContext(), arrayOf(300F, 250F, 200F, 150F, 100F), true) {}
+            textCanvas =
+                SessionInformationDrawable(requireContext(), arrayOf(300F, 250F, 200F, 150F, 100F, 50F), true) {}
             binding.hudImage.setHeightSmooth(0, view.height, true)
             binding.hudImage.scaleY = -1F
             binding.backButton.visibility = View.VISIBLE
             binding.imageContainer.setBackgroundColor(Color.BLACK)
         } else {
-            textCanvas = SessionInformationDrawable(requireContext(), arrayOf(130F, 100F, 70F), false) {
-                binding.hudImage.setHeightSmooth(0, it, true)
-            }
+            textCanvas =
+                SessionInformationDrawable(
+                    requireContext(),
+                    arrayOf(130F, 90F, 80F, 70F, 60F, 50F, 40F, 30F, 20F),
+                    false
+                ) {
+                    binding.hudImage.setHeightSmooth(0, it, true)
+                }
         }
         binding.hudImage.setImageDrawable(textCanvas)
         binding.backButton.setOnClickListener {
