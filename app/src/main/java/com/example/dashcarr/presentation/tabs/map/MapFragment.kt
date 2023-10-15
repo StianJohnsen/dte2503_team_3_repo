@@ -11,14 +11,12 @@ import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.os.SystemClock
-import android.renderscript.ScriptGroup.Input
 import android.util.Log
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.preference.PreferenceManager
 import com.example.dashcarr.databinding.FragmentMapBinding
 import com.example.dashcarr.extensions.collectWithLifecycle
@@ -31,6 +29,7 @@ import com.example.dashcarr.presentation.mapper.toMarker
 import com.example.dashcarr.presentation.tabs.map.data.PointOfInterest
 import com.example.dashcarr.presentation.tabs.settings.SensorData
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 import org.json.JSONArray
 import org.json.JSONObject
 import org.osmdroid.config.Configuration
@@ -45,7 +44,6 @@ import java.io.BufferedReader
 import java.io.InputStreamReader
 import java.nio.charset.Charset
 import java.time.LocalDateTime
-import kotlin.math.min
 
 
 @AndroidEntryPoint
@@ -55,6 +53,7 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
 ), LocationListener, MapEventsReceiver, SensorEventListener {
 
     private val viewModel: MapViewModel by viewModels()
+    private val recordingViewModel: RecordingViewModel by viewModels()
 
 
     private val locationManager by lazy { requireContext().getSystemService(Context.LOCATION_SERVICE) as LocationManager }
@@ -80,13 +79,7 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
 
     private var elapsedTime = ""
 
-    /*
-    These variables are not necessary as they will not be used at the current iteration of the app,
-    but can be useful for later
-     */
-    private var isFiltered: Boolean? = false
-    private var isAccel: Boolean? = false
-    private var isGyro: Boolean? = false
+
 
     // Accelerometer
     private var rawAccData = FloatArray(3)
@@ -124,13 +117,7 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
     private var totalElapsedTimeMillis: Long = 0
     private var pausedElapsedTimeMillis: Long = 0
 
-    var handler = Handler(Looper.getMainLooper())
-    private val updateTimeRunnable = object : Runnable {
-        override fun run() {
-            updateElapsedTime()
-            handler.postDelayed(this, 1000)
-        }
-    }
+
 
     fun observeViewModel() {
         viewModel.lastSavedUserLocation.collectWithLifecycle(viewLifecycleOwner) {
@@ -156,6 +143,14 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
         viewModel.showButtonsBarState.collectWithLifecycle(viewLifecycleOwner) { show ->
             show?.let {
                 binding.llExpandedBar.setHeightSmooth(newHeight = if (show) -2 else 0)
+            }
+        }
+
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            recordingViewModel.elapsedTime.collect(){
+                Log.d("heia","elapsedTime: $it")
+                elapsedTime = it
             }
         }
     }
@@ -186,9 +181,14 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
             btnResume.setOnClickListener {
                 resumeRecording()
             }
+
+
             btnDelete.setOnClickListener {
                 deleteRecording()
             }
+
+
+            //onlyForTesting.text = "Hello world"
 
 
         }
@@ -202,18 +202,7 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
         requestLocationPermissionsLauncher.launch(locationPermissions)
     }
 
-    fun updateElapsedTime() {
-        if (isRecording) {
-            val currentTimeMillis = SystemClock.elapsedRealtime()
-            totalElapsedTimeMillis = (currentTimeMillis - startTimeMillis) + pausedElapsedTimeMillis
-        }
 
-        val seconds = ((totalElapsedTimeMillis / 1000) % 60).toInt()
-        val minutes = ((totalElapsedTimeMillis / (1000 * 60)) % 60).toInt()
-        val hours = ((totalElapsedTimeMillis / (1000 * 60 * 60)) % 24).toInt()
-        elapsedTime = String.format("%02d:%02d:%02d", hours, minutes, seconds)
-        // binding.textfield.text = getString(R.string.elapsed_time, elapsedTime)
-    }
 
     private fun readJsonFromFile(): JSONArray {
         var jsonArray = JSONArray()
@@ -266,12 +255,8 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
         dateTime: LocalDateTime,
         filtered: String,
         sensor: String,
-        isChecked: Boolean
     ) {
-        if (isChecked)
-            recordingJson.put("${filtered}_${sensor}", "${dateTime}_${filtered}tered_${sensor}.csv")
-        else
-            recordingJson.put("${filtered}_${sensor}", "")
+        recordingJson.put("${filtered}_${sensor}", "${dateTime}_${filtered}tered_${sensor}.csv")
     }
 
     private fun saveToCSV() {
@@ -287,27 +272,27 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
         // Location
         currentStringBuilder = writeToLocationStringBuilder(rawLocationRecord)
         saveToFile(currentStringBuilder, "unfiltered", "GPS", stopDateTime)
-        makeJSONObject(stopDateTime, "unfil", "GPS", true)
+        makeJSONObject(stopDateTime, "unfil", "GPS" )
 
         // Accelerometer
 
         currentStringBuilder = writeToSensorStringBuilder("accel", filtAcclRecord)
         saveToFile(currentStringBuilder, "filtered", "accel", stopDateTime)
-        makeJSONObject(stopDateTime, "fil", "accel", true)
+        makeJSONObject(stopDateTime, "fil", "accel" )
 
         currentStringBuilder = writeToSensorStringBuilder("accel", rawAcclRecord)
         saveToFile(currentStringBuilder, "unfiltered", "accel", stopDateTime)
-        makeJSONObject(stopDateTime, "unfil", "accel", true)
+        makeJSONObject(stopDateTime, "unfil", "accel" )
 
         // Gyroscope
 
         currentStringBuilder = writeToSensorStringBuilder("gyro", filtGyroRecord)
         saveToFile(currentStringBuilder, "filtered", "gyro", stopDateTime)
-        makeJSONObject(stopDateTime, "fil", "gyro", true)
+        makeJSONObject(stopDateTime, "fil", "gyro")
 
         currentStringBuilder = writeToSensorStringBuilder("Gyro", rawGyroRecord)
         saveToFile(currentStringBuilder, "unfiltered", "gyro", stopDateTime)
-        makeJSONObject(stopDateTime, "unfil", "gyro", true)
+        makeJSONObject(stopDateTime, "unfil", "gyro")
 
 
         val existingJSONArray = readJsonFromFile()
@@ -325,7 +310,6 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
     override fun onResume() {
         super.onResume()
         startTimeMillis = SystemClock.elapsedRealtime()
-        handler.post(updateTimeRunnable)
 
         sensorManager.registerListener(
             this, accelSensor, SensorManager.SENSOR_DELAY_FASTEST
@@ -353,33 +337,11 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
 
     override fun onPause() {
         super.onPause()
-        handler.removeCallbacks(updateTimeRunnable)
         sensorManager.unregisterListener(this)
     }
 
     private fun startRecording() {
-        isRecording = true
-        isTimerPaused = false
-    }
-
-    private fun stopRecording() {
-        isRecording = false
-        saveToCSV()
-    }
-
-    private fun pauseRecording() {
-        isRecording = false
-        isTimerPaused = true
-        pausedElapsedTimeMillis += SystemClock.elapsedRealtime() - startTimeMillis
-    }
-
-    private fun resumeRecording() {
-        isRecording = true
-        isTimerPaused = false
-        startTimeMillis = SystemClock.elapsedRealtime()
-    }
-
-    private fun deleteRecording(){
+        recordingViewModel.startRecording()
 
         rawAccData = FloatArray(3)
         rawAccDataIndex = 0
@@ -401,7 +363,65 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
         filtGyroRecord = mutableListOf<SensorData>()
 
         // Location
-       rawLocationRecord = mutableListOf<SensorData>()
+        rawLocationRecord = mutableListOf<SensorData>()
+
+        recordingJson = JSONObject()
+
+        startTimeMillis = 0
+        totalElapsedTimeMillis = 0
+        pausedElapsedTimeMillis = 0
+
+
+        isRecording = true
+        isTimerPaused = false
+
+    }
+
+    private fun stopRecording() {
+        recordingViewModel.stopRecording()
+        isRecording = false
+        saveToCSV()
+    }
+
+    private fun pauseRecording() {
+        recordingViewModel.pauseRecording()
+        isRecording = false
+        isTimerPaused = true
+    }
+
+    private fun resumeRecording() {
+        recordingViewModel.resumeRecording()
+        isRecording = true
+        isTimerPaused = false
+        startTimeMillis = SystemClock.elapsedRealtime()
+    }
+
+    private fun deleteRecording() {
+        recordingViewModel.stopRecording()
+        isRecording = false
+        isTimerPaused = true
+
+        rawAccData = FloatArray(3)
+        rawAccDataIndex = 0
+        filtAccData = FloatArray(3)
+        filtAccPrevData = FloatArray(3)
+        rawAcclRecord = mutableListOf<SensorData>()
+        filtAcclRecord = mutableListOf<SensorData>()
+
+        count = 0
+        beginTime = System.nanoTime()
+        rc = 0.002f
+
+        // Gyroscope
+        rawGyroData = FloatArray(3)
+        rawGyroDataIndex = 0
+        filtGyroData = FloatArray(3)
+        filtGyroPrevData = FloatArray(3)
+        rawGyroRecord = mutableListOf<SensorData>()
+        filtGyroRecord = mutableListOf<SensorData>()
+
+        // Location
+        rawLocationRecord = mutableListOf<SensorData>()
 
         recordingJson = JSONObject()
 
@@ -410,6 +430,7 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
         pausedElapsedTimeMillis = 0
 
     }
+
     private fun initMap() {
         Configuration.getInstance()
             .load(requireContext(), PreferenceManager.getDefaultSharedPreferences(requireContext()))
