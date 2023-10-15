@@ -1,11 +1,20 @@
 package com.example.dashcarr.presentation.tabs.map
 
 import android.location.Location
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.core.emptyPreferences
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.dashcarr.domain.preferences.IPreferences
 import com.example.dashcarr.domain.repository.IPointsOfInterestRepository
 import com.example.dashcarr.presentation.tabs.map.data.PointOfInterest
+import androidx.lifecycle.asLiveData
+import androidx.lifecycle.viewModelScope
+import com.example.dashcarr.data.repository.DataStoreKey
+import com.example.dashcarr.data.repository.LoggedInDataStore
+import com.example.dashcarr.data.repository.LoggedInValue
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -15,6 +24,11 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import org.osmdroid.util.GeoPoint
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.launch
+import java.io.IOException
 import javax.inject.Inject
 
 /**
@@ -25,9 +39,22 @@ import javax.inject.Inject
  */
 @HiltViewModel
 class MapViewModel @Inject constructor(
+    repository: TasksRepository,
+    private val userPreferencesRepository: UserPreferencesRepository
+
     private val sp: IPreferences,
     private val pointsOfInterestRepository: IPointsOfInterestRepository
 ): ViewModel() {
+
+    val appPreferences = userPreferencesRepository.appBoolFlow.asLiveData()
+
+
+    fun updateAppPreferences(bool:Boolean){
+        viewModelScope.launch {
+            userPreferencesRepository.updateAlreadyLoggedIn(bool)
+        }
+    }
+
 
     // Channel for communicating the last saved user location
     private val _lastSavedUserLocation = Channel<GeoPoint>()
@@ -123,3 +150,28 @@ class MapViewModel @Inject constructor(
         }
     }
 }
+
+class UserPreferencesRepository @Inject constructor(
+    private val dataStore: DataStore<Preferences>
+){
+    val appBoolFlow: Flow<LoggedInValue> = dataStore.data
+        .catch {
+            if (it is IOException){
+                it.printStackTrace()
+                emit(emptyPreferences())
+            }else{
+                throw it
+            }
+        }.map { preferences ->
+            val alreadyLoggedIn = preferences[DataStoreKey.ALREADY_LOGGED_IN] ?: false
+            LoggedInValue(alreadyLoggedIn)
+        }
+
+    suspend fun updateAlreadyLoggedIn(newValue: Boolean){
+        dataStore.edit { preferences ->
+            preferences[DataStoreKey.ALREADY_LOGGED_IN] = newValue
+        }
+    }
+}
+
+class TasksRepository @Inject constructor()

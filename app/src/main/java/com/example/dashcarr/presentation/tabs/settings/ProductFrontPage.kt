@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.fragment.findNavController
 import com.example.dashcarr.R
 import com.example.dashcarr.databinding.FragmentProductFrontPageBinding
 import com.example.dashcarr.presentation.core.BaseFragment
@@ -21,6 +22,9 @@ class ProductFrontPage : BaseFragment<FragmentProductFrontPageBinding>(
         binding.apply {
             lifecycleOwner = viewLifecycleOwner
             productInfoRecycler.adapter = adapter
+            exitProductFrontPage.setOnClickListener {
+                findNavController().navigate(R.id.action_productFrontPage_to_action_map)
+            }
         }
 
         val productInfoList = listOf<ProductInfo>(
