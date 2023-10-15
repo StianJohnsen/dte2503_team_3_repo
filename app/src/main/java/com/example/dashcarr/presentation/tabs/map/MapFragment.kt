@@ -70,9 +70,9 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
     ) { permissionsResult ->
         if (permissionsResult.values.isEmpty()) return@registerForActivityResult
         if (permissionsResult.values.contains(false)) {
-            Log.e("MapSomeStuff", "False location!")
+            Log.d("Mapping", "False location!")
         } else {
-            Log.e("MapSomeStuff", "Got Location!")
+            Log.d("Mapping", "Got Location!")
             createLocationRequest()
         }
     }
@@ -142,7 +142,7 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
                     hideCreateMarkerDialog()
                 }
             }
-            Log.e("MapSomeStuff", "createMarkerState = ${getFormattedDate(Calendar.getInstance().timeInMillis)}")
+            Log.e("Mapping", "createMarkerState = ${getFormattedDate(Calendar.getInstance().timeInMillis)}")
         }
         viewModel.pointsOfInterestState.observe(viewLifecycleOwner) {
             if (it.isEmpty()) return@observe
@@ -483,7 +483,7 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
 
     override fun onLocationChanged(location: Location) {
         viewModel.saveCurrentLocation(location)
-        Log.e("MapSomeStuff", "location changed! lat = ${location.latitude} , long = ${location.longitude}")
+        Log.e("Mapping", "location changed! lat = ${location.latitude} , long = ${location.longitude}")
         if (isRecording) {
             rawLocationRecord.add(
                 SensorData(

@@ -36,17 +36,36 @@ class SessionInformationDrawable(
 
     private fun updateStreet(location: Location) {
         val url =
-            "https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${location.latitude}&lon=${location.longitude}"
+            "https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${location.latitude}&lon=${location.longitude}&layer=address"
         val queue = Volley.newRequestQueue(context)
         val stringRequest = JsonObjectRequest(Request.Method.GET, url, null,
             { response ->
                 val address = response.getJSONObject("address")
-                street = "${address.get("road")}, ${address.get("town")}"
+                var road = ""
+                if (address.has("road")) {
+                    road = address.get("road").toString()
+                }
+                val town = when {
+                    address.has("town") -> address.get("town")
+                    address.has("municipality") -> address.get("municipality")
+                    address.has("city") -> address.get("city")
+                    address.has("region") -> address.get("region")
+                    address.has("neighbourhood") -> address.get("neighbourhood")
+                    address.has("farm") -> address.get("farm")
+                    address.has("county") -> address.get("county")
+                    else -> ""
+                }.toString()
+                street = if (road.isEmpty() || town.isEmpty()) {
+                    town + road
+                } else {
+                    "${road}, $town"
+                }
                 missingStreetUpdate = false
                 this.invalidateSelf()
             },
             { error ->
                 missingStreetUpdate = true
+                street = ""
             }
         )
         queue.add(stringRequest)
