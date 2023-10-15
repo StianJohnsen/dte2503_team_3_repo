@@ -29,14 +29,14 @@ class HistoryFragment : BaseFragment<FragmentHistoryBinding>(
     /**
      * TODO: Implement to observe ViewModel changes.
      */
-    override fun observeViewModel() {
+    fun observeViewModel() {
         TODO("Not yet implemented")
     }
 
     /**
      * TODO: Implement to initialize UI event listeners.
      */
-    override fun initListeners() {
+    fun initListeners() {
         TODO("Not yet implemented")
     }
 
@@ -106,6 +106,7 @@ class HistoryFragment : BaseFragment<FragmentHistoryBinding>(
             if (jsonObject.getString("fil_gyro").isNotEmpty()) options.add(jsonObject.getString("fil_gyro"))
             if (jsonObject.getString("unfil_accel").isNotEmpty()) options.add(jsonObject.getString("unfil_accel"))
             if (jsonObject.getString("fil_accel").isNotEmpty()) options.add(jsonObject.getString("fil_accel"))
+            if (jsonObject.getString("unfil_GPS").isNotEmpty()) options.add(jsonObject.getString("unfil_GPS"))
 
             // Attach adapter to Spinner
             ArrayAdapter<String>(requireContext(), android.R.layout.simple_spinner_item, options).apply {
