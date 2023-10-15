@@ -14,11 +14,9 @@ import android.view.WindowInsetsController
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.getSystemService
-import com.example.dashcarr.R
 import com.example.dashcarr.databinding.FragmentHudBinding
 import com.example.dashcarr.extensions.setHeightSmooth
 import com.example.dashcarr.presentation.core.BaseFragment
-import kotlin.math.roundToInt
 
 class HudFragment : BaseFragment<FragmentHudBinding>(
     FragmentHudBinding::inflate,
@@ -29,17 +27,10 @@ class HudFragment : BaseFragment<FragmentHudBinding>(
         const val MIN_TIME_BETWEEN_UPDATES = 1000L
     }
 
-    private lateinit var textCanvas: TextDrawable
+    private lateinit var textCanvas: SessionInformationDrawable
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        textCanvas = TextDrawable(requireContext().getString(R.string.search_for_location)) {
-            binding.hudImage.setHeightSmooth(0, it, true)
-        }
-        binding.hudImage.setImageDrawable(textCanvas)
-        binding.backButton.setOnClickListener {
-            requireActivity().onBackPressed()
-        }
         if (parentFragment == null) {
             if (Build.VERSION.SDK_INT > Build.VERSION_CODES.R) {
                 view.windowInsetsController?.hide(WindowInsetsController.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE)
@@ -48,12 +39,21 @@ class HudFragment : BaseFragment<FragmentHudBinding>(
                 view.systemUiVisibility = View.SYSTEM_UI_FLAG_FULLSCREEN or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
             }
             showBottomNavigation(false)
+            textCanvas = SessionInformationDrawable(requireContext(), arrayOf(300F, 250F, 200F, 150F, 100F), true) {}
+            binding.hudImage.setHeightSmooth(0, view.height, true)
             binding.hudImage.scaleY = -1F
-            binding.hudImage.rotation = 90F
-            textCanvas.setTextSize(200F)
             binding.backButton.visibility = View.VISIBLE
             binding.imageContainer.setBackgroundColor(Color.BLACK)
+        } else {
+            textCanvas = SessionInformationDrawable(requireContext(), arrayOf(130F, 100F, 70F), false) {
+                binding.hudImage.setHeightSmooth(0, it, true)
+            }
         }
+        binding.hudImage.setImageDrawable(textCanvas)
+        binding.backButton.setOnClickListener {
+            requireActivity().onBackPressed()
+        }
+
         permissionHandling()
     }
 
@@ -81,7 +81,9 @@ class HudFragment : BaseFragment<FragmentHudBinding>(
                 MIN_DISTANCE_CHANGE_FOR_UPDATES,
                 object : LocationListener {
                     override fun onLocationChanged(location: Location) {
-                        textCanvas.setText("${(location.speed * 3.6).roundToInt()} km/h")
+                        textCanvas.updateLocation(
+                            location
+                        )
                     }
 
                     override fun onProviderDisabled(provider: String) {

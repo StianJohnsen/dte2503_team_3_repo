@@ -122,6 +122,9 @@ dependencies {
         exclude("com.j256.ormlite", "ormlite-core")
     }
 
+    // Requests
+    implementation("com.android.volley:volley:1.2.1")
+
     // Visualization
     implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
 
