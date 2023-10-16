@@ -9,9 +9,13 @@ import android.graphics.PixelFormat
 import android.graphics.Rect
 import android.graphics.drawable.Drawable
 import android.location.Location
+import android.util.Log
 import com.android.volley.Request
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
+import java.time.Duration
+import java.time.LocalDateTime
+import java.time.temporal.ChronoUnit
 import kotlin.math.roundToInt
 
 
@@ -23,14 +27,18 @@ class SessionInformationDrawable(
 ) : Drawable() {
     private val paint: Paint = Paint()
     private var street: String = ""
-    private lateinit var location: Location
-    private var missingStreetUpdate = true
+    private var location: Location? = null
+    private var lastStreetUpdate = LocalDateTime.now().minusHours(1)
+    private var speed: Float? = null
 
     fun updateLocation(location: Location) {
-        if (missingStreetUpdate || this.location.distanceTo(location) > 50) {
+        if (Duration.between(lastStreetUpdate, LocalDateTime.now())
+                .get(ChronoUnit.SECONDS) > 2 && (this.location == null || this.location!!.distanceTo(location) > 100)
+        ) {
+            lastStreetUpdate = LocalDateTime.now()
             updateStreet(location)
         }
-        this.location = location
+        this.speed = location.speed
         this.invalidateSelf()
     }
 
@@ -40,6 +48,7 @@ class SessionInformationDrawable(
         val queue = Volley.newRequestQueue(context)
         val stringRequest = JsonObjectRequest(Request.Method.GET, url, null,
             { response ->
+                Log.d("HudView", "OSM Request successful! Content: $response")
                 val address = response.getJSONObject("address")
                 var road = ""
                 if (address.has("road")) {
@@ -60,11 +69,12 @@ class SessionInformationDrawable(
                 } else {
                     "${road}, $town"
                 }
-                missingStreetUpdate = false
+                this.location = location
                 this.invalidateSelf()
             },
             { error ->
-                missingStreetUpdate = true
+                Log.e("HUD View", "Can't access Url: $url with error $error")
+                this.location = null
                 street = ""
             }
         )
@@ -81,8 +91,8 @@ class SessionInformationDrawable(
 
     override fun draw(canvas: Canvas) {
         val words = emptyList<String>().toMutableList()
-        if (this::location.isInitialized) {
-            words.add("${(location.speed * 3.6).roundToInt()} km/h")
+        if (this.speed != null) {
+            words.add("${(speed!! * 3.6).roundToInt()} km/h")
         }
         if (street.isNotEmpty()) words.add(street)
         if (rotateDrawing) {
