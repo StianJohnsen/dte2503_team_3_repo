@@ -18,7 +18,14 @@ import java.time.LocalDateTime
 import java.time.temporal.ChronoUnit
 import kotlin.math.roundToInt
 
-
+/**
+ * This class holds and draws live data for the current drive on a canvas.
+ *
+ * @property context this context will be used for sending API Requests in [updateStreet]
+ * @property textSizes The available text sizes for drawing. The first one is the most preferred size. This array should be ordered descending.
+ * @property rotateDrawing If the drawing should be rotated by 90 degree to allow portrait mode
+ * @property onSizeChanged Use this to adapt the canvas size to needed height
+ */
 class SessionInformationDrawable(
     private val context: Context,
     private var textSizes: Array<Float>,
@@ -31,6 +38,11 @@ class SessionInformationDrawable(
     private var lastStreetUpdate = LocalDateTime.now().minusHours(1)
     private var speed: Float? = null
 
+    /**
+     * This function refreshes the speed and might trigger a request to refresh the current street.
+     *
+     * @param location the new GPS Location
+     */
     fun updateLocation(location: Location) {
         if (Duration.between(lastStreetUpdate, LocalDateTime.now())
                 .get(ChronoUnit.SECONDS) > 2 && (this.location == null || this.location!!.distanceTo(location) > 100)
@@ -42,6 +54,12 @@ class SessionInformationDrawable(
         this.invalidateSelf()
     }
 
+    /**
+     * Sends a new API Request to the nominatim server, to resolve the provided coordinates into street names.
+     * The nomination guidelines don't allow more than one request per second, otherwise your IP might get banned.
+     *
+     * @param location location with GPS coordinates
+     */
     private fun updateStreet(location: Location) {
         val url =
             "https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${location.latitude}&lon=${location.longitude}&layer=address"
@@ -109,6 +127,16 @@ class SessionInformationDrawable(
         onSizeChanged(height)
     }
 
+    /**
+     * Draws multiple lines of text on a canvas.
+     *
+     * @param words All strings that you want to draw, one element per line
+     * @param centeredX The x coordinate of the center of all lines
+     * @param centeredY The y coordinate of the center of all lines
+     * @param width The available width of each line in pixel. If the line is to long the text size will be decreased
+     * @param canvas The canvas where the operations are applied
+     * @return The height of the whole text block in pixels
+     */
     private fun drawCenteredText(
         words: Array<String>,
         centeredX: Float,

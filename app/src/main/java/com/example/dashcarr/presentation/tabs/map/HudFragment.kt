@@ -18,6 +18,10 @@ import com.example.dashcarr.databinding.FragmentHudBinding
 import com.example.dashcarr.extensions.setHeightSmooth
 import com.example.dashcarr.presentation.core.BaseFragment
 
+/**
+ * The Fragment for displaying live data of the current drive. This fragment behaves diffently according to its parent.
+ * Look into [onViewCreated] for details.
+ */
 class HudFragment : BaseFragment<FragmentHudBinding>(
     FragmentHudBinding::inflate,
     showBottomNavBar = true
@@ -32,6 +36,7 @@ class HudFragment : BaseFragment<FragmentHudBinding>(
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         if (parentFragment == null) {
+            // Display the data rotated, mirrored and with black background for head up display usage.
             if (Build.VERSION.SDK_INT > Build.VERSION_CODES.R) {
                 view.windowInsetsController?.hide(WindowInsetsController.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE)
             } else {
@@ -68,7 +73,7 @@ class HudFragment : BaseFragment<FragmentHudBinding>(
             ActivityResultContracts.RequestPermission()
         ) { isGranted ->
             if (isGranted) {
-                speedHandler()
+                locationHandler()
             } else {
                 Toast.makeText(requireActivity(), "Could not access current location", Toast.LENGTH_LONG).show()
                 requireActivity().onBackPressed()
@@ -77,7 +82,7 @@ class HudFragment : BaseFragment<FragmentHudBinding>(
     }
 
     @SuppressLint("MissingPermission")
-    private fun speedHandler() {
+    private fun locationHandler() {
         val locationManager = requireActivity().getSystemService<LocationManager>()
         val isGPSEnabled = locationManager?.isProviderEnabled(LocationManager.GPS_PROVIDER)
         if (isGPSEnabled == true) {
