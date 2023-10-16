@@ -189,7 +189,6 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
         initListeners()
         observeViewModel()
         initMap()
-        initHud()
         requestLocationPermission()
         viewModel.appPreferences.observe(this.viewLifecycleOwner){
             if (!it.alreadyLoggedIn){
@@ -653,8 +652,4 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
 
     }
 
-    private fun initHud() {
-//        val inflater = requireContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-//        inflater.inflate(R.layout.fragment_hud, binding.hudView, true)
-    }
 }
