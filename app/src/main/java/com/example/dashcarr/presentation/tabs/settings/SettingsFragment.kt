@@ -31,6 +31,11 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>(
             showBottomNavigation(false)
             findNavController().navigate(R.id.action_action_settings_to_animationSampleFragment)
         }
+
+        binding.btnNewFeatures.setOnClickListener {
+            findNavController().navigate(R.id.action_action_settings_to_productFrontPage)
+        }
+
         binding.btnLogout.setOnClickListener {
             viewModel.logOut()
             mapViewModel.updateAppPreferences(false)

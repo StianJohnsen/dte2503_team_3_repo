@@ -13,7 +13,6 @@ import com.example.dashcarr.presentation.tabs.map.data.PointOfInterest
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.dashcarr.data.repository.DataStoreKey
-import com.example.dashcarr.data.repository.LoggedInDataStore
 import com.example.dashcarr.data.repository.LoggedInValue
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
@@ -39,7 +38,6 @@ import javax.inject.Inject
  */
 @HiltViewModel
 class MapViewModel @Inject constructor(
-    repository: TasksRepository,
     private val userPreferencesRepository: UserPreferencesRepository
 
     private val sp: IPreferences,

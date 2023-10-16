@@ -23,12 +23,7 @@ class ProductFrontPage : BaseFragment<FragmentProductFrontPageBinding>(
             exitProductFrontPage.setOnClickListener {
                 findNavController().navigate(R.id.action_productFrontPage_to_action_map)
             }
-
         }
-
-
-
-
     }
 
     override fun observeViewModel() {

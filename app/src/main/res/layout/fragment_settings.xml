@@ -129,14 +129,14 @@
                 android:background="@drawable/line_separator_gray"/>
 
             <TextView
-                android:id="@+id/btnPreferences"
+                android:id="@+id/btnNewFeatures"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/standard_touch_size"
                 android:paddingEnd="@dimen/margin_padding_size_6"
                 android:paddingStart="@dimen/margin_padding_size_0"
                 app:drawableEndCompat="@drawable/ic_polygon"
                 app:drawableStartCompat="@drawable/ic_preferences_small"
-                android:text="@string/preferences_settings"
+                android:text="@string/new_features_setting"
                 android:textColor="@color/gray3"
                 android:textSize="@dimen/text_size_16"
                 android:clickable="true"
