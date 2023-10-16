@@ -12,6 +12,9 @@
         <action
             android:id="@+id/action_action_map_to_productFrontPage"
             app:destination="@id/productFrontPage" />
+        <action
+            android:id="@+id/action_action_map_to_productFrontPage2"
+            app:destination="@id/productFrontPage" />
     </fragment>
     <fragment
         android:id="@+id/action_dash_cam"
@@ -41,43 +44,8 @@
             android:id="@+id/action_action_settings_to_action_recording_details"
             app:destination="@id/action_recording_details" />
         <action
-            android:id="@+id/action_action_settings_to_action_configure_recording"
-            app:destination="@id/action_configure_recording" />
-        <action
             android:id="@+id/action_action_settings_to_productFrontPage"
             app:destination="@id/productFrontPage" />
-    </fragment>
-    <fragment
-        android:id="@+id/action_configure_recording"
-        android:name="com.example.dashcarr.presentation.tabs.settings.ConfigureRecordingFragment"
-        android:label="ConfigureRecordingFragment">
-        <action
-            android:id="@+id/action_action_configure_to_SettingsFragment"
-            app:destination="@id/action_settings" />
-        <action
-            android:id="@+id/action_action_configure_to_RecordingFragment"
-            app:destination="@id/action_recording" />
-    </fragment>
-    <fragment
-        android:id="@+id/action_recording"
-        android:name="com.example.dashcarr.presentation.tabs.settings.RecordingFragment"
-        android:label="RecordingFragment">
-        <action
-            android:id="@+id/action_action_recording_to_SavedRecordingsFragment"
-            app:destination="@id/action_history" />
-        <argument
-            android:name="isFiltered"
-            app:argType="boolean" />
-        <argument
-            android:name="isAccel"
-            app:argType="boolean" />
-        <argument
-            android:name="isGyro"
-            app:argType="boolean" />
-        <action
-            android:id="@+id/action_action_recording_to_action_configure_recording"
-            app:destination="@id/action_configure_recording" />
-
     </fragment>
 
 
@@ -146,6 +114,9 @@
         android:label="ProductFrontPage" >
         <action
             android:id="@+id/action_productFrontPage_to_action_map"
+            app:destination="@id/action_map" />
+        <action
+            android:id="@+id/action_productFrontPage_to_action_map2"
             app:destination="@id/action_map" />
     </fragment>
 
