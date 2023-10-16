@@ -197,7 +197,7 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
             }
         }
 
-        // sets visbility and functionality for recording buttons
+        // sets visibility and functionality for recording buttons
         binding.apply {
             btnStart.setOnClickListener {
                 startRecording()
