@@ -104,7 +104,11 @@
         android:id="@+id/animationSampleFragment"
         android:name="com.example.dashcarr.presentation.AnimationSampleFragment"
         android:label="fragment_animation_sample"
-        tools:layout="@layout/fragment_animation_sample" />
+        tools:layout="@layout/fragment_animation_sample" >
+        <action
+            android:id="@+id/action_animationSampleFragment_to_action_settings"
+            app:destination="@id/action_settings" />
+    </fragment>
     <action
         android:id="@+id/action_global_loginFragment"
         app:destination="@id/loginFragment" />
