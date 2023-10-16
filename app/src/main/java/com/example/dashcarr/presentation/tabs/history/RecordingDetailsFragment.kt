@@ -38,16 +38,10 @@ class RecordingDetailsFragment : BaseFragment<FragmentRecordingDetailsBinding>(
         return binding.root
     }
 
-    /**
-     * TODO: Implement to observe ViewModel changes.
-     */
     fun observeViewModel() {
         TODO("Not yet implemented")
     }
 
-    /**
-     * TODO: Implement to initialize UI event listeners.
-     */
     fun initListeners() {
         TODO("Not yet implemented")
     }

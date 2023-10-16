@@ -26,16 +26,10 @@ class HistoryFragment : BaseFragment<FragmentHistoryBinding>(
 ) {
     private val viewModel: HistoryViewModel by viewModels()
 
-    /**
-     * TODO: Implement to observe ViewModel changes.
-     */
     fun observeViewModel() {
         TODO("Not yet implemented")
     }
 
-    /**
-     * TODO: Implement to initialize UI event listeners.
-     */
     fun initListeners() {
         TODO("Not yet implemented")
     }
