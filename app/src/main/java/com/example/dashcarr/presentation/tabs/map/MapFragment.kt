@@ -46,6 +46,7 @@ import java.io.BufferedReader
 import java.io.InputStreamReader
 import java.nio.charset.Charset
 import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 /**
  * Fragment representing the map screen in the application. This fragment includes the map view,
@@ -97,9 +98,7 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
     private var rawAcclRecord = mutableListOf<SensorData>()
     private var filtAcclRecord = mutableListOf<SensorData>()
 
-    private var count = 0
-    private var beginTime = System.nanoTime()
-    private var rc = 0.002f
+    private var stepNumber = 0
 
     // Gyroscope
     private var rawGyroData = FloatArray(3)
@@ -291,7 +290,8 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
     }
 
     private fun saveToFile(stringBuilder: StringBuilder, filtered: String, sensor: String, dateTime: LocalDateTime) {
-        context?.openFileOutput("${dateTime}_${filtered}_${sensor}.csv", Context.MODE_PRIVATE).use {
+        val formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy_HH-mm-ss")
+        context?.openFileOutput("${dateTime.format(formatter)}_${filtered}_${sensor}.csv", Context.MODE_PRIVATE).use {
             it?.write(stringBuilder.toString().toByteArray())
         }
     }
@@ -301,7 +301,8 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
         filtered: String,
         sensor: String,
     ) {
-        recordingJson.put("${filtered}_${sensor}", "${dateTime}_${filtered}tered_${sensor}.csv")
+        val formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy_HH-mm-ss")
+        recordingJson.put("${filtered}_${sensor}", "${dateTime.format(formatter)}_${filtered}tered_${sensor}.csv")
     }
 
     private fun saveToCSV() {
@@ -310,7 +311,8 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
 
         val stopDateTime = LocalDateTime.now()
 
-        recordingJson.put("name", stopDateTime)
+        val formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm")
+        recordingJson.put("name", "Recording from ${stopDateTime.format(formatter)}")
         recordingJson.put("elapsed_time", elapsedTime)
         recordingJson.put("date", stopDateTime)
 
@@ -431,9 +433,7 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
         rawAcclRecord = mutableListOf<SensorData>()
         filtAcclRecord = mutableListOf<SensorData>()
 
-        count = 0
-        beginTime = System.nanoTime()
-        rc = 0.002f
+        stepNumber = 0
 
         // Gyroscope
         rawGyroData = FloatArray(3)
@@ -561,12 +561,10 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
 
 
     private fun filterGyroData() {
-        val tm = System.nanoTime()
-        val dt = ((tm - beginTime) / 1000000000.0f) / count
-        val alpha = rc / (rc + dt)
+        val alpha = 0.9F
         val isStarted = true
 
-        if (count == 0) {
+        if (stepNumber == 0) {
             filtGyroPrevData[0] = (1 - alpha) * rawGyroData[0]
             filtGyroPrevData[1] = (1 - alpha) * rawGyroData[1]
             filtGyroPrevData[2] = (1 - alpha) * rawGyroData[2]
@@ -585,12 +583,10 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
 
 
     private fun filterAccData() {
-        val tm = System.nanoTime()
-        val dt = ((tm - beginTime) / 1000000000.0f) / count
-        val alpha = rc / (rc + dt)
+        val alpha = 0.9F
         val isStarted = true
 
-        if (count == 0) {
+        if (stepNumber == 0) {
             filtAccPrevData[0] = (1 - alpha) * rawAccData[0]
             filtAccPrevData[1] = (1 - alpha) * rawAccData[1]
             filtAccPrevData[2] = (1 - alpha) * rawAccData[2]
@@ -604,7 +600,7 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
             filtAccData[1] = filtAccPrevData[1]
             filtAccData[2] = filtAccPrevData[2]
         }
-        ++count
+        ++stepNumber
     }
 
     override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {
