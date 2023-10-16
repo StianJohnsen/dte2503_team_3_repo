@@ -190,12 +190,17 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
         observeViewModel()
         initMap()
         requestLocationPermission()
+        // Observes variable appPreferences from viewModel to check if user has logged in before
         viewModel.appPreferences.observe(this.viewLifecycleOwner){
             if (!it.alreadyLoggedIn){
                 findNavController().navigate(R.id.action_action_map_to_productFrontPage)
                 viewModel.updateAppPreferences(true)
             }
         }
+        /**
+         * Sets visbility and functionality for recording buttons
+         *
+         */
 
         binding.apply {
             btnStart.setOnClickListener {
@@ -375,6 +380,9 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
         }
     }
 
+    /**
+     * Stops listening for sensorChanges
+     */
     override fun onPause() {
         super.onPause()
         sensorManager.unregisterListener(this)
