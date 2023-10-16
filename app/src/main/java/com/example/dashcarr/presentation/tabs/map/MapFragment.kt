@@ -215,6 +215,7 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
                 btnStart.visibility = View.VISIBLE
                 btnPause.visibility = View.GONE
                 btnDelete.visibility = View.GONE
+                btnResume.visibility = View.GONE
             }
             btnPause.setOnClickListener {
                 pauseRecording()
@@ -232,6 +233,7 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
                 btnPause.visibility = View.GONE
                 btnStop.visibility = View.GONE
                 btnStart.visibility = View.VISIBLE
+                btnResume.visibility = View.GONE
             }
         }
 
