@@ -55,6 +55,7 @@
     <string name="dashcam_settings">Dashcam Settings</string>
     <string name="history_settings">History Settings</string>
     <string name="preferences_settings">Preferences</string>
+    <string name="new_features_setting">New Features</string>
     <string name="saved_recordings">Saved Recordings</string>
     <string name="new_recording">New Recording</string>
 
