@@ -30,6 +30,8 @@ import java.io.BufferedReader
 import java.io.InputStreamReader
 import java.nio.charset.Charset
 import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+
 
 class RecordingFragment : BaseFragment<FragmentRecordingBinding>(
     FragmentRecordingBinding::inflate,
@@ -239,7 +241,8 @@ class RecordingFragment : BaseFragment<FragmentRecordingBinding>(
     }
 
     private fun saveToFile(stringBuilder: StringBuilder, filtered: String, sensor: String, dateTime: LocalDateTime) {
-        context?.openFileOutput("${dateTime}_${filtered}_${sensor}.csv", Context.MODE_PRIVATE).use {
+        val formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy_HH-mm-ss")
+        context?.openFileOutput("${dateTime.format(formatter)}_${filtered}_${sensor}.csv", Context.MODE_PRIVATE).use {
             it?.write(stringBuilder.toString().toByteArray())
         }
     }
@@ -251,10 +254,12 @@ class RecordingFragment : BaseFragment<FragmentRecordingBinding>(
         sensor: String,
         isChecked: Boolean
     ) {
-        if (isChecked)
-            recordingJson.put("${filtered}_${sensor}", "${dateTime}_${filtered}tered_${sensor}.csv")
-        else
+        if (isChecked) {
+            val formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy_HH-mm-ss")
+            recordingJson.put("${filtered}_${sensor}", "${dateTime.format(formatter)}_${filtered}tered_${sensor}.csv")
+        } else {
             recordingJson.put("${filtered}_${sensor}", "")
+        }
     }
 
     private fun saveToCSV() {
@@ -262,8 +267,8 @@ class RecordingFragment : BaseFragment<FragmentRecordingBinding>(
         var currentStringBuilder: StringBuilder
 
         val stopDateTime = LocalDateTime.now()
-
-        recordingJson.put("name", stopDateTime)
+        val formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm")
+        recordingJson.put("name", "Recording from ${stopDateTime.format(formatter)}")
         recordingJson.put("elapsed_time", elapsedTime)
         recordingJson.put("date", stopDateTime)
 
