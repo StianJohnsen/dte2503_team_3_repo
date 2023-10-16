@@ -70,9 +70,9 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
     ) { permissionsResult ->
         if (permissionsResult.values.isEmpty()) return@registerForActivityResult
         if (permissionsResult.values.contains(false)) {
-            Log.d("Mapping", "False location!")
+            Log.e(this::class.simpleName, "False location!")
         } else {
-            Log.d("Mapping", "Got Location!")
+            Log.e(this::class.simpleName, "Got Location!")
             createLocationRequest()
         }
     }
@@ -85,7 +85,6 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
     private var isTimerPaused = true
 
     private var elapsedTime = ""
-
 
 
     // Accelerometer
@@ -125,7 +124,6 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
     private var pausedElapsedTimeMillis: Long = 0
 
 
-
     /**
      * Observes the ViewModel's LiveData and updates the UI accordingly.
      */
@@ -142,7 +140,10 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
                     hideCreateMarkerDialog()
                 }
             }
-            Log.e("Mapping", "createMarkerState = ${getFormattedDate(Calendar.getInstance().timeInMillis)}")
+            Log.e(
+                this::class.simpleName,
+                "createMarkerState = ${getFormattedDate(Calendar.getInstance().timeInMillis)}"
+            )
         }
         viewModel.pointsOfInterestState.observe(viewLifecycleOwner) {
             if (it.isEmpty()) return@observe
@@ -158,7 +159,7 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
 
 
         viewLifecycleOwner.lifecycleScope.launch {
-            recordingViewModel.elapsedTime.collect(){
+            recordingViewModel.elapsedTime.collect() {
                 elapsedTime = it
             }
         }
@@ -236,7 +237,6 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
     }
 
 
-
     private fun readJsonFromFile(): JSONArray {
         var jsonArray = JSONArray()
         try {
@@ -305,17 +305,17 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
         // Location
         currentStringBuilder = writeToLocationStringBuilder(rawLocationRecord)
         saveToFile(currentStringBuilder, "unfiltered", "GPS", stopDateTime)
-        makeJSONObject(stopDateTime, "unfil", "GPS" )
+        makeJSONObject(stopDateTime, "unfil", "GPS")
 
         // Accelerometer
 
         currentStringBuilder = writeToSensorStringBuilder("accel", filtAcclRecord)
         saveToFile(currentStringBuilder, "filtered", "accel", stopDateTime)
-        makeJSONObject(stopDateTime, "fil", "accel" )
+        makeJSONObject(stopDateTime, "fil", "accel")
 
         currentStringBuilder = writeToSensorStringBuilder("accel", rawAcclRecord)
         saveToFile(currentStringBuilder, "unfiltered", "accel", stopDateTime)
-        makeJSONObject(stopDateTime, "unfil", "accel" )
+        makeJSONObject(stopDateTime, "unfil", "accel")
 
         // Gyroscope
 
@@ -405,7 +405,7 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
         resetRecording()
     }
 
-    fun resetRecording(){
+    fun resetRecording() {
         isRecording = false
         isTimerPaused = true
 
@@ -483,7 +483,7 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
 
     override fun onLocationChanged(location: Location) {
         viewModel.saveCurrentLocation(location)
-        Log.e("Mapping", "location changed! lat = ${location.latitude} , long = ${location.longitude}")
+        Log.e(this::class.simpleName, "location changed! lat = ${location.latitude} , long = ${location.longitude}")
         if (isRecording) {
             rawLocationRecord.add(
                 SensorData(
@@ -593,7 +593,7 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
     }
 
     override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {
-        Log.d("dad", sensor.toString())
+        Log.d(this::class.simpleName, sensor.toString())
     }
 
     override fun onStop() {

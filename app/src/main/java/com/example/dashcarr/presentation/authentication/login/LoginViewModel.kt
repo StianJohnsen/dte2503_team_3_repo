@@ -23,7 +23,7 @@ import javax.inject.Inject
 @HiltViewModel
 class LoginViewModel @Inject constructor(
 
-): ViewModel() {
+) : ViewModel() {
 
     // Flow for emitting email error state
     @StringRes
@@ -132,10 +132,10 @@ class LoginViewModel @Inject constructor(
                 viewModelScope.launch {
                     if (task.isSuccessful) {
                         _loginState.emit(true)
-                        Log.e("WatchingSomeStuff", "Success Login!")
+                        Log.e(this::class.simpleName, "Success Login!")
                     } else {
                         _loginState.emit(false)
-                        Log.e("WatchingSomeStuff", "Failed Login!")
+                        Log.e(this::class.simpleName, "Failed Login!")
                     }
                 }
             }

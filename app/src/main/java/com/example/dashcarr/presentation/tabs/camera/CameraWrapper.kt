@@ -29,7 +29,6 @@ import java.util.concurrent.Executors
 
 class CameraWrapper(private var activity: Activity) {
     companion object {
-        private const val TAG = "CameraWrapper"
         private const val FILENAME_FORMAT = "yyyy-MM-dd-HH-mm-ss-SSS"
     }
 
@@ -97,12 +96,12 @@ class CameraWrapper(private var activity: Activity) {
                     is VideoRecordEvent.Finalize -> {
                         if (!recordEvent.hasError()) {
                             val msg = "Video capture succeeded"
-                            Log.d(TAG, msg)
+                            Log.d(this::class.simpleName, msg)
                             Toast.makeText(activity, "File saved", Toast.LENGTH_SHORT).show()
                         } else {
                             recording?.close()
                             recording = null
-                            Log.e(TAG, "Video capture ends with error: ${recordEvent.error}")
+                            Log.e(this::class.simpleName, "Video capture ends with error: ${recordEvent.error}")
                         }
                         onFinished?.let { it() }
                     }
@@ -162,7 +161,7 @@ class CameraWrapper(private var activity: Activity) {
                     videoCapture
                 )
             } catch (exc: Exception) {
-                Log.e(TAG, "Use case binding failed", exc)
+                Log.e(this::class.simpleName, "Use case binding failed", exc)
             }
             started()
         }, ContextCompat.getMainExecutor(activity.applicationContext))
