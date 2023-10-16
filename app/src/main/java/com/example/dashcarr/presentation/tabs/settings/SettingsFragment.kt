@@ -28,11 +28,6 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>(
             showBottomNavigation(false)
             findNavController().navigate(R.id.action_action_settings_to_animationSampleFragment)
         }
-
-        binding.btnNewRecording.setOnClickListener {
-            findNavController().navigate(R.id.action_action_settings_to_action_configure_recording)
-        }
-
         binding.btnLogout.setOnClickListener {
             viewModel.logOut()
         }

@@ -27,7 +27,7 @@ import com.example.dashcarr.extensions.toastThrowableShort
 import com.example.dashcarr.presentation.core.BaseFragment
 import com.example.dashcarr.presentation.mapper.toMarker
 import com.example.dashcarr.presentation.tabs.map.data.PointOfInterest
-import com.example.dashcarr.presentation.tabs.settings.SensorData
+import com.example.dashcarr.presentation.tabs.map.data.SensorData
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import org.json.JSONArray
@@ -191,20 +191,34 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
         binding.apply {
             btnStart.setOnClickListener {
                 startRecording()
+                it.visibility = View.GONE
+                btnStop.visibility = View.VISIBLE
+                btnPause.visibility = View.VISIBLE
+                btnDelete.visibility = View.VISIBLE
             }
             btnStop.setOnClickListener {
                 stopRecording()
+                it.visibility = View.GONE
+                btnStart.visibility = View.VISIBLE
+                btnPause.visibility = View.GONE
+                btnDelete.visibility = View.GONE
             }
             btnPause.setOnClickListener {
                 pauseRecording()
+                it.visibility = View.GONE
+                btnResume.visibility = View.VISIBLE
             }
             btnResume.setOnClickListener {
                 resumeRecording()
+                it.visibility = View.GONE
+                btnPause.visibility = View.VISIBLE
             }
-
-
             btnDelete.setOnClickListener {
                 deleteRecording()
+                it.visibility = View.GONE
+                btnPause.visibility = View.GONE
+                btnStop.visibility = View.GONE
+                btnStart.visibility = View.VISIBLE
             }
         }
 
