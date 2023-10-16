@@ -222,7 +222,7 @@ class HistoryFragment : BaseFragment<FragmentHistoryBinding>(
         val zOffset = median(relevantAccelerationValues)
         for (i in 0..<allCarStates.size) {
             if (allCarStates[i] == CarState.UNKNOWN) {
-                val currentAcceleration = accData[i] - zOffset
+                val currentAcceleration = zOffset - accData[i]
                 allCarStates[i] = when {
                     currentAcceleration > 0.5 -> CarState.ACCELERATING
 

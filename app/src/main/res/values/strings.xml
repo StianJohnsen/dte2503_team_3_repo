@@ -57,7 +57,6 @@
     <string name="preferences_settings">Preferences</string>
     <string name="new_features_setting">New Features</string>
     <string name="saved_recordings">Saved Recordings</string>
-    <string name="new_recording">New Recording</string>
 
     <!--HistoryFragment-->
 
@@ -99,19 +98,16 @@
     <string name="include_orientation">Include orientation</string>
     <string name="configure_start_recording">Start recording</string>
     <string name="enter_file_name">Enter file name</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="product_info_text">MapView updates when your location changes\n\n\n
-        OpenStreetMap is implemented as the map technology\n\n\n
-        We use sensordata to estimate your current driving status\n\n\n
-        Start a driving session where you save all sensor data about your drive
-        and later analysis\n\n\n
-        During the driving session you can also
-        see your current: distance, elevation, elapsed time and
-        speed\n\n\n
-        We have also introduced an experimental feature where
-        you use your phones display as a heads-up-display</string>
-    <string name="back_button_description">Back button</string>
+    <string name="product_info_text">
+        This app will support you while driving!\n\n
+        Adding points of interests is easy, just press and hold on the map.\n\n
+        You can start a new recording on the map tab with the button in the corner.\n\n
+        After saving it, you can analyse the data in the history.\n\n
+        When you hold the map tab a experimental feature will appear, feel free to try it!\n\n
+        You can also use your camera as a dashcam. To activate this feature click the camera and select the triangle.
+    </string>
+
+    <string name="start_using">Start Using!</string>
 
     <!--MapFragment-->
 
@@ -126,6 +122,5 @@
 
     <!--HudView-->
     <string name="search_for_location">Waiting for GPS</string>
-    <!-- TODO: Remove or change this placeholder text -->
 
 </resources>

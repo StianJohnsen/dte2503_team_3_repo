@@ -190,17 +190,14 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
         initMap()
         requestLocationPermission()
         // Observes variable appPreferences from viewModel to check if user has logged in before
-        viewModel.appPreferences.observe(this.viewLifecycleOwner){
-            if (!it.alreadyLoggedIn){
+        viewModel.appPreferences.observe(this.viewLifecycleOwner) {
+            if (!it.alreadyLoggedIn) {
                 findNavController().navigate(R.id.action_action_map_to_productFrontPage)
                 viewModel.updateAppPreferences(true)
             }
         }
-        /**
-         * Sets visbility and functionality for recording buttons
-         *
-         */
 
+        // sets visbility and functionality for recording buttons
         binding.apply {
             btnStart.setOnClickListener {
                 startRecording()
@@ -523,8 +520,6 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
                         SensorData(event.timestamp, filtAccSample[0], filtAccSample[1], filtAccSample[2])
                     )
                 }
-
-
             }
 
             if (event.sensor == gyroSensor) {
@@ -562,9 +557,9 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
         val isStarted = true
 
         if (stepNumber == 0) {
-            filtGyroPrevSample[0] = (1 - alpha) * rawGyroSample[0]
-            filtGyroPrevSample[1] = (1 - alpha) * rawGyroSample[1]
-            filtGyroPrevSample[2] = (1 - alpha) * rawGyroSample[2]
+            filtGyroPrevSample[0] = rawGyroSample[0]
+            filtGyroPrevSample[1] = rawGyroSample[1]
+            filtGyroPrevSample[2] = rawGyroSample[2]
         } else {
             filtGyroPrevSample[0] = alpha * filtGyroPrevSample[0] + (1 - alpha) * rawGyroSample[0]
             filtGyroPrevSample[1] = alpha * filtGyroPrevSample[1] + (1 - alpha) * rawGyroSample[1]
@@ -574,8 +569,8 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
             filtGyroSample[0] = filtGyroPrevSample[0]
             filtGyroSample[1] = filtGyroPrevSample[1]
             filtGyroSample[2] = filtGyroPrevSample[2]
-
         }
+        ++stepNumber
     }
 
 
@@ -584,9 +579,9 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
         val isStarted = true
 
         if (stepNumber == 0) {
-            filtAccPrevSample[0] = (1 - alpha) * rawAccSample[0]
-            filtAccPrevSample[1] = (1 - alpha) * rawAccSample[1]
-            filtAccPrevSample[2] = (1 - alpha) * rawAccSample[2]
+            filtAccPrevSample[0] = rawAccSample[0]
+            filtAccPrevSample[1] = rawAccSample[1]
+            filtAccPrevSample[2] = rawAccSample[2]
         } else {
             filtAccPrevSample[0] = alpha * filtAccPrevSample[0] + (1 - alpha) * rawAccSample[0]
             filtAccPrevSample[1] = alpha * filtAccPrevSample[1] + (1 - alpha) * rawAccSample[1]

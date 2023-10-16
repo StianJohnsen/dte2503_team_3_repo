@@ -39,6 +39,4 @@
             app:tint="@color/gray1" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <!-- TODO: Update blank fragment layout -->
-
 </layout>
