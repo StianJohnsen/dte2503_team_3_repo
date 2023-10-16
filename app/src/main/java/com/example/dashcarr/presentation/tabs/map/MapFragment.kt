@@ -15,6 +15,7 @@ import android.os.SystemClock
 import android.preference.PreferenceManager
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -63,7 +64,6 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
     private val viewModel: MapViewModel by viewModels()
     private val recordingViewModel: RecordingViewModel by viewModels()
 
-
     // Location manager for handling location updates
     private val locationManager by lazy { requireContext().getSystemService(Context.LOCATION_SERVICE) as LocationManager }
 
@@ -91,20 +91,20 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
 
 
     // Accelerometer
-    private var rawAccData = FloatArray(3)
+    private var rawAccSample = FloatArray(3)
     private var rawAccDataIndex = 0
-    private var filtAccData = FloatArray(3)
-    private var filtAccPrevData = FloatArray(3)
+    private var filtAccSample = FloatArray(3)
+    private var filtAccPrevSample = FloatArray(3)
     private var rawAcclRecord = mutableListOf<SensorData>()
     private var filtAcclRecord = mutableListOf<SensorData>()
 
     private var stepNumber = 0
 
     // Gyroscope
-    private var rawGyroData = FloatArray(3)
+    private var rawGyroSample = FloatArray(3)
     private var rawGyroDataIndex = 0
-    private var filtGyroData = FloatArray(3)
-    private var filtGyroPrevData = FloatArray(3)
+    private var filtGyroSample = FloatArray(3)
+    private var filtGyroPrevSample = FloatArray(3)
     private var rawGyroRecord = mutableListOf<SensorData>()
     private var filtGyroRecord = mutableListOf<SensorData>()
 
@@ -306,9 +306,6 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
     }
 
     private fun saveToCSV() {
-
-        var currentStringBuilder: StringBuilder
-
         val stopDateTime = LocalDateTime.now()
 
         val formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm")
@@ -317,12 +314,11 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
         recordingJson.put("date", stopDateTime)
 
         // Location
-        currentStringBuilder = writeToLocationStringBuilder(rawLocationRecord)
+        var currentStringBuilder: StringBuilder = writeToLocationStringBuilder(rawLocationRecord)
         saveToFile(currentStringBuilder, "unfiltered", "GPS", stopDateTime)
         makeJSONObject(stopDateTime, "unfil", "GPS")
 
         // Accelerometer
-
         currentStringBuilder = writeToSensorStringBuilder("accel", filtAcclRecord)
         saveToFile(currentStringBuilder, "filtered", "accel", stopDateTime)
         makeJSONObject(stopDateTime, "fil", "accel")
@@ -332,7 +328,6 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
         makeJSONObject(stopDateTime, "unfil", "accel")
 
         // Gyroscope
-
         currentStringBuilder = writeToSensorStringBuilder("gyro", filtGyroRecord)
         saveToFile(currentStringBuilder, "filtered", "gyro", stopDateTime)
         makeJSONObject(stopDateTime, "fil", "gyro")
@@ -343,7 +338,6 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
 
 
         val existingJSONArray = readJsonFromFile()
-
         val jsonArray: JSONArray = existingJSONArray
 
         jsonArray.put(recordingJson)
@@ -351,6 +345,7 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
         context?.openFileOutput("sensor_config.json", Context.MODE_PRIVATE).use {
             it?.write(jsonArray.toString().toByteArray())
         }
+        Toast.makeText(context, "Saved", Toast.LENGTH_SHORT).show()
     }
 
 
@@ -395,7 +390,7 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
         resetRecording()
         isRecording = true
         isTimerPaused = false
-
+        Toast.makeText(context, "Recording Started", Toast.LENGTH_SHORT).show()
     }
 
     private fun stopRecording() {
@@ -422,24 +417,24 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
         resetRecording()
     }
 
-    fun resetRecording() {
+    private fun resetRecording() {
         isRecording = false
         isTimerPaused = true
 
-        rawAccData = FloatArray(3)
+        rawAccSample = FloatArray(3)
         rawAccDataIndex = 0
-        filtAccData = FloatArray(3)
-        filtAccPrevData = FloatArray(3)
+        filtAccSample = FloatArray(3)
+        filtAccPrevSample = FloatArray(3)
         rawAcclRecord = mutableListOf<SensorData>()
         filtAcclRecord = mutableListOf<SensorData>()
 
         stepNumber = 0
 
         // Gyroscope
-        rawGyroData = FloatArray(3)
+        rawGyroSample = FloatArray(3)
         rawGyroDataIndex = 0
-        filtGyroData = FloatArray(3)
-        filtGyroPrevData = FloatArray(3)
+        filtGyroSample = FloatArray(3)
+        filtGyroPrevSample = FloatArray(3)
         rawGyroRecord = mutableListOf<SensorData>()
         filtGyroRecord = mutableListOf<SensorData>()
 
@@ -523,7 +518,7 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
                     )
 
                     filtAcclRecord.add(
-                        SensorData(event.timestamp, filtAccData[0], filtAccData[1], filtAccData[2])
+                        SensorData(event.timestamp, filtAccSample[0], filtAccSample[1], filtAccSample[2])
                     )
                 }
 
@@ -540,7 +535,7 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
                     )
                     filtGyroRecord.add(
                         SensorData(
-                            event.timestamp, filtGyroData[0], filtGyroData[1], filtGyroData[2]
+                            event.timestamp, filtGyroSample[0], filtGyroSample[1], filtGyroSample[2]
 
                         )
                     )
@@ -550,12 +545,12 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
     }
 
     private fun readAccSensorData(event: SensorEvent) {
-        System.arraycopy(event.values, 0, rawAccData, rawAccDataIndex, 3)
+        System.arraycopy(event.values, 0, rawAccSample, rawAccDataIndex, 3)
         filterAccData()
     }
 
     private fun readGyroSensorData(event: SensorEvent) {
-        System.arraycopy(event.values, 0, rawGyroData, rawGyroDataIndex, 3)
+        System.arraycopy(event.values, 0, rawGyroSample, rawGyroDataIndex, 3)
         filterGyroData()
     }
 
@@ -565,18 +560,18 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
         val isStarted = true
 
         if (stepNumber == 0) {
-            filtGyroPrevData[0] = (1 - alpha) * rawGyroData[0]
-            filtGyroPrevData[1] = (1 - alpha) * rawGyroData[1]
-            filtGyroPrevData[2] = (1 - alpha) * rawGyroData[2]
+            filtGyroPrevSample[0] = (1 - alpha) * rawGyroSample[0]
+            filtGyroPrevSample[1] = (1 - alpha) * rawGyroSample[1]
+            filtGyroPrevSample[2] = (1 - alpha) * rawGyroSample[2]
         } else {
-            filtGyroPrevData[0] = alpha * filtGyroPrevData[0] + (1 - alpha) * rawGyroData[0]
-            filtGyroPrevData[1] = alpha * filtGyroPrevData[1] + (1 - alpha) * rawGyroData[1]
-            filtGyroPrevData[2] = alpha * filtGyroPrevData[2] + (1 - alpha) * rawGyroData[2]
+            filtGyroPrevSample[0] = alpha * filtGyroPrevSample[0] + (1 - alpha) * rawGyroSample[0]
+            filtGyroPrevSample[1] = alpha * filtGyroPrevSample[1] + (1 - alpha) * rawGyroSample[1]
+            filtGyroPrevSample[2] = alpha * filtGyroPrevSample[2] + (1 - alpha) * rawGyroSample[2]
         }
         if (isStarted) {
-            filtGyroData[0] = filtGyroPrevData[0]
-            filtGyroData[1] = filtGyroPrevData[1]
-            filtGyroData[2] = filtGyroPrevData[2]
+            filtGyroSample[0] = filtGyroPrevSample[0]
+            filtGyroSample[1] = filtGyroPrevSample[1]
+            filtGyroSample[2] = filtGyroPrevSample[2]
 
         }
     }
@@ -587,18 +582,18 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
         val isStarted = true
 
         if (stepNumber == 0) {
-            filtAccPrevData[0] = (1 - alpha) * rawAccData[0]
-            filtAccPrevData[1] = (1 - alpha) * rawAccData[1]
-            filtAccPrevData[2] = (1 - alpha) * rawAccData[2]
+            filtAccPrevSample[0] = (1 - alpha) * rawAccSample[0]
+            filtAccPrevSample[1] = (1 - alpha) * rawAccSample[1]
+            filtAccPrevSample[2] = (1 - alpha) * rawAccSample[2]
         } else {
-            filtAccPrevData[0] = alpha * filtAccPrevData[0] + (1 - alpha) * rawAccData[0]
-            filtAccPrevData[1] = alpha * filtAccPrevData[1] + (1 - alpha) * rawAccData[1]
-            filtAccPrevData[2] = alpha * filtAccPrevData[2] + (1 - alpha) * rawAccData[2]
+            filtAccPrevSample[0] = alpha * filtAccPrevSample[0] + (1 - alpha) * rawAccSample[0]
+            filtAccPrevSample[1] = alpha * filtAccPrevSample[1] + (1 - alpha) * rawAccSample[1]
+            filtAccPrevSample[2] = alpha * filtAccPrevSample[2] + (1 - alpha) * rawAccSample[2]
         }
         if (isStarted) {
-            filtAccData[0] = filtAccPrevData[0]
-            filtAccData[1] = filtAccPrevData[1]
-            filtAccData[2] = filtAccPrevData[2]
+            filtAccSample[0] = filtAccPrevSample[0]
+            filtAccSample[1] = filtAccPrevSample[1]
+            filtAccSample[2] = filtAccPrevSample[2]
         }
         ++stepNumber
     }
