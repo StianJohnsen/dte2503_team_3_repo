@@ -9,8 +9,6 @@ import android.location.LocationListener
 import android.location.LocationManager
 import android.os.Build
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.view.View
 import android.view.WindowInsetsController
 import android.widget.Toast
@@ -78,8 +76,8 @@ class HudFragment : BaseFragment<FragmentHudBinding>(
                 locationHandler()
             } else {
                 Toast.makeText(requireActivity(), "Could not access current location", Toast.LENGTH_LONG).show()
-                Handler(Looper.getMainLooper()).post {
-                    //requireActivity().onBackPressed()
+                if (parentFragment == null) {
+                    requireActivity().onBackPressed()
                 }
             }
         }.launch(Manifest.permission.ACCESS_FINE_LOCATION)

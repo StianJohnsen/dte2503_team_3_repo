@@ -6,8 +6,6 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
-import android.os.Handler
-import android.os.Looper
 import android.view.View
 import android.view.animation.BounceInterpolator
 import android.view.animation.LinearInterpolator
@@ -16,6 +14,7 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.constraintlayout.widget.Group
 import androidx.core.animation.doOnEnd
 import androidx.core.animation.doOnStart
 import androidx.core.view.isVisible
@@ -50,12 +49,10 @@ class MainActivity : AppCompatActivity() {
         bottomNavBar.setupWithNavController(navController)
 
         bottomNavBar.findViewById<View>(R.id.action_map).setOnLongClickListener {
-            Handler(Looper.getMainLooper()).post {
-                val transaction = supportFragmentManager.beginTransaction()
-                transaction.replace(R.id.nav_host_container, HudFragment())
-                transaction.addToBackStack(null)
-                transaction.commit()
-            }
+            val transaction = supportFragmentManager.beginTransaction()
+            transaction.replace(R.id.nav_host_container, HudFragment())
+            transaction.addToBackStack(null)
+            transaction.commit()
             true
         }
 
@@ -98,22 +95,16 @@ class MainActivity : AppCompatActivity() {
         }
 
         findViewById<ImageButton>(R.id.security_camera_button).setOnClickListener {
-            Handler(Looper.getMainLooper()).post {
-                val transaction = supportFragmentManager.beginTransaction()
-                transaction.addToBackStack(null)
-                transaction.replace(R.id.nav_host_container, SecurityCameraFragment())
-                transaction.commit()
-            }
-            findViewById<ImageButton>(R.id.dashcam_button).setOnClickListener {
-                Handler(Looper.getMainLooper()).post {
-                    if (!DashcamFragment.exists()) {
-                        val transaction = supportFragmentManager.beginTransaction()
-                        transaction.add(R.id.nav_host_container, DashcamFragment.getInstance())
-                        transaction.disallowAddToBackStack()
-                        transaction.commit()
-                    } else {
-                        DashcamFragment.getInstance().update()
-                    }
+            val transaction = supportFragmentManager.beginTransaction()
+            transaction.addToBackStack(null)
+            transaction.replace(R.id.nav_host_container, SecurityCameraFragment())
+            transaction.commit()
+            findViewById<Group>(R.id.nav_bar_group).visibility = View.GONE
+            floatingCameraButtons.visibility = View.GONE
+            supportFragmentManager.addOnBackStackChangedListener {
+                if (supportFragmentManager.fragments[0] !is SecurityCameraFragment) {
+                    findViewById<Group>(R.id.nav_bar_group).visibility = View.VISIBLE
+                    floatingCameraButtons.visibility = View.VISIBLE
                 }
             }
         }
