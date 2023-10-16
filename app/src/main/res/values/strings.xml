@@ -49,7 +49,7 @@
 
     <!--SettingsFragment-->
 
-    <string name="profile_settings">Profile Settings</string>
+    <string name="about_app">About App</string>
     <string name="maps_settings">Maps Settings</string>
     <string name="social_settings">Social Settings</string>
     <string name="dashcam_settings">Dashcam Settings</string>
