@@ -18,6 +18,8 @@ import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
+import com.example.dashcarr.R
 import com.example.dashcarr.databinding.FragmentMapBinding
 import com.example.dashcarr.extensions.collectWithLifecycle
 import com.example.dashcarr.extensions.getFormattedDate
@@ -189,6 +191,12 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
         initMap()
         initHud()
         requestLocationPermission()
+        viewModel.appPreferences.observe(this.viewLifecycleOwner){
+            if (!it.alreadyLoggedIn){
+                findNavController().navigate(R.id.action_action_map_to_productFrontPage)
+                viewModel.updateAppPreferences(true)
+            }
+        }
 
         binding.apply {
             btnStart.setOnClickListener {

@@ -11,7 +11,6 @@ import com.example.dashcarr.domain.preferences.IPreferences
 import com.example.dashcarr.domain.repository.IPointsOfInterestRepository
 import com.example.dashcarr.presentation.tabs.map.data.PointOfInterest
 import androidx.lifecycle.asLiveData
-import androidx.lifecycle.viewModelScope
 import com.example.dashcarr.data.repository.DataStoreKey
 import com.example.dashcarr.data.repository.LoggedInValue
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -26,7 +25,6 @@ import org.osmdroid.util.GeoPoint
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.launch
 import java.io.IOException
 import javax.inject.Inject
 
@@ -38,8 +36,7 @@ import javax.inject.Inject
  */
 @HiltViewModel
 class MapViewModel @Inject constructor(
-    private val userPreferencesRepository: UserPreferencesRepository
-
+    private val userPreferencesRepository: UserPreferencesRepository,
     private val sp: IPreferences,
     private val pointsOfInterestRepository: IPointsOfInterestRepository
 ): ViewModel() {
