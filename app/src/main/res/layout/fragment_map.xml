@@ -76,7 +76,9 @@
                     app:icon="@drawable/ic_pause"
                     app:iconGravity="top"
                     app:iconSize="@dimen/standard_touch_size"
-                    app:iconTint="@null" />
+                    app:iconTint="@null"
+                    android:visibility="gone"
+                    />
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnResume"
@@ -91,7 +93,9 @@
                     app:icon="@drawable/ic_resume"
                     app:iconGravity="top"
                     app:iconSize="@dimen/standard_touch_size"
-                    app:iconTint="@null" />
+                    app:iconTint="@null"
+                    android:visibility="gone"
+                    />
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnStop"
@@ -106,7 +110,9 @@
                     app:icon="@drawable/ic_stop"
                     app:iconGravity="top"
                     app:iconSize="@dimen/standard_touch_size"
-                    app:iconTint="@null" />
+                    app:iconTint="@null"
+                    android:visibility="gone"
+                    />
 
 
                 <com.google.android.material.button.MaterialButton
@@ -121,7 +127,9 @@
                     app:icon="@drawable/ic_delete"
                     app:iconGravity="top"
                     app:iconSize="@dimen/standard_touch_size"
-                    app:iconTint="@null" />
+                    app:iconTint="@null"
+                    android:visibility="gone"
+                    />
 
             </LinearLayout>
 
