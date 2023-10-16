@@ -18,6 +18,7 @@ import java.io.InputStream
 import java.io.InputStreamReader
 import java.nio.charset.Charset
 import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 import kotlin.math.absoluteValue
 import kotlin.math.min
 
@@ -138,9 +139,11 @@ class SavedRecordingsFragment : BaseFragment<FragmentSavedRecordingsBinding>(
                     }
                     val action =
                         SavedRecordingsFragmentDirections.actionActionSavedrecordingsToRecordingDetailsFragment(
-                            options[position].fileName,
-                            options[position].chartType,
-                            jsonObject.getString("elapsed_time")
+                            selectedFileName = options[position].fileName,
+                            elapsedTime = jsonObject.getString("elapsed_time"),
+                            title = jsonObject.getString("name"),
+                            chartType = options[position].chartType,
+                            date = jsonObject.getString("date")
                         )
                     findNavController().navigate(action)
                 }
@@ -195,8 +198,8 @@ class SavedRecordingsFragment : BaseFragment<FragmentSavedRecordingsBinding>(
                 processedGyroData.zip(lowPassFilter(derivative, 100))
                     .map { it.first + it.second }
         }
-
-        val fileName = "${LocalDateTime.now()}_car_states.csv"
+        val formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy_HH-mm-ss")
+        val fileName = "${LocalDateTime.now().format(formatter)}_car_states.csv"
         val fileOutput = requireContext().openFileOutput(fileName, Context.MODE_PRIVATE)
         fileOutput.write("ID, Gyro_Timestamp(ms), Car_States\n".toByteArray())
 

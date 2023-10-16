@@ -25,6 +25,8 @@ import java.io.BufferedReader
 import java.io.InputStream
 import java.io.InputStreamReader
 import java.nio.charset.Charset
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 
 class RecordingDetailsFragment : BaseFragment<FragmentRecordingDetailsBinding>(
@@ -47,9 +49,7 @@ class RecordingDetailsFragment : BaseFragment<FragmentRecordingDetailsBinding>(
         val fileName = args.selectedFileName
         val chartType = args.chartType
         val elapsedTime = args.elapsedTime
-        val fileDate = fileName.substringBefore("T")
-        val recordingName = fileDate + "\n" + fileName.substringAfter("_").substringBefore('.')
-        binding.textRecordingName.text = recordingName
+        binding.textRecordingName.text = args.title
 
         val inputStream: InputStream = requireContext().openFileInput(fileName)
         val reader = BufferedReader(InputStreamReader(inputStream, Charset.forName("UTF-8")))
@@ -83,7 +83,8 @@ class RecordingDetailsFragment : BaseFragment<FragmentRecordingDetailsBinding>(
         }
 
         binding.inputElapsedTime.text = elapsedTime
-        binding.inputFileDate.text = fileDate
+        val formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss")
+        binding.inputFileDate.text = LocalDateTime.parse(args.date).format(formatter)
         binding.inputAmountOfDatapoints.text = "$amountDataPoints"
         val lengthInKB = "$fileLength KB"
         binding.inputDataSize.text = lengthInKB
@@ -160,6 +161,8 @@ class RecordingDetailsFragment : BaseFragment<FragmentRecordingDetailsBinding>(
                 lastValue = value
             }
         }
+        segmentSizes.add(range.toFloat())
+        segmentColors.add(SavedRecordingsFragment.CarState.valueOf(lastValue).color)
         val entry = BarEntry(0F, segmentSizes.toFloatArray())
         val dataset = BarDataSet(listOf(entry), "Car states")
         dataset.setDrawValues(false)

@@ -57,6 +57,12 @@
             android:name="selectedFileName"
             app:argType="string" />
         <argument
+            android:name="title"
+            app:argType="string" />
+        <argument
+            android:name="date"
+            app:argType="string" />
+        <argument
             android:name="chartType"
             app:argType="string" />
         <argument
