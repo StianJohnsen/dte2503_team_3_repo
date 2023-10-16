@@ -63,6 +63,7 @@ class RecordingViewModel : ViewModel() {
 
     fun stopRecording(){
         handler.removeCallbacks(updateTimeRunnable)
+        // Reset all timing variables
         viewModelScope.launch {
             _startTimeMillis.emit(0)
             _pausedElapsedTimeMillis.emit(0)
@@ -75,6 +76,7 @@ class RecordingViewModel : ViewModel() {
     fun updateElapsedTime() {
 
         val currentTimeMillis = SystemClock.elapsedRealtime()
+        // Corrects for pausing
         val updatedTime = (currentTimeMillis - _startTimeMillis.value) - _pauseDuration.value
 
         val seconds = (updatedTime / 1000 % 60).toInt()

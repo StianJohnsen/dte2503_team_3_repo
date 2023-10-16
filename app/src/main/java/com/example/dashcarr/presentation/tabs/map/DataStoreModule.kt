@@ -1,3 +1,13 @@
+/**
+ * DataStoreModule.kt
+ *
+ * This file contains a Dagger Hilt module for providing a DataStore instance to store and manage user preferences.
+ * It configures the DataStore with necessary components and settings for SharedPreferences migration.
+ *
+ * @fileOverview
+ * - `DataStoreModule`: Dagger Hilt module providing DataStore<Preferences> instance.
+ */
+
 package com.example.dashcarr.presentation.tabs.map
 
 import android.content.Context
@@ -18,25 +28,30 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import javax.inject.Singleton
 
+// Constant for the user preferences file
+private const val USER_PREFERENCES = "already_logged_in"
 
-private const val USER_PREFERENCES = ""
-
+/**
+ * Dagger Hilt Module for providing a DataStore<Preferences> instance for storing and managing user preferences.
+ */
 @InstallIn(SingletonComponent::class)
 @Module
 object DataStoreModule {
 
+    /**
+     * Provides a DataStore<Preferences> instance.
+     *
+     * @param appContext The application context.
+     * @return DataStore<Preferences> instance for user preferences.
+     */
     @Singleton
     @Provides
     fun providePreferencesDataStore(@ApplicationContext appContext: Context): DataStore<Preferences> {
         return PreferenceDataStoreFactory.create(
-            corruptionHandler = ReplaceFileCorruptionHandler(
-                produceNewData = { emptyPreferences()}
-            ),
+            corruptionHandler = ReplaceFileCorruptionHandler(produceNewData = { emptyPreferences() }),
             migrations = listOf(SharedPreferencesMigration(appContext, USER_PREFERENCES)),
             scope = CoroutineScope(Dispatchers.IO + SupervisorJob()),
-            produceFile = {appContext.preferencesDataStoreFile(USER_PREFERENCES)}
+            produceFile = { appContext.preferencesDataStoreFile(USER_PREFERENCES) }
         )
-
-
     }
 }

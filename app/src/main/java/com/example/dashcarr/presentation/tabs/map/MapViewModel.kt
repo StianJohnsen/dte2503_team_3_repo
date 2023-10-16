@@ -31,6 +31,7 @@ import javax.inject.Inject
 /**
  * ViewModel for the MapFragment. Manages location updates, markers, and UI state related to the map.
  *
+ * @property userPreferencesRepository Repository for managing UserPreferences (If user already logged in before
  * @property sp Preferences implementation for saving and retrieving user location.
  * @property pointsOfInterestRepository Repository for managing points of interest on the map.
  */
