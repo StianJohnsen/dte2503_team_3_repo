@@ -1,7 +1,10 @@
 package com.example.dashcarr.presentation.tabs.map
 
 import android.annotation.SuppressLint
+import android.content.BroadcastReceiver
 import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
 import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
@@ -10,12 +13,14 @@ import android.icu.util.Calendar
 import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
+import android.os.BatteryManager
 import android.os.Bundle
 import android.os.PowerManager
 import android.os.SystemClock
 import android.preference.PreferenceManager
 import android.util.Log
 import android.view.View
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.viewModels
@@ -197,6 +202,7 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
         observeViewModel()
         initMap()
         requestLocationPermission()
+        setupBatteryStatus()
 
         val powerManager = requireContext().getSystemService(Context.POWER_SERVICE) as PowerManager
 
@@ -648,6 +654,37 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
         binding.btnCancel.setOnClickListener {
             viewModel.cancelMarkerCreation()
         }
+    }
+
+    private fun setupBatteryStatus() {
+        val redCircle: ImageView = view?.findViewById(R.id.redCircleImageView)!!
+        val yellowCircle: ImageView = view?.findViewById(R.id.yellowCircleImageView)!!
+        val greenCircle: ImageView = view?.findViewById(R.id.greenCircleImageView)!!
+
+        val batteryStatusReceiver: BroadcastReceiver = object : BroadcastReceiver() {
+            override fun onReceive(context: Context?, intent: Intent?) {
+                val level: Int = intent!!.getIntExtra(BatteryManager.EXTRA_LEVEL, -1)
+                val scale: Int = intent.getIntExtra(BatteryManager.EXTRA_SCALE, -1)
+                val batteryPct: Float = level * 100 / scale.toFloat()
+
+                greenCircle.visibility = View.VISIBLE
+
+                if (batteryPct <= 25) {
+                    yellowCircle.visibility = View.VISIBLE
+                } else {
+                    yellowCircle.visibility = View.GONE
+                }
+
+                if (batteryPct <= 15) {
+                    redCircle.visibility = View.VISIBLE
+                } else {
+                    redCircle.visibility = View.GONE
+                }
+            }
+        }
+
+        val intentFilter = IntentFilter(Intent.ACTION_BATTERY_CHANGED)
+        requireActivity().registerReceiver(batteryStatusReceiver, intentFilter)
     }
 
     /**
