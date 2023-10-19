@@ -28,6 +28,44 @@
             app:layout_constraintTop_toBottomOf="@id/mapView" />
 
         <LinearLayout
+            android:id="@+id/linearLayout4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_padding_size_18"
+            android:background="@drawable/blue_rounded_16dp_background"
+            android:orientation="vertical"
+            android:paddingHorizontal="@dimen/margin_padding_size_8"
+            android:paddingVertical="@dimen/margin_padding_size_8"
+            app:layout_constraintBottom_toTopOf="@+id/hudView"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/mapView">
+
+            <ImageView
+                android:id="@+id/redIndicator"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginBottom="8dp"
+                android:contentDescription="@null"
+                android:src="@drawable/traffic_light_indicator" />
+
+            <ImageView
+                android:id="@+id/yellowIndicator"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginBottom="8dp"
+                android:contentDescription="@null"
+                android:src="@drawable/traffic_light_indicator" />
+
+            <ImageView
+                android:id="@+id/greenIndicator"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:contentDescription="@null"
+                android:src="@drawable/traffic_light_indicator" />
+
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_padding_size_18"
