@@ -245,6 +245,26 @@
 
         </FrameLayout>
 
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnCenterLocation"
+            android:layout_width="@dimen/standard_touch_size"
+            android:layout_height="@dimen/standard_touch_size"
+            android:backgroundTint="@color/white"
+            android:layout_marginBottom="100dp"
+            android:layout_marginEnd="@dimen/margin_padding_size_12"
+            android:gravity="center_vertical"
+            android:insetTop="@dimen/margin_padding_size_0"
+            android:insetBottom="@dimen/margin_padding_size_0"
+            android:paddingTop="0dp"
+            app:icon="@drawable/ic_center_location"
+            app:iconGravity="top"
+            app:iconPadding="@dimen/margin_padding_size_0"
+            app:iconSize="@dimen/standard_touch_size"
+            app:iconTint="@null"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            />
+
         <ImageButton
             android:id="@+id/button_maximize"
             android:layout_width="@dimen/standard_touch_size"
