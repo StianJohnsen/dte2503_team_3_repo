@@ -57,11 +57,29 @@ class MainActivity : AppCompatActivity() {
 
     @SuppressLint("ResourceType")
     private fun addCameraListener() {
+        val cameraButton = findViewById<FloatingActionButton>(R.id.camera_button)
+        fun hideIconSwitch(middleEvent: () -> Unit) {
+            cameraButton.animate().apply {
+                duration = 200L
+                rotationYBy(90F)
+            }.withEndAction {
+                middleEvent()
+                cameraButton.animate().apply {
+                    duration = 200L
+                    rotationYBy(-90F)
+                }
+            }
+        }
+
         val hideCameraButtons = {
             floatingCameraButtons.setHeightSmooth(
                 500,
                 0,
-                doOnEnd = { floatingCameraButtons.visibility = View.GONE })
+                doOnEnd = {
+                    floatingCameraButtons.visibility = View.GONE
+
+                })
+            hideIconSwitch { cameraButton.setImageResource(R.drawable.camera_icon) }
         }
         val list =
             NavController.OnDestinationChangedListener { _, _, _ ->
@@ -69,14 +87,18 @@ class MainActivity : AppCompatActivity() {
             }
         navController.addOnDestinationChangedListener(list)
 
-        findViewById<FloatingActionButton>(R.id.camera_button).setOnClickListener {
+        cameraButton.setOnClickListener {
             if (floatingCameraButtons.isVisible) {
                 hideCameraButtons()
             } else {
                 floatingCameraButtons.setHeightSmooth(
                     190,
                     260,
-                    doOnStart = { floatingCameraButtons.visibility = View.VISIBLE })
+                    doOnStart = { floatingCameraButtons.visibility = View.VISIBLE },
+                    doOnEnd = { })
+                hideIconSwitch {
+                    cameraButton.setImageResource(R.drawable.ic_down_96)
+                }
             }
         }
 
