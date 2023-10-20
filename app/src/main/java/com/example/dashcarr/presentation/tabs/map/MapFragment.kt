@@ -173,6 +173,12 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
         binding.btnShowHideBar.setOnClickListener {
             viewModel.showHideBar()
         }
+        binding.buttonMaximize.setOnClickListener {
+            val transaction = requireActivity().supportFragmentManager.beginTransaction()
+            transaction.replace(R.id.nav_host_container, HudFragment())
+            transaction.addToBackStack(null)
+            transaction.commit()
+        }
     }
 
     /**

@@ -25,7 +25,6 @@ import com.example.dashcarr.R
 import com.example.dashcarr.extensions.collectWithLifecycle
 import com.example.dashcarr.presentation.tabs.camera.dashcam.DashcamFragment
 import com.example.dashcarr.presentation.tabs.camera.security.SecurityCameraFragment
-import com.example.dashcarr.presentation.tabs.map.HudFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import dagger.hilt.android.AndroidEntryPoint
@@ -47,14 +46,6 @@ class MainActivity : AppCompatActivity() {
 
         val bottomNavBar = findViewById<BottomNavigationView>(R.id.bottom_nav)
         bottomNavBar.setupWithNavController(navController)
-
-        bottomNavBar.findViewById<View>(R.id.action_map).setOnLongClickListener {
-            val transaction = supportFragmentManager.beginTransaction()
-            transaction.replace(R.id.nav_host_container, HudFragment())
-            transaction.addToBackStack(null)
-            transaction.commit()
-            true
-        }
 
         initViewModels()
     }
