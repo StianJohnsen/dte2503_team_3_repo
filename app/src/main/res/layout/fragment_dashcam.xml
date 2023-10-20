@@ -10,7 +10,8 @@
             android:id="@+id/dashcam_preview"
             android:layout_width="100dp"
             android:layout_height="200dp"
-            android:visibility="gone"
+            android:background="#00000000"
+            android:visibility="visible"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 

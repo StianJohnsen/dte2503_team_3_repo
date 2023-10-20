@@ -117,7 +117,6 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-
         findViewById<ImageButton>(R.id.dashcam_button).setOnClickListener {
             if (!DashcamFragment.exists()) {
                 val transaction = supportFragmentManager.beginTransaction()
@@ -125,7 +124,7 @@ class MainActivity : AppCompatActivity() {
                 transaction.disallowAddToBackStack()
                 transaction.commit()
             } else {
-                DashcamFragment.getInstance().update()
+                DashcamFragment.getInstance().saveRecording()
             }
         }
 

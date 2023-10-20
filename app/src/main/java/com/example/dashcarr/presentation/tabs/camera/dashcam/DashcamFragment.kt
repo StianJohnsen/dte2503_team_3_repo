@@ -15,7 +15,7 @@ import androidx.fragment.app.viewModels
 import com.example.dashcarr.databinding.FragmentDashcamBinding
 import com.example.dashcarr.presentation.core.BaseFragment
 
-class DashcamFragment : BaseFragment<FragmentDashcamBinding>(
+class DashcamFragment() : BaseFragment<FragmentDashcamBinding>(
     FragmentDashcamBinding::inflate,
     showBottomNavBar = true
 ) {
@@ -25,11 +25,12 @@ class DashcamFragment : BaseFragment<FragmentDashcamBinding>(
         @Volatile
         private var instance: DashcamFragment? = null
 
-        fun getInstance() =
-            instance ?: synchronized(this) {
+        fun getInstance(): DashcamFragment {
+            return instance ?: synchronized(this) {
                 instance = DashcamFragment()
                 return@synchronized instance!!
             }
+        }
 
         fun exists() = instance !== null
 
@@ -46,37 +47,37 @@ class DashcamFragment : BaseFragment<FragmentDashcamBinding>(
             ActivityResultContracts.RequestPermission()
         ) { isGranted ->
             if (isGranted) {
-                update()
+                viewModel.startRecording(requireActivity(), this) {
+                    val animation = ObjectAnimator.ofFloat(binding.dashcamPreview, "translationX", 300F, 0F).apply {
+                        duration = 1000L
+                        interpolator = DecelerateInterpolator()
+                    }
+                    animation.doOnStart {
+                        binding.dashcamPreview.visibility = View.VISIBLE
+                    }
+                    animation.start()
+                }
             } else {
-                parentFragmentManager.beginTransaction().remove(this).commit()
                 destroy()
+                parentFragmentManager.beginTransaction().remove(this).commit()
             }
         }.launch(Manifest.permission.CAMERA)
+
         return view
     }
 
-    fun update() {
-        viewModel.updateCamera(requireActivity(), this, {
-            // recording started
-            val animation = ObjectAnimator.ofFloat(binding.dashcamPreview, "translationX", 300F, 0F).apply {
-                duration = 1000L
-                interpolator = DecelerateInterpolator()
-            }
-            animation.doOnStart {
-                binding.dashcamPreview.visibility = View.VISIBLE
-            }
-            animation.start()
-        }, {
-            // recording stopped
+    fun saveRecording() {
+        viewModel.saveRecording {
             val animation = ObjectAnimator.ofFloat(binding.dashcamPreview, "translationX", 0F, 300F).apply {
                 duration = 1000L
                 interpolator = AccelerateInterpolator()
             }
             animation.doOnEnd {
-                binding.dashcamPreview.visibility = View.GONE
+                destroy()
+                parentFragmentManager.beginTransaction().remove(this).commit()
             }
             animation.start()
-        })
+        }
     }
 
     override fun onDestroyView() {
