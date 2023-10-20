@@ -30,8 +30,8 @@
             app:destination="@id/animationSampleFragment"
             app:enterAnim="@anim/left_to_right"
             app:exitAnim="@anim/right_to_left"
-            app:popEnterAnim="@anim/pop_enter"
-            app:popExitAnim="@anim/pop_exit" />
+            app:popEnterAnim="@anim/pop_x_enter"
+            app:popExitAnim="@anim/pop_x_exit" />
 
         <action
             android:id="@+id/action_action_settings_to_SavedRecordingsFragment"
@@ -67,7 +67,11 @@
     <fragment
         android:id="@+id/action_recordings_statistics"
         android:name="com.example.dashcarr.presentation.tabs.history.RecordingStatisticsFragment"
-        android:label="RecordingStatisticsFragment" />
+        android:label="RecordingStatisticsFragment" >
+        <action
+            android:id="@+id/action_action_recordings_statistics_to_action_history"
+            app:destination="@id/action_history" />
+    </fragment>
     <action
         android:id="@+id/action_action_statistics_to_SavedRecordingsFragment"
         app:destination="@id/action_history" />
@@ -110,7 +114,14 @@
         android:label="HistoryFragment">
         <action
             android:id="@+id/action_action_history_to_StatisticsFragment"
-            app:destination="@id/action_recordings_statistics" />
+            app:destination="@id/action_recordings_statistics"
+            app:enterAnim="@anim/up_to_down"
+            app:exitAnim="@anim/down_to_up"
+            app:popEnterAnim="@anim/pop_y_enter"
+            app:popExitAnim="@anim/pop_y_exit"
+
+
+            />
         <action
             android:id="@+id/action_action_history_to_RecordingDetailsFragment"
             app:destination="@id/action_recording_details" />
