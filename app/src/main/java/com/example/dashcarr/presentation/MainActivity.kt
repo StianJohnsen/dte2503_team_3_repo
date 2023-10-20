@@ -1,28 +1,24 @@
 package com.example.dashcarr.presentation
 
-import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
 import android.view.View
-import android.view.animation.BounceInterpolator
-import android.view.animation.LinearInterpolator
 import android.widget.ImageButton
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.Group
-import androidx.core.animation.doOnEnd
-import androidx.core.animation.doOnStart
 import androidx.core.view.isVisible
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.example.dashcarr.R
 import com.example.dashcarr.extensions.collectWithLifecycle
+import com.example.dashcarr.extensions.setHeightSmooth
 import com.example.dashcarr.presentation.tabs.camera.dashcam.DashcamFragment
 import com.example.dashcarr.presentation.tabs.camera.security.SecurityCameraFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -61,27 +57,26 @@ class MainActivity : AppCompatActivity() {
 
     @SuppressLint("ResourceType")
     private fun addCameraListener() {
-        val buttonShowAnimation = ObjectAnimator.ofFloat(floatingCameraButtons, "translationY", 150F, 0F).apply {
-            duration = 600L
-            interpolator = BounceInterpolator()
+        val hideCameraButtons = {
+            floatingCameraButtons.setHeightSmooth(
+                500,
+                0,
+                doOnEnd = { floatingCameraButtons.visibility = View.GONE })
         }
-        buttonShowAnimation.doOnStart { floatingCameraButtons.visibility = View.VISIBLE }
-        val buttonHideAnimation = ObjectAnimator.ofFloat(floatingCameraButtons, "translationY", 0F, 150F).apply {
-            duration = 300L
-            interpolator = LinearInterpolator()
-        }
-        buttonHideAnimation.doOnEnd { floatingCameraButtons.visibility = View.GONE }
         val list =
             NavController.OnDestinationChangedListener { _, _, _ ->
-                buttonHideAnimation.start()
+                hideCameraButtons()
             }
         navController.addOnDestinationChangedListener(list)
 
         findViewById<FloatingActionButton>(R.id.camera_button).setOnClickListener {
             if (floatingCameraButtons.isVisible) {
-                buttonHideAnimation.start()
+                hideCameraButtons()
             } else {
-                buttonShowAnimation.start()
+                floatingCameraButtons.setHeightSmooth(
+                    200,
+                    300,
+                    doOnStart = { floatingCameraButtons.visibility = View.VISIBLE })
             }
         }
 
