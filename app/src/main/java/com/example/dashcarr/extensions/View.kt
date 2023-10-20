@@ -3,6 +3,10 @@ package com.example.dashcarr.extensions
 import android.animation.ValueAnimator
 import android.view.View
 import android.view.animation.DecelerateInterpolator
+import androidx.core.animation.doOnEnd
+import androidx.core.animation.doOnStart
+
+private const val DEFAULT_WIDTH_SMOOTH_ANIMATION_DURATION: Long = 100
 
 /**
  * Smoothly adjusts the height of the view using a ValueAnimator.
@@ -15,15 +19,15 @@ import android.view.animation.DecelerateInterpolator
  * @param avoidWrapContent If true, avoids setting the height to -1 (WRAP_CONTENT) during the animation.
  * @param avoidZero If true, avoids setting the height to 0 during the animation.
  */
-private const val DEFAULT_WIDTH_SMOOTH_ANIMATION_DURATION: Long = 100
-
 fun View.setHeightSmooth(
     duration: Long = DEFAULT_WIDTH_SMOOTH_ANIMATION_DURATION,
-    newHeight:Int? = null,
+    newHeight: Int? = null,
     avoidWrapContent: Boolean = false,
-    avoidZero: Boolean = false
+    avoidZero: Boolean = false,
+    doOnStart: () -> Unit = {},
+    doOnEnd: () -> Unit = {},
 ) {
-    val widthAnimator = ValueAnimator.ofInt(this.height, newHeight?:this.height)
+    val widthAnimator = ValueAnimator.ofInt(this.height, newHeight ?: this.height)
     widthAnimator.duration = duration
     widthAnimator.interpolator = DecelerateInterpolator()
     widthAnimator.addUpdateListener { animation ->
@@ -32,5 +36,7 @@ fun View.setHeightSmooth(
         this.layoutParams.height = animation.animatedValue as Int
         this.requestLayout()
     }
+    widthAnimator.doOnStart { doOnStart() }
+    widthAnimator.doOnEnd { doOnEnd() }
     widthAnimator.start()
 }
