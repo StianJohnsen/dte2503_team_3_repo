@@ -19,9 +19,9 @@
 
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/hudView"
+            android:name="com.example.dashcarr.presentation.tabs.map.HudFragment"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:name="com.example.dashcarr.presentation.tabs.map.HudFragment"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -90,8 +90,7 @@
                     app:iconGravity="top"
                     app:iconSize="@dimen/standard_touch_size"
                     app:iconTint="@null"
-                    android:visibility="gone"
-                    />
+                    android:visibility="gone" />
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnResume"
@@ -107,8 +106,7 @@
                     app:iconGravity="top"
                     app:iconSize="@dimen/standard_touch_size"
                     app:iconTint="@null"
-                    android:visibility="gone"
-                    />
+                    android:visibility="gone" />
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnStop"
@@ -124,8 +122,7 @@
                     app:iconGravity="top"
                     app:iconSize="@dimen/standard_touch_size"
                     app:iconTint="@null"
-                    android:visibility="gone"
-                    />
+                    android:visibility="gone" />
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnDelete"
@@ -140,8 +137,7 @@
                     app:iconGravity="top"
                     app:iconSize="@dimen/standard_touch_size"
                     app:iconTint="@null"
-                    android:visibility="gone"
-                    />
+                    android:visibility="gone" />
 
             </LinearLayout>
 
@@ -248,6 +244,16 @@
             </LinearLayout>
 
         </FrameLayout>
+
+        <ImageButton
+            android:id="@+id/button_maximize"
+            android:layout_width="@dimen/standard_touch_size"
+            android:layout_height="@dimen/standard_touch_size"
+            android:backgroundTint="#00FFFFFF"
+            android:scaleType="centerCrop"
+            app:layout_constraintEnd_toEndOf="@+id/hudView"
+            app:layout_constraintTop_toTopOf="@+id/hudView"
+            app:srcCompat="@drawable/ic_maximize_100" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
