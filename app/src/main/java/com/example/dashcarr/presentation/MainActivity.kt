@@ -83,7 +83,9 @@ class MainActivity : AppCompatActivity() {
         }
         val list =
             NavController.OnDestinationChangedListener { _, _, _ ->
-                hideCameraButtons()
+                if (floatingCameraButtons.isVisible) {
+                    hideCameraButtons()
+                }
             }
         navController.addOnDestinationChangedListener(list)
 
