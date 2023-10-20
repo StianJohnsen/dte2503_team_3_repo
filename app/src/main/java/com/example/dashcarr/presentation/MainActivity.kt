@@ -74,8 +74,8 @@ class MainActivity : AppCompatActivity() {
                 hideCameraButtons()
             } else {
                 floatingCameraButtons.setHeightSmooth(
-                    200,
-                    300,
+                    190,
+                    260,
                     doOnStart = { floatingCameraButtons.visibility = View.VISIBLE })
             }
         }

@@ -45,7 +45,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/recording_sign"
-                android:text="@string/recording"
+                android:text="@string/recording_in_progress"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large"
                 android:textColor="#DDCFCF"
                 android:visibility="gone"
