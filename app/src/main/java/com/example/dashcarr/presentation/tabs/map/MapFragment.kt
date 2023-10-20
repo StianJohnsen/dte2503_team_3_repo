@@ -66,6 +66,7 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
 
     // Location manager for handling location updates
     private val locationManager by lazy { requireContext().getSystemService(Context.LOCATION_SERVICE) as LocationManager }
+    private val myLocationOverlay by lazy { MyLocationNewOverlay(binding.mapView) }
 
     // Activity Result Launcher for requesting location permissions
     private val requestLocationPermissionsLauncher = registerForActivityResult(
@@ -172,6 +173,9 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
     private fun initListeners() {
         binding.btnShowHideBar.setOnClickListener {
             viewModel.showHideBar()
+        }
+        binding.btnCenterLocation.setOnClickListener {
+            binding.mapView.controller.animateTo(myLocationOverlay.myLocation)
         }
     }
 
@@ -484,10 +488,10 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
     fun createLocationRequest() {
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 2000, 100f, this)
         locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 2000, 100f, this)
-        val overlay = MyLocationNewOverlay(binding.mapView)
-        overlay.enableMyLocation()
-        overlay.enableFollowLocation()
-        binding.mapView.overlays.add(overlay)
+        myLocationOverlay.enableMyLocation()
+        myLocationOverlay.enableFollowLocation()
+//        TODO: Bug on back click to map fragment.
+        binding.mapView.overlays.add(myLocationOverlay)
     }
 
     override fun onLocationChanged(location: Location) {
