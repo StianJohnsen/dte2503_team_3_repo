@@ -16,69 +16,97 @@
         app:defaultNavHost="true"
         app:layout_constraintBottom_toBottomOf="@+id/floating_buttons"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
         app:navGraph="@navigation/nav_graph" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/floating_buttons"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="100dp"
         android:background="@drawable/rounded_sliding_box"
         android:visibility="visible"
         app:layout_constraintBottom_toTopOf="@+id/bottom_nav"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
-        <ImageButton
-            android:id="@+id/dashcam_button"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_marginTop="50dp"
-            android:backgroundTint="#00FFFFFF"
-            android:scaleType="fitCenter"
-            android:src="@android:drawable/ic_dialog_alert"
-            app:layout_constraintEnd_toStartOf="@+id/saved_recordings_button"
-            app:layout_constraintTop_toTopOf="@+id/saved_recordings_button"
-            app:tint="@color/recording_red" />
-
-        <ImageButton
-            android:id="@+id/saved_recordings_button"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:backgroundTint="#00FFFFFF"
-            android:scaleType="fitCenter"
-            android:scaleX="1.1"
-            android:scaleY="1.1"
-            android:src="@android:drawable/ic_menu_save"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:tint="@color/black" />
-
-        <ImageButton
-            android:id="@+id/security_camera_button"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_marginTop="50dp"
-            android:backgroundTint="#00FFFFFF"
-            android:scaleType="fitCenter"
-            android:scaleX="0.7"
-            android:scaleY="0.7"
-            app:layout_constraintStart_toEndOf="@+id/saved_recordings_button"
-            app:layout_constraintTop_toTopOf="@+id/saved_recordings_button"
-            app:srcCompat="@android:drawable/ic_notification_overlay"
-            app:tint="@color/recording_red" />
-
         <View
-            android:id="@+id/view"
             android:layout_width="0dp"
             android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageButton
+            android:id="@+id/dashcam_button"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:backgroundTint="#00FFFFFF"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_triangle_recording"
+            app:layout_constraintEnd_toStartOf="@+id/saved_recordings_button"
+            app:layout_constraintHorizontal_bias="0.8"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/saved_recordings_button" />
+
+        <ImageButton
+            android:id="@+id/saved_recordings_button"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginTop="10dp"
+            android:backgroundTint="#00FFFFFF"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_save_dashcam"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageButton
+            android:id="@+id/security_camera_button"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:backgroundTint="#00FFFFFF"
+            android:scaleType="centerCrop"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.2"
+            app:layout_constraintStart_toEndOf="@+id/saved_recordings_button"
+            app:layout_constraintTop_toTopOf="@+id/saved_recordings_button"
+            app:srcCompat="@drawable/ic_circle_recording" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/label_record"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="@+id/security_camera_button"
+            app:layout_constraintStart_toStartOf="@+id/security_camera_button"
+            app:layout_constraintTop_toBottomOf="@+id/security_camera_button" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/label_dashcam"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="@+id/dashcam_button"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="@+id/dashcam_button"
+            app:layout_constraintTop_toBottomOf="@+id/dashcam_button" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/label_saved_recordings"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="@+id/saved_recordings_button"
+            app:layout_constraintStart_toStartOf="@+id/saved_recordings_button"
+            app:layout_constraintTop_toBottomOf="@+id/saved_recordings_button" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
