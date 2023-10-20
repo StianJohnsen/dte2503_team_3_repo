@@ -115,8 +115,8 @@
         <action
             android:id="@+id/action_action_history_to_StatisticsFragment"
             app:destination="@id/action_recordings_statistics"
-            app:enterAnim="@anim/up_to_down"
-            app:exitAnim="@anim/down_to_up"
+            app:enterAnim="@anim/down_to_up"
+            app:exitAnim="@anim/up_to_down"
             app:popEnterAnim="@anim/pop_y_enter"
             app:popExitAnim="@anim/pop_y_exit"
 
