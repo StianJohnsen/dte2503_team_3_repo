@@ -3,6 +3,7 @@ package com.example.dashcarr.presentation.tabs.camera
 import android.Manifest
 import android.app.Activity
 import android.content.ContentValues
+import android.content.Context
 import android.content.pm.PackageManager
 import android.provider.MediaStore
 import android.util.Log
@@ -30,6 +31,10 @@ import java.util.concurrent.Executors
 class CameraWrapper(private var activity: Activity) {
     companion object {
         private const val FILENAME_FORMAT = "yyyy-MM-dd-HH-mm-ss-SSS"
+        fun hasNeededPermissions(context: Context): Boolean = ContextCompat.checkSelfPermission(
+            context,
+            Manifest.permission.CAMERA
+        ) == PackageManager.PERMISSION_GRANTED
     }
 
     private var videoCapture: VideoCapture<Recorder>? = null
@@ -39,10 +44,6 @@ class CameraWrapper(private var activity: Activity) {
     private var cameraExecutor: ExecutorService = Executors.newSingleThreadExecutor()
     private lateinit var preview: Preview
 
-    private fun askForPermission(): Boolean = ContextCompat.checkSelfPermission(
-        activity.applicationContext,
-        Manifest.permission.CAMERA
-    ) == PackageManager.PERMISSION_GRANTED
 
     fun isRecording(): Boolean {
         return recording != null
@@ -123,7 +124,7 @@ class CameraWrapper(private var activity: Activity) {
         cameraSelector: CameraSelector,
         started: () -> Unit
     ) {
-        if (!askForPermission()) {
+        if (!hasNeededPermissions(activity.applicationContext)) {
             return
         }
         val cameraProviderFuture = ProcessCameraProvider.getInstance(activity.applicationContext)
@@ -172,5 +173,6 @@ class CameraWrapper(private var activity: Activity) {
         cameraExecutor.shutdown()
         ProcessCameraProvider.getInstance(activity.applicationContext).get().unbindAll()
         videoCapture = null
+        recording = null
     }
 }
