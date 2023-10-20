@@ -60,6 +60,7 @@ class HistoryFragment : BaseFragment<FragmentHistoryBinding>(
             historyFragment = this@HistoryFragment
         }
         binding.buttonShowStats.setOnClickListener {
+            showBottomNavigation(false)
             findNavController().navigate(R.id.action_action_history_to_StatisticsFragment)
         }
 
