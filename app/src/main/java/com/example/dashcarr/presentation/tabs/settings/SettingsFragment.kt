@@ -46,6 +46,10 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>(
             mapViewModel.updateAppPreferences(false)
         }
 
+         binding.btnPowerSettings.setOnClickListener {
+             findNavController().navigate(R.id.action_action_settings_to_powerSettings)
+         }
+
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

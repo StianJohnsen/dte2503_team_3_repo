@@ -61,6 +61,7 @@
     <string name="preferences_settings">Preferences</string>
     <string name="new_features_setting">New Features</string>
     <string name="saved_recordings">Saved Recordings</string>
+    <string name="power_settings">Power Settings</string>
 
     <!--HistoryFragment-->
 
@@ -124,8 +125,14 @@
     <string name="_2023_uit">© 2023 UIT</string>
     <string name="icons8">Icons by icons8.com</string>
 
+    <!--PowerSettingsFragment-->
+    <string name="lost_percentage">Lost percentages: %d%% </string>
+    <string name="power_settings_text">Power Settings</string>
+    <string name="battery_saving_mode">Battery Saving Mode</string>
+
     <!--HudView-->
     <string name="search_for_location">Waiting for GPS</string>
+    <string name="back_button_content_description">Back button</string>
 
     <!--MapSettingsFragment-->
 
