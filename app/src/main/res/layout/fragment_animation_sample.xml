@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/mainBlue"
-    tools:context=".presentation.AnimationSampleFragment">
+    tools:context=".presentation.tabs.settings.about_app.AboutAppFragment">
 
     <ImageView
         android:id="@+id/back_to_settings"

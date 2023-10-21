@@ -25,4 +25,7 @@ class PointsOfInterestRepository @Inject constructor(
     override suspend fun deletePoint(point: PointOfInterestEntity): Result<Unit> =
         pointsOfInterestLocalDataSource.deletePoint(point)
 
+    override suspend fun updatePoint(point: PointOfInterestEntity): Result<Unit> =
+        pointsOfInterestLocalDataSource.updatePoint(point)
+
 }

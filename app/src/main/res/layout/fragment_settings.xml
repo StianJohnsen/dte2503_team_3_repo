@@ -19,7 +19,7 @@
             android:background="@drawable/white_rounded_16dp_background">
 
             <TextView
-                android:id="@+id/btnProfileSettings"
+                android:id="@+id/btnAboutApp"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/standard_touch_size"
                 android:paddingEnd="@dimen/margin_padding_size_6"
@@ -147,9 +147,6 @@
 
         </LinearLayout>
 
-
-
-
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnLogout"
             android:layout_width="wrap_content"
@@ -167,8 +164,7 @@
             app:iconGravity="textEnd"
             app:iconTint="@null"
             android:layout_gravity="center_horizontal"
-            android:layout_marginVertical="@dimen/margin_padding_size_40"
-            />
+            android:layout_marginVertical="@dimen/margin_padding_size_40"/>
 
     </LinearLayout>
 
