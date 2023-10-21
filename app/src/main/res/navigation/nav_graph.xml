@@ -46,6 +46,13 @@
         <action
             android:id="@+id/action_action_settings_to_productFrontPage"
             app:destination="@id/productFrontPage" />
+        <action
+            android:id="@+id/action_action_settings_to_mapsSettingsFragment"
+            app:destination="@id/mapsSettingsFragment"
+            app:enterAnim="@anim/left_to_right"
+            app:exitAnim="@anim/right_to_left"
+            app:popEnterAnim="@anim/pop_enter"
+            app:popExitAnim="@anim/pop_exit"/>
     </fragment>
 
 
@@ -102,7 +109,7 @@
     </fragment>
     <fragment
         android:id="@+id/animationSampleFragment"
-        android:name="com.example.dashcarr.presentation.AnimationSampleFragment"
+        android:name="com.example.dashcarr.presentation.tabs.settings.about_app.AboutAppFragment"
         android:label="fragment_animation_sample"
         tools:layout="@layout/fragment_animation_sample" >
         <action
@@ -126,7 +133,7 @@
         android:label="SocialFragment" />
     <fragment
         android:id="@+id/productFrontPage"
-        android:name="com.example.dashcarr.presentation.tabs.settings.ProductFrontPage"
+        android:name="com.example.dashcarr.presentation.tabs.settings.new_features.ProductFrontPage"
         android:label="ProductFrontPage" >
         <action
             android:id="@+id/action_productFrontPage_to_action_map"
@@ -134,6 +141,14 @@
         <action
             android:id="@+id/action_productFrontPage_to_action_map2"
             app:destination="@id/action_map" />
+    </fragment>
+    <fragment
+        android:id="@+id/mapsSettingsFragment"
+        android:name="com.example.dashcarr.presentation.tabs.settings.maps_settings.MapsSettingsFragment"
+        android:label="MapsSettingsFragment" >
+        <action
+            android:id="@+id/action_mapsSettingsFragment_to_action_settings"
+            app:destination="@id/action_settings" />
     </fragment>
 
 

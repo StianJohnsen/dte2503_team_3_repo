@@ -14,4 +14,6 @@ interface IPointsOfInterestRepository {
 
     suspend fun deletePoint(point: PointOfInterestEntity): Result<Unit>
 
+    suspend fun updatePoint(point: PointOfInterestEntity): Result<Unit>
+
 }

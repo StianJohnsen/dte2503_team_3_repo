@@ -18,3 +18,13 @@ fun Fragment.toastThrowableShort(throwable: Throwable) {
     val message = throwable.message ?: getString(R.string.error_unknown)
     Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
 }
+
+@MainThread
+fun Fragment.toastErrorUnknownShort() {
+    Toast.makeText(requireContext(), getString(R.string.error_unknown), Toast.LENGTH_SHORT).show()
+}
+
+@MainThread
+fun Fragment.toastShort(message: String) {
+    Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
+}
