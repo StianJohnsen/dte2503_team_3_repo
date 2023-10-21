@@ -7,7 +7,7 @@
 
         <variable
             name="productFrontPageFragment"
-            type="com.example.dashcarr.presentation.tabs.settings.ProductFrontPage" />
+            type="com.example.dashcarr.presentation.tabs.settings.new_features.ProductFrontPage" />
 
     </data>
 

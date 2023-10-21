@@ -117,7 +117,7 @@
 
     <string name="marker_name">Marker name</string>
     <string name="save_poi">save</string>
-    <string name="cancel_poi">cancel</string>
+    <string name="cancel_poi">Cancel</string>
 
     <!--Copyright-->
     <string name="version_0_5">Version: 0.5</string>
@@ -126,5 +126,15 @@
 
     <!--HudView-->
     <string name="search_for_location">Waiting for GPS</string>
+
+    <!--MapSettingsFragment-->
+
+    <string name="points_of_interest">Points Of Interest</string>
+    <string name="btnRename">Rename</string>
+    <string name="btnDelete">delete</string>
+    <string name="update_poi">update</string>
+    <string name="delete_poi">delete</string>
+    <string name="point_deleted_successfully">Point deleted successfully.</string>
+    <string name="point_renamed_successfully">Point renamed successfully.</string>
 
 </resources>

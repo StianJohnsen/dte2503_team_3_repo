@@ -1,4 +1,4 @@
-package com.example.dashcarr.presentation.tabs.settings
+package com.example.dashcarr.presentation.tabs.settings.new_features
 
 import android.os.Bundle
 import android.text.method.ScrollingMovementMethod

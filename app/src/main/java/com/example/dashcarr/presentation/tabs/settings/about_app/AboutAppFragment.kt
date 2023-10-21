@@ -1,4 +1,4 @@
-package com.example.dashcarr.presentation
+package com.example.dashcarr.presentation.tabs.settings.about_app
 
 import android.os.Bundle
 import android.view.View
@@ -9,7 +9,7 @@ import com.example.dashcarr.presentation.core.BaseFragment
  * Fragment showcasing experimental features.
  * For now its animation samples.
  */
-class AnimationSampleFragment : BaseFragment<FragmentAnimationSampleBinding>(
+class AboutAppFragment : BaseFragment<FragmentAnimationSampleBinding>(
     FragmentAnimationSampleBinding::inflate,
     showBottomNavBar = false
 ) {
