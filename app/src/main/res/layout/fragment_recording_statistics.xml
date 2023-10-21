@@ -61,17 +61,27 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/pieChart_stats" />
 
-        <ImageView
-            android:id="@+id/image_back_stats"
-            android:layout_width="50dp"
-            android:layout_height="30dp"
-            android:layout_marginEnd="32dp"
-            android:contentDescription="@null"
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnBack"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/standard_touch_size"
+            android:layout_marginTop="@dimen/margin_padding_size_10"
+            android:layout_marginBottom="@dimen/margin_padding_size_10"
+            android:backgroundTint="@color/black"
+            android:insetTop="@dimen/margin_padding_size_0"
+            android:insetBottom="@dimen/margin_padding_size_0"
+            android:text="@string/btnBack"
+            android:textSize="@dimen/text_size_14"
+            android:textStyle="bold"
+            app:cornerRadius="20dp"
+            app:iconGravity="textEnd"
+            app:iconTint="@null"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginVertical="@dimen/margin_padding_size_40"
             app:layout_constraintBottom_toTopOf="@+id/pieChart_stats"
             app:layout_constraintEnd_toStartOf="@+id/text_statistics"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/baseline_arrow_back_24" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/text_total_storage"

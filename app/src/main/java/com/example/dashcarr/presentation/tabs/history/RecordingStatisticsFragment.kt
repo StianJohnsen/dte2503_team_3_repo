@@ -49,7 +49,7 @@ class RecordingStatisticsFragment : BaseFragment<FragmentRecordingStatisticsBind
             lifecycleOwner = viewLifecycleOwner
             recordingStatisticsFragment = this@RecordingStatisticsFragment
         }
-        binding.imageBackStats.setOnClickListener {
+        binding.btnBack.setOnClickListener {
             findNavController().popBackStack()
             //findNavController().navigate(R.id.action_action_statistics_to_SavedRecordingsFragment)
         }

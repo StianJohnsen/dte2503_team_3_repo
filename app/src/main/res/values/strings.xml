@@ -75,6 +75,7 @@
     <string name="incoming">…</string>
     <string name="avg_time">Average Time:</string>
     <string name="avg_size">Average file size:</string>
+    <string name="btnBack">Back</string>
 
     <!--RecordingDetailsFragment-->
 

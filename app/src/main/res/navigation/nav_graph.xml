@@ -45,24 +45,20 @@
             app:destination="@id/action_recording_details" />
         <action
             android:id="@+id/action_action_settings_to_productFrontPage"
-            app:destination="@id/productFrontPage" />
-        <action
-            android:id="@+id/action_action_settings_to_mapsSettingsFragment"
-            app:destination="@id/mapsSettingsFragment"
+            app:destination="@id/productFrontPage"
             app:enterAnim="@anim/left_to_right"
             app:exitAnim="@anim/right_to_left"
-            app:popEnterAnim="@anim/pop_enter"
-            app:popExitAnim="@anim/pop_exit"/>
+            app:popEnterAnim="@anim/pop_x_enter"
+            app:popExitAnim="@anim/pop_x_exit" />
         <action
             android:id="@+id/action_action_settings_to_powerSettings"
             app:destination="@id/powerSettings"
             app:enterAnim="@anim/left_to_right"
             app:exitAnim="@anim/right_to_left"
-            app:popEnterAnim="@anim/pop_enter"
-            app:popExitAnim="@anim/pop_exit"
+            app:popEnterAnim="@anim/pop_x_enter"
+            app:popExitAnim="@anim/pop_x_exit"
             />
     </fragment>
-
 
     <fragment
         android:id="@+id/action_recordings_statistics"
@@ -98,6 +94,7 @@
             android:name="elapsedTime"
             app:argType="string" />
     </fragment>
+
     <fragment
         android:id="@+id/loginFragment"
         android:name="com.example.dashcarr.presentation.authentication.login.LoginFragment"
@@ -108,6 +105,7 @@
             app:popUpToInclusive="true"
             app:popUpTo="@id/nav_graph" />
     </fragment>
+
     <fragment
         android:id="@+id/action_history"
         android:name="com.example.dashcarr.presentation.tabs.history.HistoryFragment"
@@ -118,14 +116,12 @@
             app:enterAnim="@anim/down_to_up"
             app:exitAnim="@anim/up_to_down"
             app:popEnterAnim="@anim/pop_y_enter"
-            app:popExitAnim="@anim/pop_y_exit"
-
-
-            />
+            app:popExitAnim="@anim/pop_y_exit" />
         <action
             android:id="@+id/action_action_history_to_RecordingDetailsFragment"
             app:destination="@id/action_recording_details" />
     </fragment>
+
     <fragment
         android:id="@+id/animationSampleFragment"
         android:name="com.example.dashcarr.presentation.tabs.settings.about_app.AboutAppFragment"
@@ -156,10 +152,18 @@
         android:label="ProductFrontPage" >
         <action
             android:id="@+id/action_productFrontPage_to_action_map"
-            app:destination="@id/action_map" />
+            app:destination="@id/action_map"
+            app:enterAnim="@anim/down_to_up"
+            app:exitAnim="@anim/up_to_down"
+            app:popEnterAnim="@anim/pop_y_enter"
+            app:popExitAnim="@anim/pop_y_exit" />
         <action
             android:id="@+id/action_productFrontPage_to_action_map2"
-            app:destination="@id/action_map" />
+            app:destination="@id/action_map"
+            app:enterAnim="@anim/down_to_up"
+            app:exitAnim="@anim/up_to_down"
+            app:popEnterAnim="@anim/pop_y_enter"
+            app:popExitAnim="@anim/pop_y_exit" />
     </fragment>
     <fragment
         android:id="@+id/powerSettings"
