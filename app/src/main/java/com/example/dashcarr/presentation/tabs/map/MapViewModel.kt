@@ -45,6 +45,7 @@ class MapViewModel @Inject constructor(
     val appPreferences = userPreferencesRepository.appBoolFlow.asLiveData()
 
 
+
     fun updateAppPreferences(bool:Boolean){
         viewModelScope.launch {
             userPreferencesRepository.updateAlreadyLoggedIn(bool)
@@ -160,12 +161,19 @@ class UserPreferencesRepository @Inject constructor(
             }
         }.map { preferences ->
             val alreadyLoggedIn = preferences[DataStoreKey.ALREADY_LOGGED_IN] ?: false
-            LoggedInValue(alreadyLoggedIn)
+            val isPowerSaveModeOn = preferences[DataStoreKey.IS_POWER_SAVE_MODE_ON] ?: false
+            LoggedInValue(alreadyLoggedIn,isPowerSaveModeOn)
         }
 
     suspend fun updateAlreadyLoggedIn(newValue: Boolean){
         dataStore.edit { preferences ->
             preferences[DataStoreKey.ALREADY_LOGGED_IN] = newValue
+        }
+    }
+
+    suspend fun updateIsSaveModeOn(newValue: Boolean){
+        dataStore.edit { preferences ->
+            preferences[DataStoreKey.IS_POWER_SAVE_MODE_ON] = newValue
         }
     }
 }

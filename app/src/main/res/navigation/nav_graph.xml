@@ -46,6 +46,9 @@
         <action
             android:id="@+id/action_action_settings_to_productFrontPage"
             app:destination="@id/productFrontPage" />
+        <action
+            android:id="@+id/action_action_settings_to_powerSettings"
+            app:destination="@id/powerSettings" />
     </fragment>
 
 
@@ -135,6 +138,10 @@
             android:id="@+id/action_productFrontPage_to_action_map2"
             app:destination="@id/action_map" />
     </fragment>
+    <fragment
+        android:id="@+id/powerSettings"
+        android:name="com.example.dashcarr.presentation.tabs.settings.PowerSettingsFragment"
+        android:label="PowerSettings" />
 
 
 </navigation>

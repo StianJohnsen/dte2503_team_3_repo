@@ -132,6 +132,9 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
         viewModel.lastSavedUserLocation.collectWithLifecycle(viewLifecycleOwner) {
             binding.mapView.controller.setCenter(it)
         }
+
+
+
         viewModel.createMarkerState.collectWithLifecycle(viewLifecycleOwner) {
             when (it) {
                 is CreateMarkerState.CreateMarker -> showCreateMarkerDialog(it.geoPoint)
@@ -164,6 +167,22 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
                 elapsedTime = it
             }
         }
+
+
+
+        /*
+                powerViewModel.appPreferencesPower.observe(viewLifecycleOwner,object : Observer<Boolean> {
+            override fun onChanged(value: Boolean) {
+                Log.d("viewModelChange",value.toString())
+            }
+
+
+        })
+         */
+
+
+
+
     }
 
     /**
@@ -189,12 +208,17 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
         observeViewModel()
         initMap()
         requestLocationPermission()
+        //Log.d("viewModelChange",powerViewModel.powerSetting.value.toString())
         // Observes variable appPreferences from viewModel to check if user has logged in before
         viewModel.appPreferences.observe(this.viewLifecycleOwner) {
             if (!it.alreadyLoggedIn) {
                 findNavController().navigate(R.id.action_action_map_to_productFrontPage)
                 viewModel.updateAppPreferences(true)
             }
+        }
+
+        viewModel.appPreferences.observe(this.viewLifecycleOwner){
+            Log.d("powerMode",it.isPowerSaveModeOn.toString())
         }
 
         // sets visibility and functionality for recording buttons
