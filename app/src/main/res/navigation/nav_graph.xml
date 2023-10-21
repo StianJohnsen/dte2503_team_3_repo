@@ -53,6 +53,9 @@
             app:exitAnim="@anim/right_to_left"
             app:popEnterAnim="@anim/pop_enter"
             app:popExitAnim="@anim/pop_exit"/>
+        <action
+            android:id="@+id/action_action_settings_to_powerSettings"
+            app:destination="@id/powerSettings" />
     </fragment>
 
 
@@ -142,6 +145,10 @@
             android:id="@+id/action_productFrontPage_to_action_map2"
             app:destination="@id/action_map" />
     </fragment>
+    <fragment
+        android:id="@+id/powerSettings"
+        android:name="com.example.dashcarr.presentation.tabs.settings.PowerSettingsFragment"
+        android:label="PowerSettings" />
     <fragment
         android:id="@+id/mapsSettingsFragment"
         android:name="com.example.dashcarr.presentation.tabs.settings.maps_settings.MapsSettingsFragment"
