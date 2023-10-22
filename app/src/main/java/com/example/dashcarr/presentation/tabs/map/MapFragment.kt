@@ -11,6 +11,7 @@ import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
 import android.os.Bundle
+import android.os.PowerManager
 import android.os.SystemClock
 import android.preference.PreferenceManager
 import android.util.Log
@@ -220,6 +221,15 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
         observeViewModel()
         initMap()
         requestLocationPermission()
+
+        val powerManager = requireContext().getSystemService(Context.POWER_SERVICE) as PowerManager
+        if (powerManager.isPowerSaveMode){
+            Log.d("powerModeMapFragment","true")
+        }
+        else{
+            Log.d("powerModeMapFragment","false")
+
+        }
         //Log.d("viewModelChange",powerViewModel.powerSetting.value.toString())
         // Observes variable appPreferences from viewModel to check if user has logged in before
         viewModel.appPreferences.observe(this.viewLifecycleOwner) {
