@@ -145,6 +145,11 @@
                 android:drawablePadding="@dimen/margin_padding_size_8"
                 android:gravity="start|center_vertical"/>
 
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@drawable/line_separator_gray"/>
+
 
             <TextView
                 android:id="@+id/btn_power_settings"
