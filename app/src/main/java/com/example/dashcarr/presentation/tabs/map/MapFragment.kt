@@ -24,6 +24,7 @@ import com.example.dashcarr.R
 import com.example.dashcarr.databinding.FragmentMapBinding
 import com.example.dashcarr.extensions.collectWithLifecycle
 import com.example.dashcarr.extensions.getFormattedDate
+import com.example.dashcarr.extensions.hideKeyboard
 import com.example.dashcarr.extensions.locationPermissions
 import com.example.dashcarr.extensions.setHeightSmooth
 import com.example.dashcarr.extensions.toastThrowableShort
@@ -137,7 +138,7 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
         viewModel.createMarkerState.collectWithLifecycle(viewLifecycleOwner) {
             when (it) {
                 is CreateMarkerState.CreateMarker -> showCreateMarkerDialog(it.geoPoint)
-                is CreateMarkerState.HideMarker -> hideCreateMarkerDialog()
+                is CreateMarkerState.HideMarker -> hideCreateMarkerDialog().also { hideKeyboard() }
                 is CreateMarkerState.OnSaveError -> {
                     toastThrowableShort(it.throwable)
                     hideCreateMarkerDialog()
