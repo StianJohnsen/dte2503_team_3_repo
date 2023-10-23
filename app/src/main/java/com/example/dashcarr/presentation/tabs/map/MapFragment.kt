@@ -660,6 +660,9 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
         val redCircle: ImageView = view?.findViewById(R.id.redCircleImageView)!!
         val yellowCircle: ImageView = view?.findViewById(R.id.yellowCircleImageView)!!
         val greenCircle: ImageView = view?.findViewById(R.id.greenCircleImageView)!!
+        val darkRedCircle: ImageView = view?.findViewById(R.id.darkRedCircleImageView)!!
+        val darkYellowCircle: ImageView = view?.findViewById(R.id.darkYellowCircleImageView)!!
+        val darkGreenCircle: ImageView = view?.findViewById(R.id.darkGreenCircleImageView)!!
 
         val batteryStatusReceiver: BroadcastReceiver = object : BroadcastReceiver() {
             override fun onReceive(context: Context?, intent: Intent?) {
@@ -668,17 +671,28 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
                 val batteryPct: Float = level * 100 / scale.toFloat()
 
                 greenCircle.visibility = View.VISIBLE
+                yellowCircle.visibility = View.GONE
+                redCircle.visibility = View.GONE
+                darkYellowCircle.visibility = View.VISIBLE
+                darkGreenCircle.visibility = View.GONE
+                darkRedCircle.visibility = View.VISIBLE
 
                 if (batteryPct <= 25) {
+                    greenCircle.visibility = View.GONE
                     yellowCircle.visibility = View.VISIBLE
-                } else {
-                    yellowCircle.visibility = View.GONE
+                    redCircle.visibility = View.GONE
+                    darkGreenCircle.visibility = View.VISIBLE
+                    darkYellowCircle.visibility = View.GONE
+                    darkRedCircle.visibility = View.VISIBLE
                 }
 
                 if (batteryPct <= 15) {
+                    greenCircle.visibility = View.GONE
+                    yellowCircle.visibility = View.GONE
                     redCircle.visibility = View.VISIBLE
-                } else {
-                    redCircle.visibility = View.GONE
+                    darkGreenCircle.visibility = View.VISIBLE
+                    darkYellowCircle.visibility = View.VISIBLE
+                    darkRedCircle.visibility = View.GONE
                 }
             }
         }
