@@ -20,7 +20,7 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>(
     private val viewModel: SettingsViewModel by viewModels()
     private val mapViewModel: MapViewModel by viewModels()
 
-     fun observeViewModel() {
+    fun observeViewModel() {
         viewModel.logOutState.collectWithLifecycle(viewLifecycleOwner) {
             findNavController().navigate(R.id.action_global_loginFragment)
         }
@@ -28,6 +28,8 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>(
 
      private fun initListeners() {
         binding.btnAboutApp.setOnClickListener {
+    fun initListeners() {
+        binding.btnProfileSettings.setOnClickListener {
             showBottomNavigation(false)
             findNavController().navigate(R.id.action_action_settings_to_animationSampleFragment)
         }
@@ -46,9 +48,9 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>(
             mapViewModel.updateAppPreferences(false)
         }
 
-         binding.btnPowerSettings.setOnClickListener {
-             findNavController().navigate(R.id.action_action_settings_to_powerSettings)
-         }
+        binding.btnPowerSettings.setOnClickListener {
+            findNavController().navigate(R.id.action_action_settings_to_powerSettings)
+        }
 
     }
 

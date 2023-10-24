@@ -93,7 +93,6 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
 
     private var elapsedTime = ""
 
-
     // Accelerometer
     private var rawAccSample = FloatArray(3)
     private var rawAccDataIndex = 0
@@ -123,11 +122,9 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
         sensorManager = context.getSystemService(Context.SENSOR_SERVICE) as SensorManager
     }
 
-
     private var startTimeMillis: Long = 0
     private var totalElapsedTimeMillis: Long = 0
     private var pausedElapsedTimeMillis: Long = 0
-
 
     /**
      * Observes the ViewModel's LiveData and updates the UI accordingly.
@@ -136,8 +133,6 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
         viewModel.lastSavedUserLocation.collectWithLifecycle(viewLifecycleOwner) {
             binding.mapView.controller.setCenter(it)
         }
-
-
 
         viewModel.createMarkerState.collectWithLifecycle(viewLifecycleOwner) {
             when (it) {
@@ -148,10 +143,6 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
                     hideCreateMarkerDialog()
                 }
             }
-            Log.e(
-                this::class.simpleName,
-                "createMarkerState = ${getFormattedDate(Calendar.getInstance().timeInMillis)}"
-            )
         }
         viewModel.pointsOfInterestState.observe(viewLifecycleOwner) {
             if (it.isEmpty()) return@observe
@@ -165,24 +156,11 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
             }
         }
 
-
         viewLifecycleOwner.lifecycleScope.launch {
             recordingViewModel.elapsedTime.collect() {
                 elapsedTime = it
             }
         }
-
-
-        /*
-                powerViewModel.appPreferencesPower.observe(viewLifecycleOwner,object : Observer<Boolean> {
-            override fun onChanged(value: Boolean) {
-                Log.d("viewModelChange",value.toString())
-            }
-
-
-        })
-         */
-
 
     }
 
@@ -222,19 +200,8 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
 
         val powerManager = requireContext().getSystemService(Context.POWER_SERVICE) as PowerManager
 
-        if (powerManager.isPowerSaveMode) {
-            PowerSavingMode.setBatteryMode(true)
-            Log.d("isPowerModeOn", "true")
-        } else {
-            PowerSavingMode.setBatteryMode(false)
-            Log.d("isPowerModeOn", "false")
+        PowerSavingMode.setBatteryMode(powerManager.isPowerSaveMode)
 
-        }
-
-
-
-
-        //Log.d("viewModelChange",powerViewModel.powerSetting.value.toString())
         // Observes variable appPreferences from viewModel to check if user has logged in before
         viewModel.appPreferences.observe(this.viewLifecycleOwner) {
             if (!it.alreadyLoggedIn) {
@@ -243,11 +210,7 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
             }
         }
 
-        viewModel.appPreferences.observe(this.viewLifecycleOwner) {
-            Log.d("powerMode", it.isPowerSaveModeOn.toString())
-        }
-
-        Log.d("objectTest",PowerSavingMode.getSaveBatteryMode().toString())
+        Log.d("objectTest", PowerSavingMode.getSaveBatteryMode().toString())
 
         // sets visibility and functionality for recording buttons
         binding.apply {
@@ -325,9 +288,7 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
             id++
         }
         return stringBuilder
-
     }
-
 
     private fun writeToSensorStringBuilder(sensor: String, sensorList: MutableList<SensorData>): StringBuilder {
         val stringBuilder = StringBuilder()
@@ -497,7 +458,6 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
         startTimeMillis = 0
         totalElapsedTimeMillis = 0
         pausedElapsedTimeMillis = 0
-
 
     }
 
