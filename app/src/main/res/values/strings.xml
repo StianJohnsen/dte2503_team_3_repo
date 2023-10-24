@@ -122,7 +122,8 @@
     <string name="icons8">Icons by icons8.com</string>
 
     <!--PowerSettingsFragment-->
-    <string name="lost_percentage">Lost percentages: %d%% </string>
+    <string name="lost_percentage">Battery consumption: %d%% </string>
+    <string name="gained_percentage">Charged amount: %d%% </string>
     <string name="power_settings_text">Power Settings</string>
     <string name="battery_saving_mode">Battery Saving Mode</string>
 
