@@ -32,6 +32,7 @@ import com.example.dashcarr.presentation.core.BaseFragment
 import com.example.dashcarr.presentation.mapper.toMarker
 import com.example.dashcarr.presentation.tabs.map.data.PointOfInterest
 import com.example.dashcarr.presentation.tabs.map.data.SensorData
+import com.example.dashcarr.presentation.tabs.settings.PowerSavingMode
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import org.json.JSONArray
@@ -170,7 +171,6 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
         }
 
 
-
         /*
                 powerViewModel.appPreferencesPower.observe(viewLifecycleOwner,object : Observer<Boolean> {
             override fun onChanged(value: Boolean) {
@@ -180,8 +180,6 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
 
         })
          */
-
-
 
 
     }
@@ -211,13 +209,19 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
         requestLocationPermission()
 
         val powerManager = requireContext().getSystemService(Context.POWER_SERVICE) as PowerManager
-        if (powerManager.isPowerSaveMode){
-            Log.d("powerModeMapFragment","true")
-        }
-        else{
-            Log.d("powerModeMapFragment","false")
+
+        if (powerManager.isPowerSaveMode) {
+            PowerSavingMode.setBatteryMode(true)
+            Log.d("isPowerModeOn", "true")
+        } else {
+            PowerSavingMode.setBatteryMode(false)
+            Log.d("isPowerModeOn", "false")
 
         }
+
+
+
+
         //Log.d("viewModelChange",powerViewModel.powerSetting.value.toString())
         // Observes variable appPreferences from viewModel to check if user has logged in before
         viewModel.appPreferences.observe(this.viewLifecycleOwner) {
@@ -227,9 +231,11 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
             }
         }
 
-        viewModel.appPreferences.observe(this.viewLifecycleOwner){
-            Log.d("powerMode",it.isPowerSaveModeOn.toString())
+        viewModel.appPreferences.observe(this.viewLifecycleOwner) {
+            Log.d("powerMode", it.isPowerSaveModeOn.toString())
         }
+
+        Log.d("objectTest",PowerSavingMode.getSaveBatteryMode().toString())
 
         // sets visibility and functionality for recording buttons
         binding.apply {

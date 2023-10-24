@@ -2,7 +2,8 @@ package com.example.dashcarr.data.repository
 
 
 import androidx.datastore.preferences.core.booleanPreferencesKey
-
+import androidx.datastore.preferences.core.intPreferencesKey
+import com.example.dashcarr.presentation.tabs.settings.PowerSavingMode
 
 
 data class LoggedInValue (
