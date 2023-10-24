@@ -5,6 +5,7 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.graphics.Color
 import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
@@ -657,42 +658,35 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
     }
 
     private fun setupBatteryStatus() {
-        val redCircle: ImageView = view?.findViewById(R.id.redCircleImageView)!!
-        val yellowCircle: ImageView = view?.findViewById(R.id.yellowCircleImageView)!!
-        val greenCircle: ImageView = view?.findViewById(R.id.greenCircleImageView)!!
-        val darkRedCircle: ImageView = view?.findViewById(R.id.darkRedCircleImageView)!!
-        val darkYellowCircle: ImageView = view?.findViewById(R.id.darkYellowCircleImageView)!!
-        val darkGreenCircle: ImageView = view?.findViewById(R.id.darkGreenCircleImageView)!!
+        val redCircle: ImageView = view?.findViewById(R.id.redIndicator)!!
+        val yellowCircle: ImageView = view?.findViewById(R.id.yellowIndicator)!!
+        val greenCircle: ImageView = view?.findViewById(R.id.greenIndicator)!!
 
         val batteryStatusReceiver: BroadcastReceiver = object : BroadcastReceiver() {
             override fun onReceive(context: Context?, intent: Intent?) {
                 val level: Int = intent!!.getIntExtra(BatteryManager.EXTRA_LEVEL, -1)
                 val scale: Int = intent.getIntExtra(BatteryManager.EXTRA_SCALE, -1)
-                val batteryPct: Float = level * 100 / scale.toFloat()
+                val batteryPercent: Float = level * 100 / scale.toFloat()
 
-                greenCircle.visibility = View.VISIBLE
-                yellowCircle.visibility = View.GONE
-                redCircle.visibility = View.GONE
-                darkYellowCircle.visibility = View.VISIBLE
-                darkGreenCircle.visibility = View.GONE
-                darkRedCircle.visibility = View.VISIBLE
+                // dg = 094514
+                // g = 47F310
+                // dy = 6D6102
+                // y = F5EB18
+                // dr = 660E0E
+                // r = F51818
 
-                if (batteryPct <= 25) {
-                    greenCircle.visibility = View.GONE
-                    yellowCircle.visibility = View.VISIBLE
-                    redCircle.visibility = View.GONE
-                    darkGreenCircle.visibility = View.VISIBLE
-                    darkYellowCircle.visibility = View.GONE
-                    darkRedCircle.visibility = View.VISIBLE
-                }
-
-                if (batteryPct <= 15) {
-                    greenCircle.visibility = View.GONE
-                    yellowCircle.visibility = View.GONE
-                    redCircle.visibility = View.VISIBLE
-                    darkGreenCircle.visibility = View.VISIBLE
-                    darkYellowCircle.visibility = View.VISIBLE
-                    darkRedCircle.visibility = View.GONE
+                if (batteryPercent <= 15){
+                    greenCircle.setColorFilter(Color.parseColor("#094514"))
+                    yellowCircle.setColorFilter(Color.parseColor("#6D6102"))
+                    redCircle.setColorFilter(Color.parseColor("#F51818"))
+                }else if (batteryPercent <= 25) {
+                    greenCircle.setColorFilter(Color.parseColor("#094514"))
+                    yellowCircle.setColorFilter(Color.parseColor("#F5EB18"))
+                    redCircle.setColorFilter(Color.parseColor("#660E0E"))
+                }else{
+                    greenCircle.setColorFilter(Color.parseColor("#47F310"))
+                    yellowCircle.setColorFilter(Color.parseColor("#6D6102"))
+                    redCircle.setColorFilter(Color.parseColor("#660E0E"))
                 }
             }
         }
