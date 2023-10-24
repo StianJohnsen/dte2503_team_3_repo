@@ -8,12 +8,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AccelerateInterpolator
 import android.view.animation.DecelerateInterpolator
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.animation.doOnEnd
 import androidx.core.animation.doOnStart
 import androidx.fragment.app.viewModels
 import com.example.dashcarr.databinding.FragmentDashcamBinding
 import com.example.dashcarr.presentation.core.BaseFragment
+import com.example.dashcarr.presentation.tabs.settings.PowerSavingMode
 
 class DashcamFragment() : BaseFragment<FragmentDashcamBinding>(
     FragmentDashcamBinding::inflate,
@@ -43,6 +45,9 @@ class DashcamFragment() : BaseFragment<FragmentDashcamBinding>(
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = super.onCreateView(inflater, container, savedInstanceState)
+        if (PowerSavingMode.getSaveBatteryMode()) {
+            Toast.makeText(context, "Recording increases the power consumption!", Toast.LENGTH_SHORT).show()
+        }
         registerForActivityResult(
             ActivityResultContracts.RequestPermission()
         ) { isGranted ->
@@ -84,6 +89,5 @@ class DashcamFragment() : BaseFragment<FragmentDashcamBinding>(
         viewModel.closeCamera()
         super.onDestroyView()
     }
-
 
 }
