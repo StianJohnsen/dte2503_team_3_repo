@@ -2,7 +2,7 @@ package com.example.dashcarr.presentation.tabs.settings
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.dashcarr.presentation.tabs.map.UserPreferencesRepository
+import com.example.dashcarr.data.repository.UserPreferencesRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject

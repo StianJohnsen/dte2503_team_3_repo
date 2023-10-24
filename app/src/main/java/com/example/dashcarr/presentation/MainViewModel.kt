@@ -2,8 +2,8 @@ package com.example.dashcarr.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.dashcarr.data.repository.UserPreferencesRepository
 import com.example.dashcarr.domain.repository.IFirebaseAuthRepository
-import com.example.dashcarr.presentation.tabs.map.UserPreferencesRepository
 import com.example.dashcarr.presentation.tabs.settings.PowerSavingMode
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel

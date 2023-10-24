@@ -45,7 +45,7 @@ class PowerSettingsFragment : BaseFragment<FragmentPowerSettingsBinding>(
 
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
-                TODO("Not yet implemented")
+                // NOOP
             }
         }
 

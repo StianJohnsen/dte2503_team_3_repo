@@ -8,22 +8,22 @@ object PowerSavingMode {
 
     private lateinit var appPowerMode: PowerState
     private var initialBatteryCapacity = -1
+    private var phonePowerMode = false
 
-    private var batteryPowerMode = false
     fun setAppPowerMode(mode: PowerState) {
         appPowerMode = mode
     }
 
-    fun setBatteryMode(mode: Boolean) {
-        batteryPowerMode = mode
+    fun setPhonePowerMode(mode: Boolean) {
+        phonePowerMode = mode
     }
 
 
-    fun getSaveBatteryMode(): Boolean {
+    fun getPowerMode(): Boolean {
         if (appPowerMode.name == PowerState.ON.name) {
             return true
         } else {
-            return batteryPowerMode
+            return phonePowerMode
         }
     }
 

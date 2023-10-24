@@ -1,15 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
-
+    
     <string-array name="power_settings_array">
 
         <item>Auto</item>
         <item>On</item>
 
     </string-array>
-
-
-
 
 </resources>
