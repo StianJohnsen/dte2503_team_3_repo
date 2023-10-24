@@ -50,14 +50,14 @@
             app:exitAnim="@anim/right_to_left"
             app:popEnterAnim="@anim/pop_x_enter"
             app:popExitAnim="@anim/pop_x_exit" />
+
         <action
-            android:id="@+id/action_action_settings_to_powerSettings"
-            app:destination="@id/powerSettings"
+            android:id="@+id/action_action_settings_to_mapsSettingsFragment"
+            app:destination="@id/mapsSettingsFragment"
             app:enterAnim="@anim/left_to_right"
             app:exitAnim="@anim/right_to_left"
             app:popEnterAnim="@anim/pop_x_enter"
-            app:popExitAnim="@anim/pop_x_exit"
-            />
+            app:popExitAnim="@anim/pop_x_exit" />
     </fragment>
 
     <fragment
