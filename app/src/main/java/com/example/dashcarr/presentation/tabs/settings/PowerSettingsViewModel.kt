@@ -20,4 +20,8 @@ class PowerSettingsViewModel @Inject constructor(
 
         PowerSavingMode.setAppPowerMode(PowerSavingMode.PowerState.values()[powerSettingInt])
     }
+
+    fun getLostBatteryPercentages(currentCapacity: Int): Int {
+        return PowerSavingMode.getInitialBatteryCapacity() - currentCapacity
+    }
 }

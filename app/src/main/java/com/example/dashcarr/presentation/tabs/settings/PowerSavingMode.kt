@@ -7,6 +7,8 @@ object PowerSavingMode {
     }
 
     private lateinit var appPowerMode: PowerState
+    private var initialBatteryCapacity = -1
+
     private var batteryPowerMode = false
     fun setAppPowerMode(mode: PowerState) {
         appPowerMode = mode
@@ -18,11 +20,21 @@ object PowerSavingMode {
 
 
     fun getSaveBatteryMode(): Boolean {
-        if (appPowerMode.name == PowerState.ON.name){
+        if (appPowerMode.name == PowerState.ON.name) {
             return true
-        }
-        else {
+        } else {
             return batteryPowerMode
         }
+    }
+
+    fun setInitialBatteryCapacity(capacity: Int) {
+        initialBatteryCapacity = capacity
+    }
+
+    fun getInitialBatteryCapacity(): Int {
+        if (initialBatteryCapacity == -1) {
+            throw IllegalStateException("initialBatteryCapacity needs to be set first.")
+        }
+        return initialBatteryCapacity
     }
 }
