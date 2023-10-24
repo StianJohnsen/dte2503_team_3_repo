@@ -44,10 +44,10 @@ class MainActivity : AppCompatActivity() {
             if (intent?.action == PowerManager.ACTION_POWER_SAVE_MODE_CHANGED){
                 val powerSaveMode = context?.let { isPowerSaveMode(it) }
                 if (powerSaveMode == true){
-                    Log.d("isPowerModeOn","PowerSaveMode is on")
+                    Log.d(this::class.simpleName,"PowerSaveMode is on")
                 }
                 else {
-                    Log.d("isPowerModeOn","PowerSaveMode is off")
+                    Log.d(this::class.simpleName,"PowerSaveMode is off")
 
                 }
 

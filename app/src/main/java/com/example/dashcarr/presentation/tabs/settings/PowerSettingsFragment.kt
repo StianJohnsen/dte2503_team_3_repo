@@ -40,28 +40,12 @@ class PowerSettingsFragment : BaseFragment<FragmentPowerSettingsBinding>(
                 sharedPreferences.edit().putInt(spinnerValueKey,position).apply()
 
                 val selectedValue = spinner.selectedItem
-
                 if (selectedValue == "On"){
                     viewModel.setPowerSetting(true)
                 }
                 else{
                     viewModel.setPowerSetting(false)
                 }
-
-
-                /*
-                                                when (selectedValue){
-                    "On" -> spinnerValue = true
-                    "Auto" -> spinnerValue = false
-                    else -> Log.d("Hello","something happened")
-                }
-
-                 */
-
-
-
-
-
             }
 
 
@@ -104,7 +88,7 @@ class PowerSettingsFragment : BaseFragment<FragmentPowerSettingsBinding>(
 
     fun observeViewModel(){
         viewModel.appPreferencesPower.observe(viewLifecycleOwner){
-            Log.d("booleanchange",it.toString())
+            Log.d("booleanchange",it.isPowerSaveModeOn.toString())
         }
     }
 }
