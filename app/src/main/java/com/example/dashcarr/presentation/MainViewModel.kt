@@ -1,7 +1,6 @@
 package com.example.dashcarr.presentation
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.dashcarr.domain.repository.IFirebaseAuthRepository
 import com.example.dashcarr.presentation.tabs.map.UserPreferencesRepository
@@ -42,10 +41,10 @@ class MainViewModel @Inject constructor(
      */
     init {
         checkAuthentication()
-        var powerSaveModeOn: Boolean
+        var powerSaveModeOn: Int
         runBlocking {
             powerSaveModeOn = userPreferencesRepository.appBoolFlow.first().isPowerSaveModeOn
         }
-        PowerSavingMode.setAppPowerMode(if(powerSaveModeOn) PowerSavingMode.PowerState.ON else PowerSavingMode.PowerState.AUTO)
+        PowerSavingMode.setAppPowerMode(PowerSavingMode.PowerState.values()[powerSaveModeOn])
     }
 }
