@@ -10,6 +10,11 @@ import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+/**
+ * ViewModel for managing maps settings and points of interest.
+ *
+ * @property pointsOfInterestRepository The repository for points of interest.
+ */
 @HiltViewModel
 class MapsSettingsViewModel @Inject constructor(
     private val pointsOfInterestRepository: PointsOfInterestRepository
@@ -33,7 +38,11 @@ class MapsSettingsViewModel @Inject constructor(
     private val _onRenamePointFailure = MutableSharedFlow<Throwable>()
     val onRenamePointFailure = _onRenamePointFailure.asSharedFlow()
 
-    // Function to rename a point of interest
+    /**
+     * Function to rename a point of interest.
+     *
+     * @param newName The new name for the point of interest.
+     */
     fun updatePoint(newName: String) {
         currentPoint?.let {
             viewModelScope.launch {
@@ -49,7 +58,9 @@ class MapsSettingsViewModel @Inject constructor(
         }
     }
 
-    // Function to delete a point of interest
+    /**
+     * Function to delete a point of interest.
+     */
     fun deletePoint() {
         currentPoint?.let {
             viewModelScope.launch {
@@ -66,6 +77,11 @@ class MapsSettingsViewModel @Inject constructor(
 
     }
 
+    /**
+     * Show a confirmation dialog for deleting a point of interest.
+     *
+     * @param point The point of interest to be deleted.
+     */
     fun showConfirmDeleteDialog(point: PointOfInterestEntity) {
         viewModelScope.launch {
             currentPoint = point
@@ -73,6 +89,11 @@ class MapsSettingsViewModel @Inject constructor(
         }
     }
 
+    /**
+     * Show a dialog for renaming a point of interest.
+     *
+     * @param point The point of interest to be renamed.
+     */
     fun showRenameDialog(point: PointOfInterestEntity) {
         viewModelScope.launch {
             currentPoint = point
@@ -80,12 +101,18 @@ class MapsSettingsViewModel @Inject constructor(
         }
     }
 
+    /**
+     * Hide the delete confirmation dialog.
+     */
     fun hideDeleteDialog() {
         viewModelScope.launch {
             _showDeleteDialog.emit(false)
         }
     }
 
+    /**
+     * Hide the rename dialog.
+     */
     fun hideRenameDialog() {
         viewModelScope.launch {
             _showRenameDialog.emit(false)
