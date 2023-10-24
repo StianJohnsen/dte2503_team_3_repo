@@ -18,13 +18,10 @@ object PowerSavingMode {
 
 
     fun getSaveBatteryMode(): Boolean {
-        // temporarily change to get the interface working
-        // change this line for testing purposes
-        return true
-
-        if (appPowerMode.name == PowerState.ON.name) {
+        if (appPowerMode.name == PowerState.ON.name){
             return true
-        } else {
+        }
+        else {
             return batteryPowerMode
         }
     }

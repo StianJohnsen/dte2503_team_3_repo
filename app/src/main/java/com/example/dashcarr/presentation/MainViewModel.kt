@@ -1,12 +1,17 @@
 package com.example.dashcarr.presentation
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.dashcarr.domain.repository.IFirebaseAuthRepository
+import com.example.dashcarr.presentation.tabs.map.UserPreferencesRepository
+import com.example.dashcarr.presentation.tabs.settings.PowerSavingMode
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
 
 /**
@@ -16,7 +21,8 @@ import javax.inject.Inject
  */
 @HiltViewModel
 class MainViewModel @Inject constructor(
-    private val firebaseAuthRepository: IFirebaseAuthRepository
+    private val firebaseAuthRepository: IFirebaseAuthRepository,
+    val userPreferencesRepository: UserPreferencesRepository
 ) : ViewModel() {
 
     private val _isUserLoggedIn = Channel<Boolean>()
@@ -36,5 +42,10 @@ class MainViewModel @Inject constructor(
      */
     init {
         checkAuthentication()
+        var powerSaveModeOn: Boolean
+        runBlocking {
+            powerSaveModeOn = userPreferencesRepository.appBoolFlow.first().isPowerSaveModeOn
+        }
+        PowerSavingMode.setAppPowerMode(if(powerSaveModeOn) PowerSavingMode.PowerState.ON else PowerSavingMode.PowerState.AUTO)
     }
 }

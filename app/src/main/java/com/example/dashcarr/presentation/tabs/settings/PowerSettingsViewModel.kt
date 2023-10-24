@@ -18,13 +18,48 @@ class PowerSettingsViewModel @Inject constructor(
     ): ViewModel(){
 
      val appPreferencesPower = userPreferencesRepository.appBoolFlow.asLiveData()
+    fun setPowerSetting(powerSettingBool: Boolean){
 
-    fun setPowerSetting(boolVal: Boolean){
+        /*
+                var powerSetting = PowerSavingMode.PowerState.AUTO
+        if (powerSettingBool)
+            powerSetting = PowerSavingMode.PowerState.ON
+
+        else
+            powerSetting = PowerSavingMode.PowerState.AUTO
         viewModelScope.launch {
-            userPreferencesRepository.updateIsSaveModeOn(boolVal)
+            userPreferencesRepository.updateIsSaveModeOn(powerSetting.ordinal)
         }
+        PowerSavingMode.setAppPowerMode(if(powerSettingBool)
+            PowerSavingMode.PowerState.ON
+        else
+            PowerSavingMode.PowerState.AUTO)
+
+         */
+
+         lateinit var powerSetting: PowerSavingMode.PowerState
+        viewModelScope.launch {
+                userPreferencesRepository.updateIsSaveModeOn(powerSettingBool)
+        }
+        if (powerSettingBool){
+            powerSetting = PowerSavingMode.PowerState.ON
+        }
+        else{
+            powerSetting = PowerSavingMode.PowerState.AUTO
+        }
+
+        PowerSavingMode.setAppPowerMode(powerSetting)
+
+
+
     }
 
 
+}
 
+
+object isPowerModeOn{
+
+    val phonePowerSetting = false
+    val appPowerSetting = false
 }

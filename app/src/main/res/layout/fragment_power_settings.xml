@@ -22,6 +22,7 @@
             android:layout_width="@dimen/standard_touch_size"
             android:layout_height="@dimen/standard_touch_size"
             android:contentDescription="@string/back_button_content_description"
+            android:layout_marginTop="@dimen/margin_padding_size_10"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             android:src="@drawable/baseline_arrow_back_24" />
@@ -34,7 +35,9 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:textSize="@dimen/text_size_24"
+            android:textSize="@dimen/text_size_34"
+            android:textColor="@color/white"
+            android:textStyle="bold"
             />
 
         <LinearLayout
