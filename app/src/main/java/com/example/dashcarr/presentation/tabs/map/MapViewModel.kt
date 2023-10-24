@@ -161,7 +161,7 @@ class UserPreferencesRepository @Inject constructor(
             }
         }.map { preferences ->
             val alreadyLoggedIn = preferences[DataStoreKey.ALREADY_LOGGED_IN] ?: false
-            val isPowerSaveModeOn = preferences[DataStoreKey.IS_POWER_SAVE_MODE_ON] ?: false
+            val isPowerSaveModeOn = preferences[DataStoreKey.IS_POWER_SAVE_MODE_ON] ?: 0
             LoggedInValue(alreadyLoggedIn,isPowerSaveModeOn)
         }
 
@@ -171,7 +171,7 @@ class UserPreferencesRepository @Inject constructor(
         }
     }
 
-    suspend fun updateIsSaveModeOn(newValue: Boolean){
+    suspend fun updateIsSaveModeOn(newValue: Int){
         dataStore.edit { preferences ->
             preferences[DataStoreKey.IS_POWER_SAVE_MODE_ON] = newValue
         }

@@ -10,7 +10,6 @@ import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
 import android.os.PowerManager
-import android.util.Log
 import android.view.View
 import android.view.animation.BounceInterpolator
 import android.view.animation.LinearInterpolator
@@ -31,6 +30,7 @@ import com.example.dashcarr.extensions.collectWithLifecycle
 import com.example.dashcarr.presentation.tabs.camera.dashcam.DashcamFragment
 import com.example.dashcarr.presentation.tabs.camera.security.SecurityCameraFragment
 import com.example.dashcarr.presentation.tabs.map.HudFragment
+import com.example.dashcarr.presentation.tabs.settings.PowerSavingMode
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import dagger.hilt.android.AndroidEntryPoint
@@ -44,47 +44,29 @@ class MainActivity : AppCompatActivity() {
     private val navController by lazy { navHostFragment.navController }
     private val floatingCameraButtons by lazy { findViewById<ConstraintLayout>(R.id.floating_buttons) }
 
-    private val powerSaveReceiver = object : BroadcastReceiver(){
+    private val powerSaveReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
-            if (intent?.action == PowerManager.ACTION_POWER_SAVE_MODE_CHANGED){
+            if (intent?.action == PowerManager.ACTION_POWER_SAVE_MODE_CHANGED) {
                 val powerSaveMode = context?.let { isPowerSaveMode(it) }
-                if (powerSaveMode == true){
-                    Log.d(this::class.simpleName,"PowerSaveMode is on")
+                if (powerSaveMode != null) {
+                    PowerSavingMode.setBatteryMode(powerSaveMode)
                 }
-                else {
-                    Log.d(this::class.simpleName,"PowerSaveMode is off")
-
-                }
-
             }
         }
     }
 
 
-
-
-
-    fun isPowerSaveMode(context: Context): Boolean{
+    fun isPowerSaveMode(context: Context): Boolean {
         val powerManager = context.getSystemService(Context.POWER_SERVICE) as? PowerManager
         return powerManager?.isPowerSaveMode ?: false
     }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         addCameraListener()
 
 
-        /*
-                val powerManager = getSystemService(Context.POWER_SERVICE) as PowerManager
-
-                if (powerManager.isPowerSaveMode){
-            Log.d("isPowerModeOn","PowerSaveMode is on")
-        }
-        else{
-            Log.d("isPowerModeOn","PowerSaveMode is off")
-
-        }
-         */
 
 
 
@@ -111,7 +93,7 @@ class MainActivity : AppCompatActivity() {
         val intentFilter = IntentFilter()
         intentFilter.addAction(PowerManager.ACTION_POWER_SAVE_MODE_CHANGED)
 
-        registerReceiver(powerSaveReceiver,intentFilter)
+        registerReceiver(powerSaveReceiver, intentFilter)
     }
 
 
