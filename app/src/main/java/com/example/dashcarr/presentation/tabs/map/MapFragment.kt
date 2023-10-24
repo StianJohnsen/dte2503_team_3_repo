@@ -668,25 +668,20 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
                 val scale: Int = intent.getIntExtra(BatteryManager.EXTRA_SCALE, -1)
                 val batteryPercent: Float = level * 100 / scale.toFloat()
 
-                // dg = 094514
-                // g = 47F310
-                // dy = 6D6102
-                // y = F5EB18
-                // dr = 660E0E
-                // r = F51818
-
-                if (batteryPercent <= 15){
-                    greenCircle.setColorFilter(Color.parseColor("#094514"))
-                    yellowCircle.setColorFilter(Color.parseColor("#6D6102"))
-                    redCircle.setColorFilter(Color.parseColor("#F51818"))
-                }else if (batteryPercent <= 25) {
-                    greenCircle.setColorFilter(Color.parseColor("#094514"))
-                    yellowCircle.setColorFilter(Color.parseColor("#F5EB18"))
-                    redCircle.setColorFilter(Color.parseColor("#660E0E"))
-                }else{
-                    greenCircle.setColorFilter(Color.parseColor("#47F310"))
-                    yellowCircle.setColorFilter(Color.parseColor("#6D6102"))
-                    redCircle.setColorFilter(Color.parseColor("#660E0E"))
+                if(PowerSavingMode.getSaveBatteryMode()) {
+                    if (batteryPercent <= 15) {
+                        greenCircle.setColorFilter(Color.parseColor("#094514"))
+                        yellowCircle.setColorFilter(Color.parseColor("#6D6102"))
+                        redCircle.setColorFilter(Color.parseColor("#F51818"))
+                    } else if (batteryPercent <= 25) {
+                        greenCircle.setColorFilter(Color.parseColor("#094514"))
+                        yellowCircle.setColorFilter(Color.parseColor("#F5EB18"))
+                        redCircle.setColorFilter(Color.parseColor("#660E0E"))
+                    } else {
+                        greenCircle.setColorFilter(Color.parseColor("#47F310"))
+                        yellowCircle.setColorFilter(Color.parseColor("#6D6102"))
+                        redCircle.setColorFilter(Color.parseColor("#660E0E"))
+                    }
                 }
             }
         }
