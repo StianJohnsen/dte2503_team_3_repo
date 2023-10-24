@@ -47,7 +47,7 @@ class SecurityCameraFragment : BaseFragment<FragmentSecurityCameraBinding>(
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        if (PowerSavingMode.getSaveBatteryMode()) {
+        if (PowerSavingMode.getPowerMode()) {
             Toast.makeText(context, "Recording increases the power consumption!", Toast.LENGTH_SHORT).show()
         }
         binding.backButton.setOnClickListener {
