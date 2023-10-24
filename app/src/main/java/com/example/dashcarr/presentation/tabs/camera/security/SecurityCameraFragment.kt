@@ -10,6 +10,7 @@ import androidx.fragment.app.viewModels
 import com.example.dashcarr.R
 import com.example.dashcarr.databinding.FragmentSecurityCameraBinding
 import com.example.dashcarr.presentation.core.BaseFragment
+import com.example.dashcarr.presentation.tabs.settings.PowerSavingMode
 
 class SecurityCameraFragment : BaseFragment<FragmentSecurityCameraBinding>(
     FragmentSecurityCameraBinding::inflate,
@@ -46,6 +47,9 @@ class SecurityCameraFragment : BaseFragment<FragmentSecurityCameraBinding>(
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        if (PowerSavingMode.getSaveBatteryMode()) {
+            Toast.makeText(context, "Recording increases the power consumption!", Toast.LENGTH_SHORT).show()
+        }
         binding.backButton.setOnClickListener {
             requireActivity().onBackPressed()
         }
@@ -70,7 +74,6 @@ class SecurityCameraFragment : BaseFragment<FragmentSecurityCameraBinding>(
         viewModel.closeCamera()
         super.onDestroyView()
     }
-
 
 
 }
