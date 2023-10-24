@@ -18,6 +18,7 @@
     <color name="dark_green">#094514</color>
     <color name="dark_red">#660E0E</color>
     <color name="dark_yellow">#6D6102</color>
+    <color name="orange">#F66300</color>
 
     <!--Login-->
     <color name="error_color">#DD2421</color>

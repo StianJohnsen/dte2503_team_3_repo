@@ -1,12 +1,17 @@
 package com.example.dashcarr.presentation.tabs.history
 
+import android.app.AlertDialog
 import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.os.Bundle
+import android.text.InputType
+import android.view.Gravity
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.Button
+import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.Spinner
 import androidx.core.content.ContextCompat
@@ -87,6 +92,42 @@ class HistoryFragment : BaseFragment<FragmentHistoryBinding>(
         return jsonArray
     }
 
+    private fun deleteRecording(index: Int, jsonArray: JSONArray) {
+        jsonArray.remove(index)
+        context?.openFileOutput("sensor_config.json", Context.MODE_PRIVATE).use {
+            it?.write(jsonArray.toString().toByteArray())
+        }
+        createDropdownsFromJson()
+    }
+
+    private fun renameRecording(index: Int, jsonArray: JSONArray, newName: String) {
+        val jsonObject = jsonArray.getJSONObject(index)
+        jsonObject.put("name", newName)
+        context?.openFileOutput("sensor_config.json", Context.MODE_PRIVATE).use {
+            it?.write(jsonArray.toString().toByteArray())
+        }
+        createDropdownsFromJson()
+    }
+
+    private fun showRenameDialog(index: Int, jsonArray: JSONArray) {
+        val builder = AlertDialog.Builder(context)
+        builder.setTitle("Rename the recording")
+
+        val input = EditText(context)
+        input.inputType = InputType.TYPE_CLASS_TEXT
+        builder.setView(input)
+
+        builder.setPositiveButton("OK") { _, _ ->
+            val newName = input.text.toString()
+            if (newName.isNotEmpty()) {
+                renameRecording(index, jsonArray, newName)
+            }
+        }
+        builder.setNegativeButton("Cancel") { dialog, _ -> dialog.cancel() }
+
+        builder.show()
+    }
+
     private fun createDropdownsFromJson() {
         val jsonArray = readJsonFromFile()
         val linearLayout = view?.findViewById<LinearLayout>(R.id.linear_recordings_buttons)
@@ -94,13 +135,22 @@ class HistoryFragment : BaseFragment<FragmentHistoryBinding>(
 
         for (i in 0 until jsonArray.length()) {
             val jsonObject = jsonArray.getJSONObject(i)
-            val spinner = Spinner(context).apply {
+            val horizontalLayout = LinearLayout(context).apply {
                 layoutParams = LinearLayout.LayoutParams(
                     LinearLayout.LayoutParams.MATCH_PARENT,
                     LinearLayout.LayoutParams.WRAP_CONTENT
                 ).apply {
                     setMargins(30, 30, 30, 5)
                 }
+                orientation = LinearLayout.HORIZONTAL
+            }
+
+            val spinner = Spinner(context).apply {
+                layoutParams = LinearLayout.LayoutParams(
+                    0,
+                    LinearLayout.LayoutParams.WRAP_CONTENT,
+                    1f
+                )
                 setPopupBackgroundResource(R.drawable.white_rounded_16dp_background)
             }
 
@@ -154,8 +204,52 @@ class HistoryFragment : BaseFragment<FragmentHistoryBinding>(
                     findNavController().navigate(action)
                 }
             }
+            horizontalLayout.addView(spinner)
 
-            linearLayout?.addView(spinner)
+            val buttonLayout = LinearLayout(context).apply {
+                layoutParams = LinearLayout.LayoutParams(
+                    0,
+                    LinearLayout.LayoutParams.WRAP_CONTENT,
+                    1f
+                )
+            }
+
+            val renameButton = Button(context).apply {
+                text = "Rename"
+                setBackgroundResource(R.drawable.orange_button)
+                setTextColor(Color.WHITE)
+                setOnClickListener {
+                    showRenameDialog(i, jsonArray)
+                }
+            }
+
+            val deleteButton = Button(context).apply {
+                text = "Delete"
+                setBackgroundResource(R.drawable.red_button)
+                setTextColor(Color.WHITE)
+                setOnClickListener {
+                    deleteRecording(i, jsonArray)
+                }
+            }
+
+            val buttonWidth = 150
+            val buttonHeight = 100
+
+            val renameParams = LinearLayout.LayoutParams(buttonWidth, buttonHeight)
+            renameParams.setMargins(0, 0, 16, 0)
+
+            val deleteParams = LinearLayout.LayoutParams(buttonWidth, buttonHeight)
+
+            renameButton.layoutParams = renameParams
+            deleteButton.layoutParams = deleteParams
+
+            buttonLayout.addView(renameButton)
+            buttonLayout.addView(deleteButton)
+
+            buttonLayout.gravity = Gravity.CENTER
+
+            horizontalLayout.addView(buttonLayout)
+            linearLayout?.addView(horizontalLayout)
         }
     }
 
