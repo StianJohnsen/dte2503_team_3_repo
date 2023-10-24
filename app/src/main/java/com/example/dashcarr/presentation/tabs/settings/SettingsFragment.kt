@@ -26,13 +26,14 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>(
         }
     }
 
-     private fun initListeners() {
+    private fun initListeners() {
         binding.btnAboutApp.setOnClickListener {
-    fun initListeners() {
-        binding.btnProfileSettings.setOnClickListener {
             showBottomNavigation(false)
             findNavController().navigate(R.id.action_action_settings_to_animationSampleFragment)
         }
+
+
+
 
         binding.btnMapsSettings.setOnClickListener {
             showBottomNavigation(false)

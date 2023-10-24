@@ -45,7 +45,7 @@ class DashcamFragment() : BaseFragment<FragmentDashcamBinding>(
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = super.onCreateView(inflater, container, savedInstanceState)
-        if (PowerSavingMode.getSaveBatteryMode()) {
+        if (PowerSavingMode.getPowerMode()) {
             Toast.makeText(context, "Recording increases the power consumption!", Toast.LENGTH_SHORT).show()
         }
         registerForActivityResult(
