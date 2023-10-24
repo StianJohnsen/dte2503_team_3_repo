@@ -1,9 +1,11 @@
 package com.example.dashcarr.presentation.tabs.settings
 
 import android.content.Context
+import android.os.BatteryManager
 import android.os.Bundle
 import android.view.View
 import android.widget.AdapterView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.activityViewModels
 import com.example.dashcarr.R
 import com.example.dashcarr.databinding.FragmentPowerSettingsBinding
@@ -51,7 +53,15 @@ class PowerSettingsFragment : BaseFragment<FragmentPowerSettingsBinding>(
             backToSettings.setOnClickListener {
                 requireActivity().onBackPressed()
             }
-            batteryLostPercentage.text = getString(R.string.lost_percentage, 5)
+
+            val batteryManager: BatteryManager =
+                requireContext().getSystemService(AppCompatActivity.BATTERY_SERVICE) as BatteryManager
+            val currentCapacity = batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CAPACITY)
+            val lostPercentages = viewModel.getLostBatteryPercentages(currentCapacity)
+            batteryLostPercentage.text = if (lostPercentages >= 0) getString(
+                R.string.lost_percentage,
+                lostPercentages
+            ) else getString(R.string.gained_percentage, -1 * lostPercentages)
         }
     }
 

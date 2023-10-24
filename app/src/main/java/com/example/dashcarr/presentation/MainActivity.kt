@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.net.Uri
+import android.os.BatteryManager
 import android.os.Bundle
 import android.os.Environment
 import android.os.PowerManager
@@ -63,9 +64,8 @@ class MainActivity : AppCompatActivity() {
         addCameraListener()
 
 
-
-
-
+        val batteryManager: BatteryManager = baseContext.getSystemService(BATTERY_SERVICE) as BatteryManager
+        PowerSavingMode.setInitialBatteryCapacity(batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CAPACITY))
 
         findViewById<BottomNavigationView>(R.id.bottom_nav).setupWithNavController(navController)
 
