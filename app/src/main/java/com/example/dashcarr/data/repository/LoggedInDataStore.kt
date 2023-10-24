@@ -5,7 +5,7 @@ import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.intPreferencesKey
 
 
-data class LoggedInValue(
+data class LoggedInAndPowerModeValue(
     val alreadyLoggedIn: Boolean,
     val isPowerSaveModeOn: Int
 )

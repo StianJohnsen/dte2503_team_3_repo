@@ -32,7 +32,6 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import dagger.hilt.android.AndroidEntryPoint
 
-
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
@@ -46,12 +45,11 @@ class MainActivity : AppCompatActivity() {
             if (intent?.action == PowerManager.ACTION_POWER_SAVE_MODE_CHANGED) {
                 val powerSaveMode = context?.let { isPowerSaveMode(it) }
                 if (powerSaveMode != null) {
-                    PowerSavingMode.setBatteryMode(powerSaveMode)
+                    PowerSavingMode.setPhonePowerMode(powerSaveMode)
                 }
             }
         }
     }
-
 
     fun isPowerSaveMode(context: Context): Boolean {
         val powerManager = context.getSystemService(Context.POWER_SERVICE) as? PowerManager

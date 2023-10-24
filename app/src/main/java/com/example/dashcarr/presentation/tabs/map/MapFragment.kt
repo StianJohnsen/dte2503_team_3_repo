@@ -200,7 +200,7 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
 
         val powerManager = requireContext().getSystemService(Context.POWER_SERVICE) as PowerManager
 
-        PowerSavingMode.setBatteryMode(powerManager.isPowerSaveMode)
+        PowerSavingMode.setPhonePowerMode(powerManager.isPowerSaveMode)
 
         // Observes variable appPreferences from viewModel to check if user has logged in before
         viewModel.appPreferences.observe(this.viewLifecycleOwner) {
@@ -210,7 +210,7 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
             }
         }
 
-        Log.d("objectTest", PowerSavingMode.getSaveBatteryMode().toString())
+        Log.d(this::class.simpleName, "* Current Power Mode: ${PowerSavingMode.getPowerMode()}")
 
         // sets visibility and functionality for recording buttons
         binding.apply {
