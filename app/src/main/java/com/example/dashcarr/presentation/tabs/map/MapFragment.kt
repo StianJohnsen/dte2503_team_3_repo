@@ -203,12 +203,16 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
         observeViewModel()
         initMap()
         requestLocationPermission()
-        setupBatteryStatus()
+        if (PowerSavingMode.getSaveBatteryMode()) {
+            binding.llTrafficLight.visibility = View.VISIBLE
+            setupBatteryStatus()
+        } else {
+            binding.llTrafficLight.visibility = View.GONE
+        }
 
         val powerManager = requireContext().getSystemService(Context.POWER_SERVICE) as PowerManager
 
         PowerSavingMode.setPhonePowerMode(powerManager.isPowerSaveMode)
-
         // Observes variable appPreferences from viewModel to check if user has logged in before
         viewModel.appPreferences.observe(this.viewLifecycleOwner) {
             if (!it.alreadyLoggedIn) {
@@ -668,20 +672,18 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
                 val scale: Int = intent.getIntExtra(BatteryManager.EXTRA_SCALE, -1)
                 val batteryPercent: Float = level * 100 / scale.toFloat()
 
-                if(PowerSavingMode.getSaveBatteryMode()) {
-                    if (batteryPercent <= 15) {
-                        greenCircle.setColorFilter(ContextCompat.getColor(requireContext(), R.color.dark_green))
-                        yellowCircle.setColorFilter(ContextCompat.getColor(requireContext(), R.color.dark_yellow))
-                        redCircle.setColorFilter(ContextCompat.getColor(requireContext(), R.color.red))
-                    } else if (batteryPercent <= 25) {
-                        greenCircle.setColorFilter(ContextCompat.getColor(requireContext(), R.color.dark_green))
-                        yellowCircle.setColorFilter(ContextCompat.getColor(requireContext(), R.color.yellow))
-                        redCircle.setColorFilter(ContextCompat.getColor(requireContext(), R.color.dark_red))
-                    } else {
-                        greenCircle.setColorFilter(ContextCompat.getColor(requireContext(), R.color.green))
-                        yellowCircle.setColorFilter(ContextCompat.getColor(requireContext(), R.color.dark_yellow))
-                        redCircle.setColorFilter(ContextCompat.getColor(requireContext(), R.color.dark_red))
-                    }
+                if (batteryPercent <= 15) {
+                    greenCircle.setColorFilter(ContextCompat.getColor(requireContext(), R.color.dark_green))
+                    yellowCircle.setColorFilter(ContextCompat.getColor(requireContext(), R.color.dark_yellow))
+                    redCircle.setColorFilter(ContextCompat.getColor(requireContext(), R.color.red))
+                } else if (batteryPercent <= 25) {
+                    greenCircle.setColorFilter(ContextCompat.getColor(requireContext(), R.color.dark_green))
+                    yellowCircle.setColorFilter(ContextCompat.getColor(requireContext(), R.color.yellow))
+                    redCircle.setColorFilter(ContextCompat.getColor(requireContext(), R.color.dark_red))
+                } else {
+                    greenCircle.setColorFilter(ContextCompat.getColor(requireContext(), R.color.green))
+                    yellowCircle.setColorFilter(ContextCompat.getColor(requireContext(), R.color.dark_yellow))
+                    redCircle.setColorFilter(ContextCompat.getColor(requireContext(), R.color.dark_red))
                 }
             }
         }
