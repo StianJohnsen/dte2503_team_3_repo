@@ -5,7 +5,6 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
-import android.graphics.Color
 import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
@@ -24,6 +23,7 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -670,17 +670,17 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
 
                 if(PowerSavingMode.getSaveBatteryMode()) {
                     if (batteryPercent <= 15) {
-                        greenCircle.setColorFilter(Color.parseColor("#094514"))
-                        yellowCircle.setColorFilter(Color.parseColor("#6D6102"))
-                        redCircle.setColorFilter(Color.parseColor("#F51818"))
+                        greenCircle.setColorFilter(ContextCompat.getColor(requireContext(), R.color.dark_green))
+                        yellowCircle.setColorFilter(ContextCompat.getColor(requireContext(), R.color.dark_yellow))
+                        redCircle.setColorFilter(ContextCompat.getColor(requireContext(), R.color.red))
                     } else if (batteryPercent <= 25) {
-                        greenCircle.setColorFilter(Color.parseColor("#094514"))
-                        yellowCircle.setColorFilter(Color.parseColor("#F5EB18"))
-                        redCircle.setColorFilter(Color.parseColor("#660E0E"))
+                        greenCircle.setColorFilter(ContextCompat.getColor(requireContext(), R.color.dark_green))
+                        yellowCircle.setColorFilter(ContextCompat.getColor(requireContext(), R.color.yellow))
+                        redCircle.setColorFilter(ContextCompat.getColor(requireContext(), R.color.dark_red))
                     } else {
-                        greenCircle.setColorFilter(Color.parseColor("#47F310"))
-                        yellowCircle.setColorFilter(Color.parseColor("#6D6102"))
-                        redCircle.setColorFilter(Color.parseColor("#660E0E"))
+                        greenCircle.setColorFilter(ContextCompat.getColor(requireContext(), R.color.green))
+                        yellowCircle.setColorFilter(ContextCompat.getColor(requireContext(), R.color.dark_yellow))
+                        redCircle.setColorFilter(ContextCompat.getColor(requireContext(), R.color.dark_red))
                     }
                 }
             }
