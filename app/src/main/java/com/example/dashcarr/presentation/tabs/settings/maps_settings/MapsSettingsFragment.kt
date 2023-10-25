@@ -16,6 +16,12 @@ import com.example.dashcarr.presentation.core.BaseFragment
 import com.example.dashcarr.presentation.tabs.settings.maps_settings.adapter.PointOfInterestRecyclerAdapter
 import dagger.hilt.android.AndroidEntryPoint
 
+/**
+ * A fragment for managing map-related settings, including points of interest.
+ *
+ * @property viewModel An instance of the MapsSettingsViewModel for managing fragment data and logic.
+ * @property pointsAdapter A lazy-initialized adapter for displaying a list of points of interest.
+ */
 @AndroidEntryPoint
 class MapsSettingsFragment : BaseFragment<FragmentMapsSettingsBinding>(
     FragmentMapsSettingsBinding::inflate,
@@ -27,6 +33,13 @@ class MapsSettingsFragment : BaseFragment<FragmentMapsSettingsBinding>(
         PointOfInterestRecyclerAdapter(this)
     }
 
+    /**
+     * Initializes the view model and pointsAdapter, sets up the RecyclerView, initializes listeners,
+     * and observes the view model for updates.
+     *
+     * @param view The fragment's root view.
+     * @param savedInstanceState The saved state of the fragment.
+     */
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupAdapter()
@@ -34,6 +47,11 @@ class MapsSettingsFragment : BaseFragment<FragmentMapsSettingsBinding>(
         observeViewModel()
     }
 
+    /**
+     * Observes various LiveData properties within the ViewModel and reacts to changes by updating
+     * the UI accordingly. For example, it listens for changes in the list of points of interest,
+     * visibility of dialogs, and success or failure messages related to point operations.
+     */
     private fun observeViewModel() {
         viewModel.pointsOfInterest.observe(viewLifecycleOwner) {
             pointsAdapter.submitList(it)
@@ -60,6 +78,10 @@ class MapsSettingsFragment : BaseFragment<FragmentMapsSettingsBinding>(
         }
     }
 
+    /**
+     * Initializes click listeners for buttons and UI elements in the fragment, allowing actions
+     * like deleting, renaming points, and navigating back.
+     */
     private fun initListeners() {
         binding.btnDelete.setOnClickListener {
             viewModel.deletePoint()
@@ -78,15 +100,29 @@ class MapsSettingsFragment : BaseFragment<FragmentMapsSettingsBinding>(
         }
     }
 
+    /**
+     * Sets up the RecyclerView and assigns the `pointsAdapter` to it, along with specifying
+     * the layout manager.
+     */
     private fun setupAdapter() {
         binding.recyclerView.adapter = pointsAdapter
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
     }
 
+    /**
+     * Handles the click event when deleting a point of interest and shows a confirmation dialog.
+     *
+     * @param point The PointOfInterestEntity to be deleted.
+     */
     override fun onDelete(point: PointOfInterestEntity) {
         viewModel.showConfirmDeleteDialog(point)
     }
 
+    /**
+     * Handles the click event when renaming a point of interest and shows a rename dialog.
+     *
+     * @param point The PointOfInterestEntity to be updated.
+     */
     override fun onUpdate(point: PointOfInterestEntity) {
         viewModel.showRenameDialog(point)
     }
