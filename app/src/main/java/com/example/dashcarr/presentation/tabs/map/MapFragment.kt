@@ -30,7 +30,6 @@ import androidx.navigation.fragment.findNavController
 import com.example.dashcarr.R
 import com.example.dashcarr.databinding.FragmentMapBinding
 import com.example.dashcarr.extensions.collectWithLifecycle
-import com.example.dashcarr.extensions.getFormattedDate
 import com.example.dashcarr.extensions.hideKeyboard
 import com.example.dashcarr.extensions.locationPermissions
 import com.example.dashcarr.extensions.setHeightSmooth
@@ -75,7 +74,7 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
 
     // Location manager for handling location updates
     private val locationManager by lazy { requireContext().getSystemService(Context.LOCATION_SERVICE) as LocationManager }
-    private lateinit var myLocationOverlay : MyLocationNewOverlay
+    private lateinit var myLocationOverlay: MyLocationNewOverlay
 
     // Activity Result Launcher for requesting location permissions
     private val requestLocationPermissionsLauncher = registerForActivityResult(
@@ -203,7 +202,7 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
         observeViewModel()
         initMap()
         requestLocationPermission()
-        if (PowerSavingMode.getSaveBatteryMode()) {
+        if (PowerSavingMode.getPowerMode()) {
             binding.llTrafficLight.visibility = View.VISIBLE
             setupBatteryStatus()
         } else {
@@ -221,7 +220,7 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
             }
         }
 
-        Log.d(this::class.simpleName, "* Current Power Mode: ${PowerSavingMode.getPowerMode()}")
+        Log.d(this::class.simpleName, "Current Power Mode: ${PowerSavingMode.getPowerMode()}")
 
         // sets visibility and functionality for recording buttons
         binding.apply {
