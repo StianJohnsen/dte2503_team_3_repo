@@ -375,11 +375,23 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
         super.onResume()
         startTimeMillis = SystemClock.elapsedRealtime()
 
+        val sensorSamplingRate: Int
+
+        if (PowerSavingMode.getPowerMode()) {
+            sensorSamplingRate = SensorManager.SENSOR_DELAY_NORMAL
+        } else {
+            sensorSamplingRate = SensorManager.SENSOR_DELAY_FASTEST
+        }
+
+        Log.d(this::class.simpleName, sensorSamplingRate.toString())
+
+
+
         sensorManager.registerListener(
-            this, accelSensor, SensorManager.SENSOR_DELAY_FASTEST
+            this, accelSensor, sensorSamplingRate
         )
         sensorManager.registerListener(
-            this, gyroSensor, SensorManager.SENSOR_DELAY_FASTEST
+            this, gyroSensor, sensorSamplingRate
         )
         sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)?.also { accelerometer ->
             sensorManager.registerListener(
