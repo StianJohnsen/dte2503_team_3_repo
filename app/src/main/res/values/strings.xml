@@ -20,6 +20,7 @@
     <string name="btnLogin">Login</string>
     <string name="btnLogout">Logout</string>
     <string name="signUp">Sign Up</string>
+    <string name="or">Or</string>
 
     <!--Camera-->
 
