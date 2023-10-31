@@ -91,7 +91,7 @@
                 android:paddingEnd="@dimen/margin_padding_size_6"
                 android:paddingStart="@dimen/margin_padding_size_0"
                 app:drawableEndCompat="@drawable/ic_polygon"
-                app:drawableStartCompat="@drawable/ic_dashcam_settings_small"
+                app:drawableStartCompat="@drawable/ic_triangle_settings_small"
                 android:text="@string/dashcam_settings"
                 android:textColor="@color/gray3"
                 android:textSize="@dimen/text_size_16"
@@ -188,6 +188,12 @@
             app:iconTint="@null"
             android:layout_gravity="center_horizontal"
             android:layout_marginVertical="@dimen/margin_padding_size_40"/>
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/logo_small"
+            android:layout_marginBottom="@dimen/margin_padding_size_26"/>
 
     </LinearLayout>
 

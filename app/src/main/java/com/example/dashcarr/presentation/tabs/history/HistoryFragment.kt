@@ -99,7 +99,7 @@ class HistoryFragment : BaseFragment<FragmentHistoryBinding>(
                 ).apply {
                     setMargins(30, 30, 30, 5)
                 }
-                setBackgroundColor(Color.WHITE)
+                setPopupBackgroundResource(R.drawable.white_rounded_16dp_background)
             }
 
             val options = listOf(

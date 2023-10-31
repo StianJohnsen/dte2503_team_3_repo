@@ -5,6 +5,7 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.content.res.ColorStateList
 import android.net.Uri
 import android.os.BatteryManager
 import android.os.Bundle
@@ -17,6 +18,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.Group
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
@@ -26,7 +28,6 @@ import com.example.dashcarr.extensions.collectWithLifecycle
 import com.example.dashcarr.extensions.setHeightSmooth
 import com.example.dashcarr.presentation.tabs.camera.dashcam.DashcamFragment
 import com.example.dashcarr.presentation.tabs.camera.security.SecurityCameraFragment
-import com.example.dashcarr.presentation.tabs.map.HudFragment
 import com.example.dashcarr.presentation.tabs.settings.PowerSavingMode
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -69,6 +70,12 @@ class MainActivity : AppCompatActivity() {
 
         val bottomNavBar = findViewById<BottomNavigationView>(R.id.bottom_nav)
         bottomNavBar.setupWithNavController(navController)
+
+        val colorStateList = ColorStateList.valueOf(ContextCompat.getColor(this, R.color.mainBlue))
+        bottomNavBar.itemIconTintList = colorStateList
+
+        val textColorStateList = ColorStateList.valueOf(ContextCompat.getColor(this, R.color.yellow))
+        bottomNavBar.itemTextColor = textColorStateList
 
         initViewModels()
     }
