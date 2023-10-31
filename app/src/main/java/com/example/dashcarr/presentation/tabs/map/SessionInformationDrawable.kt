@@ -40,7 +40,8 @@ class SessionInformationDrawable(
     private var street: String = ""
     private var location: Location? = null
     private var lastStreetUpdate = LocalDateTime.now().minusHours(1)
-    private var speed: Float? = null
+    private var lastSpeedUpdate = LocalDateTime.now().minusHours(1)
+    private var speed: Float = 0F
 
     /**
      * This function refreshes the speed and might trigger a request to refresh the current street.
@@ -55,6 +56,7 @@ class SessionInformationDrawable(
             updateStreet(location)
         }
         this.speed = location.speed
+        lastSpeedUpdate = LocalDateTime.now()
         this.invalidateSelf()
     }
 
@@ -120,13 +122,14 @@ class SessionInformationDrawable(
     }
 
     override fun draw(canvas: Canvas) {
-        var speedText = ""
-        if (this.speed != null) {
-            speedText = "${(speed!! * 3.6).roundToInt()} km/h"
-        }
+        if (Duration.between(lastSpeedUpdate, LocalDateTime.now()).get(ChronoUnit.SECONDS) > 5)
+            speed = 0F
+        val speedText = "${(speed * 3.6).roundToInt()} km/h"
+
         if (rotateDrawing) {
             canvas.rotate(90F, bounds.width() / 2F, bounds.height() / 2F)
         }
+
         val padding = 4
         val height =
             drawCenteredText(
