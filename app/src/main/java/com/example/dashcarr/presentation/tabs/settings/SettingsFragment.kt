@@ -44,6 +44,10 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>(
             findNavController().navigate(R.id.action_action_settings_to_productFrontPage)
         }
 
+        binding.btnSocialSettings.setOnClickListener {
+            findNavController().navigate(R.id.action_action_settings_to_socialSettingsFragment)
+        }
+
         binding.btnLogout.setOnClickListener {
             viewModel.logOut()
             mapViewModel.updateAppPreferences(false)

@@ -5,7 +5,11 @@ import androidx.lifecycle.MutableLiveData
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import com.example.dashcarr.data.database.dao.FriendsDao
+import com.example.dashcarr.data.database.dao.MessagesDao
 import com.example.dashcarr.data.database.dao.PointOfInterestDao
+import com.example.dashcarr.domain.entity.FriendsEntity
+import com.example.dashcarr.domain.entity.MessagesEntity
 import com.example.dashcarr.domain.entity.PointOfInterestEntity
 
 /**
@@ -18,12 +22,14 @@ import com.example.dashcarr.domain.entity.PointOfInterestEntity
  */
 @Database(
     entities = [
-        PointOfInterestEntity::class
+        PointOfInterestEntity::class,
+        FriendsEntity::class,
+        MessagesEntity::class
     ],
-    version = 1,
+    version = 3,
     exportSchema = true
 )
-abstract class AppDatabase: RoomDatabase() {
+abstract class AppDatabase : RoomDatabase() {
 
     private var isDataBaseCreated = MutableLiveData<Boolean>()
 
@@ -43,6 +49,7 @@ abstract class AppDatabase: RoomDatabase() {
 
         private fun createDataBase(app: Context): AppDatabase {
             return Room.databaseBuilder(app.applicationContext, AppDatabase::class.java, dbName)
+                .fallbackToDestructiveMigration()
                 .build()
         }
     }
@@ -59,4 +66,6 @@ abstract class AppDatabase: RoomDatabase() {
     }
 
     abstract fun pointsDao(): PointOfInterestDao
+    abstract fun FriendsDao(): FriendsDao
+    abstract fun MessagesDao(): MessagesDao
 }
