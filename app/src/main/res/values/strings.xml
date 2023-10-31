@@ -73,6 +73,10 @@
     <!--HistoryFragment-->
 
     <string name="show_statistics">Show Statistics</string>
+    <string name="h_btnRename">Rename</string>
+    <string name="h_btnDelete">delete</string>
+    <string name="update_recording">Update</string>
+    <string name="cancel_recording">Cancel</string>
 
     <!--RecordingStatisticsFragment-->
 

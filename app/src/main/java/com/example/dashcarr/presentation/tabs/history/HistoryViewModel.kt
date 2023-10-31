@@ -7,5 +7,5 @@ import javax.inject.Inject
 @HiltViewModel
 class HistoryViewModel @Inject constructor(
 
-): ViewModel() {
+) : ViewModel() {
 }
