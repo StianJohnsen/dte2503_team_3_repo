@@ -22,17 +22,21 @@ import kotlin.math.roundToInt
  * This class holds and draws live data for the current drive on a canvas.
  *
  * @property context this context will be used for sending API Requests in [updateStreet]
- * @property textSizes The available text sizes for drawing. The first one is the most preferred size. This array should be ordered descending.
  * @property rotateDrawing If the drawing should be rotated by 90 degree to allow portrait mode
  * @property onSizeChanged Use this to adapt the canvas size to needed height
+ * @constructor Creates a new empty drawable that ready to get information through [updateLocation].
+ * @param speedTextSize the text size of the speed in px
+ * @param streetTextSize the text size of the additional information in px
  */
 class SessionInformationDrawable(
     private val context: Context,
-    private var textSizes: Array<Float>,
+    speedTextSize: Float,
+    streetTextSize: Float,
     private val rotateDrawing: Boolean,
     private var onSizeChanged: (Int) -> Unit
 ) : Drawable() {
-    private val paint: Paint = Paint()
+    private val smallPaint: Paint = Paint()
+    private val bigPaint: Paint = Paint()
     private var street: String = ""
     private var location: Location? = null
     private var lastStreetUpdate = LocalDateTime.now().minusHours(1)
@@ -100,28 +104,37 @@ class SessionInformationDrawable(
     }
 
     init {
-        paint.color = Color.WHITE
-        paint.isAntiAlias = true
-        paint.style = Paint.Style.FILL
-        paint.isFakeBoldText = true
-        paint.textAlign = Paint.Align.CENTER
+        smallPaint.textSize = streetTextSize
+        smallPaint.color = Color.WHITE
+        smallPaint.isAntiAlias = true
+        smallPaint.style = Paint.Style.FILL
+        smallPaint.isFakeBoldText = true
+        smallPaint.textAlign = Paint.Align.CENTER
+
+        bigPaint.textSize = speedTextSize
+        bigPaint.color = Color.WHITE
+        bigPaint.isAntiAlias = true
+        bigPaint.style = Paint.Style.FILL
+        bigPaint.isFakeBoldText = true
+        bigPaint.textAlign = Paint.Align.CENTER
     }
 
     override fun draw(canvas: Canvas) {
-        val words = emptyList<String>().toMutableList()
+        var speedText = ""
         if (this.speed != null) {
-            words.add("${(speed!! * 3.6).roundToInt()} km/h")
+            speedText = "${(speed!! * 3.6).roundToInt()} km/h"
         }
-        if (street.isNotEmpty()) words.add(street)
         if (rotateDrawing) {
             canvas.rotate(90F, bounds.width() / 2F, bounds.height() / 2F)
         }
+        val padding = 4
         val height =
             drawCenteredText(
-                words.toTypedArray(),
+                speedText,
+                street,
                 bounds.width() / 2F,
                 bounds.height() / 2F,
-                if (rotateDrawing) bounds.height() else bounds.width(),
+                (if (rotateDrawing) bounds.height() else bounds.width()) - padding,
                 canvas
             )
         onSizeChanged(height)
@@ -138,50 +151,59 @@ class SessionInformationDrawable(
      * @return The height of the whole text block in pixels
      */
     private fun drawCenteredText(
-        words: Array<String>,
+        bigText: String,
+        smallText: String,
         centeredX: Float,
         centeredY: Float,
         width: Int,
         canvas: Canvas
     ): Int {
-        if (words.isEmpty()) {
-            return 1
+        // calculate text heights for centering
+        val bigTextBounds = Rect()
+        bigPaint.getTextBounds(bigText, 0, bigText.length, bigTextBounds)
+
+        val smallTextBounds = Rect()
+        var shortenedSmallText: String
+        smallPaint.getTextBounds(smallText, 0, smallText.length, smallTextBounds)
+        if (smallTextBounds.width() > width) {
+            var cutOff = smallText.length
+            do {
+                cutOff--
+                shortenedSmallText = smallText.substring(0, cutOff) + "…"
+                smallPaint.getTextBounds(shortenedSmallText, 0, shortenedSmallText.length, smallTextBounds)
+            } while (smallTextBounds.width() > width)
+        } else {
+            shortenedSmallText = smallText
         }
+
+        // draw to calculated position
         val baselineOffset = 15
-        val neededHeight = emptyList<Int>().toMutableList()
-        val selectedSizes = emptyList<Float>().toMutableList()
-        val textBounds = Rect()
-        for (word in words) {
-            for (size in textSizes) {
-                paint.textSize = size
-                paint.getTextBounds(word, 0, word.length, textBounds)
-                if (width > textBounds.width()) {
-                    break
-                }
-            }
-            neededHeight.add(textBounds.height())
-            selectedSizes.add(paint.textSize)
-        }
-        var y = -baselineOffset + centeredY - neededHeight.sum() / 2F
-        for (i in words.indices) {
-            y += neededHeight[i]
-            paint.textSize = selectedSizes[i]
-            canvas.drawText(
-                words[i],
-                centeredX,
-                y,
-                paint
-            )
-        }
-        return neededHeight.sum() + 2 * baselineOffset
+        var y =
+            -baselineOffset + centeredY - (smallTextBounds.height() + bigTextBounds.height()) / 2F + bigTextBounds.height()
+        canvas.drawText(
+            bigText,
+            centeredX,
+            y,
+            bigPaint
+        )
+        y += smallTextBounds.height()
+        canvas.drawText(
+            shortenedSmallText,
+            centeredX,
+            y,
+            smallPaint
+        )
+        return bigTextBounds.height() + smallTextBounds.height() + 2 * baselineOffset
     }
 
     override fun setAlpha(alpha: Int) {
-        paint.alpha = alpha
+        smallPaint.alpha = alpha
+        bigPaint.alpha = alpha
     }
 
     override fun setColorFilter(cf: ColorFilter?) {
-        paint.colorFilter = cf
+        smallPaint.colorFilter = cf
+        bigPaint.colorFilter = cf
     }
 
     @Deprecated("Deprecated in Java", ReplaceWith("PixelFormat.TRANSLUCENT", "android.graphics.PixelFormat"))

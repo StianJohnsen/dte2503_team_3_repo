@@ -45,7 +45,7 @@ class HudFragment : BaseFragment<FragmentHudBinding>(
             }
             showBottomNavigation(false)
             textCanvas =
-                SessionInformationDrawable(requireContext(), arrayOf(300F, 250F, 200F, 150F, 100F, 50F), true) {}
+                SessionInformationDrawable(requireContext(), 300F, 150F, true) {}
             binding.hudImage.setHeightSmooth(0, view.height, true)
             binding.hudImage.scaleY = -1F
             binding.backButton.visibility = View.VISIBLE
@@ -54,7 +54,7 @@ class HudFragment : BaseFragment<FragmentHudBinding>(
             textCanvas =
                 SessionInformationDrawable(
                     requireContext(),
-                    arrayOf(130F, 90F, 80F, 70F, 60F, 50F, 40F, 30F, 20F),
+                    130F, 70F,
                     false
                 ) {
                     binding.hudImage.setHeightSmooth(0, it, true)
