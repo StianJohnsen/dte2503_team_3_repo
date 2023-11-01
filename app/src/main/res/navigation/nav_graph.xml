@@ -19,6 +19,9 @@
         <action
             android:id="@+id/action_action_map_to_action_history"
             app:destination="@id/action_history" />
+        <action
+            android:id="@+id/action_action_map_to_action_security_camera"
+            app:destination="@id/action_security_camera" />
     </fragment>
     <fragment
         android:id="@+id/action_dash_cam"
