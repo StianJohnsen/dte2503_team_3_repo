@@ -62,7 +62,7 @@ abstract class BaseFragment<VB : ViewBinding>(
      * @param show Boolean flag indicating whether to show the bottom navigation bar.
      */
     protected fun showBottomNavigation(show: Boolean) {
-        val bottomNavigationView = activity?.findViewById<Group>(R.id.nav_bar_group)!!
+        val bottomNavigationView = requireActivity().findViewById<Group>(R.id.nav_bar_group)
         bottomNavigationView.visibility =
             if (show) View.VISIBLE
             else View.GONE

@@ -28,6 +28,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.example.dashcarr.R
 import com.example.dashcarr.databinding.FragmentMapBinding
 import com.example.dashcarr.extensions.collectWithLifecycle
@@ -66,11 +67,10 @@ import java.time.format.DateTimeFormatter
  */
 @AndroidEntryPoint
 class MapFragment : BaseFragment<FragmentMapBinding>(
-    FragmentMapBinding::inflate,
-    showBottomNavBar = true
+    FragmentMapBinding::inflate, null
 ), LocationListener, MapEventsReceiver, SensorEventListener {
 
-    private val viewModel: MapViewModel by viewModels()
+    private val mapViewModel: MapViewModel by viewModels()
     private val recordingViewModel: RecordingViewModel by viewModels()
 
     // Location manager for handling location updates
@@ -85,7 +85,7 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
         if (permissionsResult.values.contains(false)) {
             Log.e(this::class.simpleName, "False location!")
         } else {
-            Log.e(this::class.simpleName, "Got Location!")
+            Log.d(this::class.simpleName, "Got Location!")
             createLocationRequest()
         }
     }
@@ -136,11 +136,11 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
      * Observes the ViewModel's LiveData and updates the UI accordingly.
      */
     private fun observeViewModel() {
-        viewModel.lastSavedUserLocation.collectWithLifecycle(viewLifecycleOwner) {
+        mapViewModel.lastSavedUserLocation.collectWithLifecycle(viewLifecycleOwner) {
             binding.mapView.controller.setCenter(it)
         }
 
-        viewModel.createMarkerState.collectWithLifecycle(viewLifecycleOwner) {
+        mapViewModel.createMarkerState.collectWithLifecycle(viewLifecycleOwner) {
             when (it) {
                 is CreateMarkerState.CreateMarker -> showCreateMarkerDialog(it.geoPoint)
                 is CreateMarkerState.HideMarker -> hideCreateMarkerDialog().also { hideKeyboard() }
@@ -150,13 +150,13 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
                 }
             }
         }
-        viewModel.pointsOfInterestState.observe(viewLifecycleOwner) {
+        mapViewModel.pointsOfInterestState.observe(viewLifecycleOwner) {
             if (it.isEmpty()) return@observe
             it.forEach { pointOfInterest ->
                 binding.mapView.overlays.add(pointOfInterest.toMarker(binding.mapView))
             }
         }
-        viewModel.showButtonsBarState.collectWithLifecycle(viewLifecycleOwner) { show ->
+        mapViewModel.showButtonsBarState.collectWithLifecycle(viewLifecycleOwner) { show ->
             show?.let {
                 binding.llExpandedBar.setHeightSmooth(newHeight = if (show) -2 else 0)
             }
@@ -175,7 +175,7 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
      */
     private fun initListeners() {
         binding.btnShowHideBar.setOnClickListener {
-            viewModel.showHideBar()
+            mapViewModel.showHideBar()
         }
         binding.btnCenterLocation.setOnClickListener {
             binding.mapView.controller.animateTo(myLocationOverlay.myLocation)
@@ -200,11 +200,13 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         requireActivity().requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
+        val args: MapFragmentArgs by navArgs()
+        showBottomNavigation(!args.isRideActivated)
         initListeners()
         observeViewModel()
         initMap()
         requestLocationPermission()
-        if (PowerSavingMode.getPowerMode()) {
+        if (PowerSavingMode.getPowerMode() && args.isRideActivated) {
             binding.llTrafficLight.visibility = View.VISIBLE
             setupBatteryStatus()
         } else {
@@ -215,55 +217,62 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
 
         PowerSavingMode.setPhonePowerMode(powerManager.isPowerSaveMode)
         // Observes variable appPreferences from viewModel to check if user has logged in before
-        viewModel.appPreferences.observe(this.viewLifecycleOwner) {
+        mapViewModel.appPreferences.observe(this.viewLifecycleOwner) {
             if (!it.alreadyLoggedIn) {
                 findNavController().navigate(R.id.action_action_map_to_productFrontPage)
-                viewModel.updateAppPreferences(true)
+                mapViewModel.updateAppPreferences(true)
             }
         }
 
         Log.d(this::class.simpleName, "Current Power Mode: ${PowerSavingMode.getPowerMode()}")
 
         // sets visibility and functionality for recording buttons
-        binding.apply {
-            btnStart.setOnClickListener {
-                startRecording()
-                it.visibility = View.GONE
-                btnStop.visibility = View.VISIBLE
-                btnPause.visibility = View.VISIBLE
-                btnDelete.visibility = View.VISIBLE
+        if (args.isRideActivated) {
+            childFragmentManager.beginTransaction()
+                .add(binding.hudView.id, HudFragment())
+                .commit()
+            binding.apply {
+                btnStart.setOnClickListener {
+                    startRecording()
+                    it.visibility = View.GONE
+                    btnStop.visibility = View.VISIBLE
+                    btnPause.visibility = View.VISIBLE
+                    btnDelete.visibility = View.VISIBLE
+                }
+                btnStop.setOnClickListener {
+                    stopRecording()
+                    it.visibility = View.GONE
+                    btnStart.visibility = View.VISIBLE
+                    btnPause.visibility = View.GONE
+                    btnDelete.visibility = View.GONE
+                    btnResume.visibility = View.GONE
+                }
+                btnPause.setOnClickListener {
+                    pauseRecording()
+                    it.visibility = View.GONE
+                    btnResume.visibility = View.VISIBLE
+                }
+                btnResume.setOnClickListener {
+                    resumeRecording()
+                    it.visibility = View.GONE
+                    btnPause.visibility = View.VISIBLE
+                }
+                btnDelete.setOnClickListener {
+                    deleteRecording()
+                    it.visibility = View.GONE
+                    btnPause.visibility = View.GONE
+                    btnStop.visibility = View.GONE
+                    btnStart.visibility = View.VISIBLE
+                    btnResume.visibility = View.GONE
+                }
             }
-            btnStop.setOnClickListener {
-                stopRecording()
-                it.visibility = View.GONE
-                btnStart.visibility = View.VISIBLE
-                btnPause.visibility = View.GONE
-                btnDelete.visibility = View.GONE
-                btnResume.visibility = View.GONE
-            }
-            btnPause.setOnClickListener {
-                pauseRecording()
-                it.visibility = View.GONE
-                btnResume.visibility = View.VISIBLE
-            }
-            btnResume.setOnClickListener {
-                resumeRecording()
-                it.visibility = View.GONE
-                btnPause.visibility = View.VISIBLE
-            }
-            btnDelete.setOnClickListener {
-                deleteRecording()
-                it.visibility = View.GONE
-                btnPause.visibility = View.GONE
-                btnStop.visibility = View.GONE
-                btnStart.visibility = View.VISIBLE
-                btnResume.visibility = View.GONE
-            }
-        }
 
-        accelSensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)
-        gyroSensor = sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE)
-        magnetoSensor = sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD)
+            accelSensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)
+            gyroSensor = sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE)
+            magnetoSensor = sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD)
+        } else {
+            binding.llRecordingButtons.visibility = View.GONE
+        }
     }
 
     /**
@@ -527,7 +536,7 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
     }
 
     override fun onLocationChanged(location: Location) {
-        viewModel.saveCurrentLocation(location)
+        mapViewModel.saveCurrentLocation(location)
         Log.e(this::class.simpleName, "location changed! lat = ${location.latitude} , long = ${location.longitude}")
         if (isRecording) {
             rawLocationRecord.add(
@@ -636,8 +645,13 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
     }
 
     override fun onStop() {
-        viewModel.saveLastKnownLocation()
+        mapViewModel.saveLastKnownLocation()
         super.onStop()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+
     }
 
     override fun singleTapConfirmedHelper(geoPoint: GeoPoint?): Boolean {
@@ -645,7 +659,7 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
     }
 
     override fun longPressHelper(geoPoint: GeoPoint?): Boolean {
-        geoPoint?.let { viewModel.createMarker(it) }
+        geoPoint?.let { mapViewModel.createMarker(it) }
         return false
     }
 
@@ -660,7 +674,7 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
     private fun showCreateMarkerDialog(geoPoint: GeoPoint) {
         binding.flCreateMarkerLayout.visibility = View.VISIBLE
         binding.btnSave.setOnClickListener {
-            viewModel.saveNewMarker(
+            mapViewModel.saveNewMarker(
                 PointOfInterest(
                     latitude = geoPoint.latitude,
                     longitude = geoPoint.longitude,
@@ -670,7 +684,7 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
             )
         }
         binding.btnCancel.setOnClickListener {
-            viewModel.cancelMarkerCreation()
+            mapViewModel.cancelMarkerCreation()
         }
     }
 
