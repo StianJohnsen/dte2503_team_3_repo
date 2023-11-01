@@ -9,11 +9,9 @@ import android.content.res.ColorStateList
 import android.net.Uri
 import android.os.BatteryManager
 import android.os.Bundle
-import android.os.Environment
 import android.os.PowerManager
 import android.view.View
 import android.widget.ImageButton
-import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -39,7 +37,7 @@ class MainActivity : AppCompatActivity() {
     private val viewModel: MainViewModel by viewModels()
     private val navHostFragment by lazy { supportFragmentManager.findFragmentById(R.id.nav_host_container) as NavHostFragment }
     private val navController by lazy { navHostFragment.navController }
-    private val floatingCameraButtons by lazy { findViewById<ConstraintLayout>(R.id.floating_buttons) }
+    private val slidingBox by lazy { findViewById<View>(R.id.sliding_box) }
 
     private val powerSaveReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
@@ -140,78 +138,79 @@ class MainActivity : AppCompatActivity() {
         }
 
         val hideCameraButtons = {
-            floatingCameraButtons.setHeightSmooth(
+            slidingBox.setHeightSmooth(
                 500,
                 0,
                 doOnEnd = {
-                    floatingCameraButtons.visibility = View.GONE
+                    slidingBox.visibility = View.GONE
 
                 })
-            hideIconSwitch { cameraButton.setImageResource(R.drawable.camera_icon) }
+            hideIconSwitch { cameraButton.setImageResource(R.drawable.ic_car_100) }
+            findViewById<ImageButton>(R.id.big_red_button).visibility = View.GONE
         }
         val list =
             NavController.OnDestinationChangedListener { _, _, _ ->
-                if (floatingCameraButtons.isVisible) {
+                if (slidingBox.isVisible) {
                     hideCameraButtons()
                 }
             }
         navController.addOnDestinationChangedListener(list)
 
         cameraButton.setOnClickListener {
-            if (floatingCameraButtons.isVisible) {
+            if (slidingBox.isVisible) {
                 hideCameraButtons()
             } else {
-                floatingCameraButtons.setHeightSmooth(
+                slidingBox.setHeightSmooth(
                     190,
                     260,
-                    doOnStart = { floatingCameraButtons.visibility = View.VISIBLE },
-                    doOnEnd = { })
+                    doOnStart = { slidingBox.visibility = View.VISIBLE },
+                    doOnEnd = { findViewById<ImageButton>(R.id.big_red_button).visibility = View.VISIBLE })
                 hideIconSwitch {
                     cameraButton.setImageResource(R.drawable.ic_down_96)
                 }
             }
         }
 
-        findViewById<ImageButton>(R.id.security_camera_button).setOnClickListener {
-            val transaction = supportFragmentManager.beginTransaction()
-            transaction.addToBackStack(null)
-            transaction.replace(R.id.nav_host_container, SecurityCameraFragment())
-            transaction.commit()
-            findViewById<Group>(R.id.nav_bar_group).visibility = View.GONE
-            floatingCameraButtons.visibility = View.GONE
-            supportFragmentManager.addOnBackStackChangedListener {
-                if (supportFragmentManager.fragments[0] !is SecurityCameraFragment) {
-                    findViewById<Group>(R.id.nav_bar_group).visibility = View.VISIBLE
-                    floatingCameraButtons.visibility = View.VISIBLE
-                }
-            }
-        }
+//        findViewById<ImageButton>(R.id.security_camera_button).setOnClickListener {
+//            val transaction = supportFragmentManager.beginTransaction()
+//            transaction.addToBackStack(null)
+//            transaction.replace(R.id.nav_host_container, SecurityCameraFragment())
+//            transaction.commit()
+//            findViewById<Group>(R.id.nav_bar_group).visibility = View.GONE
+//            floatingCameraButtons.visibility = View.GONE
+//            supportFragmentManager.addOnBackStackChangedListener {
+//                if (supportFragmentManager.fragments[0] !is SecurityCameraFragment) {
+//                    findViewById<Group>(R.id.nav_bar_group).visibility = View.VISIBLE
+//                    floatingCameraButtons.visibility = View.VISIBLE
+//                }
+//            }
+//        }
 
-        findViewById<ImageButton>(R.id.dashcam_button).setOnClickListener {
-            if (!DashcamFragment.exists()) {
-                val transaction = supportFragmentManager.beginTransaction()
-                transaction.add(R.id.nav_host_container, DashcamFragment.getInstance())
-                transaction.disallowAddToBackStack()
-                transaction.commit()
-            } else {
-                DashcamFragment.getInstance().saveRecording()
-            }
-        }
+//        findViewById<ImageButton>(R.id.dashcam_button).setOnClickListener {
+//            if (!DashcamFragment.exists()) {
+//                val transaction = supportFragmentManager.beginTransaction()
+//                transaction.add(R.id.nav_host_container, DashcamFragment.getInstance())
+//                transaction.disallowAddToBackStack()
+//                transaction.commit()
+//            } else {
+//                DashcamFragment.getInstance().saveRecording()
+//            }
+//        }
 
-        findViewById<ImageButton>(R.id.saved_recordings_button).setOnClickListener {
-            val intent = Intent(Intent.ACTION_VIEW)
-            intent.setDataAndType(
-                Uri.parse(
-                    Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MOVIES).toString() + "/Dashcarr"
-                ), "resource/folder"
-            )
-            if (intent.resolveActivity(packageManager) != null) {
-                startActivity(intent)
-            } else {
-                Toast.makeText(this, "Could not find ES File Explorer", Toast.LENGTH_SHORT).show()
-            }
-
-        }
+//        findViewById<ImageButton>(R.id.saved_recordings_button).setOnClickListener {
+//            val intent = Intent(Intent.ACTION_VIEW)
+//            intent.setDataAndType(
+//                Uri.parse(
+//                    Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MOVIES).toString() + "/Dashcarr"
+//                ), "resource/folder"
+//            )
+//            if (intent.resolveActivity(packageManager) != null) {
+//                startActivity(intent)
+//            } else {
+//                Toast.makeText(this, "Could not find ES File Explorer", Toast.LENGTH_SHORT).show()
+//            }
+//
+//        }
 
     }
 }
