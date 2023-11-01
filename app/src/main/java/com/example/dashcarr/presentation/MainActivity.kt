@@ -191,46 +191,6 @@ class MainActivity : AppCompatActivity() {
             val action = NavGraphDirections.actionGlobalActionMap(true)
             navController.navigate(action)
         }
-//        findViewById<ImageButton>(R.id.security_camera_button).setOnClickListener {
-//            val transaction = supportFragmentManager.beginTransaction()
-//            transaction.addToBackStack(null)
-//            transaction.replace(R.id.nav_host_container, SecurityCameraFragment())
-//            transaction.commit()
-//            findViewById<Group>(R.id.nav_bar_group).visibility = View.GONE
-//            floatingCameraButtons.visibility = View.GONE
-//            supportFragmentManager.addOnBackStackChangedListener {
-//                if (supportFragmentManager.fragments[0] !is SecurityCameraFragment) {
-//                    findViewById<Group>(R.id.nav_bar_group).visibility = View.VISIBLE
-//                    floatingCameraButtons.visibility = View.VISIBLE
-//                }
-//            }
-//        }
-
-//        findViewById<ImageButton>(R.id.dashcam_button).setOnClickListener {
-//            if (!DashcamFragment.exists()) {
-//                val transaction = supportFragmentManager.beginTransaction()
-//                transaction.add(R.id.nav_host_container, DashcamFragment.getInstance())
-//                transaction.disallowAddToBackStack()
-//                transaction.commit()
-//            } else {
-//                DashcamFragment.getInstance().saveRecording()
-//            }
-//        }
-
-//        findViewById<ImageButton>(R.id.saved_recordings_button).setOnClickListener {
-//            val intent = Intent(Intent.ACTION_VIEW)
-//            intent.setDataAndType(
-//                Uri.parse(
-//                    Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MOVIES).toString() + "/Dashcarr"
-//                ), "resource/folder"
-//            )
-//            if (intent.resolveActivity(packageManager) != null) {
-//                startActivity(intent)
-//            } else {
-//                Toast.makeText(this, "Could not find ES File Explorer", Toast.LENGTH_SHORT).show()
-//            }
-//
-//        }
 
     }
 }
