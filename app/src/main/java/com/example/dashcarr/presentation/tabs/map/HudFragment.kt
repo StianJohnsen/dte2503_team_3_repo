@@ -11,7 +11,7 @@ import android.location.LocationManager
 import android.os.Build
 import android.os.Bundle
 import android.view.View
-import android.view.WindowInsetsController
+import android.view.WindowInsets
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.getSystemService
@@ -40,8 +40,10 @@ class HudFragment : BaseFragment<FragmentHudBinding>(
         if (parentFragment == null) {
             // Display the data rotated, mirrored and with black background for head up display usage.
             requireActivity().requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
-            if (Build.VERSION.SDK_INT > Build.VERSION_CODES.R) {
-                view.windowInsetsController?.hide(WindowInsetsController.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                view.windowInsetsController?.hide(
+                    WindowInsets.Type.systemBars()
+                )
             } else {
                 @Suppress("DEPRECATION")
                 view.systemUiVisibility = View.SYSTEM_UI_FLAG_FULLSCREEN or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
