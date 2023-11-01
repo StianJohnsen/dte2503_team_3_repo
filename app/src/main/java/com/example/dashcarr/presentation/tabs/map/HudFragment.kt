@@ -34,6 +34,7 @@ class HudFragment : BaseFragment<FragmentHudBinding>(
 
     private lateinit var textCanvas: SessionInformationDrawable
 
+    @SuppressLint("SourceLockedOrientationActivity")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         if (parentFragment == null) {
@@ -50,7 +51,6 @@ class HudFragment : BaseFragment<FragmentHudBinding>(
                 SessionInformationDrawable(requireContext(), 300F, 150F, true) {}
             binding.hudImage.setHeightSmooth(0, view.height, true)
             binding.hudImage.scaleY = -1F
-            binding.backButton.visibility = View.VISIBLE
             binding.imageContainer.setBackgroundColor(Color.BLACK)
         } else {
             textCanvas =
@@ -63,9 +63,6 @@ class HudFragment : BaseFragment<FragmentHudBinding>(
                 }
         }
         binding.hudImage.setImageDrawable(textCanvas)
-        binding.backButton.setOnClickListener {
-            requireActivity().onBackPressed()
-        }
 
         permissionHandling()
     }
