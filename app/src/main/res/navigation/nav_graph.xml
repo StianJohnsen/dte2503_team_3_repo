@@ -16,6 +16,9 @@
             android:name="isRideActivated"
             android:defaultValue="false"
             app:argType="boolean" />
+        <action
+            android:id="@+id/action_action_map_to_action_history"
+            app:destination="@id/action_history" />
     </fragment>
     <fragment
         android:id="@+id/action_dash_cam"
