@@ -3,6 +3,7 @@ package com.example.dashcarr.presentation.tabs.map
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.content.pm.ActivityInfo
 import android.graphics.Color
 import android.location.Location
 import android.location.LocationListener
@@ -37,6 +38,7 @@ class HudFragment : BaseFragment<FragmentHudBinding>(
         super.onViewCreated(view, savedInstanceState)
         if (parentFragment == null) {
             // Display the data rotated, mirrored and with black background for head up display usage.
+            requireActivity().requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
             if (Build.VERSION.SDK_INT > Build.VERSION_CODES.R) {
                 view.windowInsetsController?.hide(WindowInsetsController.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE)
             } else {
