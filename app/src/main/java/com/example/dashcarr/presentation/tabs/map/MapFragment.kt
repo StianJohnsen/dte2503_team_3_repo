@@ -38,6 +38,7 @@ import com.example.dashcarr.extensions.setHeightSmooth
 import com.example.dashcarr.extensions.toastThrowableShort
 import com.example.dashcarr.presentation.core.BaseFragment
 import com.example.dashcarr.presentation.mapper.toMarker
+import com.example.dashcarr.presentation.tabs.camera.dashcam.DashcamFragment
 import com.example.dashcarr.presentation.tabs.map.data.PointOfInterest
 import com.example.dashcarr.presentation.tabs.map.data.SensorData
 import com.example.dashcarr.presentation.tabs.settings.PowerSavingMode
@@ -256,6 +257,19 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
                 btnDelete.setOnClickListener {
                     deleteRecording()
                     findNavController().navigate(R.id.action_action_map_to_action_history)
+                }
+                btnDashcam.setOnClickListener {
+                    if (!DashcamFragment.exists()) {
+                        val transaction = parentFragmentManager.beginTransaction()
+                        transaction.add(R.id.nav_host_container, DashcamFragment.getInstance())
+                        transaction.disallowAddToBackStack()
+                        transaction.commit()
+                    } else {
+                        DashcamFragment.getInstance().saveRecording()
+                    }
+                }
+                btnOutOfCarMode.setOnClickListener {
+                    findNavController().navigate(R.id.action_action_map_to_action_security_camera)
                 }
             }
             accelSensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)
