@@ -15,7 +15,9 @@
             app:layout_constraintBottom_toTopOf="@id/hudView"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent">
+
+        </org.osmdroid.views.MapView>
 
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/hudView"
@@ -30,7 +32,7 @@
             android:id="@+id/ll_traffic_light"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_padding_size_18"
+            android:layout_marginStart="@dimen/margin_padding_size_10"
             android:background="@drawable/blue_rounded_16dp_background"
             android:orientation="vertical"
             android:paddingHorizontal="@dimen/margin_padding_size_8"
@@ -68,8 +70,8 @@
             android:id="@+id/ll_recording_buttons"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_padding_size_18"
-            android:layout_marginTop="@dimen/margin_padding_size_16"
+            android:layout_marginStart="@dimen/margin_padding_size_10"
+            android:layout_marginTop="@dimen/margin_padding_size_10"
             android:background="@drawable/blue_rounded_16dp_background"
             android:orientation="vertical"
             android:paddingHorizontal="@dimen/margin_padding_size_8"
@@ -313,6 +315,51 @@
             app:layout_constraintEnd_toEndOf="@+id/hudView"
             app:layout_constraintTop_toTopOf="@+id/hudView"
             app:srcCompat="@drawable/ic_maximize_100" />
+
+        <LinearLayout
+            android:id="@+id/ll_side_buttons"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/margin_padding_size_10"
+            android:background="@drawable/blue_rounded_16dp_background"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toTopOf="@id/hudView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageButton
+                android:id="@+id/btn_dashcam"
+                android:layout_width="@dimen/standard_touch_size"
+                android:layout_height="@dimen/standard_touch_size"
+                android:layout_margin="4dp"
+                android:backgroundTint="#00FFFFFF"
+                android:paddingHorizontal="0dp"
+                android:paddingVertical="0dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_triangle_recording" />
+
+            <ImageButton
+                android:id="@+id/btn_out_of_car_mode"
+                android:layout_width="@dimen/standard_touch_size"
+                android:layout_height="@dimen/standard_touch_size"
+                android:layout_margin="4dp"
+                android:backgroundTint="#00FFFFFF"
+                android:paddingHorizontal="0dp"
+                android:paddingVertical="0dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_circle_recording" />
+
+            <ImageButton
+                android:id="@+id/btn_send_message"
+                android:layout_width="@dimen/standard_touch_size"
+                android:layout_height="@dimen/standard_touch_size"
+                android:layout_margin="4dp"
+                android:backgroundTint="#00FFFFFF"
+                android:paddingHorizontal="0dp"
+                android:paddingVertical="0dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_social_settings" />
+        </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

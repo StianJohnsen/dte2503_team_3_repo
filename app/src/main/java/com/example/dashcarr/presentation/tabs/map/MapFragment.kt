@@ -263,6 +263,7 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
             magnetoSensor = sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD)
             binding.btnStart.callOnClick()
         } else {
+            binding.llSideButtons.visibility = View.GONE
             binding.llRecordingButtons.visibility = View.GONE
         }
     }
