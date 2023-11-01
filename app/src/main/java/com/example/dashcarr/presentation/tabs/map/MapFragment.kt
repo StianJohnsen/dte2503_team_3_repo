@@ -241,11 +241,7 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
                 }
                 btnStop.setOnClickListener {
                     stopRecording()
-                    it.visibility = View.GONE
-                    btnStart.visibility = View.VISIBLE
-                    btnPause.visibility = View.GONE
-                    btnDelete.visibility = View.GONE
-                    btnResume.visibility = View.GONE
+                    findNavController().navigate(R.id.action_action_map_to_action_history)
                 }
                 btnPause.setOnClickListener {
                     pauseRecording()
@@ -259,17 +255,13 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
                 }
                 btnDelete.setOnClickListener {
                     deleteRecording()
-                    it.visibility = View.GONE
-                    btnPause.visibility = View.GONE
-                    btnStop.visibility = View.GONE
-                    btnStart.visibility = View.VISIBLE
-                    btnResume.visibility = View.GONE
+                    findNavController().navigate(R.id.action_action_map_to_action_history)
                 }
             }
-
             accelSensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)
             gyroSensor = sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE)
             magnetoSensor = sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD)
+            binding.btnStart.callOnClick()
         } else {
             binding.llRecordingButtons.visibility = View.GONE
         }
