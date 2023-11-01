@@ -21,6 +21,7 @@ import androidx.core.view.isVisible
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
+import com.example.dashcarr.NavGraphDirections
 import com.example.dashcarr.R
 import com.example.dashcarr.extensions.collectWithLifecycle
 import com.example.dashcarr.extensions.setHeightSmooth
@@ -58,8 +59,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        addCameraListener()
-
+        initRedButton()
 
         val batteryManager: BatteryManager = baseContext.getSystemService(BATTERY_SERVICE) as BatteryManager
         PowerSavingMode.setInitialBatteryCapacity(batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CAPACITY))
@@ -119,7 +119,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     @SuppressLint("ResourceType")
-    private fun addCameraListener() {
+    private fun initRedButton() {
         val cameraButton = findViewById<FloatingActionButton>(R.id.camera_button)
 
         cameraButton.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(this, R.color.mainBlue))
@@ -170,7 +170,11 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
-
+        findViewById<ImageButton>(R.id.big_red_button).setOnClickListener {
+            findViewById<Group>(R.id.nav_bar_group).visibility = View.GONE
+            val action = NavGraphDirections.actionGlobalActionMap(true)
+            navController.navigate(action)
+        }
 //        findViewById<ImageButton>(R.id.security_camera_button).setOnClickListener {
 //            val transaction = supportFragmentManager.beginTransaction()
 //            transaction.addToBackStack(null)

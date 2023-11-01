@@ -25,7 +25,7 @@ import com.example.dashcarr.presentation.core.BaseFragment
  */
 class HudFragment : BaseFragment<FragmentHudBinding>(
     FragmentHudBinding::inflate,
-    showBottomNavBar = true
+    showBottomNavBar = false
 ) {
     companion object {
         const val MIN_DISTANCE_CHANGE_FOR_UPDATES = 1F
@@ -48,7 +48,6 @@ class HudFragment : BaseFragment<FragmentHudBinding>(
                 @Suppress("DEPRECATION")
                 view.systemUiVisibility = View.SYSTEM_UI_FLAG_FULLSCREEN or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
             }
-            showBottomNavigation(false)
             textCanvas =
                 SessionInformationDrawable(requireContext(), 300F, 150F, true) {}
             binding.hudImage.setHeightSmooth(0, view.height, true)

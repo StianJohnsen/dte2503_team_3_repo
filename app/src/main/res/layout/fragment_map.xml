@@ -19,7 +19,6 @@
 
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/hudView"
-            android:name="com.example.dashcarr.presentation.tabs.map.HudFragment"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -66,6 +65,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/ll_recording_buttons"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_padding_size_18"
@@ -125,11 +125,11 @@
                     android:insetTop="@dimen/margin_padding_size_0"
                     android:insetBottom="@dimen/margin_padding_size_0"
                     android:paddingTop="0dp"
+                    android:visibility="gone"
                     app:icon="@drawable/ic_pause"
                     app:iconGravity="top"
                     app:iconSize="@dimen/standard_touch_size"
-                    app:iconTint="@null"
-                    android:visibility="gone" />
+                    app:iconTint="@null" />
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnResume"
@@ -142,11 +142,11 @@
                     android:insetTop="@dimen/margin_padding_size_0"
                     android:insetBottom="@dimen/margin_padding_size_0"
                     android:paddingTop="0dp"
+                    android:visibility="gone"
                     app:icon="@drawable/ic_start"
                     app:iconGravity="top"
                     app:iconSize="@dimen/standard_touch_size"
-                    app:iconTint="@null"
-                    android:visibility="gone" />
+                    app:iconTint="@null" />
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnStop"
@@ -158,11 +158,11 @@
                     android:insetTop="@dimen/margin_padding_size_0"
                     android:insetBottom="@dimen/margin_padding_size_0"
                     android:paddingTop="0dp"
+                    android:visibility="gone"
                     app:icon="@drawable/ic_stop"
                     app:iconGravity="top"
                     app:iconSize="@dimen/standard_touch_size"
-                    app:iconTint="@null"
-                    android:visibility="gone" />
+                    app:iconTint="@null" />
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnDelete"
@@ -173,11 +173,11 @@
                     android:insetTop="@dimen/margin_padding_size_0"
                     android:insetBottom="@dimen/margin_padding_size_0"
                     android:paddingTop="0dp"
+                    android:visibility="gone"
                     app:icon="@drawable/ic_delete"
                     app:iconGravity="top"
                     app:iconSize="@dimen/standard_touch_size"
-                    app:iconTint="@null"
-                    android:visibility="gone" />
+                    app:iconTint="@null" />
 
             </LinearLayout>
 
@@ -302,8 +302,7 @@
             app:iconSize="@dimen/standard_touch_size"
             app:iconTint="@null"
             app:layout_constraintBottom_toTopOf="@id/hudView"
-            app:layout_constraintEnd_toEndOf="parent"
-            />
+            app:layout_constraintEnd_toEndOf="parent" />
 
         <ImageButton
             android:id="@+id/button_maximize"
