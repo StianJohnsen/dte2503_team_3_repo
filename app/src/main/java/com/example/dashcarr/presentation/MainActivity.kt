@@ -5,6 +5,7 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.graphics.drawable.Animatable
 import android.content.res.ColorStateList
 import android.net.Uri
 import android.os.BatteryManager
@@ -137,7 +138,15 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+        val redButton = findViewById<ImageButton>(R.id.big_red_button)
+        (redButton.drawable as Animatable).start()
+
         val hideCameraButtons = {
+            redButton.animate()
+                .setDuration(2000)
+                .translationY(2000F)
+                .withEndAction { redButton.visibility = View.GONE }
+                .start()
             slidingBox.setHeightSmooth(
                 500,
                 0,
@@ -146,8 +155,8 @@ class MainActivity : AppCompatActivity() {
 
                 })
             hideIconSwitch { cameraButton.setImageResource(R.drawable.ic_car_100) }
-            findViewById<ImageButton>(R.id.big_red_button).visibility = View.GONE
         }
+        hideCameraButtons()
         val list =
             NavController.OnDestinationChangedListener { _, _, _ ->
                 if (slidingBox.isVisible) {
@@ -156,21 +165,28 @@ class MainActivity : AppCompatActivity() {
             }
         navController.addOnDestinationChangedListener(list)
 
+
         cameraButton.setOnClickListener {
             if (slidingBox.isVisible) {
                 hideCameraButtons()
             } else {
+                redButton.animate()
+                    .withStartAction { redButton.visibility = View.VISIBLE }
+                    .setDuration(1000)
+                    .translationY(0F)
+                    .withEndAction { }
+                    .start()
                 slidingBox.setHeightSmooth(
                     190,
                     260,
                     doOnStart = { slidingBox.visibility = View.VISIBLE },
-                    doOnEnd = { findViewById<ImageButton>(R.id.big_red_button).visibility = View.VISIBLE })
+                    doOnEnd = {})
                 hideIconSwitch {
                     cameraButton.setImageResource(R.drawable.ic_down_96)
                 }
             }
         }
-        findViewById<ImageButton>(R.id.big_red_button).setOnClickListener {
+        redButton.setOnClickListener {
             findViewById<Group>(R.id.nav_bar_group).visibility = View.GONE
             val action = NavGraphDirections.actionGlobalActionMap(true)
             navController.navigate(action)
