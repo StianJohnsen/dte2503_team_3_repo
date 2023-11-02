@@ -88,6 +88,10 @@ class RecordingStatisticsFragment : BaseFragment<FragmentRecordingStatisticsBind
         // Customize the pie Chart
         val pieChart: PieChart = view.findViewById(R.id.pieChart_stats)
         val dataSet = PieDataSet(entries, "Categories")
+
+        dataSet.valueTextSize = 16f
+        dataSet.valueTextColor = Color.WHITE
+
         dataSet.colors = ColorTemplate.COLORFUL_COLORS.toList()
 
         pieChart.setDrawEntryLabels(false)

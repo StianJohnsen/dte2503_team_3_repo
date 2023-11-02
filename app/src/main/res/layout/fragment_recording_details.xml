@@ -52,7 +52,7 @@
         <View
             android:id="@+id/text_bar_record_1"
             android:layout_width="match_parent"
-            android:layout_height="0.5dp"
+            android:layout_height="0.75dp"
             android:layout_marginVertical="@dimen/margin_padding_size_32"
             android:layout_marginHorizontal="@dimen/margin_padding_size_32"
             android:background="@drawable/line_separator_gray"
@@ -63,7 +63,7 @@
         <View
             android:id="@+id/text_bar_record_2"
             android:layout_width="match_parent"
-            android:layout_height="0.5dp"
+            android:layout_height="0.75dp"
             android:background="@drawable/line_separator_gray"
             android:layout_marginHorizontal="@dimen/margin_padding_size_32"
             android:layout_marginVertical="@dimen/margin_padding_size_32"
