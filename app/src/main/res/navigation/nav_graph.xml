@@ -126,11 +126,16 @@
         android:id="@+id/loginFragment"
         android:name="com.example.dashcarr.presentation.authentication.login.LoginFragment"
         android:label="LoginFragment">
+
         <action
-            android:id="@+id/action_loginFragment_to_action_map"
-            app:destination="@id/action_map"
+            android:id="@+id/action_loginFragment_to_productFrontPage"
+            app:destination="@id/productFrontPage"
             app:popUpToInclusive="true"
-            app:popUpTo="@id/nav_graph" />
+            app:popUpTo="@id/nav_graph"
+            app:enterAnim="@anim/down_to_up"
+            app:exitAnim="@anim/up_to_down"
+            app:popEnterAnim="@anim/pop_y_enter"
+            app:popExitAnim="@anim/pop_y_exit" />
     </fragment>
 
     <fragment
@@ -153,14 +158,19 @@
         android:id="@+id/animationSampleFragment"
         android:name="com.example.dashcarr.presentation.tabs.settings.about_app.AboutAppFragment"
         android:label="fragment_animation_sample"
-        tools:layout="@layout/fragment_animation_sample">
+        tools:layout="@layout/fragment_about_app">
         <action
             android:id="@+id/action_animationSampleFragment_to_action_settings"
             app:destination="@id/action_settings" />
     </fragment>
     <action
         android:id="@+id/action_global_loginFragment"
-        app:destination="@id/loginFragment" />
+        app:destination="@id/loginFragment"
+        app:enterAnim="@anim/logout_up"
+        app:exitAnim="@anim/logout_down"
+        app:popEnterAnim="@anim/pop_y_enter"
+        app:popExitAnim="@anim/pop_y_exit"
+        />
     <fragment
         android:id="@+id/action_dashcam"
         android:name="com.example.dashcarr.presentation.tabs.camera.dashcam.DashcamFragment"
@@ -179,13 +189,6 @@
         android:label="ProductFrontPage">
         <action
             android:id="@+id/action_productFrontPage_to_action_map"
-            app:destination="@id/action_map"
-            app:enterAnim="@anim/down_to_up"
-            app:exitAnim="@anim/up_to_down"
-            app:popEnterAnim="@anim/pop_y_enter"
-            app:popExitAnim="@anim/pop_y_exit" />
-        <action
-            android:id="@+id/action_productFrontPage_to_action_map2"
             app:destination="@id/action_map"
             app:enterAnim="@anim/down_to_up"
             app:exitAnim="@anim/up_to_down"

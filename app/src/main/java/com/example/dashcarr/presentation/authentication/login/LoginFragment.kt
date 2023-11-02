@@ -41,7 +41,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(
                 } else {
                     if (response.user.providerId.lowercase().contains("facebook")) {
                         saveCredentialsToFirebase(response.idpToken)
-                    } else findNavController().navigate(R.id.action_loginFragment_to_action_map)
+                    } else findNavController().navigate(R.id.action_loginFragment_to_productFrontPage)
                 }
             }
             else -> if (response != null) {
@@ -96,7 +96,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(
 
         viewModel.loginState.collectWithLifecycle(viewLifecycleOwner) {
             if (it) {
-                findNavController().navigate(R.id.action_loginFragment_to_action_map)
+                findNavController().navigate(R.id.action_loginFragment_to_productFrontPage)
             } else {
                 Toast.makeText(requireContext(), "Login failed", Toast.LENGTH_SHORT).show()
             }
@@ -162,7 +162,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(
         Firebase.auth.signInWithCredential(credentials)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
-                    findNavController().navigate(R.id.action_loginFragment_to_action_map)
+                    findNavController().navigate(R.id.action_loginFragment_to_productFrontPage)
                 } else {
                     Toast.makeText(requireContext(), getString(R.string.error_unknown), Toast.LENGTH_SHORT).show()
                 }
