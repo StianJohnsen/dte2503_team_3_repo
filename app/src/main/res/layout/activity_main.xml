@@ -72,7 +72,7 @@
             android:layout_height="60dp"
             android:backgroundTint="#00FFFFFF"
             android:scaleType="centerCrop"
-            app:srcCompat="@drawable/ic_dashcam_settings2"
+            app:srcCompat="@drawable/ic_dashcam_settings"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.2"
             app:layout_constraintStart_toEndOf="@+id/saved_recordings_button"

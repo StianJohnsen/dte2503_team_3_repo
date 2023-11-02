@@ -71,11 +71,27 @@ class MainActivity : AppCompatActivity() {
         val bottomNavBar = findViewById<BottomNavigationView>(R.id.bottom_nav)
         bottomNavBar.setupWithNavController(navController)
 
-        val colorStateList = ColorStateList.valueOf(ContextCompat.getColor(this, R.color.mainBlue))
-        bottomNavBar.itemIconTintList = colorStateList
+        // Define colors for different states
+        val states = arrayOf(
+            intArrayOf(android.R.attr.state_selected), // selected state
+            intArrayOf(-android.R.attr.state_selected)  // normal state
+        )
 
-        val textColorStateList = ColorStateList.valueOf(ContextCompat.getColor(this, R.color.yellow))
-        bottomNavBar.itemTextColor = textColorStateList
+        // Define colors associated with each state
+        val iconColors = intArrayOf(
+            ContextCompat.getColor(this, R.color.mainBlue), // selected state: blue
+            ContextCompat.getColor(this, R.color.gray2)  // normal state: gray
+        )
+
+        // Define text colors
+        val textColors = intArrayOf(
+            ContextCompat.getColor(this, R.color.mainBlue), // selected state: blue
+            ContextCompat.getColor(this, android.R.color.transparent) // normal state: transparent (no text)
+        )
+
+        // Apply the colors to the BottomNavigationView
+        bottomNavBar.itemIconTintList = ColorStateList(states, iconColors)
+        bottomNavBar.itemTextColor = ColorStateList(states, textColors)
 
         initViewModels()
     }
@@ -107,6 +123,9 @@ class MainActivity : AppCompatActivity() {
     @SuppressLint("ResourceType")
     private fun addCameraListener() {
         val cameraButton = findViewById<FloatingActionButton>(R.id.camera_button)
+
+        cameraButton.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(this, R.color.mainBlue))
+
         fun hideIconSwitch(middleEvent: () -> Unit) {
             cameraButton.animate().apply {
                 duration = 200L
