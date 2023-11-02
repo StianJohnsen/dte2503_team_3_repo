@@ -7,92 +7,216 @@
         android:layout_height="match_parent"
         android:background="@color/mainBlue">
 
-        <ImageView
-            android:id="@+id/back_to_settings"
-            android:layout_width="@dimen/standard_touch_size"
-            android:layout_height="@dimen/standard_touch_size"
-            android:contentDescription="@string/back_button_content_description"
-            android:layout_marginTop="@dimen/margin_padding_size_10"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:src="@drawable/baseline_arrow_back_24" />
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/mainBlue">
 
-        <TextView
-            android:id="@+id/text_social_settings"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/social_settings_text"
-            android:layout_marginTop="@dimen/margin_padding_size_10"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:textSize="@dimen/text_size_34"
-            android:textColor="@color/white"
-            android:textStyle="bold" />
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-        <LinearLayout
-            android:id="@+id/linear_friends"
-            android:layout_width="0dp"
+                <ImageView
+                    android:id="@+id/btnBackToSettings"
+                    android:layout_width="@dimen/standard_touch_size"
+                    android:layout_height="@dimen/standard_touch_size"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:src="@drawable/baseline_arrow_back_24"/>
+
+                <TextView
+                    android:id="@+id/text_social_settings"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/social_settings_text"
+                    android:layout_marginTop="@dimen/margin_padding_size_10"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:textSize="@dimen/text_size_34"
+                    android:textColor="@color/white"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    android:id="@+id/linear_friends"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_marginStart="@dimen/margin_padding_size_10"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginEnd="@dimen/margin_padding_size_10"
+                    android:layout_marginBottom="50dp"
+                    android:background="@drawable/white_rounded_16dp_background"
+                    android:orientation="vertical"
+                    app:layout_constraintBottom_toTopOf="@+id/btnAddFriend"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/text_social_settings" />
+
+                <Button
+                    android:id="@+id/btnAddFriend"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/margin_padding_size_38"
+                    android:backgroundTint="@color/black"
+                    android:insetTop="@dimen/margin_padding_size_0"
+                    android:insetBottom="@dimen/margin_padding_size_0"
+                    android:text="@string/add_friend_button"
+                    android:textSize="@dimen/text_size_14"
+                    android:textStyle="bold"
+                    app:cornerRadius="20dp"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="@id/add_message_button"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:layout_marginEnd="100dp" />
+
+
+                <Button
+                    android:id="@+id/add_message_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/add_message_capitalized"
+                    android:insetTop="@dimen/margin_padding_size_0"
+                    android:insetBottom="@dimen/margin_padding_size_0"
+                    android:backgroundTint="@color/black"
+                    app:cornerRadius="20dp"
+                    android:textSize="@dimen/text_size_14"
+                    android:textStyle="bold"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintBottom_toBottomOf="@id/btnAddFriend"
+                    app:layout_constraintLeft_toLeftOf="@id/btnAddFriend"
+                    android:layout_marginStart="100dp"
+
+                    />
+
+                <Button
+                    android:visibility="gone"
+                    android:id="@+id/send_message_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/send_message"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:layout_marginStart="@dimen/margin_padding_size_10"
+                    android:layout_marginBottom="@dimen/margin_padding_size_10" />
+
+                <TextView
+                    android:id="@+id/messagesHeader"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/sent_messages"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_size_16"
+                    app:layout_constraintTop_toBottomOf="@+id/add_message_button"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:layout_marginStart="@dimen/margin_padding_size_18"
+                    android:paddingHorizontal="@dimen/margin_padding_size_12"
+                    android:layout_marginTop="@dimen/margin_padding_size_8"/>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/clContainer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toTopOf="@+id/messagesHeader"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:layout_marginTop="@dimen/margin_padding_size_26"
+                    android:layout_marginStart="@dimen/margin_padding_size_18"
+                    android:layout_marginEnd="@dimen/margin_padding_size_18"
+                    android:layout_marginBottom="@dimen/margin_padding_size_26"
+                    android:padding="@dimen/margin_padding_size_6"
+                    android:background="@drawable/white_rounded_16dp_background">
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recycler_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingHorizontal="@dimen/margin_padding_size_6"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"/>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </ScrollView>
+
+        <FrameLayout
+            android:id="@+id/flDeleteMessageLayout"
+            android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_marginStart="@dimen/margin_padding_size_10"
-            android:layout_marginTop="20dp"
-            android:layout_marginEnd="@dimen/margin_padding_size_10"
-            android:layout_marginBottom="50dp"
-            android:background="@drawable/white_rounded_16dp_background"
-            android:orientation="vertical"
-            app:layout_constraintBottom_toTopOf="@+id/btnAddFriend"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/text_social_settings" />
-
-        <Button
-            android:id="@+id/btnAddFriend"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/margin_padding_size_38"
-            android:backgroundTint="@color/black"
-            android:insetTop="@dimen/margin_padding_size_0"
-            android:insetBottom="@dimen/margin_padding_size_0"
-            android:text="@string/add_friend_button"
-            android:textSize="@dimen/text_size_14"
-            android:textStyle="bold"
-            app:cornerRadius="20dp"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="@id/add_message_button"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_marginEnd="100dp" />
-
-
-        <Button
-            android:id="@+id/add_message_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/add_message_capitalized"
-            android:insetTop="@dimen/margin_padding_size_0"
-            android:insetBottom="@dimen/margin_padding_size_0"
-            android:backgroundTint="@color/black"
-            app:cornerRadius="20dp"
-            android:textSize="@dimen/text_size_14"
-            android:textStyle="bold"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintBottom_toBottomOf="@id/btnAddFriend"
-            app:layout_constraintLeft_toLeftOf="@id/btnAddFriend"
-            android:layout_marginStart="100dp"
-
-            />
-
-        <Button
+            android:background="@color/black20"
             android:visibility="gone"
-            android:id="@+id/send_message_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/send_message"
-            app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_marginStart="@dimen/margin_padding_size_10"
-            android:layout_marginBottom="@dimen/margin_padding_size_10" />
+            app:layout_constraintTop_toTopOf="parent">
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginHorizontal="@dimen/margin_padding_size_18"
+                android:background="@drawable/white_rounded_16dp_background"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/margin_padding_size_20"
+                    android:orientation="horizontal"
+                    android:weightSum="2">
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnDelete"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/standard_touch_size"
+                        android:layout_marginTop="@dimen/margin_padding_size_10"
+                        android:layout_marginEnd="@dimen/margin_padding_size_6"
+                        android:layout_marginBottom="@dimen/margin_padding_size_10"
+                        android:layout_weight="1"
+                        android:backgroundTint="@color/black"
+                        android:insetTop="@dimen/margin_padding_size_0"
+                        android:insetBottom="@dimen/margin_padding_size_0"
+                        android:text="@string/delete_poi"
+                        android:textSize="@dimen/text_size_14"
+                        android:textStyle="bold"
+                        app:cornerRadius="20dp"
+                        app:icon="@drawable/ic_save_small"
+                        app:iconGravity="textStart"
+                        app:iconTint="@null"
+                        app:layout_constraintEnd_toEndOf="@+id/tilPassword"
+                        app:layout_constraintTop_toBottomOf="@id/tilPassword" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnCancelDelete"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/standard_touch_size"
+                        android:layout_marginStart="@dimen/margin_padding_size_6"
+                        android:layout_marginTop="@dimen/margin_padding_size_10"
+                        android:layout_weight="1"
+                        android:backgroundTint="@color/black"
+                        android:insetTop="@dimen/margin_padding_size_0"
+                        android:insetBottom="@dimen/margin_padding_size_0"
+                        android:text="@string/cancel_poi"
+                        android:textSize="@dimen/text_size_14"
+                        android:textStyle="bold"
+                        app:cornerRadius="20dp"
+                        app:icon="@drawable/ic_cancel_small"
+                        app:iconGravity="textStart"
+                        app:iconTint="@null"
+                        app:layout_constraintEnd_toEndOf="@+id/tilPassword"
+                        app:layout_constraintTop_toBottomOf="@id/tilPassword" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </FrameLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>
+
+

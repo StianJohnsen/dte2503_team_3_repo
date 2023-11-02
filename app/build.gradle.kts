@@ -65,6 +65,9 @@ kapt {
 
 dependencies {
 
+
+    implementation("androidx.card-view:card-view:1.0.0")
+
     //room
     implementation("androidx.room:room-runtime:2.6.0-alpha03")
     //annotationProcessor("androidx.room:room-compiler:2.5.2") // use kapt for Kotlin
