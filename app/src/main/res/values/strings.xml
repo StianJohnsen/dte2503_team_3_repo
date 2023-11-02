@@ -161,4 +161,7 @@
     <string name="add_message_capitalized">ADD MESSAGE</string>
     <string name="send_message">Send message</string>
 
+    <!--SocialSettingsFragment-->
+    <string name="sent_messages">Sent Messages</string>
+
 </resources>

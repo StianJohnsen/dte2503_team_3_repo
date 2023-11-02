@@ -25,6 +25,15 @@ class SocialSettingsFragment : BaseFragment<FragmentSocialSettingsBinding>(
     showBottomNavBar = false
 ) {
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        initListeners()
+    }
+
+    private fun initListeners() {
+        binding.btnBackToSettings.setOnClickListener {
+            findNavController().popBackStack()
+        }
     companion object {
         fun newInstance() = SocialSettingsFragment()
     }

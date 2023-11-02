@@ -85,14 +85,12 @@
             app:exitAnim="@anim/right_to_left"
             app:popEnterAnim="@anim/pop_x_enter"
             app:popExitAnim="@anim/pop_x_exit" />
-
         <action
             android:id="@+id/action_action_settings_to_socialSettingsFragment"
             app:destination="@id/socialSettingsFragment"
             app:enterAnim="@anim/left_to_right"
             app:exitAnim="@anim/right_to_left"
             app:popEnterAnim="@anim/pop_x_enter"
-            app:popExitAnim="@anim/pop_x_exit" />
             app:popExitAnim="@anim/pop_x_exit" />
         <action
             android:id="@+id/action_action_settings_to_selectContactFragment"
@@ -174,7 +172,7 @@
         android:id="@+id/animationSampleFragment"
         android:name="com.example.dashcarr.presentation.tabs.settings.about_app.AboutAppFragment"
         android:label="fragment_animation_sample"
-        tools:layout="@layout/fragment_animation_sample">
+        tools:layout="@layout/fragment_about_app">
         tools:layout="@layout/fragment_about_app">
         <action
             android:id="@+id/action_animationSampleFragment_to_action_settings"
@@ -224,6 +222,7 @@
             android:id="@+id/action_mapsSettingsFragment_to_action_settings"
             app:destination="@id/action_settings" />
     </fragment>
+
     <action
         android:id="@+id/action_global_action_map"
         app:destination="@id/action_map"
