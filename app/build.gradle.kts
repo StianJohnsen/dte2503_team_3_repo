@@ -66,7 +66,7 @@ kapt {
 dependencies {
 
 
-    implementation("androidx.card-view:card-view:1.0.0")
+    implementation("androidx.cardview:cardview:1.0.0")
 
     //room
     implementation("androidx.room:room-runtime:2.6.0-alpha03")
