@@ -112,7 +112,7 @@ class MainActivity : AppCompatActivity() {
      */
     private fun initViewModels() {
         viewModel.isUserLoggedIn.collectWithLifecycle(this) {
-            if (it) navController.navigate(R.id.action_loginFragment_to_action_map)
+            if (it) navController.navigate(R.id.action_loginFragment_to_productFrontPage)
         }
     }
 
