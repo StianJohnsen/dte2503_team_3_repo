@@ -8,9 +8,11 @@ import androidx.room.RoomDatabase
 import com.example.dashcarr.data.database.dao.FriendsDao
 import com.example.dashcarr.data.database.dao.MessagesDao
 import com.example.dashcarr.data.database.dao.PointOfInterestDao
+import com.example.dashcarr.data.database.dao.SentMessageDao
 import com.example.dashcarr.domain.entity.FriendsEntity
 import com.example.dashcarr.domain.entity.MessagesEntity
 import com.example.dashcarr.domain.entity.PointOfInterestEntity
+import com.example.dashcarr.domain.entity.SentMessagesEntity
 
 /**
  * Room Database class for the app.
@@ -24,9 +26,10 @@ import com.example.dashcarr.domain.entity.PointOfInterestEntity
     entities = [
         PointOfInterestEntity::class,
         FriendsEntity::class,
-        MessagesEntity::class
+        MessagesEntity::class,
+        SentMessagesEntity::class
     ],
-    version = 3,
+    version = 4,
     exportSchema = true
 )
 abstract class AppDatabase : RoomDatabase() {
@@ -68,4 +71,5 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun pointsDao(): PointOfInterestDao
     abstract fun FriendsDao(): FriendsDao
     abstract fun MessagesDao(): MessagesDao
+    abstract fun SentMessageDao(): SentMessageDao
 }
