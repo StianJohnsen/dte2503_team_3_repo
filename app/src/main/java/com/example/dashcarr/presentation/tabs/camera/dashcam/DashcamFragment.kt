@@ -19,7 +19,7 @@ import com.example.dashcarr.presentation.tabs.settings.PowerSavingMode
 
 class DashcamFragment() : BaseFragment<FragmentDashcamBinding>(
     FragmentDashcamBinding::inflate,
-    showBottomNavBar = true
+    showBottomNavBar = false
 ) {
 
     companion object {
