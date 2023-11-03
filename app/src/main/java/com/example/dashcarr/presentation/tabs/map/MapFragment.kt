@@ -658,7 +658,9 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
 
     override fun onDestroy() {
         super.onDestroy()
-        stopRecording()
+        if (isRecording) {
+            stopRecording()
+        }
     }
 
     override fun singleTapConfirmedHelper(geoPoint: GeoPoint?): Boolean {
