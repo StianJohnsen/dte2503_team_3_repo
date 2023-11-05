@@ -26,9 +26,11 @@ fun View.setHeightSmooth(
     avoidZero: Boolean = false,
     doOnStart: () -> Unit = {},
     doOnEnd: () -> Unit = {},
+    startDelay: Long = 0L
 ) {
     val widthAnimator = ValueAnimator.ofInt(this.height, newHeight ?: this.height)
     widthAnimator.duration = duration
+    widthAnimator.startDelay = startDelay
     widthAnimator.interpolator = DecelerateInterpolator()
     widthAnimator.addUpdateListener { animation ->
         if (animation.animatedValue as Int == -1 && avoidWrapContent) return@addUpdateListener

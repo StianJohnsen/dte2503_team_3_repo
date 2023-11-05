@@ -23,6 +23,7 @@
         app:navGraph="@navigation/nav_graph" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_red_button"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:visibility="visible"
@@ -36,7 +37,7 @@
             android:layout_width="wrap_content"
             android:layout_height="100dp"
             android:background="@drawable/rounded_sliding_box"
-            android:visibility="gone"
+            android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
@@ -44,16 +45,28 @@
         <ImageButton
             android:id="@+id/big_red_button"
             android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/margin_padding_size_32"
+            android:adjustViewBounds="true"
             android:backgroundTint="#00FFFFFF"
             android:scaleType="fitCenter"
             android:src="@drawable/animated_red_button"
-            android:visibility="gone"
+            android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <ImageView
+            android:id="@+id/arrow"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:scaleType="fitCenter"
+            app:layout_constraintBottom_toTopOf="@+id/big_red_button"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/animated_arrow" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView

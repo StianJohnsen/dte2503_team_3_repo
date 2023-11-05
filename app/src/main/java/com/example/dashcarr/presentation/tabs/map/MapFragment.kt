@@ -466,6 +466,7 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
 
     private fun deleteRecording() {
         recordingViewModel.stopRecording()
+        isRecording = false
         resetRecording()
     }
 
