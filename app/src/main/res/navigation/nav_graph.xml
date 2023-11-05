@@ -85,6 +85,14 @@
             app:exitAnim="@anim/right_to_left"
             app:popEnterAnim="@anim/pop_x_enter"
             app:popExitAnim="@anim/pop_x_exit" />
+
+        <action
+            android:id="@+id/action_action_settings_to_socialSettingsFragment"
+            app:destination="@id/socialSettingsFragment"
+            app:enterAnim="@anim/left_to_right"
+            app:exitAnim="@anim/right_to_left"
+            app:popEnterAnim="@anim/pop_x_enter"
+            app:popExitAnim="@anim/pop_x_exit" />
     </fragment>
 
     <fragment
@@ -212,5 +220,30 @@
         app:popEnterAnim="@anim/pop_y_enter"
         app:popExitAnim="@anim/pop_y_exit" />
 
+    <fragment
+        android:id="@+id/socialSettingsFragment"
+        android:name="com.example.dashcarr.presentation.tabs.settings.social_settings.SocialSettingsFragment"
+        android:label="SocialSettingsFragment">
+        <action
+            android:id="@+id/action_socialSettingsFragment_to_action_settings"
+            app:destination="@id/action_settings" />
+
+        <action
+            android:id="@+id/action_socialSettingsFragment_to_add_friend_fragment"
+            app:destination="@id/addFriendFragment">
+            <argument
+                android:name="friendId"
+                app:argType="integer" />
+        </action>
+    </fragment>
+
+    <fragment
+        android:id="@+id/addFriendFragment"
+        android:name="com.example.dashcarr.presentation.tabs.settings.social_settings.AddFriendFragment"
+        android:label="AddFriendFragment">
+        <action
+            android:id="@+id/action_addFriendFragment_to_SocialSettingsFragment"
+            app:destination="@id/socialSettingsFragment" />
+    </fragment>
 
 </navigation>

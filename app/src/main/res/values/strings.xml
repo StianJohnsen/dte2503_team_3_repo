@@ -133,6 +133,16 @@
     <string name="power_settings_text">Power Settings</string>
     <string name="battery_saving_mode">Battery Saving Mode:</string>
 
+    <!--SocialSettingsFragment-->
+    <string name="social_settings_text">Social Settings</string>
+    <string name="add_friend_button">Add Friend</string>
+    <string name="delete_friend_button">Delete Friend</string>
+    <string name="cancel_friend_button">Cancel</string>
+    <string name="input_name">Name</string>
+    <string name="input_phone">Phone</string>
+    <string name="input_email">Email</string>
+    <string name="update">Update</string>
+
     <!--HudView-->
     <string name="search_for_location">Waiting for GPS</string>
     <string name="back_button_content_description">Back button</string>

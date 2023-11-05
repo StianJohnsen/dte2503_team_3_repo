@@ -32,9 +32,6 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>(
             findNavController().navigate(R.id.action_action_settings_to_animationSampleFragment)
         }
 
-
-
-
         binding.btnMapsSettings.setOnClickListener {
             showBottomNavigation(false)
             findNavController().navigate(R.id.action_action_settings_to_mapsSettingsFragment)
@@ -42,6 +39,10 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>(
 
         binding.btnNewFeatures.setOnClickListener {
             findNavController().navigate(R.id.action_action_settings_to_productFrontPage)
+        }
+
+        binding.btnSocialSettings.setOnClickListener {
+            findNavController().navigate(R.id.action_action_settings_to_socialSettingsFragment)
         }
 
         binding.btnLogout.setOnClickListener {
