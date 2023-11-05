@@ -5,10 +5,9 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.content.res.ColorStateList
 import android.graphics.drawable.Animatable
 import android.graphics.drawable.AnimatedVectorDrawable
-import android.content.res.ColorStateList
-import android.net.Uri
 import android.os.BatteryManager
 import android.os.Bundle
 import android.os.PowerManager
@@ -17,8 +16,6 @@ import android.widget.ImageButton
 import android.widget.ImageView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.constraintlayout.widget.Group
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.navigation.NavController
@@ -28,8 +25,6 @@ import com.example.dashcarr.NavGraphDirections
 import com.example.dashcarr.R
 import com.example.dashcarr.extensions.collectWithLifecycle
 import com.example.dashcarr.extensions.setHeightSmooth
-import com.example.dashcarr.presentation.tabs.camera.dashcam.DashcamFragment
-import com.example.dashcarr.presentation.tabs.camera.security.SecurityCameraFragment
 import com.example.dashcarr.presentation.tabs.settings.PowerSavingMode
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -178,12 +173,10 @@ class MainActivity : AppCompatActivity() {
             }
         navController.addOnDestinationChangedListener(list)
 
-
         rideButton.setOnClickListener {
             if (slidingBox.isVisible) {
                 startHideAnimation()
             } else {
-
                 arrowView.animate()
                     .withStartAction {
                         arrowView.visibility = View.VISIBLE
