@@ -18,7 +18,9 @@
             app:argType="boolean" />
         <action
             android:id="@+id/action_action_map_to_action_history"
-            app:destination="@id/action_history" />
+            app:destination="@id/action_history"
+            app:enterAnim="@anim/down_to_up"
+            app:exitAnim="@anim/up_to_down" />
         <action
             android:id="@+id/action_action_map_to_action_security_camera"
             app:destination="@id/action_security_camera" />
@@ -195,7 +197,9 @@
         android:id="@+id/action_global_action_map"
         app:destination="@id/action_map"
         app:enterAnim="@anim/down_to_up"
-        app:exitAnim="@anim/up_to_down" />
+        app:exitAnim="@anim/up_to_down"
+        app:popEnterAnim="@anim/pop_y_enter"
+        app:popExitAnim="@anim/pop_y_exit" />
 
 
 </navigation>
