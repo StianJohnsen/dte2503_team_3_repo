@@ -6,12 +6,12 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.graphics.drawable.Animatable
+import android.graphics.drawable.AnimatedVectorDrawable
 import android.content.res.ColorStateList
 import android.net.Uri
 import android.os.BatteryManager
 import android.os.Bundle
 import android.os.PowerManager
-import android.util.Log
 import android.view.View
 import android.widget.ImageButton
 import android.widget.ImageView
@@ -143,7 +143,6 @@ class MainActivity : AppCompatActivity() {
         val redButton = findViewById<ImageButton>(R.id.big_red_button)
 
         fun startHideAnimation(startDelay: Long = 0, endAction: () -> Unit = {}) {
-            Log.e("sdf", "hide")
             arrowView.animate()
                 .setDuration(1800)
                 .setStartDelay(startDelay)
@@ -184,7 +183,7 @@ class MainActivity : AppCompatActivity() {
             if (slidingBox.isVisible) {
                 startHideAnimation()
             } else {
-                redButton.setImageResource(R.drawable.animated_red_button)
+
                 arrowView.animate()
                     .withStartAction {
                         arrowView.visibility = View.VISIBLE
@@ -196,6 +195,7 @@ class MainActivity : AppCompatActivity() {
                 findViewById<ImageButton>(R.id.big_red_button).animate()
                     .withStartAction {
                         redButton.visibility = View.VISIBLE
+                        (redButton.drawable as AnimatedVectorDrawable).reset()
                     }
                     .setDuration(500)
                     .translationY(0F)
