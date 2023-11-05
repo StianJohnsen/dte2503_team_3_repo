@@ -11,8 +11,10 @@ import android.net.Uri
 import android.os.BatteryManager
 import android.os.Bundle
 import android.os.PowerManager
+import android.util.Log
 import android.view.View
 import android.widget.ImageButton
+import android.widget.ImageView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -121,60 +123,82 @@ class MainActivity : AppCompatActivity() {
 
     @SuppressLint("ResourceType")
     private fun initRedButton() {
-        val cameraButton = findViewById<FloatingActionButton>(R.id.camera_button)
-
-        cameraButton.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(this, R.color.mainBlue))
-
+        val rideButton = findViewById<FloatingActionButton>(R.id.camera_button)
+        rideButton.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(this, R.color.mainBlue))
         fun hideIconSwitch(middleEvent: () -> Unit) {
-            cameraButton.animate().apply {
+            rideButton.animate().apply {
                 duration = 200L
-                rotationYBy(90F)
+                rotationY(90F)
             }.withEndAction {
                 middleEvent()
-                cameraButton.animate().apply {
+                rideButton.animate().apply {
                     duration = 200L
-                    rotationYBy(-90F)
+                    rotationY(0F)
                 }
             }
         }
 
+        val arrowView = findViewById<ImageView>(R.id.arrow)
+        (arrowView.drawable as Animatable).start()
         val redButton = findViewById<ImageButton>(R.id.big_red_button)
-        (redButton.drawable as Animatable).start()
 
-        val hideCameraButtons = {
-            redButton.animate()
-                .setDuration(2000)
+        fun startHideAnimation(startDelay: Long = 0, endAction: () -> Unit = {}) {
+            Log.e("sdf", "hide")
+            arrowView.animate()
+                .setDuration(1800)
+                .setStartDelay(startDelay)
                 .translationY(2000F)
-                .withEndAction { redButton.visibility = View.GONE }
+                .withEndAction {
+                    arrowView.visibility = View.GONE
+                    redButton.visibility = View.GONE
+                }
+                .start()
+            redButton.animate()
+                .setDuration(800)
+                .setStartDelay(startDelay)
+                .translationY(800F)
+                .withEndAction(endAction)
                 .start()
             slidingBox.setHeightSmooth(
                 500,
                 0,
                 doOnEnd = {
                     slidingBox.visibility = View.GONE
-
-                })
-            hideIconSwitch { cameraButton.setImageResource(R.drawable.ic_car_100) }
+                },
+                startDelay = startDelay
+            )
+            hideIconSwitch { rideButton.setImageResource(R.drawable.ic_car_100) }
         }
-        hideCameraButtons()
+        startHideAnimation()
         val list =
-            NavController.OnDestinationChangedListener { _, _, _ ->
-                if (slidingBox.isVisible) {
-                    hideCameraButtons()
+            NavController.OnDestinationChangedListener { _, _, args ->
+                val isRideStarting = args?.getBoolean("isRideActivated", false) ?: false
+                if (slidingBox.isVisible && !isRideStarting) {
+                    startHideAnimation()
                 }
             }
         navController.addOnDestinationChangedListener(list)
 
 
-        cameraButton.setOnClickListener {
+        rideButton.setOnClickListener {
             if (slidingBox.isVisible) {
-                hideCameraButtons()
+                startHideAnimation()
             } else {
-                redButton.animate()
-                    .withStartAction { redButton.visibility = View.VISIBLE }
+                redButton.setImageResource(R.drawable.animated_red_button)
+                arrowView.animate()
+                    .withStartAction {
+                        arrowView.visibility = View.VISIBLE
+                    }
                     .setDuration(1000)
                     .translationY(0F)
                     .withEndAction { }
+                    .start()
+                findViewById<ImageButton>(R.id.big_red_button).animate()
+                    .withStartAction {
+                        redButton.visibility = View.VISIBLE
+                    }
+                    .setDuration(500)
+                    .translationY(0F)
                     .start()
                 slidingBox.setHeightSmooth(
                     190,
@@ -182,14 +206,16 @@ class MainActivity : AppCompatActivity() {
                     doOnStart = { slidingBox.visibility = View.VISIBLE },
                     doOnEnd = {})
                 hideIconSwitch {
-                    cameraButton.setImageResource(R.drawable.ic_down_96)
+                    rideButton.setImageResource(R.drawable.ic_down_96)
                 }
             }
         }
         redButton.setOnClickListener {
-            findViewById<Group>(R.id.nav_bar_group).visibility = View.GONE
-            val action = NavGraphDirections.actionGlobalActionMap(true)
-            navController.navigate(action)
+            (redButton.drawable as Animatable).start()
+            startHideAnimation(200L) {
+                val action = NavGraphDirections.actionGlobalActionMap(true)
+                navController.navigate(action)
+            }
         }
 
     }

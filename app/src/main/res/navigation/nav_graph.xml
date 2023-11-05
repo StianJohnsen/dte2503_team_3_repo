@@ -193,7 +193,9 @@
     </fragment>
     <action
         android:id="@+id/action_global_action_map"
-        app:destination="@id/action_map" />
+        app:destination="@id/action_map"
+        app:enterAnim="@anim/down_to_up"
+        app:exitAnim="@anim/up_to_down" />
 
 
 </navigation>
