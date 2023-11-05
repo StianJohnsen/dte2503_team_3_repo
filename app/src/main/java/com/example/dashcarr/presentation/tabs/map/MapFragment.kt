@@ -183,10 +183,7 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
             binding.mapView.controller.setZoom(15.0)
         }
         binding.buttonMaximize.setOnClickListener {
-            val transaction = requireActivity().supportFragmentManager.beginTransaction()
-            transaction.replace(R.id.nav_host_container, HudFragment())
-            transaction.addToBackStack(null)
-            transaction.commit()
+            findNavController().navigate(R.id.action_action_map_to_action_hud)
         }
     }
 
@@ -232,6 +229,7 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
             childFragmentManager.beginTransaction()
                 .add(binding.hudView.id, HudFragment())
                 .commit()
+
             binding.apply {
                 btnStart.setOnClickListener {
                     startRecording()

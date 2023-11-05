@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.constraintlayout.widget.Group
-import androidx.navigation.fragment.NavHostFragment
+import androidx.fragment.app.Fragment
 import androidx.viewbinding.ViewBinding
 import com.example.dashcarr.R
 
@@ -22,7 +22,7 @@ typealias Inflate<T> = (LayoutInflater, ViewGroup?, Boolean) -> T
 abstract class BaseFragment<VB : ViewBinding>(
     private val inflate: Inflate<VB>,
     private val showBottomNavBar: Boolean?
-) : NavHostFragment() {
+) : Fragment() {
 
     /**
      * ViewBinding instance for accessing the views in the fragment.

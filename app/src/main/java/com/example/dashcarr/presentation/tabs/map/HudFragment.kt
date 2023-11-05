@@ -15,6 +15,7 @@ import android.view.WindowInsets
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.getSystemService
+import androidx.navigation.fragment.NavHostFragment
 import com.example.dashcarr.databinding.FragmentHudBinding
 import com.example.dashcarr.extensions.setHeightSmooth
 import com.example.dashcarr.presentation.core.BaseFragment
@@ -37,7 +38,7 @@ class HudFragment : BaseFragment<FragmentHudBinding>(
     @SuppressLint("SourceLockedOrientationActivity")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        if (parentFragment == null) {
+        if (parentFragment is NavHostFragment) {
             // Display the data rotated, mirrored and with black background for head up display usage.
             requireActivity().requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
@@ -76,7 +77,7 @@ class HudFragment : BaseFragment<FragmentHudBinding>(
                 locationHandler()
             } else {
                 Toast.makeText(requireActivity(), "Could not access current location", Toast.LENGTH_LONG).show()
-                if (parentFragment == null) {
+                if (parentFragment is NavHostFragment) {
                     requireActivity().onBackPressed()
                 }
             }

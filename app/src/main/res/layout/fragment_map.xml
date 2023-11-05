@@ -59,7 +59,7 @@
                 android:paddingHorizontal="0dp"
                 android:paddingVertical="0dp"
                 android:scaleType="fitCenter"
-                android:src="@drawable/ic_circle_recording" />
+                android:src="@drawable/ic_dashcam_settings" />
 
             <ImageButton
                 android:id="@+id/btn_send_message"

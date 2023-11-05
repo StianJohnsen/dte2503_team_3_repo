@@ -24,11 +24,22 @@
         <action
             android:id="@+id/action_action_map_to_action_security_camera"
             app:destination="@id/action_security_camera" />
+        <action
+            android:id="@+id/action_action_map_to_action_hud"
+            app:destination="@id/action_hud"
+            app:enterAnim="@anim/down_to_up"
+            app:exitAnim="@anim/up_to_down"
+            app:popEnterAnim="@anim/pop_y_enter"
+            app:popExitAnim="@anim/pop_y_exit" />
     </fragment>
     <fragment
         android:id="@+id/action_dash_cam"
         android:name="com.example.dashcarr.presentation.tabs.camera.dashcam.DashcamFragment"
         android:label="DashCamFragment" />
+    <fragment
+        android:id="@+id/action_hud"
+        android:name="com.example.dashcarr.presentation.tabs.map.HudFragment"
+        android:label="HudFragment" />
     <fragment
         android:id="@+id/action_settings"
         android:name="com.example.dashcarr.presentation.tabs.settings.SettingsFragment"
