@@ -64,13 +64,21 @@
             app:enterAnim="@anim/left_to_right"
             app:exitAnim="@anim/right_to_left"
             app:popEnterAnim="@anim/pop_x_enter"
-            app:popExitAnim="@anim/pop_x_exit"/>
+            app:popExitAnim="@anim/pop_x_exit" />
+
+        <action
+            android:id="@+id/action_action_settings_to_socialSettingsFragment"
+            app:destination="@id/socialSettingsFragment"
+            app:enterAnim="@anim/left_to_right"
+            app:exitAnim="@anim/right_to_left"
+            app:popEnterAnim="@anim/pop_x_enter"
+            app:popExitAnim="@anim/pop_x_exit" />
     </fragment>
 
     <fragment
         android:id="@+id/action_recordings_statistics"
         android:name="com.example.dashcarr.presentation.tabs.history.RecordingStatisticsFragment"
-        android:label="RecordingStatisticsFragment" >
+        android:label="RecordingStatisticsFragment">
         <action
             android:id="@+id/action_action_recordings_statistics_to_action_history"
             app:destination="@id/action_history" />
@@ -133,7 +141,7 @@
         android:id="@+id/animationSampleFragment"
         android:name="com.example.dashcarr.presentation.tabs.settings.about_app.AboutAppFragment"
         android:label="fragment_animation_sample"
-        tools:layout="@layout/fragment_animation_sample" >
+        tools:layout="@layout/fragment_animation_sample">
         <action
             android:id="@+id/action_animationSampleFragment_to_action_settings"
             app:destination="@id/action_settings" />
@@ -156,7 +164,7 @@
     <fragment
         android:id="@+id/productFrontPage"
         android:name="com.example.dashcarr.presentation.tabs.settings.new_features.ProductFrontPage"
-        android:label="ProductFrontPage" >
+        android:label="ProductFrontPage">
         <action
             android:id="@+id/action_productFrontPage_to_action_map"
             app:destination="@id/action_map"
@@ -179,9 +187,18 @@
     <fragment
         android:id="@+id/mapsSettingsFragment"
         android:name="com.example.dashcarr.presentation.tabs.settings.maps_settings.MapsSettingsFragment"
-        android:label="MapsSettingsFragment" >
+        android:label="MapsSettingsFragment">
         <action
             android:id="@+id/action_mapsSettingsFragment_to_action_settings"
+            app:destination="@id/action_settings" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/socialSettingsFragment"
+        android:name="com.example.dashcarr.presentation.tabs.settings.social_settings.SocialSettingsFragment"
+        android:label="SocialSettingsFragment">
+        <action
+            android:id="@+id/action_socialSettingsFragment_to_action_settings"
             app:destination="@id/action_settings" />
     </fragment>
 
