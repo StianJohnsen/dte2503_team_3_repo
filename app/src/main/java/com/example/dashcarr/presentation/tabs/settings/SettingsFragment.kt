@@ -32,6 +32,7 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>(
             findNavController().navigate(R.id.action_action_settings_to_animationSampleFragment)
         }
 
+
         binding.btnMapsSettings.setOnClickListener {
             showBottomNavigation(false)
             findNavController().navigate(R.id.action_action_settings_to_mapsSettingsFragment)
