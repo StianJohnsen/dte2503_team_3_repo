@@ -17,7 +17,6 @@ import android.location.LocationManager
 import android.os.BatteryManager
 import android.os.Bundle
 import android.os.PowerManager
-import android.os.SystemClock
 import android.preference.PreferenceManager
 import android.util.Log
 import android.view.View
@@ -26,6 +25,7 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -42,7 +42,6 @@ import com.example.dashcarr.presentation.core.BaseFragment
 import com.example.dashcarr.presentation.mapper.toMarker
 import com.example.dashcarr.presentation.tabs.camera.dashcam.DashcamFragment
 import com.example.dashcarr.presentation.tabs.map.data.PointOfInterest
-import com.example.dashcarr.presentation.tabs.map.data.SensorData
 import com.example.dashcarr.presentation.tabs.settings.PowerSavingMode
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -72,9 +71,15 @@ import java.time.format.DateTimeFormatter
 class MapFragment : BaseFragment<FragmentMapBinding>(
     FragmentMapBinding::inflate, null
 ), LocationListener, MapEventsReceiver, SensorEventListener {
+    FragmentMapBinding::inflate,
+    showBottomNavBar = true
+), LocationListener, MapEventsReceiver {
 
     private val mapViewModel: MapViewModel by viewModels()
     private val recordingViewModel: RecordingViewModel by viewModels()
+    private val sensorRecordingViewModel by lazy {
+        ViewModelProvider(this)[SensorRecordingViewModel::class.java]
+    }
 
     // Location manager for handling location updates
     private val locationManager by lazy { requireContext().getSystemService(Context.LOCATION_SERVICE) as LocationManager }
@@ -93,47 +98,15 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
         }
     }
 
-    private lateinit var sensorManager: SensorManager
-    private var accelSensor: Sensor? = null
-    private var gyroSensor: Sensor? = null
-    private var magnetoSensor: Sensor? = null
-    private var isRecording = false
+
     private var isTimerPaused = true
 
     private var elapsedTime = ""
 
-    // Accelerometer
-    private var rawAccSample = FloatArray(3)
-    private var rawAccDataIndex = 0
-    private var filtAccSample = FloatArray(3)
-    private var filtAccPrevSample = FloatArray(3)
-    private var rawAcclRecord = mutableListOf<SensorData>()
-    private var filtAcclRecord = mutableListOf<SensorData>()
-
-    private var stepNumber = 0
-
-    // Gyroscope
-    private var rawGyroSample = FloatArray(3)
-    private var rawGyroDataIndex = 0
-    private var filtGyroSample = FloatArray(3)
-    private var filtGyroPrevSample = FloatArray(3)
-    private var rawGyroRecord = mutableListOf<SensorData>()
-    private var filtGyroRecord = mutableListOf<SensorData>()
-
-    // Location
-    private var rawLocationRecord = mutableListOf<SensorData>()
+    private var isRecordingLocation = false
 
     private var recordingJson = JSONObject()
 
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        sensorManager = context.getSystemService(Context.SENSOR_SERVICE) as SensorManager
-    }
-
-    private var startTimeMillis: Long = 0
-    private var totalElapsedTimeMillis: Long = 0
-    private var pausedElapsedTimeMillis: Long = 0
 
     /**
      * Observes the ViewModel's LiveData and updates the UI accordingly.
@@ -141,6 +114,9 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
     private fun observeViewModel() {
         mapViewModel.lastSavedUserLocation.collectWithLifecycle(viewLifecycleOwner) {
             binding.mapView.controller.setCenter(it)
+        }
+        sensorRecordingViewModel.rpmLiveData.isRecording.observe(viewLifecycleOwner) {
+            isRecordingLocation = it
         }
 
         mapViewModel.createMarkerState.collectWithLifecycle(viewLifecycleOwner) {
@@ -171,6 +147,24 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
             }
         }
 
+        sensorRecordingViewModel.rpmLiveData.isBtnStartShowing.observe(viewLifecycleOwner) {
+            binding.btnStart.visibility = it
+        }
+        sensorRecordingViewModel.rpmLiveData.isBtnStopShowing.observe(viewLifecycleOwner) {
+            binding.btnStop.visibility = it
+        }
+
+        sensorRecordingViewModel.rpmLiveData.isBtnPauseShowing.observe(viewLifecycleOwner) {
+            binding.btnPause.visibility = it
+        }
+
+        sensorRecordingViewModel.rpmLiveData.isBtnResumeShowing.observe(viewLifecycleOwner) {
+            binding.btnResume.visibility = it
+        }
+
+        sensorRecordingViewModel.rpmLiveData.isBtnDeleteShowing.observe(viewLifecycleOwner) {
+            binding.btnDelete.visibility = it
+        }
     }
 
     /**
@@ -236,6 +230,43 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
         Log.d(this::class.simpleName, "Current Power Mode: ${PowerSavingMode.getPowerMode()}")
 
         // sets visibility and functionality for recording buttons
+        binding.apply {
+            btnStart.setOnClickListener {
+                startRecording()
+                sensorRecordingViewModel.rpmLiveData.setIsRecordingButtonsShowing("Start", false)
+                sensorRecordingViewModel.rpmLiveData.setIsRecordingButtonsShowing("Stop", true)
+                sensorRecordingViewModel.rpmLiveData.setIsRecordingButtonsShowing("Pause", true)
+                sensorRecordingViewModel.rpmLiveData.setIsRecordingButtonsShowing("Delete", true)
+            }
+            btnStop.setOnClickListener {
+                stopRecording()
+                sensorRecordingViewModel.rpmLiveData.setIsRecordingButtonsShowing("Stop", false)
+                sensorRecordingViewModel.rpmLiveData.setIsRecordingButtonsShowing("Start", true)
+                sensorRecordingViewModel.rpmLiveData.setIsRecordingButtonsShowing("Pause", false)
+                sensorRecordingViewModel.rpmLiveData.setIsRecordingButtonsShowing("Delete", false)
+                sensorRecordingViewModel.rpmLiveData.setIsRecordingButtonsShowing("Resume", false)
+            }
+            btnPause.setOnClickListener {
+                pauseRecording()
+                sensorRecordingViewModel.rpmLiveData.setIsRecordingButtonsShowing("Pause", false)
+                sensorRecordingViewModel.rpmLiveData.setIsRecordingButtonsShowing("Resume", true)
+            }
+            btnResume.setOnClickListener {
+                resumeRecording()
+                sensorRecordingViewModel.rpmLiveData.setIsRecordingButtonsShowing("Resume", false)
+                sensorRecordingViewModel.rpmLiveData.setIsRecordingButtonsShowing("Pause", true)
+            }
+            btnDelete.setOnClickListener {
+                deleteRecording()
+                sensorRecordingViewModel.rpmLiveData.setIsRecordingButtonsShowing("Delete", false)
+                sensorRecordingViewModel.rpmLiveData.setIsRecordingButtonsShowing("Pause", false)
+                sensorRecordingViewModel.rpmLiveData.setIsRecordingButtonsShowing("Stop", false)
+                sensorRecordingViewModel.rpmLiveData.setIsRecordingButtonsShowing("Start", true)
+                sensorRecordingViewModel.rpmLiveData.setIsRecordingButtonsShowing("Resume", false)
+            }
+        }
+
+
         if (args.isRideActivated) {
             childFragmentManager.beginTransaction()
                 .add(binding.hudView.id, HudFragment())
@@ -298,6 +329,122 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
         requestLocationPermissionsLauncher.launch(locationPermissions)
     }
 
+    override fun onResume() {
+        super.onResume()
+        sensorRecordingViewModel.rpmLiveData.registerSensors()
+
+        val sensorSamplingRate: Int
+
+        if (PowerSavingMode.getPowerMode()) {
+            sensorSamplingRate = SensorManager.SENSOR_DELAY_NORMAL
+        } else {
+            sensorSamplingRate = SensorManager.SENSOR_DELAY_FASTEST
+        }
+
+        Log.d(this::class.simpleName, sensorSamplingRate.toString())
+
+
+    }
+
+    override fun onPause() {
+        super.onPause()
+        sensorRecordingViewModel.rpmLiveData.unregisterSensors()
+    }
+
+    /**
+     * Stops listening for sensorChanges
+     */
+
+
+    private fun startRecording() {
+        recordingViewModel.startRecording()
+        sensorRecordingViewModel.rpmLiveData.setIsRecording(true)
+        isTimerPaused = false
+        Toast.makeText(context, "Recording Started", Toast.LENGTH_SHORT).show()
+    }
+
+    private fun stopRecording() {
+        recordingViewModel.stopRecording()
+        sensorRecordingViewModel.rpmLiveData.setIsRecording(false)
+        saveToCSV()
+    }
+
+    private fun saveToFile(stringBuilder: StringBuilder, filtered: String, sensor: String, dateTime: LocalDateTime) {
+        val formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy_HH-mm-ss")
+        context?.openFileOutput("${dateTime.format(formatter)}_${filtered}_${sensor}.csv", Context.MODE_PRIVATE).use {
+            it?.write(stringBuilder.toString().toByteArray())
+        }
+    }
+
+
+    private fun saveToCSV() {
+        val stopDateTime = LocalDateTime.now()
+
+        val formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm")
+        recordingJson.put("name", "Recording from ${stopDateTime.format(formatter)}")
+        recordingJson.put("elapsed_time", elapsedTime)
+        recordingJson.put("date", stopDateTime)
+        var locationStringBuilder = StringBuilder()
+
+        // Location
+        sensorRecordingViewModel.rpmLiveData.unfilteredLocationList.observe(viewLifecycleOwner) {
+            locationStringBuilder = sensorRecordingViewModel.rpmLiveData.buildSensorStringBuilder(it)
+
+        }
+        saveToFile(locationStringBuilder, "unfiltered", "GPS", stopDateTime)
+        makeJSONObject(stopDateTime, "unfil", "GPS")
+
+
+        // Accelerometer
+        var currentStringBuilder = StringBuilder()
+        sensorRecordingViewModel.rpmLiveData.filteredAccelerometerList.observe(viewLifecycleOwner) {
+            currentStringBuilder = sensorRecordingViewModel.rpmLiveData.buildSensorStringBuilder(it)
+
+        }
+        saveToFile(currentStringBuilder, "filtered", "accel", stopDateTime)
+        makeJSONObject(stopDateTime, "fil", "accel")
+
+        sensorRecordingViewModel.rpmLiveData.unfilteredAccelerometerList.observe(viewLifecycleOwner) {
+            currentStringBuilder = sensorRecordingViewModel.rpmLiveData.buildSensorStringBuilder(it)
+
+        }
+        saveToFile(currentStringBuilder, "unfiltered", "accel", stopDateTime)
+        makeJSONObject(stopDateTime, "unfil", "accel")
+
+        // Gyroscope
+        sensorRecordingViewModel.rpmLiveData.filteredGyroScopeList.observe(viewLifecycleOwner) {
+            currentStringBuilder = sensorRecordingViewModel.rpmLiveData.buildSensorStringBuilder(it)
+        }
+        saveToFile(currentStringBuilder, "filtered", "gyro", stopDateTime)
+        makeJSONObject(stopDateTime, "fil", "gyro")
+
+        sensorRecordingViewModel.rpmLiveData.unfilteredGyroscopeList.observe(viewLifecycleOwner) {
+            currentStringBuilder = sensorRecordingViewModel.rpmLiveData.buildSensorStringBuilder(it)
+        }
+
+        saveToFile(currentStringBuilder, "unfiltered", "gyro", stopDateTime)
+        makeJSONObject(stopDateTime, "unfil", "gyro")
+
+
+        val existingJSONArray = readJsonFromFile()
+        val jsonArray: JSONArray = existingJSONArray
+
+        jsonArray.put(recordingJson)
+
+        context?.openFileOutput("sensor_config.json", Context.MODE_PRIVATE).use {
+            it?.write(jsonArray.toString().toByteArray())
+        }
+        Toast.makeText(context, "Saved", Toast.LENGTH_SHORT).show()
+    }
+
+    private fun makeJSONObject(
+        dateTime: LocalDateTime,
+        filtered: String,
+        sensor: String,
+    ) {
+        val formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy_HH-mm-ss")
+        recordingJson.put("${filtered}_${sensor}", "${dateTime.format(formatter)}_${filtered}tered_${sensor}.csv")
+    }
 
     private fun readJsonFromFile(): JSONArray {
         var jsonArray = JSONArray()
@@ -315,200 +462,22 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
         return jsonArray
     }
 
-    private fun writeToLocationStringBuilder(gpsList: MutableList<SensorData>): StringBuilder {
-        val stringBuilder = StringBuilder()
-        var id = 0
-        stringBuilder.append("ID, GPS_Timestamp(ms), Longitude, Latitude, Altitude\n")
-        gpsList.forEach {
-            // Longitude = x, Latitude = y, Altitude = z
-            stringBuilder.append("$id, ${it.timestamp}, ${it.x}, ${it.y}, ${it.z}\n")
-            id++
-        }
-        return stringBuilder
-    }
-
-    private fun writeToSensorStringBuilder(sensor: String, sensorList: MutableList<SensorData>): StringBuilder {
-        val stringBuilder = StringBuilder()
-        var id = 0
-        stringBuilder.append("ID, ${sensor}_Timestamp(ms), ${sensor}_X, ${sensor}_Y, ${sensor}_Z\n")
-        sensorList.forEach {
-            stringBuilder.append("$id, ${it.timestamp}, ${it.x}, ${it.y}, ${it.z}\n")
-            id++
-        }
-        return stringBuilder
-    }
-
-    private fun saveToFile(stringBuilder: StringBuilder, filtered: String, sensor: String, dateTime: LocalDateTime) {
-        val formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy_HH-mm-ss")
-        context?.openFileOutput("${dateTime.format(formatter)}_${filtered}_${sensor}.csv", Context.MODE_PRIVATE).use {
-            it?.write(stringBuilder.toString().toByteArray())
-        }
-    }
-
-    private fun makeJSONObject(
-        dateTime: LocalDateTime,
-        filtered: String,
-        sensor: String,
-    ) {
-        val formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy_HH-mm-ss")
-        recordingJson.put("${filtered}_${sensor}", "${dateTime.format(formatter)}_${filtered}tered_${sensor}.csv")
-    }
-
-    private fun saveToCSV() {
-        val stopDateTime = LocalDateTime.now()
-
-        val formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm")
-        recordingJson.put("name", "Recording from ${stopDateTime.format(formatter)}")
-        recordingJson.put("elapsed_time", elapsedTime)
-        recordingJson.put("date", stopDateTime)
-
-        // Location
-        var currentStringBuilder: StringBuilder = writeToLocationStringBuilder(rawLocationRecord)
-        saveToFile(currentStringBuilder, "unfiltered", "GPS", stopDateTime)
-        makeJSONObject(stopDateTime, "unfil", "GPS")
-
-        // Accelerometer
-        currentStringBuilder = writeToSensorStringBuilder("accel", filtAcclRecord)
-        saveToFile(currentStringBuilder, "filtered", "accel", stopDateTime)
-        makeJSONObject(stopDateTime, "fil", "accel")
-
-        currentStringBuilder = writeToSensorStringBuilder("accel", rawAcclRecord)
-        saveToFile(currentStringBuilder, "unfiltered", "accel", stopDateTime)
-        makeJSONObject(stopDateTime, "unfil", "accel")
-
-        // Gyroscope
-        currentStringBuilder = writeToSensorStringBuilder("gyro", filtGyroRecord)
-        saveToFile(currentStringBuilder, "filtered", "gyro", stopDateTime)
-        makeJSONObject(stopDateTime, "fil", "gyro")
-
-        currentStringBuilder = writeToSensorStringBuilder("Gyro", rawGyroRecord)
-        saveToFile(currentStringBuilder, "unfiltered", "gyro", stopDateTime)
-        makeJSONObject(stopDateTime, "unfil", "gyro")
-
-
-        val existingJSONArray = readJsonFromFile()
-        val jsonArray: JSONArray = existingJSONArray
-
-        jsonArray.put(recordingJson)
-
-        context?.openFileOutput("sensor_config.json", Context.MODE_PRIVATE).use {
-            it?.write(jsonArray.toString().toByteArray())
-        }
-        Toast.makeText(context, "Saved", Toast.LENGTH_SHORT).show()
-    }
-
-
-    override fun onResume() {
-        super.onResume()
-        startTimeMillis = SystemClock.elapsedRealtime()
-
-        val sensorSamplingRate: Int
-
-        if (PowerSavingMode.getPowerMode()) {
-            sensorSamplingRate = SensorManager.SENSOR_DELAY_NORMAL
-        } else {
-            sensorSamplingRate = SensorManager.SENSOR_DELAY_FASTEST
-        }
-
-        Log.d(this::class.simpleName, sensorSamplingRate.toString())
-
-
-
-        sensorManager.registerListener(
-            this, accelSensor, sensorSamplingRate
-        )
-        sensorManager.registerListener(
-            this, gyroSensor, sensorSamplingRate
-        )
-        sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)?.also { accelerometer ->
-            sensorManager.registerListener(
-                this,
-                accelerometer,
-                SensorManager.SENSOR_DELAY_NORMAL,
-                SensorManager.SENSOR_DELAY_UI
-            )
-        }
-        sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD)?.also { magneticField ->
-            sensorManager.registerListener(
-                this,
-                magneticField,
-                SensorManager.SENSOR_DELAY_NORMAL,
-                SensorManager.SENSOR_DELAY_UI
-            )
-        }
-    }
-
-    /**
-     * Stops listening for sensorChanges
-     */
-    override fun onPause() {
-        super.onPause()
-        sensorManager.unregisterListener(this)
-    }
-
-    private fun startRecording() {
-        recordingViewModel.startRecording()
-        resetRecording()
-        isRecording = true
-        isTimerPaused = false
-        Toast.makeText(context, "Recording Started", Toast.LENGTH_SHORT).show()
-    }
-
-    private fun stopRecording() {
-        recordingViewModel.stopRecording()
-        isRecording = false
-        saveToCSV()
-    }
 
     private fun pauseRecording() {
         recordingViewModel.pauseRecording()
-        isRecording = false
+        sensorRecordingViewModel.rpmLiveData.setIsRecording(false)
         isTimerPaused = true
     }
 
     private fun resumeRecording() {
         recordingViewModel.resumeRecording()
-        isRecording = true
+        sensorRecordingViewModel.rpmLiveData.setIsRecording(true)
         isTimerPaused = false
-        startTimeMillis = SystemClock.elapsedRealtime()
     }
 
     private fun deleteRecording() {
         recordingViewModel.stopRecording()
-        isRecording = false
-        resetRecording()
-    }
-
-    private fun resetRecording() {
-        isRecording = false
-        isTimerPaused = true
-
-        rawAccSample = FloatArray(3)
-        rawAccDataIndex = 0
-        filtAccSample = FloatArray(3)
-        filtAccPrevSample = FloatArray(3)
-        rawAcclRecord = mutableListOf<SensorData>()
-        filtAcclRecord = mutableListOf<SensorData>()
-
-        stepNumber = 0
-
-        // Gyroscope
-        rawGyroSample = FloatArray(3)
-        rawGyroDataIndex = 0
-        filtGyroSample = FloatArray(3)
-        filtGyroPrevSample = FloatArray(3)
-        rawGyroRecord = mutableListOf<SensorData>()
-        filtGyroRecord = mutableListOf<SensorData>()
-
-        // Location
-        rawLocationRecord = mutableListOf<SensorData>()
-
-        recordingJson = JSONObject()
-
-        startTimeMillis = 0
-        totalElapsedTimeMillis = 0
-        pausedElapsedTimeMillis = 0
-
+        sensorRecordingViewModel.rpmLiveData.setIsRecording(false)
     }
 
     /**
@@ -555,111 +524,14 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
     override fun onLocationChanged(location: Location) {
         mapViewModel.saveCurrentLocation(location)
         Log.e(this::class.simpleName, "location changed! lat = ${location.latitude} , long = ${location.longitude}")
-        if (isRecording) {
-            rawLocationRecord.add(
-                SensorData(
-                    location.time,
-                    location.longitude.toFloat(),
-                    location.latitude.toFloat(),
-                    location.altitude.toFloat()
-                )
-            )
+
+        if (isRecordingLocation) {
+            sensorRecordingViewModel.rpmLiveData.insertIntoLocationList(location)
         }
+
+
     }
 
-    override fun onSensorChanged(event: SensorEvent?) {
-        if (event?.values != null) {
-            if (event.sensor == accelSensor) {
-                readAccSensorData(event)
-                if (isRecording) {
-                    rawAcclRecord.add(
-                        SensorData(
-                            event.timestamp, event.values[0], event.values[1], event.values[2]
-                        )
-                    )
-
-                    filtAcclRecord.add(
-                        SensorData(event.timestamp, filtAccSample[0], filtAccSample[1], filtAccSample[2])
-                    )
-                }
-            }
-
-            if (event.sensor == gyroSensor) {
-                readGyroSensorData(event)
-                if (isRecording) {
-                    rawGyroRecord.add(
-                        SensorData(
-                            event.timestamp, event.values[0], event.values[1], event.values[2]
-                        )
-                    )
-                    filtGyroRecord.add(
-                        SensorData(
-                            event.timestamp, filtGyroSample[0], filtGyroSample[1], filtGyroSample[2]
-
-                        )
-                    )
-                }
-            }
-        }
-    }
-
-    private fun readAccSensorData(event: SensorEvent) {
-        System.arraycopy(event.values, 0, rawAccSample, rawAccDataIndex, 3)
-        filterAccData()
-    }
-
-    private fun readGyroSensorData(event: SensorEvent) {
-        System.arraycopy(event.values, 0, rawGyroSample, rawGyroDataIndex, 3)
-        filterGyroData()
-    }
-
-
-    private fun filterGyroData() {
-        val alpha = 0.9F
-        val isStarted = true
-
-        if (stepNumber == 0) {
-            filtGyroPrevSample[0] = rawGyroSample[0]
-            filtGyroPrevSample[1] = rawGyroSample[1]
-            filtGyroPrevSample[2] = rawGyroSample[2]
-        } else {
-            filtGyroPrevSample[0] = alpha * filtGyroPrevSample[0] + (1 - alpha) * rawGyroSample[0]
-            filtGyroPrevSample[1] = alpha * filtGyroPrevSample[1] + (1 - alpha) * rawGyroSample[1]
-            filtGyroPrevSample[2] = alpha * filtGyroPrevSample[2] + (1 - alpha) * rawGyroSample[2]
-        }
-        if (isStarted) {
-            filtGyroSample[0] = filtGyroPrevSample[0]
-            filtGyroSample[1] = filtGyroPrevSample[1]
-            filtGyroSample[2] = filtGyroPrevSample[2]
-        }
-        ++stepNumber
-    }
-
-
-    private fun filterAccData() {
-        val alpha = 0.9F
-        val isStarted = true
-
-        if (stepNumber == 0) {
-            filtAccPrevSample[0] = rawAccSample[0]
-            filtAccPrevSample[1] = rawAccSample[1]
-            filtAccPrevSample[2] = rawAccSample[2]
-        } else {
-            filtAccPrevSample[0] = alpha * filtAccPrevSample[0] + (1 - alpha) * rawAccSample[0]
-            filtAccPrevSample[1] = alpha * filtAccPrevSample[1] + (1 - alpha) * rawAccSample[1]
-            filtAccPrevSample[2] = alpha * filtAccPrevSample[2] + (1 - alpha) * rawAccSample[2]
-        }
-        if (isStarted) {
-            filtAccSample[0] = filtAccPrevSample[0]
-            filtAccSample[1] = filtAccPrevSample[1]
-            filtAccSample[2] = filtAccPrevSample[2]
-        }
-        ++stepNumber
-    }
-
-    override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {
-        Log.d(this::class.simpleName, sensor.toString())
-    }
 
     override fun onStop() {
         mapViewModel.saveLastKnownLocation()
