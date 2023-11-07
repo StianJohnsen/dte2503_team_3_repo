@@ -41,31 +41,33 @@ class AddFriendFragment : BaseFragment<FragmentAddFriendBinding>(
     }
 
     private fun initListeners() {
-        binding.backToSocialSettings.setOnClickListener {
-            requireActivity().onBackPressed()
-        }
-
-        binding.btnAddFriend.setOnClickListener {
-            val inputName = binding.inputName.text.toString().trim()
-            val email = binding.inputEmail.text.toString().trim()
-            val phone = binding.inputPhone.text.toString().trim()
-
-            if (inputName.isEmpty()) {
-                Toast.makeText(context, "Name is a mandatory field", Toast.LENGTH_SHORT).show()
-            } else {
-                if (currentFriendId == null) {
-                    viewModel.addToDatabase(requireContext(), inputName, email, phone)
-                } else {
-                    viewModel.updateFriend(requireContext(), currentFriendId!!, inputName, email, phone)
-                }
-                findNavController().popBackStack()
+        binding.apply {
+            backToSocialSettings.setOnClickListener {
+                requireActivity().onBackPressed()
             }
-        }
 
-        binding.btnDeleteFriend.setOnClickListener {
-            findNavController().navigate(R.id.action_addFriendFragment_to_SocialSettingsFragment)
-            currentFriendId?.let { id ->
-                viewModel.deleteFriend(requireContext(), id)
+            btnAddFriend.setOnClickListener {
+                val inputName = binding.inputName.text.toString().trim()
+                val email = binding.inputEmail.text.toString().trim()
+                val phone = binding.inputPhone.text.toString().trim()
+
+                if (inputName.isEmpty()) {
+                    Toast.makeText(context, "Name is a mandatory field", Toast.LENGTH_SHORT).show()
+                } else {
+                    if (currentFriendId == null) {
+                        viewModel.addToDatabase(requireContext(), inputName, email, phone)
+                    } else {
+                        viewModel.updateFriend(requireContext(), currentFriendId!!, inputName, email, phone)
+                    }
+                    findNavController().popBackStack()
+                }
+            }
+
+            btnDeleteFriend.setOnClickListener {
+                findNavController().navigate(R.id.action_addFriendFragment_to_SocialSettingsFragment)
+                currentFriendId?.let { id ->
+                    viewModel.deleteFriend(requireContext(), id)
+                }
             }
         }
     }

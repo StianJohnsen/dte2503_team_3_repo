@@ -28,13 +28,16 @@ class SocialSettingsFragment : BaseFragment<FragmentSocialSettingsBinding>(
 
     private fun initListeners() {
 
-        binding.btnAddFriend.setOnClickListener {
-            val action = SocialSettingsFragmentDirections.actionSocialSettingsFragmentToAddFriendFragment(friendId = -1)
-            findNavController().navigate(action)
-        }
+        binding.apply {
+            btnAddFriend.setOnClickListener {
+                val action =
+                    SocialSettingsFragmentDirections.actionSocialSettingsFragmentToAddFriendFragment(friendId = -1)
+                findNavController().navigate(action)
+            }
 
-        binding.backToSettings.setOnClickListener {
-            findNavController().navigate(R.id.action_socialSettingsFragment_to_action_settings)
+            backToSettings.setOnClickListener {
+                findNavController().navigate(R.id.action_socialSettingsFragment_to_action_settings)
+            }
         }
 
         val dao = AppDatabase.getInstance(requireContext()).FriendsDao()
