@@ -40,6 +40,7 @@
             android:layout_marginBottom="50dp"
             android:background="@drawable/white_rounded_16dp_background"
             android:orientation="vertical"
+            android:gravity="center"
             app:layout_constraintBottom_toTopOf="@+id/btnAddFriend"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -52,7 +53,7 @@
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/margin_padding_size_24"
                     android:layout_marginTop="@dimen/margin_padding_size_24"
                     android:layout_marginEnd="@dimen/margin_padding_size_24"
@@ -64,7 +65,7 @@
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/inputName"
-                        android:layout_width="261dp"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/input_name"
                         android:maxLength="15" />
@@ -79,7 +80,7 @@
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/margin_padding_size_24"
                     android:layout_marginTop="@dimen/margin_padding_size_24"
                     android:layout_marginEnd="@dimen/margin_padding_size_24"
@@ -92,7 +93,7 @@
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/inputPhone"
-                        android:layout_width="261dp"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/input_phone"
                         android:inputType="phone" />
@@ -107,7 +108,7 @@
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/margin_padding_size_24"
                     android:layout_marginTop="@dimen/margin_padding_size_24"
                     android:layout_marginEnd="@dimen/margin_padding_size_24"
@@ -120,7 +121,7 @@
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/inputEmail"
-                        android:layout_width="261dp"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/input_email"
                         android:inputType="textEmailAddress" />

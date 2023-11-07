@@ -42,7 +42,7 @@ class AddFriendFragment : BaseFragment<FragmentAddFriendBinding>(
 
     private fun initListeners() {
         binding.backToSocialSettings.setOnClickListener {
-            findNavController().navigate(R.id.action_addFriendFragment_to_SocialSettingsFragment)
+            requireActivity().onBackPressed()
         }
 
         binding.btnAddFriend.setOnClickListener {

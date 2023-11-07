@@ -62,8 +62,13 @@ class SocialSettingsFragment : BaseFragment<FragmentSocialSettingsBinding>(
 
                     setBackgroundResource(R.color.white)
 
+                    val paddingEnd = resources.getDimensionPixelSize(R.dimen.margin_padding_size_10)
+                    val paddingStart = 0
+                    compoundDrawablePadding = -paddingEnd
+
                     setCompoundDrawablesWithIntrinsicBounds(null, null, drawableRight, null)
-                    compoundDrawablePadding = 10
+                    drawableRight?.setBounds(0, 0, drawableRight.intrinsicWidth, drawableRight.intrinsicHeight)
+                    setPadding(paddingStart, 0, paddingEnd, 0)
                 }
 
                 btn.setOnClickListener {
