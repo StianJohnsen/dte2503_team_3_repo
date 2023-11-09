@@ -10,26 +10,30 @@ import com.example.dashcarr.presentation.tabs.camera.CameraWrapper
 class SecurityCameraViewModel : ViewModel() {
 
     private lateinit var camera: CameraWrapper
-    fun initViewModel(activity: FragmentActivity, fragment: Fragment, showButton: () -> Unit) {
+    fun startCamera(activity: FragmentActivity, fragment: Fragment, showButton: () -> Unit) {
         if (!this::camera.isInitialized) {
             camera = CameraWrapper(activity)
         }
-        camera.startCamera(
-            activity.findViewById(R.id.video_preview),
-            fragment,
-            CameraSelector.DEFAULT_FRONT_CAMERA,
-            showButton
-        )
+        if (!camera.isCameraStarted()) {
+            camera.startCamera(
+                activity.findViewById(R.id.video_preview),
+                fragment,
+                CameraSelector.DEFAULT_FRONT_CAMERA,
+                showButton
+            )
+        }
     }
 
-    fun changeRecordingState(showStartButton: () -> Unit, showStopButton: () -> Unit, hideButton: () -> Unit) {
-        if (!camera.isRecording()) {
-            hideButton()
-            camera.startRecording(showStopButton, "Movies/Dashcarr/Security_Camera")
-        } else {
-            hideButton()
-            camera.stopRecording(showStartButton)
-        }
+    fun startRecording(showStopButton: () -> Unit) {
+        camera.startRecording(showStopButton, "Movies/Dashcarr/Security_Camera")
+    }
+
+    fun stopRecording(showStartButton: () -> Unit) {
+        camera.stopRecording(showStartButton)
+    }
+
+    fun isRecording(): Boolean {
+        return camera.isRecording()
     }
 
     fun closeCamera() {

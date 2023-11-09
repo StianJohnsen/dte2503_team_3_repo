@@ -153,4 +153,5 @@ dependencies {
     // Preferences DataStore
     implementation("androidx.datastore:datastore-preferences:1.0.0")
 
+    implementation("androidx.biometric:biometric:1.1.0")
 }
