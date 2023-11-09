@@ -30,12 +30,19 @@
                 tools:layout_conversion_absoluteHeight="0dp"
                 tools:layout_conversion_absoluteWidth="411dp">
 
-                <ImageButton
-                    android:id="@+id/back_button"
-                    android:layout_width="@dimen/standard_touch_size"
-                    android:layout_height="@dimen/standard_touch_size"
-                    android:src="?attr/homeAsUpIndicator" />
             </androidx.camera.view.PreviewView>
+
+            <ImageView
+                android:id="@+id/back_button"
+                android:layout_width="@dimen/standard_touch_size"
+                android:layout_height="@dimen/standard_touch_size"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/blue_rounded_16dp_background"
+                android:contentDescription="@null"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/baseline_arrow_back_24" />
 
             <TextView
                 android:id="@+id/recording_sign"

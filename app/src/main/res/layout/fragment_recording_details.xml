@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+
         <variable
             name="RecordingDetailsFragment"
             type="com.example.dashcarr.presentation.tabs.history.RecordingDetailsFragment" />
@@ -17,6 +18,8 @@
             android:id="@+id/image_back_details"
             android:layout_width="@dimen/standard_touch_size"
             android:layout_height="@dimen/standard_touch_size"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
             android:contentDescription="@null"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"

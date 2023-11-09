@@ -18,6 +18,7 @@ import androidx.biometric.BiometricManager
 import androidx.biometric.BiometricPrompt
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.example.dashcarr.R
 import com.example.dashcarr.databinding.FragmentSecurityCameraBinding
 import com.example.dashcarr.presentation.core.BaseFragment
@@ -54,13 +55,17 @@ class SecurityCameraFragment : BaseFragment<FragmentSecurityCameraBinding>(
                     }
                 }
             } else {
-                Toast.makeText(requireActivity(), "This feature needs camera access", Toast.LENGTH_SHORT).show()
-                requireActivity().onBackPressed()
+                Toast.makeText(requireActivity(), "Can't access camera", Toast.LENGTH_SHORT).show()
+                findNavController().navigate(R.id.action_action_security_camera_to_action_map)
             }
         }.launch(Manifest.permission.CAMERA)
 
         binding.backButton.setOnClickListener {
-            requireActivity().onBackPressed()
+            val action =
+                SecurityCameraFragmentDirections.actionActionSecurityCameraToActionMap(
+                    isRideActivated = true
+                )
+            findNavController().navigate(action)
         }
         binding.videoCaptureButton.setOnClickListener {
             binding.videoCaptureButton.isClickable = false
@@ -173,6 +178,7 @@ class SecurityCameraFragment : BaseFragment<FragmentSecurityCameraBinding>(
             sensorManager.unregisterListener(this)
             lastAcceleration = null
             filteredAcceleration = 0F
+            binding.videoCaptureButton.isClickable = false
             stopTriggered()
         }
     }
