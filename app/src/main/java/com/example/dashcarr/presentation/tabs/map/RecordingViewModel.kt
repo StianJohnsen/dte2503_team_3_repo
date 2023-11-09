@@ -13,8 +13,6 @@ class RecordingViewModel : ViewModel() {
 
     private var _startTimeMillis = MutableStateFlow<Long>(0)
 
-
-
     private var _resumedElapsedTimeMillis = MutableStateFlow<Long>(0)
 
 
@@ -61,7 +59,7 @@ class RecordingViewModel : ViewModel() {
         handler.post(updateTimeRunnable)
     }
 
-    fun stopRecording(){
+    fun stopRecording() {
         handler.removeCallbacks(updateTimeRunnable)
         // Reset all timing variables
         viewModelScope.launch {
