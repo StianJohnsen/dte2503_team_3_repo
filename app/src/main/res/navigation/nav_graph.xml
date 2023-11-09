@@ -19,11 +19,17 @@
         <action
             android:id="@+id/action_action_map_to_action_history"
             app:destination="@id/action_history"
-            app:enterAnim="@anim/down_to_up"
-            app:exitAnim="@anim/up_to_down" />
+            app:enterAnim="@anim/pop_y_enter"
+            app:exitAnim="@anim/pop_y_exit"
+            app:popEnterAnim="@anim/pop_y_enter"
+            app:popExitAnim="@anim/pop_y_exit" />
         <action
             android:id="@+id/action_action_map_to_action_security_camera"
-            app:destination="@id/action_security_camera" />
+            app:destination="@id/action_security_camera"
+            app:enterAnim="@anim/right_to_center"
+            app:exitAnim="@anim/center_to_left"
+            app:popEnterAnim="@anim/left_to_center"
+            app:popExitAnim="@anim/center_to_right" />
         <action
             android:id="@+id/action_action_map_to_action_hud"
             app:destination="@id/action_hud"
@@ -48,10 +54,10 @@
         <action
             android:id="@+id/action_action_settings_to_animationSampleFragment"
             app:destination="@id/animationSampleFragment"
-            app:enterAnim="@anim/left_to_right"
-            app:exitAnim="@anim/right_to_left"
-            app:popEnterAnim="@anim/pop_x_enter"
-            app:popExitAnim="@anim/pop_x_exit" />
+            app:enterAnim="@anim/right_to_center"
+            app:exitAnim="@anim/center_to_left"
+            app:popEnterAnim="@anim/left_to_center"
+            app:popExitAnim="@anim/center_to_right" />
 
         <action
             android:id="@+id/action_action_settings_to_SavedRecordingsFragment"
@@ -66,32 +72,32 @@
         <action
             android:id="@+id/action_action_settings_to_productFrontPage"
             app:destination="@id/productFrontPage"
-            app:enterAnim="@anim/left_to_right"
-            app:exitAnim="@anim/right_to_left"
-            app:popEnterAnim="@anim/pop_x_enter"
-            app:popExitAnim="@anim/pop_x_exit" />
+            app:enterAnim="@anim/right_to_center"
+            app:exitAnim="@anim/center_to_left"
+            app:popEnterAnim="@anim/left_to_center"
+            app:popExitAnim="@anim/center_to_right" />
 
         <action
             android:id="@+id/action_action_settings_to_mapsSettingsFragment"
             app:destination="@id/mapsSettingsFragment"
-            app:enterAnim="@anim/left_to_right"
-            app:exitAnim="@anim/right_to_left"
-            app:popEnterAnim="@anim/pop_x_enter"
-            app:popExitAnim="@anim/pop_x_exit" />
+            app:enterAnim="@anim/right_to_center"
+            app:exitAnim="@anim/center_to_left"
+            app:popEnterAnim="@anim/left_to_center"
+            app:popExitAnim="@anim/center_to_right" />
         <action
             android:id="@+id/action_action_settings_to_powerSettings"
             app:destination="@id/powerSettings"
-            app:enterAnim="@anim/left_to_right"
-            app:exitAnim="@anim/right_to_left"
-            app:popEnterAnim="@anim/pop_x_enter"
-            app:popExitAnim="@anim/pop_x_exit" />
+            app:enterAnim="@anim/right_to_center"
+            app:exitAnim="@anim/center_to_left"
+            app:popEnterAnim="@anim/left_to_center"
+            app:popExitAnim="@anim/center_to_right" />
         <action
             android:id="@+id/action_action_settings_to_socialSettingsFragment"
             app:destination="@id/socialSettingsFragment"
-            app:enterAnim="@anim/left_to_right"
-            app:exitAnim="@anim/right_to_left"
-            app:popEnterAnim="@anim/pop_x_enter"
-            app:popExitAnim="@anim/pop_x_exit" />
+            app:enterAnim="@anim/right_to_center"
+            app:exitAnim="@anim/center_to_left"
+            app:popEnterAnim="@anim/left_to_center"
+            app:popExitAnim="@anim/center_to_right" />
         <action
             android:id="@+id/action_action_settings_to_selectContactFragment"
             app:destination="@id/selectContactFragment" />
@@ -184,8 +190,7 @@
         app:enterAnim="@anim/logout_up"
         app:exitAnim="@anim/logout_down"
         app:popEnterAnim="@anim/pop_y_enter"
-        app:popExitAnim="@anim/pop_y_exit"
-        />
+        app:popExitAnim="@anim/pop_y_exit" />
     <fragment
         android:id="@+id/action_dashcam"
         android:name="com.example.dashcarr.presentation.tabs.camera.dashcam.DashcamFragment"
@@ -193,7 +198,15 @@
     <fragment
         android:id="@+id/action_security_camera"
         android:name="com.example.dashcarr.presentation.tabs.camera.security.SecurityCameraFragment"
-        android:label="SecurityCameraFragment" />
+        android:label="SecurityCameraFragment">
+        <action
+            android:id="@+id/action_action_security_camera_to_action_map"
+            app:destination="@id/action_map"
+            app:enterAnim="@anim/left_to_center"
+            app:exitAnim="@anim/center_to_right"
+            app:popEnterAnim="@anim/left_to_center"
+            app:popExitAnim="@anim/center_to_right" />
+    </fragment>
     <fragment
         android:id="@+id/action_social"
         android:name="com.example.dashcarr.presentation.tabs.social.SocialFragment"
