@@ -117,7 +117,6 @@
     <string name="start_using">Start Using!</string>
 
     <!--MapFragment-->
-
     <string name="marker_name">Marker name</string>
     <string name="save_poi">save</string>
     <string name="cancel_poi">Cancel</string>
@@ -148,7 +147,6 @@
     <string name="back_button_content_description">Back button</string>
 
     <!--MapSettingsFragment-->
-
     <string name="points_of_interest">Points Of Interest</string>
     <string name="btnRename">Rename</string>
     <string name="btnDelete">delete</string>
@@ -156,5 +154,11 @@
     <string name="delete_poi">delete</string>
     <string name="point_deleted_successfully">Point deleted successfully</string>
     <string name="point_renamed_successfully">Point renamed successfully</string>
+    <string name="add_message">Add Message</string>
+    <string name="select_contact">Select Contact</string>
+    <string name="select_message">Select Message</string>
+    <string name="message">Message</string>
+    <string name="add_message_capitalized">ADD MESSAGE</string>
+    <string name="send_message">Send message</string>
 
 </resources>

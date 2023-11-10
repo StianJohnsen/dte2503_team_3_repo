@@ -54,6 +54,10 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>(
             findNavController().navigate(R.id.action_action_settings_to_powerSettings)
         }
 
+        binding.btnHistorySettings.setOnClickListener {
+            findNavController().navigate(R.id.action_action_settings_to_selectContactFragment)
+        }
+
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

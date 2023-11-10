@@ -1,8 +1,15 @@
 package com.example.dashcarr.presentation.tabs.settings.social_settings
 
+import android.Manifest
+import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
+import android.telephony.SmsManager
 import android.view.View
 import android.widget.Button
+import android.widget.Toast
+import androidx.annotation.RequiresApi
+import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -26,6 +33,46 @@ class SocialSettingsFragment : BaseFragment<FragmentSocialSettingsBinding>(
         SocialSettingsViewModelFactory(AppDatabase.getInstance(requireContext()).FriendsDao())
     }
 
+    private val MY_PERMISSION_REQUEST_SEND_SMS = 0
+
+
+    private val smsManagerObject: SmsManager by lazy {
+        requireContext().getSystemService(SmsManager::class.java) as SmsManager
+    }
+
+
+    @RequiresApi(Build.VERSION_CODES.R)
+    private fun sendMessage() {
+        requestSmsPermission()
+
+        smsManagerObject.sendTextMessage("5554", null, "Hello my friend", null, null, 0)
+    }
+
+    private fun requestSmsPermission() {
+
+        if (ContextCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.SEND_SMS
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            ActivityCompat.requestPermissions(
+                requireActivity(),
+                arrayOf(Manifest.permission.SEND_SMS),
+                MY_PERMISSION_REQUEST_SEND_SMS
+            )
+        }
+    }
+
+    @Deprecated("Deprecated in Java")
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        if (requestCode == MY_PERMISSION_REQUEST_SEND_SMS) {
+            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                Toast.makeText(context, "Got SMS permission", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.R)
     private fun initListeners() {
 
         binding.btnAddFriend.setOnClickListener {
@@ -35,6 +82,14 @@ class SocialSettingsFragment : BaseFragment<FragmentSocialSettingsBinding>(
 
         binding.backToSettings.setOnClickListener {
             findNavController().navigate(R.id.action_socialSettingsFragment_to_action_settings)
+        }
+
+        binding.sendMessageButton.setOnClickListener {
+            sendMessage()
+        }
+
+        binding.addMessageButton.setOnClickListener {
+            findNavController().navigate(R.id.action_socialSettingsFragment_to_addMessagesFragment)
         }
 
         val dao = AppDatabase.getInstance(requireContext()).FriendsDao()
@@ -77,6 +132,7 @@ class SocialSettingsFragment : BaseFragment<FragmentSocialSettingsBinding>(
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.R)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initListeners()
