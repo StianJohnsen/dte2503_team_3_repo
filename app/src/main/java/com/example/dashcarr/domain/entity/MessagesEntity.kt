@@ -8,5 +8,6 @@ import java.io.Serializable
 data class MessagesEntity(
     @PrimaryKey(autoGenerate = true) val id: Long = 0,
     val content: String,
+    //TODO Use enum instead?
     val isPhone: Boolean
 ) : Serializable

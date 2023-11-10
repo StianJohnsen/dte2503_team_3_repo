@@ -94,6 +94,9 @@
             app:popEnterAnim="@anim/pop_x_enter"
             app:popExitAnim="@anim/pop_x_exit" />
             app:popExitAnim="@anim/pop_x_exit" />
+        <action
+            android:id="@+id/action_action_settings_to_selectContactFragment"
+            app:destination="@id/selectContactFragment" />
     </fragment>
 
     <fragment
@@ -145,6 +148,10 @@
             app:exitAnim="@anim/up_to_down"
             app:popEnterAnim="@anim/pop_y_enter"
             app:popExitAnim="@anim/pop_y_exit" />
+            android:id="@+id/action_loginFragment_to_action_map"
+            app:destination="@id/action_map"
+            app:popUpTo="@id/nav_graph"
+            app:popUpToInclusive="true" />
     </fragment>
 
     <fragment
@@ -240,6 +247,13 @@
                 android:name="friendId"
                 app:argType="integer" />
         </action>
+        <action
+            android:id="@+id/action_socialSettingsFragment_to_addMessagesFragment"
+            app:destination="@id/addMessagesFragment"
+            app:enterAnim="@anim/down_to_up"
+            app:exitAnim="@anim/up_to_down"
+            app:popEnterAnim="@anim/pop_y_enter"
+            app:popExitAnim="@anim/pop_y_exit" />
     </fragment>
 
     <fragment
@@ -249,6 +263,32 @@
         <action
             android:id="@+id/action_addFriendFragment_to_SocialSettingsFragment"
             app:destination="@id/socialSettingsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/addMessagesFragment"
+        android:name="com.example.dashcarr.presentation.tabs.settings.social_settings.AddMessagesFragment"
+        android:label="AddMessagesFragment" />
+    <fragment
+        android:id="@+id/selectContactFragment"
+        android:name="com.example.dashcarr.presentation.tabs.social.selectContact.SelectContactFragment"
+        android:label="SelectContactFragment">
+        <action
+            android:id="@+id/action_selectContactFragment_to_selectMessageFragment"
+            app:destination="@id/selectMessageFragment">
+            <argument
+                android:name="contactId"
+
+                app:argType="integer" />
+        </action>
+
+    </fragment>
+    <fragment
+        android:id="@+id/selectMessageFragment"
+        android:name="com.example.dashcarr.presentation.tabs.social.selectMessage.SelectMessageFragment"
+        android:label="SelectMessageFragment">
+        <action
+            android:id="@+id/action_selectMessageFragment_to_action_settings"
+            app:destination="@id/action_settings" />
     </fragment>
 
 </navigation>
