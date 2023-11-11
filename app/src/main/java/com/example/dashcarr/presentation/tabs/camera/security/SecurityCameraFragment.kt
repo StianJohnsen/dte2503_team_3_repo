@@ -122,9 +122,9 @@ class SecurityCameraFragment : BaseFragment<FragmentSecurityCameraBinding>(
 
     private fun showPrompt(success: () -> Unit, failed: () -> Unit) {
         val promptInfo = BiometricPrompt.PromptInfo.Builder()
-            .setTitle("title")
-            .setSubtitle("subtitle")
-            .setDescription("description")
+            .setTitle(getString(R.string.prompt_title))
+            .setSubtitle(getString(R.string.prompt_subtitle))
+            .setDescription(getString(R.string.prompt_description))
             .setAllowedAuthenticators(authenticators)
             .build()
         var isClosed = false
