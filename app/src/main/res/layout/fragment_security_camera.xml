@@ -4,68 +4,59 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/linearLayout"
+        android:id="@+id/constraintLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <androidx.camera.view.PreviewView
+            android:id="@+id/video_preview"
             android:layout_width="0dp"
-            android:layout_height="0dp"
-            app:layout_constraintBottom_toTopOf="@+id/video_capture_button"
+            android:layout_height="wrap_content"
+            android:background="@color/mainBlue"
+            app:layout_constraintBottom_toTopOf="@id/video_capture_button"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.378">
+            app:layout_constraintVertical_bias="0.32999998"
+            app:scaleType="fillCenter"
+            tools:layout_conversion_absoluteHeight="0dp"
+            tools:layout_conversion_absoluteWidth="411dp">
 
-            <androidx.camera.view.PreviewView
-                android:id="@+id/video_preview"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:background="#94B8C3"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:layout_conversion_absoluteHeight="0dp"
-                tools:layout_conversion_absoluteWidth="411dp">
+        </androidx.camera.view.PreviewView>
 
-            </androidx.camera.view.PreviewView>
+        <ImageView
+            android:id="@+id/back_button"
+            android:layout_width="@dimen/standard_touch_size"
+            android:layout_height="@dimen/standard_touch_size"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/blue_rounded_16dp_background"
+            android:contentDescription="@null"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/baseline_arrow_back_24" />
 
-            <ImageView
-                android:id="@+id/back_button"
-                android:layout_width="@dimen/standard_touch_size"
-                android:layout_height="@dimen/standard_touch_size"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/blue_rounded_16dp_background"
-                android:contentDescription="@null"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/baseline_arrow_back_24" />
-
-            <TextView
-                android:id="@+id/recording_sign"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/recording_sign"
-                android:text="@string/recording_in_progress"
-                android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                android:textColor="#DDCFCF"
-                android:visibility="gone"
-                app:layout_constraintBottom_toBottomOf="@+id/video_preview"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.3" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
+        <TextView
+            android:id="@+id/recording_sign"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/recording_sign"
+            android:text="@string/recording_in_progress"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:textColor="#DDCFCF"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@+id/video_preview"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.3" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/video_capture_button"
             android:layout_width="wrap_content"
             android:layout_height="@dimen/standard_touch_size"
+            android:layout_marginStart="0dp"
+            android:layout_marginEnd="0dp"
             android:backgroundTint="@color/black"
             android:text="@string/start_recording"
             android:textSize="@dimen/text_size_14"
@@ -73,7 +64,8 @@
             app:cornerRadius="20dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/video_preview" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
