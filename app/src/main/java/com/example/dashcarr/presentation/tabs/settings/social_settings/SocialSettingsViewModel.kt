@@ -7,6 +7,7 @@ import com.example.dashcarr.domain.entity.FriendsEntity
 class SocialSettingsViewModel(
     private val dao: FriendsDao
 ) : ViewModel() {
+
     fun hasPhoneNumber(friend: FriendsEntity): Boolean {
         return friend.phone.isNotEmpty()
     }

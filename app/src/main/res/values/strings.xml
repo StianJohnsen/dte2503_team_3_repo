@@ -122,7 +122,7 @@
     <string name="cancel_poi">Cancel</string>
 
     <!--Copyright-->
-    <string name="version_0_5">Version: 0.5</string>
+    <string name="version_0_9">Version: 0.9</string>
     <string name="_2023_uit">© 2023 UIT</string>
     <string name="icons8">Icons by icons8.com</string>
 
@@ -163,5 +163,6 @@
 
     <!--SocialSettingsFragment-->
     <string name="sent_messages">Sent Messages</string>
+    <string name="contact_list">Contacts</string>
 
 </resources>

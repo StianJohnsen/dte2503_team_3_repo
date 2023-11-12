@@ -22,74 +22,43 @@ import kotlinx.coroutines.launch
 
 class SocialSettingsFragment : BaseFragment<FragmentSocialSettingsBinding>(
     FragmentSocialSettingsBinding::inflate,
-    showBottomNavBar = false
-) {
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        initListeners()
-    }
-
-    private fun initListeners() {
-        binding.btnBackToSettings.setOnClickListener {
-            findNavController().popBackStack()
-        }
-    companion object {
-        fun newInstance() = SocialSettingsFragment()
-    }
-
+    showBottomNavBar = false)
+{
     private val viewModel: SocialSettingsViewModel by viewModels {
         SocialSettingsViewModelFactory(AppDatabase.getInstance(requireContext()).FriendsDao())
     }
 
     private val MY_PERMISSION_REQUEST_SEND_SMS = 0
 
-
     private val smsManagerObject: SmsManager by lazy {
         requireContext().getSystemService(SmsManager::class.java) as SmsManager
     }
 
+    companion object {
+        fun newInstance() = SocialSettingsFragment()
+    }
 
     @RequiresApi(Build.VERSION_CODES.R)
-    private fun sendMessage() {
-        requestSmsPermission()
-
-        smsManagerObject.sendTextMessage("5554", null, "Hello my friend", null, null, 0)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        initListeners()
     }
-
-    private fun requestSmsPermission() {
-
-        if (ContextCompat.checkSelfPermission(
-                requireContext(),
-                Manifest.permission.SEND_SMS
-            ) != PackageManager.PERMISSION_GRANTED
-        ) {
-            ActivityCompat.requestPermissions(
-                requireActivity(),
-                arrayOf(Manifest.permission.SEND_SMS),
-                MY_PERMISSION_REQUEST_SEND_SMS
-            )
-        }
-    }
-
-    @Deprecated("Deprecated in Java")
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
-        if (requestCode == MY_PERMISSION_REQUEST_SEND_SMS) {
-            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                Toast.makeText(context, "Got SMS permission", Toast.LENGTH_SHORT).show()
-            }
-        }
-    }
-
+    
     @RequiresApi(Build.VERSION_CODES.R)
     private fun initListeners() {
+        binding.btnBackToSettings.setOnClickListener {
+            findNavController().popBackStack()
+        }
 
         binding.btnAddFriend.setOnClickListener {
-            val action = SocialSettingsFragmentDirections.actionSocialSettingsFragmentToAddFriendFragment(friendId = -1)
+            val action =
+                SocialSettingsFragmentDirections.actionSocialSettingsFragmentToAddFriendFragment(
+                    friendId = -1
+                )
             findNavController().navigate(action)
         }
 
-        binding.backToSettings.setOnClickListener {
+        binding.btnBackToSettings.setOnClickListener {
             findNavController().navigate(R.id.action_socialSettingsFragment_to_action_settings)
         }
 
@@ -119,8 +88,16 @@ class SocialSettingsFragment : BaseFragment<FragmentSocialSettingsBinding>(
                             R.drawable.baseline__phone_email_24
                         )
 
-                        hasPhone -> ContextCompat.getDrawable(requireContext(), R.drawable.baseline_phone_24)
-                        hasEmail -> ContextCompat.getDrawable(requireContext(), R.drawable.baseline_email_24)
+                        hasPhone -> ContextCompat.getDrawable(
+                            requireContext(),
+                            R.drawable.baseline_phone_24
+                        )
+
+                        hasEmail -> ContextCompat.getDrawable(
+                            requireContext(),
+                            R.drawable.baseline_email_24
+                        )
+
                         else -> null
                     }
 
@@ -132,7 +109,9 @@ class SocialSettingsFragment : BaseFragment<FragmentSocialSettingsBinding>(
 
                 btn.setOnClickListener {
                     val action =
-                        SocialSettingsFragmentDirections.actionSocialSettingsFragmentToAddFriendFragment(friendId = friend.id)
+                        SocialSettingsFragmentDirections.actionSocialSettingsFragmentToAddFriendFragment(
+                            friendId = friend.id
+                        )
                     findNavController().navigate(action)
                 }
 
@@ -142,9 +121,36 @@ class SocialSettingsFragment : BaseFragment<FragmentSocialSettingsBinding>(
     }
 
     @RequiresApi(Build.VERSION_CODES.R)
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        initListeners()
+    private fun sendMessage() {
+        requestSmsPermission()
+        smsManagerObject.sendTextMessage("5554", null, "Hello my friend", null, null, 0)
+    }
 
+    private fun requestSmsPermission() {
+        if (ContextCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.SEND_SMS
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            ActivityCompat.requestPermissions(
+                requireActivity(),
+                arrayOf(Manifest.permission.SEND_SMS),
+                MY_PERMISSION_REQUEST_SEND_SMS
+            )
+        }
+    }
+
+    @Deprecated("Deprecated in Java")
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == MY_PERMISSION_REQUEST_SEND_SMS) {
+            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                Toast.makeText(context, "SMS permission granted", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 }
