@@ -1,5 +1,6 @@
 package com.example.dashcarr.data.database.dao
 
+import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
@@ -8,7 +9,7 @@ import androidx.room.Query
 import com.example.dashcarr.domain.entity.SentMessagesEntity
 
 @Dao
-interface SentMessageDao {
+interface SentMessageDao: BaseDao<SentMessagesEntity> {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(sentMessage: SentMessagesEntity): Long
@@ -24,4 +25,7 @@ interface SentMessageDao {
 
     @Query("DELETE FROM sent_messages WHERE messageId = :messageId")
     suspend fun deleteByMessageId(messageId: Long)
+
+    @Query("SELECT * FROM sent_messages")
+    fun getAllSentMessagesLiveData(): LiveData<List<SentMessagesEntity>>
 }
