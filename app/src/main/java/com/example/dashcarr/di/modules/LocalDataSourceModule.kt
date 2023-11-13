@@ -1,5 +1,7 @@
 package com.example.dashcarr.di.modules
 
+import com.example.dashcarr.data.datasource.messages.ISentMessagesLocalDataSource
+import com.example.dashcarr.data.datasource.messages.SentMessagesLocalDataSource
 import com.example.dashcarr.data.datasource.points.IPointsOfInterestLocalDataSource
 import com.example.dashcarr.data.datasource.points.PointsOfInterestLocalDataSource
 import dagger.Binds
@@ -16,5 +18,8 @@ interface LocalDataSourceModule {
 
     @Binds
     fun bindPointsOfInterestLocalDataSource(pointsOfInterestLocalDataSource: PointsOfInterestLocalDataSource): IPointsOfInterestLocalDataSource
+
+    @Binds
+    fun bindSentMessagesLocalDataSource(sentMessagesLocalDataSource: SentMessagesLocalDataSource): ISentMessagesLocalDataSource
 
 }

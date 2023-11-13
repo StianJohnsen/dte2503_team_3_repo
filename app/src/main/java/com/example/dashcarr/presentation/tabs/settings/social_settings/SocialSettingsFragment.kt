@@ -14,18 +14,29 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.dashcarr.R
 import com.example.dashcarr.data.database.AppDatabase
 import com.example.dashcarr.databinding.FragmentSocialSettingsBinding
+import com.example.dashcarr.domain.entity.SentMessagesEntity
+import com.example.dashcarr.extensions.collectWithLifecycle
+import com.example.dashcarr.extensions.hideKeyboard
+import com.example.dashcarr.extensions.toastErrorUnknownShort
+import com.example.dashcarr.extensions.toastShort
 import com.example.dashcarr.presentation.core.BaseFragment
+import com.example.dashcarr.presentation.tabs.settings.social_settings.adapter.SentMessagesAdapter
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class SocialSettingsFragment : BaseFragment<FragmentSocialSettingsBinding>(
     FragmentSocialSettingsBinding::inflate,
-    showBottomNavBar = false)
+    showBottomNavBar = false), SentMessagesAdapter.IOnSentMessageClickListener
 {
-    private val viewModel: SocialSettingsViewModel by viewModels {
-        SocialSettingsViewModelFactory(AppDatabase.getInstance(requireContext()).FriendsDao())
+    private val viewModel: SocialSettingsViewModel by viewModels()
+
+    private val messagesAdapter by lazy {
+        SentMessagesAdapter(this)
     }
 
     private val MY_PERMISSION_REQUEST_SEND_SMS = 0
@@ -41,11 +52,27 @@ class SocialSettingsFragment : BaseFragment<FragmentSocialSettingsBinding>(
     @RequiresApi(Build.VERSION_CODES.R)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setupAdapter()
         initListeners()
+        observeViewModel()
     }
-    
+
+    private fun setupAdapter() {
+        binding.recyclerView.adapter = messagesAdapter
+        binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
+    }
+
     @RequiresApi(Build.VERSION_CODES.R)
     private fun initListeners() {
+
+        binding.btnDelete.setOnClickListener {
+            viewModel.deleteMessage()
+        }
+
+        binding.btnCancelDelete.setOnClickListener {
+            viewModel.hideDeleteDialog()
+        }
+
         binding.btnBackToSettings.setOnClickListener {
             findNavController().popBackStack()
         }
@@ -118,6 +145,26 @@ class SocialSettingsFragment : BaseFragment<FragmentSocialSettingsBinding>(
                 binding.linearFriends.addView(btn)
             }
         }
+    }
+
+    private fun observeViewModel() {
+        viewModel.sentMessages.observe(viewLifecycleOwner) {
+            messagesAdapter.submitList(it)
+        }
+        viewModel.showDeleteDialog.collectWithLifecycle(viewLifecycleOwner) {
+            if (!it) hideKeyboard()
+            binding.flDeleteMessageLayout.visibility = if (it) View.VISIBLE else View.GONE
+        }
+        viewModel.onDeleteMessageSuccess.collectWithLifecycle(viewLifecycleOwner) {
+            toastShort(getString(R.string.message_deleted_successfully))
+        }
+        viewModel.onDeleteMessageFailure.collectWithLifecycle(viewLifecycleOwner) {
+            toastErrorUnknownShort()
+        }
+    }
+
+    override fun onClick(message: SentMessagesEntity) {
+        viewModel.showConfirmDeleteDialog(message)
     }
 
     @RequiresApi(Build.VERSION_CODES.R)

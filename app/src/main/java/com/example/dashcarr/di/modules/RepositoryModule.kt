@@ -3,9 +3,11 @@ package com.example.dashcarr.di.modules
 import com.example.dashcarr.data.repository.FirebaseAuthRepository
 import com.example.dashcarr.data.repository.FirebaseDBRepository
 import com.example.dashcarr.data.repository.PointsOfInterestRepository
+import com.example.dashcarr.data.repository.SentMessagesRepository
 import com.example.dashcarr.domain.repository.IFirebaseAuthRepository
 import com.example.dashcarr.domain.repository.IFirebaseDBRepository
 import com.example.dashcarr.domain.repository.IPointsOfInterestRepository
+import com.example.dashcarr.domain.repository.ISentMessagesRepository
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -26,4 +28,7 @@ interface RepositoryModule {
 
     @Binds
     fun bindDBRepository(repository: FirebaseDBRepository): IFirebaseDBRepository
+
+    @Binds
+    fun bindSentMessagesRepository(repository: SentMessagesRepository): ISentMessagesRepository
 }

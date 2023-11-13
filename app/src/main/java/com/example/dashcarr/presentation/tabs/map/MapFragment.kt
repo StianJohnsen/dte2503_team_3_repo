@@ -31,10 +31,12 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.dashcarr.R
 import com.example.dashcarr.databinding.FragmentMapBinding
+import com.example.dashcarr.extensions.checkLocationPermissions
 import com.example.dashcarr.extensions.collectWithLifecycle
 import com.example.dashcarr.extensions.hideKeyboard
 import com.example.dashcarr.extensions.locationPermissions
 import com.example.dashcarr.extensions.setHeightSmooth
+import com.example.dashcarr.extensions.toastShort
 import com.example.dashcarr.extensions.toastThrowableShort
 import com.example.dashcarr.presentation.core.BaseFragment
 import com.example.dashcarr.presentation.mapper.toMarker
@@ -179,8 +181,13 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
             mapViewModel.showHideBar()
         }
         binding.btnCenterLocation.setOnClickListener {
+            if (!requireContext().checkLocationPermissions()) {
+                toastShort(getString(R.string.some_permissions_missing))
+                return@setOnClickListener
+            }
             binding.mapView.controller.animateTo(myLocationOverlay.myLocation)
             binding.mapView.controller.setZoom(15.0)
+            createLocationRequest()
         }
         binding.buttonMaximize.setOnClickListener {
             findNavController().navigate(R.id.action_action_map_to_action_hud)

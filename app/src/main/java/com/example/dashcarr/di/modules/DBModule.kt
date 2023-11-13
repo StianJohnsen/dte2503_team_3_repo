@@ -25,4 +25,8 @@ class DBModule {
     @Singleton
     fun provideUserDao(db: AppDatabase) = db.pointsDao()
 
+    @Provides
+    @Singleton
+    fun provideSentMessageDao(db: AppDatabase) = db.SentMessageDao()
+
 }

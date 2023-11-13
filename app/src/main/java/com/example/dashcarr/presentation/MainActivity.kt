@@ -165,7 +165,7 @@ class MainActivity : AppCompatActivity() {
         }
         startHideAnimation()
         val list =
-            NavController.OnDestinationChangedListener { _, _, args ->
+            NavController.OnDestinationChangedListener { _, destination, args ->
                 val isRideStarting = args?.getBoolean("isRideActivated", false) ?: false
                 if (slidingBox.isVisible && !isRideStarting) {
                     startHideAnimation()
