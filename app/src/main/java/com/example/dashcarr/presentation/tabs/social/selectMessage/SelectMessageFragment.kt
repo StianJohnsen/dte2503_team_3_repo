@@ -8,6 +8,7 @@ import android.telephony.SmsManager
 import android.util.Log
 import android.view.View
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -28,6 +29,19 @@ class SelectMessageFragment : BaseFragment<FragmentSelectMessageBinding>(
     private val viewModel: SelectMessageViewModel by viewModels {
         SelectMessageViewModelFactory(AppDatabase.getInstance(requireContext()).MessagesDao())
     }
+
+    private val requestPermission =
+        registerForActivityResult(
+            ActivityResultContracts.RequestPermission()
+        ) { isGranted ->
+            if (isGranted) {
+                Log.d(this::class.simpleName, "Sms permission granted")
+
+            } else {
+                Log.d(this::class.simpleName, "Sms permission not granted")
+
+            }
+        }
 
     private val MY_PERMISSION_REQUEST_SEND_SMS = 0
 
@@ -51,16 +65,6 @@ class SelectMessageFragment : BaseFragment<FragmentSelectMessageBinding>(
         }
     }
 
-    @Deprecated("Deprecated in Java")
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
-        if (requestCode == MY_PERMISSION_REQUEST_SEND_SMS) {
-            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                Toast.makeText(context, "Got SMS permission", Toast.LENGTH_SHORT).show()
-            }
-        }
-    }
-
-    @RequiresApi(Build.VERSION_CODES.R)
     private fun observeViewModel() {
         val contactId = arguments?.getInt("contactId")
         if (contactId != null) {
@@ -78,6 +82,7 @@ class SelectMessageFragment : BaseFragment<FragmentSelectMessageBinding>(
                 insertIntoMessageHistory(it.id, contactId, System.currentTimeMillis())
             }
             findNavController().navigate(R.id.action_selectMessageFragment_to_action_settings)
+            Toast.makeText(context, "Message sent", Toast.LENGTH_SHORT).show()
 
         }
 
@@ -95,12 +100,23 @@ class SelectMessageFragment : BaseFragment<FragmentSelectMessageBinding>(
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.R)
     private fun sendMessage(destinationNumer: String, message: String) {
         requestSmsPermission()
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            sendTextMessageAndroid12AndAbove(destinationNumer, message)
+        } else {
+            sendTextMessageBelowAndroid12(destinationNumer, message)
+        }
 
+    }
+
+    @RequiresApi(Build.VERSION_CODES.R)
+    private fun sendTextMessageAndroid12AndAbove(destinationNumer: String, message: String) {
         smsManagerObject.sendTextMessage(destinationNumer, null, message, null, null, 0)
+    }
 
+    private fun sendTextMessageBelowAndroid12(destinationNumer: String, message: String) {
+        SmsManager.getDefault().sendTextMessage(destinationNumer, null, message, null, null)
     }
 
     private fun insertIntoMessageHistory(messageId: Long, friendId: Int, createdTimeStamp: Long) {
@@ -110,10 +126,10 @@ class SelectMessageFragment : BaseFragment<FragmentSelectMessageBinding>(
     }
 
 
-    @RequiresApi(Build.VERSION_CODES.R)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.getAllMessages(requireContext())
+        requestPermission.launch(Manifest.permission.SEND_SMS)
         observeViewModel()
         binding.apply {
             backToSettingsFromSelectMessage.setOnClickListener {

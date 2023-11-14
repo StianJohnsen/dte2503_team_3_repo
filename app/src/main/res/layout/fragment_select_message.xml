@@ -18,6 +18,8 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="@dimen/margin_padding_size_10" />
 
     <ImageView
         android:id="@+id/back_to_settings_from_select_message"
@@ -26,10 +28,10 @@
         android:layout_marginStart="@dimen/margin_padding_size_10"
         android:layout_marginTop="@dimen/margin_padding_size_10"
         android:contentDescription="@string/back_button_content_description"
+        android:layout_marginTop="@dimen/margin_padding_size_10"
         android:src="@drawable/baseline_arrow_back_24"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -38,7 +40,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/select_message_text_view">
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/select_message_text_view">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/select_message_recycler"
@@ -51,7 +54,6 @@
             android:orientation="vertical"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             tools:listitem="@layout/select_message_item" />
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 

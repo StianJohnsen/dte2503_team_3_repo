@@ -192,6 +192,10 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
         binding.buttonMaximize.setOnClickListener {
             findNavController().navigate(R.id.action_action_map_to_action_hud)
         }
+
+        binding.btnSendMessage.setOnClickListener {
+            findNavController().navigate(R.id.action_action_map_to_selectContactFragment)
+        }
     }
 
     /**

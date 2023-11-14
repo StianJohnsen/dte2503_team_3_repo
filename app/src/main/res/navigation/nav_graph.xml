@@ -37,6 +37,9 @@
             app:exitAnim="@anim/up_to_down"
             app:popEnterAnim="@anim/pop_y_enter"
             app:popExitAnim="@anim/pop_y_exit" />
+        <action
+            android:id="@+id/action_action_map_to_selectContactFragment"
+            app:destination="@id/selectContactFragment" />
     </fragment>
     <fragment
         android:id="@+id/action_dash_cam"
@@ -152,10 +155,10 @@
             app:exitAnim="@anim/up_to_down"
             app:popEnterAnim="@anim/pop_y_enter"
             app:popExitAnim="@anim/pop_y_exit" />
-            android:id="@+id/action_loginFragment_to_action_map"
-            app:destination="@id/action_map"
-            app:popUpTo="@id/nav_graph"
-            app:popUpToInclusive="true" />
+        android:id="@+id/action_loginFragment_to_action_map"
+        app:destination="@id/action_map"
+        app:popUpTo="@id/nav_graph"
+        app:popUpToInclusive="true" />
     </fragment>
 
     <fragment

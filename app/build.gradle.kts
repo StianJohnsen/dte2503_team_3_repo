@@ -14,7 +14,8 @@ android {
 
     defaultConfig {
         applicationId = "com.example.dashcarr"
-        minSdk = 29
+        minSdk = 28
+
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
@@ -154,4 +155,7 @@ dependencies {
     implementation("androidx.datastore:datastore-preferences:1.0.0")
 
     implementation("androidx.biometric:biometric:1.1.0")
+    implementation("androidx.activity:activity-ktx:1.8.0")
+    implementation("androidx.fragment:fragment-ktx:1.6.2")
+
 }
