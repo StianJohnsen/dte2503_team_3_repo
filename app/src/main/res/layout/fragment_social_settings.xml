@@ -110,47 +110,6 @@
                     android:layout_marginStart="@dimen/margin_padding_size_10"
                     android:layout_marginBottom="@dimen/margin_padding_size_10" />
 
-                <TextView
-                    android:id="@+id/messagesHeader"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/sent_messages"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/text_size_16"
-                    app:layout_constraintTop_toBottomOf="@+id/add_message_button"
-                    app:layout_constraintStart_toStartOf="parent"
-                    android:layout_marginStart="@dimen/margin_padding_size_18"
-                    android:paddingHorizontal="@dimen/margin_padding_size_12"
-                    android:layout_marginTop="@dimen/margin_padding_size_26"/>
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/clContainer"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/margin_padding_size_18"
-                    android:layout_marginEnd="@dimen/margin_padding_size_18"
-                    android:layout_marginBottom="@dimen/margin_padding_size_26"
-                    android:layout_marginTop="@dimen/margin_padding_size_4"
-                    android:background="@drawable/white_rounded_16dp_background"
-                    android:padding="@dimen/margin_padding_size_6"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/messagesHeader">
-
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/recycler_view"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:paddingHorizontal="@dimen/margin_padding_size_6"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </ScrollView>

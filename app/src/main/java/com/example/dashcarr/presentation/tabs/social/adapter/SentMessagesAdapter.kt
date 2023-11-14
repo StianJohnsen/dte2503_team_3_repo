@@ -1,4 +1,4 @@
-package com.example.dashcarr.presentation.tabs.settings.social_settings.adapter
+package com.example.dashcarr.presentation.tabs.social.adapter
 
 import android.view.LayoutInflater
 import android.view.View
