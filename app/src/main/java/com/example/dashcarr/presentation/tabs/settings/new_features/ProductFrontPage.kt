@@ -6,6 +6,7 @@ import android.view.View
 import androidx.navigation.fragment.findNavController
 import com.example.dashcarr.R
 import com.example.dashcarr.databinding.FragmentProductFrontPageBinding
+import com.example.dashcarr.presentation.MainActivity
 import com.example.dashcarr.presentation.core.BaseFragment
 
 
@@ -22,8 +23,10 @@ class ProductFrontPage : BaseFragment<FragmentProductFrontPageBinding>(
             productInfoText.movementMethod = ScrollingMovementMethod()
             exitProductFrontPage.setOnClickListener {
                 findNavController().navigate(R.id.action_productFrontPage_to_action_map)
+                (requireActivity() as MainActivity).showRedButton(startDelay = 500)
             }
         }
+        (requireActivity() as MainActivity).hideRedButton()
     }
 
 
