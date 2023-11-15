@@ -29,7 +29,10 @@ class SecurityCameraFragment : BaseFragment<FragmentSecurityCameraBinding>(
     FragmentSecurityCameraBinding::inflate,
     showBottomNavBar = false
 ), SensorEventListener {
+
     private val viewModel: SecurityCameraViewModel by viewModels()
+    private lateinit var currentState: SecurityCameraViewModel.StateMachine
+    private lateinit var biometricPrompt: BiometricPrompt
     private val authenticators =
         BiometricManager.Authenticators.BIOMETRIC_STRONG or BiometricManager.Authenticators.BIOMETRIC_WEAK or BiometricManager.Authenticators.DEVICE_CREDENTIAL
     private var lastAcceleration: FloatArray? = null
@@ -39,6 +42,7 @@ class SecurityCameraFragment : BaseFragment<FragmentSecurityCameraBinding>(
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        currentState = viewModel.getState()
         if (PowerSavingMode.getPowerMode()) {
             Toast.makeText(context, "Recording increases the power consumption!", Toast.LENGTH_SHORT).show()
         }
@@ -47,11 +51,12 @@ class SecurityCameraFragment : BaseFragment<FragmentSecurityCameraBinding>(
             ActivityResultContracts.RequestPermission()
         ) { isGranted ->
             if (isGranted) {
-                viewModel.startCamera(requireActivity(), this) {
-                    binding.videoCaptureButton.apply {
-                        text =
-                            getString(if (viewModel.isRecording()) R.string.stop_recording else R.string.start_recording)
-                        isClickable = true
+                if (currentState.getCurrentState() == SecurityCameraViewModel.States.NOT_STARTED) {
+                    viewModel.startCamera(requireActivity(), this) {
+                        binding.videoCaptureButton.apply {
+                            text = getString(R.string.start_recording)
+                            isClickable = true
+                        }
                     }
                 }
             } else {
@@ -69,9 +74,9 @@ class SecurityCameraFragment : BaseFragment<FragmentSecurityCameraBinding>(
         }
         binding.videoCaptureButton.setOnClickListener {
             binding.videoCaptureButton.isClickable = false
-            if (viewModel.isRecording()) {
+            if (currentState.getCurrentState() == SecurityCameraViewModel.States.RECORDING) {
                 stopTriggered()
-            } else {
+            } else if (currentState.getCurrentState() == SecurityCameraViewModel.States.CAMERA_STARTED) {
                 viewModel.startRecording(
                     showStopButton = {
                         binding.videoCaptureButton.apply {
@@ -90,9 +95,10 @@ class SecurityCameraFragment : BaseFragment<FragmentSecurityCameraBinding>(
         }
     }
 
-    private fun stopTriggered() {
-        val stopRecording = {
-            viewModel.stopRecording(showStartButton = {
+    private fun stopRecording() {
+        currentState.authorize()
+        viewModel.stopRecording(showStartButton = {
+            if (context != null) {
                 binding.videoCaptureButton.apply {
                     text = getString(R.string.start_recording)
                     isClickable = true
@@ -100,17 +106,56 @@ class SecurityCameraFragment : BaseFragment<FragmentSecurityCameraBinding>(
                 if (binding.recordingSign.visibility == View.VISIBLE) {
                     binding.recordingSign.startAnimation(AnimationUtils.loadAnimation(context, R.anim.fadeout))
                 }
-            })
-        }
+            }
+        })
+    }
+
+    private fun stopTriggered() {
+        unregisterAccelerationListener()
+        binding.videoCaptureButton.isClickable = false
+        currentState.triggerStop()
 
         if (hasBiometricCapability()) {
-            showPrompt(success = stopRecording, failed = {
-                stopRecording()
-                Toast.makeText(requireContext(), "send message", Toast.LENGTH_SHORT).show()
-            })
+            showPrompt()
         } else {
             stopRecording()
         }
+    }
+
+    private fun showPrompt() {
+        val promptInfo = BiometricPrompt.PromptInfo.Builder()
+            .setTitle(getString(R.string.prompt_title))
+            .setSubtitle(getString(R.string.prompt_subtitle))
+            .setDescription(getString(R.string.prompt_description))
+            .setAllowedAuthenticators(authenticators)
+            .build()
+        val executor = ContextCompat.getMainExecutor(requireActivity())
+        val callback = object : BiometricPrompt.AuthenticationCallback() {
+            override fun onAuthenticationError(errorCode: Int, errString: CharSequence) {
+                Log.e(
+                    this::class.simpleName,
+                    "Error while Biometric Prompt with error code: $errorCode and description: $errString"
+                )
+            }
+
+            override fun onAuthenticationFailed() {
+                stopRecording()
+                viewModel.sendMessage()
+            }
+
+            override fun onAuthenticationSucceeded(result: BiometricPrompt.AuthenticationResult) {
+                stopRecording()
+            }
+        }
+        biometricPrompt = BiometricPrompt(requireActivity(), executor, callback)
+        biometricPrompt.authenticate(promptInfo)
+        Handler(Looper.getMainLooper()).postDelayed({
+            if (currentState.getCurrentState() == SecurityCameraViewModel.States.WAIT_FOR_AUTHORIZATION) {
+                biometricPrompt.cancelAuthentication()
+                stopRecording()
+                viewModel.sendMessage()
+            }
+        }, 10000)
     }
 
     private fun hasBiometricCapability(): Boolean {
@@ -119,49 +164,14 @@ class SecurityCameraFragment : BaseFragment<FragmentSecurityCameraBinding>(
         return isBiometricReady == BiometricManager.BIOMETRIC_SUCCESS
     }
 
-
-    private fun showPrompt(success: () -> Unit, failed: () -> Unit) {
-        val promptInfo = BiometricPrompt.PromptInfo.Builder()
-            .setTitle(getString(R.string.prompt_title))
-            .setSubtitle(getString(R.string.prompt_subtitle))
-            .setDescription(getString(R.string.prompt_description))
-            .setAllowedAuthenticators(authenticators)
-            .build()
-        var isClosed = false
-        val executor = ContextCompat.getMainExecutor(requireActivity())
-        val callback = object : BiometricPrompt.AuthenticationCallback() {
-            override fun onAuthenticationError(errorCode: Int, errString: CharSequence) {
-                Log.e(
-                    this::class.simpleName,
-                    "Error while Biometric Prompt with error code: $errorCode and description: $errString"
-                )
-                isClosed = true
-            }
-
-            override fun onAuthenticationFailed() {
-                isClosed = true
-                failed()
-            }
-
-            override fun onAuthenticationSucceeded(result: BiometricPrompt.AuthenticationResult) {
-                isClosed = true
-                success()
-            }
+    override fun onDetach() {
+        if (currentState.getCurrentState() == SecurityCameraViewModel.States.WAIT_FOR_AUTHORIZATION) {
+            biometricPrompt.cancelAuthentication()
+            stopRecording()
+            viewModel.sendMessage()
         }
-        val biometricPrompt = BiometricPrompt(requireActivity(), executor, callback)
-        biometricPrompt.authenticate(promptInfo)
-        Handler(Looper.getMainLooper()).postDelayed({
-            if (!isClosed) {
-                biometricPrompt.cancelAuthentication()
-                Toast.makeText(context, "Time Expired!", Toast.LENGTH_SHORT).show()
-                failed()
-            }
-        }, 10000)
-    }
-
-    override fun onDestroyView() {
         viewModel.closeCamera()
-        super.onDestroyView()
+        super.onDetach()
     }
 
     override fun onSensorChanged(event: SensorEvent?) {
@@ -175,12 +185,14 @@ class SecurityCameraFragment : BaseFragment<FragmentSecurityCameraBinding>(
         filteredAcceleration = (1 - filterValue) * filteredAcceleration + filterValue * currentAcceleration
         lastAcceleration = event.values.copyOf()
         if (filteredAcceleration > 1.0F) {
-            sensorManager.unregisterListener(this)
-            lastAcceleration = null
-            filteredAcceleration = 0F
-            binding.videoCaptureButton.isClickable = false
             stopTriggered()
         }
+    }
+
+    private fun unregisterAccelerationListener() {
+        sensorManager.unregisterListener(this)
+        lastAcceleration = null
+        filteredAcceleration = 0F
     }
 
     override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {
