@@ -34,6 +34,7 @@
     <string name="resume_recording">Resume</string>
     <string name="delete_recording">Delete</string>
     <string name="recording_in_progress">Recording...</string>
+    <string name="header_security_camera">Security Camera</string>
 
     <!--Error-->
 
@@ -93,7 +94,6 @@
     <string name="amount_of_data">Amount of Data:</string>
     <string name="current_data">Current Data:</string>Configure
     <string name="stop_sensor_recording">Stop Recording</string>
-
 
     <!--ConfigureFragment-->
 
@@ -173,8 +173,8 @@
 
     <!--Authentication Prompt-->
 
-    <string name="prompt_title">Movement Detected</string>
-    <string name="prompt_subtitle">Authorize yourselves with your phone pin.</string>
+    <string name="prompt_title">Unauthorized Action Detected</string>
+    <string name="prompt_subtitle">Authorize yourselves with your phone pin</string>
     <string name="prompt_description">If the app is not unlocked in the next 10s, an emergency message will be sent.
     </string>
 
