@@ -11,4 +11,4 @@ import java.util.Locale
  * @return A formatted date string.
  */
 fun getFormattedDate(creationDate: Long): String =
-    SimpleDateFormat(PROJECT_DATE_FORMAT, Locale.getDefault()).format(Date(creationDate))
+    SimpleDateFormat(PROJECT_DATE_TIME_FORMAT, Locale.getDefault()).format(Date(creationDate))
