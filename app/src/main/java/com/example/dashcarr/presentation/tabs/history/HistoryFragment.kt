@@ -4,6 +4,7 @@ import android.app.AlertDialog
 import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.text.InputFilter
 import android.view.Gravity
@@ -21,6 +22,7 @@ import com.example.dashcarr.databinding.FragmentHistoryBinding
 import com.example.dashcarr.presentation.core.BaseFragment
 import org.json.JSONArray
 import java.io.BufferedReader
+import java.io.File
 import java.io.InputStream
 import java.io.InputStreamReader
 import java.nio.charset.Charset
@@ -92,10 +94,30 @@ class HistoryFragment : BaseFragment<FragmentHistoryBinding>(
     }
 
     private fun deleteRecording(index: Int, jsonArray: JSONArray) {
+        // Get the JSON object to retrieve file names
+        val jsonObject = jsonArray.getJSONObject(index)
+
+        // List of keys that have the file names as their values
+        val fileKeys = listOf("unfil_GPS", "fil_accel", "unfil_accel", "fil_gyro", "unfil_gyro")
+
+        // Loop through the keys and delete the associated files
+        for (key in fileKeys) {
+            val fileName = jsonObject.getString(key)
+            val file = File(context?.filesDir, fileName)
+            if (file.exists()) {
+                file.delete()
+            }
+        }
+
+        // Remove the JSON object from the array
         jsonArray.remove(index)
+
+        // Save the updated array back to the file
         context?.openFileOutput("sensor_config.json", Context.MODE_PRIVATE).use {
             it?.write(jsonArray.toString().toByteArray())
         }
+
+        // Update your UI or other necessary components
         createDropdownsFromJson()
     }
 
@@ -106,7 +128,7 @@ class HistoryFragment : BaseFragment<FragmentHistoryBinding>(
         val dialog = AlertDialog.Builder(requireContext())
             .setView(dialogLayout)
             .create()
-
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         val confirmButton = dialogLayout.findViewById<Button>(R.id.btnDelete)
         val cancelButton = dialogLayout.findViewById<Button>(R.id.btnCancelDelete)
 
@@ -138,7 +160,7 @@ class HistoryFragment : BaseFragment<FragmentHistoryBinding>(
         val dialog = AlertDialog.Builder(requireContext())
             .setView(dialogLayout)
             .create()
-
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         val editText = dialogLayout.findViewById<EditText>(R.id.etMarkerName)
         editText.filters = arrayOf<InputFilter>(InputFilter.LengthFilter(10))
         val positiveButton = dialogLayout.findViewById<Button>(R.id.btnUpdate)
@@ -171,22 +193,27 @@ class HistoryFragment : BaseFragment<FragmentHistoryBinding>(
                     LinearLayout.LayoutParams.MATCH_PARENT,
                     LinearLayout.LayoutParams.WRAP_CONTENT
                 ).apply {
-                    setMargins(30, 0, 30, 60)
+                    setMargins(10, 0, 10, 60)
                 }
                 orientation = LinearLayout.HORIZONTAL
             }
 
+            val spinnerLayoutParams = LinearLayout.LayoutParams(
+                0,
+                LinearLayout.LayoutParams.WRAP_CONTENT, // This should ensure the height matches the content
+                1.8f
+            ).apply {
+                gravity = Gravity.CENTER_VERTICAL // This will center the spinner vertically
+            }
+
             val spinner = Spinner(context).apply {
-                layoutParams = LinearLayout.LayoutParams(
-                    0,
-                    LinearLayout.LayoutParams.WRAP_CONTENT,
-                    1f
-                )
+                layoutParams = spinnerLayoutParams
                 setPopupBackgroundResource(R.drawable.white_rounded_16dp_background)
             }
 
             val options = listOf(
                 RecordingDescription(jsonObject.getString("name"), "n.A."),
+                RecordingDescription("Route", "unfil_GPS"),
                 RecordingDescription("unfiltered gyroscope", jsonObject.getString("unfil_gyro")),
                 RecordingDescription("filtered gyroscope", jsonObject.getString("fil_gyro")),
                 RecordingDescription("unfiltered acceleration", jsonObject.getString("unfil_accel")),
@@ -224,25 +251,42 @@ class HistoryFragment : BaseFragment<FragmentHistoryBinding>(
                         }
                         options[position].fileName = newName
                     }
-                    val action =
-                        HistoryFragmentDirections.actionActionHistoryToRecordingDetailsFragment(
-                            selectedFileName = options[position].fileName,
-                            elapsedTime = jsonObject.getString("elapsed_time"),
-                            title = jsonObject.getString("name"),
-                            chartType = options[position].chartType,
-                            date = jsonObject.getString("date")
-                        )
-                    findNavController().navigate(action)
+                    if (options[position].label == "Route") {
+
+                        val action =
+                            HistoryFragmentDirections.actionActionHistoryToRouteFragment(
+                                selectedFileName = jsonObject.getString("unfil_GPS"),
+                                elapsedTime = jsonObject.getString("elapsed_time"),
+                                title = jsonObject.getString("name"),
+                                chartType = options[position].chartType,
+                                date = jsonObject.getString("date")
+                            )
+                        findNavController().navigate(action)
+                    } else {
+                        val action =
+                            HistoryFragmentDirections.actionActionHistoryToRecordingDetailsFragment(
+                                selectedFileName = options[position].fileName,
+                                elapsedTime = jsonObject.getString("elapsed_time"),
+                                title = jsonObject.getString("name"),
+                                chartType = options[position].chartType,
+                                date = jsonObject.getString("date")
+                            )
+                        findNavController().navigate(action)
+                    }
                 }
             }
             horizontalLayout.addView(spinner)
 
+            val buttonLayoutParams = LinearLayout.LayoutParams(
+                0,
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                1f
+            ).apply {
+                gravity = Gravity.CENTER_VERTICAL
+            }
+
             val buttonLayout = LinearLayout(context).apply {
-                layoutParams = LinearLayout.LayoutParams(
-                    0,
-                    LinearLayout.LayoutParams.WRAP_CONTENT,
-                    1f
-                )
+                layoutParams = buttonLayoutParams
             }
 
             val renameButton = Button(context).apply {
@@ -270,7 +314,7 @@ class HistoryFragment : BaseFragment<FragmentHistoryBinding>(
             val buttonHeight = 100
 
             val renameParams = LinearLayout.LayoutParams(buttonWidth, buttonHeight)
-            renameParams.setMargins(150, 0, 16, 0)
+            renameParams.setMargins(10, 0, 16, 0)
 
             val deleteParams = LinearLayout.LayoutParams(buttonWidth, buttonHeight)
             deleteParams.setMargins(0, 0, 16, 0)
@@ -282,7 +326,7 @@ class HistoryFragment : BaseFragment<FragmentHistoryBinding>(
             buttonLayout.addView(deleteButton)
 
             buttonLayout.gravity = Gravity.END
-
+            horizontalLayout.gravity = Gravity.CENTER_VERTICAL
             horizontalLayout.addView(buttonLayout)
             linearLayout?.addView(horizontalLayout)
         }
