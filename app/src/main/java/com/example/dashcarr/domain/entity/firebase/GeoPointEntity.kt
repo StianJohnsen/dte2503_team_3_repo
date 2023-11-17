@@ -1,4 +1,4 @@
-package com.example.dashcarr.data.entity
+package com.example.dashcarr.domain.entity.firebase
 
 /**
  * Represents a geographical point entity with associated information.

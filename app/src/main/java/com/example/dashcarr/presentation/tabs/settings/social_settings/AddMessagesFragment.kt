@@ -8,13 +8,17 @@ import androidx.navigation.fragment.findNavController
 import com.example.dashcarr.R
 import com.example.dashcarr.data.database.AppDatabase
 import com.example.dashcarr.databinding.FragmentAddMessagesBinding
+import com.example.dashcarr.domain.entity.MessagesEntity
 import com.example.dashcarr.presentation.core.BaseFragment
+import dagger.hilt.android.AndroidEntryPoint
 
-
+@AndroidEntryPoint
 class AddMessagesFragment : BaseFragment<FragmentAddMessagesBinding>(
     FragmentAddMessagesBinding::inflate,
     showBottomNavBar = false
 ) {
+
+    private val viewModel: AddMessagesViewModel by viewModels()
 
     private val viewModel: AddMessagesViewModel by viewModels {
         AddMessagesViewModelFactory(AppDatabase.getInstance(requireContext()).MessagesDao())
@@ -65,4 +69,5 @@ class AddMessagesFragment : BaseFragment<FragmentAddMessagesBinding>(
             }
         }
     }
+
 }

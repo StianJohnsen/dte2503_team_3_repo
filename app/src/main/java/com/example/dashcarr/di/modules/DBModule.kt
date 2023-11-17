@@ -29,4 +29,12 @@ class DBModule {
     @Singleton
     fun provideSentMessageDao(db: AppDatabase) = db.SentMessageDao()
 
+    @Provides
+    @Singleton
+    fun provideFriendsDao(db: AppDatabase) = db.FriendsDao()
+
+    @Provides
+    @Singleton
+    fun provideMessagesDao(db: AppDatabase) = db.MessagesDao()
+
 }

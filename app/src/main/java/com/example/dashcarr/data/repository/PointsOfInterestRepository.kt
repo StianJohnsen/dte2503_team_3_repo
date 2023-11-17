@@ -27,5 +27,4 @@ class PointsOfInterestRepository @Inject constructor(
 
     override suspend fun updatePoint(point: PointOfInterestEntity): Result<Unit> =
         pointsOfInterestLocalDataSource.updatePoint(point)
-
 }

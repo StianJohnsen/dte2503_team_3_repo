@@ -6,7 +6,6 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import androidx.room.Transaction
 import com.example.dashcarr.domain.entity.SentMessageFinalEntity
 import com.example.dashcarr.domain.entity.SentMessagesEntity
 
@@ -28,7 +27,6 @@ interface SentMessageDao: BaseDao<SentMessagesEntity> {
     @Query("DELETE FROM sent_messages WHERE messageId = :messageId")
     suspend fun deleteByMessageId(messageId: Long)
 
-    @Transaction
     @Query("SELECT * FROM sent_messages")
     fun getAllSentMessagesLiveData(): LiveData<List<SentMessageFinalEntity>>
 }

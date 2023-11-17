@@ -3,6 +3,7 @@ package com.example.dashcarr.presentation
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.dashcarr.data.repository.UserPreferencesRepository
+import com.example.dashcarr.domain.repository.IDatabasesSyncRepository
 import com.example.dashcarr.domain.repository.IFirebaseAuthRepository
 import com.example.dashcarr.presentation.tabs.settings.PowerSavingMode
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -21,7 +22,8 @@ import javax.inject.Inject
 @HiltViewModel
 class MainViewModel @Inject constructor(
     private val firebaseAuthRepository: IFirebaseAuthRepository,
-    val userPreferencesRepository: UserPreferencesRepository
+    private val userPreferencesRepository: UserPreferencesRepository,
+    private val syncDatabasesRepository: IDatabasesSyncRepository
 ) : ViewModel() {
 
     private val _isUserLoggedIn = Channel<Boolean>()
@@ -40,11 +42,18 @@ class MainViewModel @Inject constructor(
      * Initialization block to check the authentication status when the ViewModel is created.
      */
     init {
+        syncRemoteAndLocalDB()
         checkAuthentication()
         var powerSaveModeOn: Int
         runBlocking {
             powerSaveModeOn = userPreferencesRepository.appBoolFlow.first().isPowerSaveModeOn
         }
         PowerSavingMode.setAppPowerMode(PowerSavingMode.PowerState.values()[powerSaveModeOn])
+    }
+
+    private fun syncRemoteAndLocalDB() {
+        viewModelScope.launch {
+            syncDatabasesRepository.syncDatabases()
+        }
     }
 }

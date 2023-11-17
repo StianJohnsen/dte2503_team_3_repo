@@ -4,19 +4,21 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.dashcarr.R
-import com.example.dashcarr.data.database.AppDatabase
 import com.example.dashcarr.databinding.FragmentAddFriendBinding
+import com.example.dashcarr.domain.entity.FriendsEntity
 import com.example.dashcarr.presentation.core.BaseFragment
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class AddFriendFragment : BaseFragment<FragmentAddFriendBinding>(
     FragmentAddFriendBinding::inflate,
     showBottomNavBar = false
 ) {
-    private val viewModel: AddFriendViewModel by viewModels {
-        AddFriendViewModelFactory(AppDatabase.getInstance(requireContext()).FriendsDao())
-    }
+    private val viewModel: AddFriendViewModel by viewModels()
 
     private var currentFriendId: Int? = null
 
@@ -25,7 +27,7 @@ class AddFriendFragment : BaseFragment<FragmentAddFriendBinding>(
         currentFriendId = arguments?.getInt("friendId", -1).takeIf { it != -1 }
 
         if (currentFriendId != null) {
-            viewModel.getFriendById(currentFriendId!!).observe(viewLifecycleOwner) { friend ->
+                viewModel.getFriendById(currentFriendId!!).observe(viewLifecycleOwner) { friend: FriendsEntity ->
                 binding.inputName.setText(friend.name)
                 binding.inputEmail.setText(friend.email)
                 binding.inputPhone.setText(friend.phone)
@@ -58,7 +60,17 @@ class AddFriendFragment : BaseFragment<FragmentAddFriendBinding>(
                 Toast.makeText(context, "Check your email please", Toast.LENGTH_SHORT).show()
             } else {
                 if (currentFriendId == null) {
-                    viewModel.addToDatabase(requireContext(), inputName, email, phone)
+                    viewLifecycleOwner.lifecycleScope.launch {
+                        try {
+                            viewModel.saveNewFriend(friend = FriendsEntity(
+                                name = inputName,
+                                phone = phone,
+                                email = email,
+                                createdTimeStamp = System.currentTimeMillis()
+                            ))
+                        } catch (e: Exception) {
+                        }
+                    }
                 } else {
                     viewModel.updateFriend(requireContext(), currentFriendId!!, inputName, email, phone)
                 }
