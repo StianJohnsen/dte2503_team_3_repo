@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="RouteFragment"
+            type="com.example.dashcarr.presentation.tabs.history.RouteFragment" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/mainBlue">
+
+        <ImageView
+            android:id="@+id/image_back_details"
+            android:layout_width="@dimen/standard_touch_size"
+            android:layout_height="@dimen/standard_touch_size"
+            android:contentDescription="@null"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/baseline_arrow_back_24" />
+
+        <TextView
+            android:id="@+id/text_recording_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_padding_size_10"
+            android:ems="10"
+            android:text="@string/incoming"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/map"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <org.osmdroid.views.MapView
+            android:id="@+id/map"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/margin_padding_size_0"
+            android:layout_marginTop="@dimen/margin_padding_size_32"
+            android:layout_marginHorizontal="@dimen/margin_padding_size_32"
+            app:layout_constraintBottom_toTopOf="@+id/text_bar_record_1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/text_recording_name" />
+
+        <View
+            android:id="@+id/text_bar_record_1"
+            android:layout_width="match_parent"
+            android:layout_height="0.75dp"
+            android:layout_marginVertical="@dimen/margin_padding_size_32"
+            android:layout_marginHorizontal="@dimen/margin_padding_size_32"
+            android:background="@drawable/line_separator_gray"
+            app:layout_constraintEnd_toEndOf="@id/text_recording_name"
+            app:layout_constraintStart_toStartOf="@id/text_recording_name"
+            app:layout_constraintTop_toBottomOf="@+id/map" />
+
+        <View
+            android:id="@+id/text_bar_record_2"
+            android:layout_width="match_parent"
+            android:layout_height="0.75dp"
+            android:background="@drawable/line_separator_gray"
+            android:layout_marginHorizontal="@dimen/margin_padding_size_32"
+            android:layout_marginVertical="@dimen/margin_padding_size_32"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/text_average_speed" />
+
+        <TextView
+            android:id="@+id/text_total_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_padding_size_26"
+            android:text="@string/total_time"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size_20"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@+id/text_bar_record_1"
+            app:layout_constraintTop_toBottomOf="@+id/text_bar_record_1" />
+
+        <TextView
+            android:id="@+id/inputTotalTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:textSize="@dimen/text_size_20"
+            android:textStyle="bold"
+            android:layout_marginStart="@dimen/margin_padding_size_10"
+            app:layout_constraintBottom_toBottomOf="@+id/text_total_time"
+            app:layout_constraintStart_toEndOf="@+id/text_total_time"
+            app:layout_constraintTop_toTopOf="@+id/text_total_time" />
+
+        <TextView
+            android:id="@+id/text_total_distance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_padding_size_10"
+            android:text="@string/total_distance"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size_20"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/text_date"
+            app:layout_constraintStart_toStartOf="@+id/text_total_time"
+            app:layout_constraintTop_toBottomOf="@+id/text_total_time" />
+
+        <TextView
+            android:id="@+id/input_total_distance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:textSize="@dimen/text_size_20"
+            android:textStyle="bold"
+            android:layout_marginStart="@dimen/margin_padding_size_10"
+            app:layout_constraintBottom_toBottomOf="@+id/text_total_distance"
+            app:layout_constraintStart_toEndOf="@+id/text_total_distance"
+            app:layout_constraintTop_toTopOf="@+id/text_total_distance"
+            app:layout_constraintVertical_bias="0.705" />
+
+        <TextView
+            android:id="@+id/text_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_padding_size_10"
+            android:text="@string/date_of_recording"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size_20"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/text_average_speed"
+            app:layout_constraintStart_toStartOf="@+id/text_total_distance"
+            app:layout_constraintTop_toBottomOf="@+id/text_total_distance" />
+
+        <TextView
+            android:id="@+id/inputFileDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:textSize="@dimen/text_size_20"
+            android:textStyle="bold"
+            android:layout_marginStart="@dimen/margin_padding_size_10"
+            app:layout_constraintBottom_toBottomOf="@+id/text_date"
+            app:layout_constraintStart_toEndOf="@+id/text_date"
+            app:layout_constraintTop_toTopOf="@+id/text_date" />
+
+        <TextView
+            android:id="@+id/text_average_speed"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_padding_size_10"
+            android:text="@string/average_speed"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size_20"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/text_bar_record_2"
+            app:layout_constraintStart_toStartOf="@+id/text_date"
+            app:layout_constraintTop_toBottomOf="@+id/text_date" />
+
+        <TextView
+            android:id="@+id/inputAverageSpeed"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_padding_size_10"
+            android:textColor="@color/black"
+            android:textSize="@dimen/text_size_20"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/text_average_speed"
+            app:layout_constraintStart_toEndOf="@+id/text_average_speed"
+            app:layout_constraintTop_toTopOf="@+id/text_average_speed" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

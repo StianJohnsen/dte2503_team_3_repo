@@ -27,7 +27,7 @@ abstract class BaseFragment<VB : ViewBinding>(
     /**
      * ViewBinding instance for accessing the views in the fragment.
      */
-    private var _binding: VB? = null
+    var _binding: VB? = null
     val binding get() = _binding!!
 
     /**

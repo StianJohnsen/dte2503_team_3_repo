@@ -147,7 +147,29 @@
             android:name="elapsedTime"
             app:argType="string" />
     </fragment>
-
+    <fragment
+        android:id="@+id/action_route"
+        android:name="com.example.dashcarr.presentation.tabs.history.RouteFragment"
+        android:label="RouteFragment">
+        <action
+            android:id="@+id/action_action_route_to_SavedRecordingsFragment"
+            app:destination="@id/action_history" />
+        <argument
+            android:name="selectedFileName"
+            app:argType="string" />
+        <argument
+            android:name="title"
+            app:argType="string" />
+        <argument
+            android:name="date"
+            app:argType="string" />
+        <argument
+            android:name="chartType"
+            app:argType="string" />
+        <argument
+            android:name="elapsedTime"
+            app:argType="string" />
+    </fragment>
     <fragment
         android:id="@+id/loginFragment"
         android:name="com.example.dashcarr.presentation.authentication.login.LoginFragment"
@@ -162,6 +184,11 @@
             app:exitAnim="@anim/up_to_down"
             app:popEnterAnim="@anim/pop_y_enter"
             app:popExitAnim="@anim/pop_y_exit" />
+        <action
+            android:id="@+id/action_loginFragment_to_action_map"
+            app:destination="@id/action_map"
+            app:popUpTo="@id/nav_graph"
+            app:popUpToInclusive="true" />
     </fragment>
 
     <fragment
@@ -178,6 +205,9 @@
         <action
             android:id="@+id/action_action_history_to_RecordingDetailsFragment"
             app:destination="@id/action_recording_details" />
+        <action
+            android:id="@+id/action_action_history_to_RouteFragment"
+            app:destination="@id/action_route" />
     </fragment>
 
     <fragment
