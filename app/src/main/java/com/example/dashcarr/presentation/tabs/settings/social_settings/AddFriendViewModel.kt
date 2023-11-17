@@ -5,14 +5,22 @@ import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.dashcarr.data.database.AppDatabase
-import com.example.dashcarr.data.database.dao.FriendsDao
 import com.example.dashcarr.domain.entity.FriendsEntity
+import com.example.dashcarr.domain.repository.IFriendsRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
-class AddFriendViewModel(private val dao: FriendsDao) : ViewModel() {
+@HiltViewModel
+class AddFriendViewModel @Inject constructor(
+    private val friendsRepository: IFriendsRepository
+) : ViewModel() {
+
+    private val saveResult = MutableStateFlow<Boolean?>(null)
+
     fun addToDatabase(context: Context, name: String, email: String, phone: String) {
         val newFriend =
             FriendsEntity(
@@ -24,10 +32,9 @@ class AddFriendViewModel(private val dao: FriendsDao) : ViewModel() {
 
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                val db = AppDatabase.getInstance(context)
-                val newFriendRowId = db.FriendsDao().insert(newFriend)
+                val result = friendsRepository.saveNewFriend(newFriend)
                 withContext(Dispatchers.Main) {
-                    if (newFriendRowId > 0) {
+                    if (result) {
                         Toast.makeText(context, "Added", Toast.LENGTH_SHORT).show()
                     } else {
                         Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show()
@@ -42,7 +49,17 @@ class AddFriendViewModel(private val dao: FriendsDao) : ViewModel() {
     }
 
     fun getFriendById(id: Int): LiveData<FriendsEntity> {
-        return dao.getFriendById(id)
+        viewModelScope.launch {
+            friendsRepository.getFriendById(id)
+        }
+        return friendsRepository.getFriendById(id)
+    }
+
+    fun saveNewFriend(friend: FriendsEntity) {
+        viewModelScope.launch {
+            val result = friendsRepository.saveNewFriend(friend)
+            saveResult.value = result
+        }
     }
 
     fun updateFriend(context: Context, id: Int, name: String, email: String, phone: String) {
@@ -55,9 +72,9 @@ class AddFriendViewModel(private val dao: FriendsDao) : ViewModel() {
                     email = email,
                     createdTimeStamp = System.currentTimeMillis()
                 )
-                val updateCount = dao.update(updatedFriend)
+                val result = friendsRepository.updateFriend(updatedFriend)
                 withContext(Dispatchers.Main) {
-                    if (updateCount > 0) {
+                    if (result.isSuccess) {
                         Toast.makeText(context, "Updated", Toast.LENGTH_SHORT).show()
                     } else {
                         Toast.makeText(context, "Error updating", Toast.LENGTH_SHORT).show()
@@ -74,9 +91,14 @@ class AddFriendViewModel(private val dao: FriendsDao) : ViewModel() {
     fun deleteFriend(context: Context, id: Int) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                val numberOfRowsDeleted = dao.deleteById(id)
+                val friendToDelete = FriendsEntity(id = id,
+                    name = "",
+                    phone = "",
+                    email = "",
+                    createdTimeStamp = System.currentTimeMillis())
+                val result = friendsRepository.deleteFriend(friendToDelete)
                 withContext(Dispatchers.Main) {
-                    if (numberOfRowsDeleted > 0) {
+                    if (result.isSuccess) {
                         Toast.makeText(context, "Friend deleted", Toast.LENGTH_SHORT).show()
                     } else {
                         Toast.makeText(context, "Error deleting friend", Toast.LENGTH_SHORT).show()
@@ -89,5 +111,4 @@ class AddFriendViewModel(private val dao: FriendsDao) : ViewModel() {
             }
         }
     }
-
 }

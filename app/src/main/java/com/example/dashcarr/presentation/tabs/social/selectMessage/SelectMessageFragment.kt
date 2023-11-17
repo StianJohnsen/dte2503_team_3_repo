@@ -15,20 +15,19 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.dashcarr.R
-import com.example.dashcarr.data.database.AppDatabase
 import com.example.dashcarr.databinding.FragmentSelectMessageBinding
 import com.example.dashcarr.domain.entity.FriendsEntity
 import com.example.dashcarr.domain.entity.SentMessagesEntity
 import com.example.dashcarr.presentation.core.BaseFragment
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class SelectMessageFragment : BaseFragment<FragmentSelectMessageBinding>(
     FragmentSelectMessageBinding::inflate,
     showBottomNavBar = false
 ) {
 
-    private val viewModel: SelectMessageViewModel by viewModels {
-        SelectMessageViewModelFactory(AppDatabase.getInstance(requireContext()).MessagesDao())
-    }
+    private val viewModel: SelectMessageViewModel by viewModels()
 
     private val requestPermission =
         registerForActivityResult(

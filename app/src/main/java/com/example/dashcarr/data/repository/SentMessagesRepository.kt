@@ -1,7 +1,7 @@
 package com.example.dashcarr.data.repository
 
 import androidx.lifecycle.LiveData
-import com.example.dashcarr.data.datasource.messages.ISentMessagesLocalDataSource
+import com.example.dashcarr.data.datasource.sentmessages.ISentMessagesLocalDataSource
 import com.example.dashcarr.domain.entity.SentMessageFinalEntity
 import com.example.dashcarr.domain.entity.SentMessagesEntity
 import com.example.dashcarr.domain.repository.ISentMessagesRepository

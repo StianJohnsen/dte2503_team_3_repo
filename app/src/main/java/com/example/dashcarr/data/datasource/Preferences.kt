@@ -43,8 +43,48 @@ class Preferences @Inject constructor(
             .apply()
     }
 
+    override fun getLastLocalFriendsTableChangesTimestamp(): Long =
+        preferences.getLong(KEY_LAST_LOCAL_FRIENDS_TABLE_CHANGES_TIMESTAMP, 0)
+
+    override fun saveLastLocalFriendsTableChangesTimestamp(timeStamp: Long) {
+        preferences.edit()
+            .putLong(KEY_LAST_LOCAL_FRIENDS_TABLE_CHANGES_TIMESTAMP, timeStamp)
+            .apply()
+    }
+
+    override fun getLastLocalMessagesTableChangesTimestamp(): Long =
+        preferences.getLong(KEY_LAST_LOCAL_MESSAGES_TABLE_CHANGES_TIMESTAMP, 0)
+
+    override fun saveLastLocalMessagesTableChangesTimestamp(timeStamp: Long) {
+        preferences.edit()
+            .putLong(KEY_LAST_LOCAL_MESSAGES_TABLE_CHANGES_TIMESTAMP, timeStamp)
+            .apply()
+    }
+
+    override fun getLastLocalPointOfInterestTableChangesTimestamp(): Long =
+        preferences.getLong(KEY_LAST_LOCAL_POINT_OF_INTEREST_TABLE_CHANGES_TIMESTAMP, 0)
+
+    override fun saveLastLocalPointOfInterestTableChangesTimestamp(timeStamp: Long) {
+        preferences.edit()
+            .putLong(KEY_LAST_LOCAL_POINT_OF_INTEREST_TABLE_CHANGES_TIMESTAMP, timeStamp)
+            .apply()
+    }
+
+    override fun getLastLocalSentMessagesTableChangesTimestamp(): Long =
+        preferences.getLong(KEY_LAST_LOCAL_SENT_MESSAGES_TABLE_CHANGES_TIMESTAMP, 0)
+
+    override fun saveLastLocalSentMessagesTableChangesTimestamp(timeStamp: Long) {
+        preferences.edit()
+            .putLong(KEY_LAST_LOCAL_SENT_MESSAGES_TABLE_CHANGES_TIMESTAMP, timeStamp)
+            .apply()
+    }
+
     companion object {
         const val SHARED_PREFERENCES_NAME = "DASH_CARR_PREFERENCES"
         const val KEY_USER_LAST_LOCATION = "USER_LAST_LOCATION"
+        const val KEY_LAST_LOCAL_FRIENDS_TABLE_CHANGES_TIMESTAMP = "LAST_LOCAL_FRIENDS_TABLE_CHANGES_TIMESTAMP"
+        const val KEY_LAST_LOCAL_MESSAGES_TABLE_CHANGES_TIMESTAMP = "LAST_LOCAL_MESSAGES_TABLE_CHANGES_TIMESTAMP"
+        const val KEY_LAST_LOCAL_POINT_OF_INTEREST_TABLE_CHANGES_TIMESTAMP = "LAST_LOCAL_POINT_OF_INTEREST_TABLE_CHANGES_TIMESTAMP"
+        const val KEY_LAST_LOCAL_SENT_MESSAGES_TABLE_CHANGES_TIMESTAMP = "LAST_LOCAL_SENT_MESSAGES_TABLE_CHANGES_TIMESTAMP"
     }
 }

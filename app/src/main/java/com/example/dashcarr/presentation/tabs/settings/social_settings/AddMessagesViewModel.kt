@@ -6,13 +6,28 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.dashcarr.data.database.AppDatabase
-import com.example.dashcarr.data.database.dao.MessagesDao
+import com.example.dashcarr.data.repository.MessagesRepository
 import com.example.dashcarr.domain.entity.MessagesEntity
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
-class AddMessagesViewModel(private val messagesDao: MessagesDao) : ViewModel() {
+@HiltViewModel
+class AddMessagesViewModel @Inject constructor(
+    private val messagesRepository: MessagesRepository
+) : ViewModel() {
+
+    private val saveResult = MutableStateFlow<Result<Unit>?>(null)
+
+    fun saveNewMessage(message: MessagesEntity) {
+        viewModelScope.launch {
+            val result = messagesRepository.saveNewMessage(message)
+            saveResult.value = result
+        }
+    }
 
     fun addToDatabase(context: Context, messageContent: String) {
         val newMessage =

@@ -5,19 +5,17 @@ import android.util.Log
 import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import com.example.dashcarr.data.database.AppDatabase
 import com.example.dashcarr.databinding.FragmentSelectContactBinding
 import com.example.dashcarr.presentation.core.BaseFragment
+import dagger.hilt.android.AndroidEntryPoint
 
-
+@AndroidEntryPoint
 class SelectContactFragment : BaseFragment<FragmentSelectContactBinding>(
     FragmentSelectContactBinding::inflate,
     showBottomNavBar = false
 ) {
 
-    private val viewModel: SelectContactViewModel by viewModels {
-        SelectContactViewModelFactory(AppDatabase.getInstance(requireContext()).FriendsDao())
-    }
+    private val viewModel: SelectContactViewModel by viewModels()
 
     private fun observeViewModel() {
         val adapter = SelectContactAdapter {

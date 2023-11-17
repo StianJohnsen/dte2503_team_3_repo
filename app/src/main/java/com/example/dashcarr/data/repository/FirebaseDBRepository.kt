@@ -1,14 +1,20 @@
 package com.example.dashcarr.data.repository
 
-import com.example.dashcarr.data.entity.GeoPointEntity
-import com.example.dashcarr.data.repository.model.GeoPointTable
+import androidx.lifecycle.LiveData
+import com.example.dashcarr.data.constants.FirebaseTables
+import com.example.dashcarr.domain.entity.FriendsEntity
+import com.example.dashcarr.domain.entity.firebase.FirebaseFriendEntity
+import com.example.dashcarr.domain.entity.firebase.GeoPointEntity
 import com.example.dashcarr.domain.repository.IFirebaseAuthRepository
 import com.example.dashcarr.domain.repository.IFirebaseDBRepository
+import com.google.android.gms.tasks.Task
+import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
+
 
 /**
  * Implementation of [IFirebaseDBRepository] for managing interactions with Firebase.
@@ -23,15 +29,15 @@ class FirebaseDBRepository @Inject constructor(
 
     override suspend fun saveGeoPoint(geoPoint: GeoPointEntity): Boolean {
         db.collection(firebaseAuthRepository.getUserId()!!)
-            .document(GeoPointTable.GEO_POINT_DOCUMENT)
-            .collection(GeoPointTable.GEO_POINT_COLLECTION)
+            .document(FirebaseTables.GEO_POINT_DOCUMENT)
+            .collection(FirebaseTables.GEO_POINT_COLLECTION)
             .add(
                 mapOf(
-                    Pair(GeoPointTable.GEO_POINT_ID_KEY, geoPoint.geoPointId),
-                    Pair(GeoPointTable.TRIP_ID_KEY, geoPoint.tripId),
-                    Pair(GeoPointTable.LATITUDE_KEY, geoPoint.latitude),
-                    Pair(GeoPointTable.LONGITUDE_KEY, geoPoint.longitude),
-                    Pair(GeoPointTable.STEP_NUM_KEY, geoPoint.stepNum)
+                    Pair(FirebaseTables.GEO_POINT_ID_KEY, geoPoint.geoPointId),
+                    Pair(FirebaseTables.TRIP_ID_KEY, geoPoint.tripId),
+                    Pair(FirebaseTables.LATITUDE_KEY, geoPoint.latitude),
+                    Pair(FirebaseTables.LONGITUDE_KEY, geoPoint.longitude),
+                    Pair(FirebaseTables.STEP_NUM_KEY, geoPoint.stepNum)
                 )
             )
             .await()
@@ -41,12 +47,94 @@ class FirebaseDBRepository @Inject constructor(
 
     override suspend fun getAllGeoPoints(): List<GeoPointEntity> =
         db.collection(firebaseAuthRepository.getUserId()!!)
-            .document(GeoPointTable.GEO_POINT_DOCUMENT)
-            .collection(GeoPointTable.GEO_POINT_COLLECTION)
+            .document(FirebaseTables.GEO_POINT_DOCUMENT)
+            .collection(FirebaseTables.GEO_POINT_COLLECTION)
             .get()
             .await()
             .map {
                 it.toObject()
             }
 
+    override suspend fun saveNewFriend(friend: FriendsEntity, timestamp: Long): Boolean {
+        saveLastFriendChangesTimestamp(timestamp)
+        db.collection(firebaseAuthRepository.getUserId()!!)
+            .document(FirebaseTables.FRIENDS_DOCUMENT)
+            .collection(FirebaseTables.FRIENDS_COLLECTION)
+            .add(
+                mapOf(
+                    Pair(FirebaseTables.FRIEND_EMAIL_KEY, friend.email),
+                    Pair(FirebaseTables.FRIEND_PHONE_KEY, friend.phone),
+                    Pair(FirebaseTables.FRIEND_NAME_KEY, friend.name),
+                    Pair(FirebaseTables.FRIEND_CREATED_TIMESTAMP_KEY, friend.createdTimeStamp)
+                )
+            )
+        return true
+    }
+
+
+
+    override suspend fun getAllFriends(): List<FirebaseFriendEntity> =
+        db.collection(firebaseAuthRepository.getUserId()!!)
+            .document(FirebaseTables.FRIENDS_DOCUMENT)
+            .collection(FirebaseTables.FRIENDS_COLLECTION)
+            .get()
+            .await()
+            .map {
+                it.toObject()
+            }
+
+
+
+    override fun getFriendById(id: Int): LiveData<FriendsEntity> {
+        TODO()
+    }
+
+    override suspend fun updateFriend(friend: FriendsEntity): Result<Unit> {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun deleteFriendById(friend: FriendsEntity): Result<Unit> {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun getLastFriendChangesTimestamp(): Task<DocumentSnapshot> =
+        db.collection(firebaseAuthRepository.getUserId()!!)
+            .document(FirebaseTables.LAST_CHANGES_DOCUMENT)
+            .get()
+
+    override suspend fun deleteAllFriends(): Void =
+        db.collection(firebaseAuthRepository.getUserId()!!)
+            .document(FirebaseTables.FRIENDS_DOCUMENT)
+            .delete()
+            .await()
+
+    override suspend fun saveFriends(friends: List<FriendsEntity>) {
+        val mapOfFriends = mutableListOf<Map<String, Any>>()
+        friends.forEach { friend ->
+            mapOfFriends.add(
+                mapOf(
+                    Pair(FirebaseTables.FRIEND_EMAIL_KEY, friend.email),
+                    Pair(FirebaseTables.FRIEND_PHONE_KEY, friend.phone),
+                    Pair(FirebaseTables.FRIEND_NAME_KEY, friend.name),
+                    Pair(FirebaseTables.FRIEND_CREATED_TIMESTAMP_KEY, friend.createdTimeStamp)
+                )
+            )
+        }
+        saveLastFriendChangesTimestamp(System.currentTimeMillis())
+        db.collection(firebaseAuthRepository.getUserId()!!)
+            .document(FirebaseTables.FRIENDS_DOCUMENT)
+            .collection(FirebaseTables.FRIENDS_COLLECTION)
+            .add(mapOfFriends)
+            .await()
+    }
+
+
+    override suspend fun saveLastFriendChangesTimestamp(timestamp: Long) {
+        db.collection(firebaseAuthRepository.getUserId()!!)
+            .document(FirebaseTables.LAST_CHANGES_DOCUMENT)
+            .set(mapOf(
+                Pair(FirebaseTables.LAST_FRIENDS_CHANGES_TIMESTAMP_KEY, timestamp)
+
+            ))
+    }
 }

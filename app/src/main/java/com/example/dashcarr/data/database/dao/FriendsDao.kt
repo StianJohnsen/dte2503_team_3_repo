@@ -9,7 +9,7 @@ import androidx.room.Update
 import com.example.dashcarr.domain.entity.FriendsEntity
 
 @Dao
-interface FriendsDao {
+interface FriendsDao: BaseDao<FriendsEntity> {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(socialSettings: FriendsEntity): Long
@@ -20,6 +20,9 @@ interface FriendsDao {
     @Query("SELECT * FROM friends_entity WHERE id = :id")
     fun getFriendById(id: Int): LiveData<FriendsEntity>
 
+    @Query("SELECT * FROM friends_entity")
+    fun getAllFriendsLiveData(): LiveData<List<FriendsEntity>>
+
     @Update
     suspend fun update(friend: FriendsEntity): Int
 
@@ -28,5 +31,8 @@ interface FriendsDao {
 
     @Query("SELECT * FROM friends_entity WHERE id = :id")
     suspend fun getContactById(id: Int): FriendsEntity
+
+    @Query("DELETE FROM friends_entity")
+    suspend fun deleteAllData(): Int
 
 }

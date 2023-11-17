@@ -1,0 +1,55 @@
+package com.example.dashcarr.data.repository
+
+import com.example.dashcarr.data.constants.FirebaseTables
+import com.example.dashcarr.data.datasource.friends.IFriendsLocalDataSource
+import com.example.dashcarr.data.mapper.toFriendEntity
+import com.example.dashcarr.domain.preferences.IPreferences
+import com.example.dashcarr.domain.repository.IDatabasesSyncRepository
+import com.example.dashcarr.domain.repository.IFirebaseDBRepository
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import javax.inject.Inject
+
+class DatabasesSyncRepository @Inject constructor(
+    private val firebaseDBRepository: IFirebaseDBRepository,
+    private val preferences: IPreferences,
+    private val friendsLocalDataSource: IFriendsLocalDataSource
+) : IDatabasesSyncRepository {
+
+    override suspend fun syncDatabases() {
+        syncFriendsDatabases()
+
+    }
+
+    private suspend fun syncFriendsDatabases() {
+        firebaseDBRepository.getLastFriendChangesTimestamp().addOnCompleteListener {
+            CoroutineScope(Dispatchers.IO).launch {
+                if (it.isSuccessful) {
+                    val lastRemoteChangesTimestamp = it.result.getLong(FirebaseTables.LAST_FRIENDS_CHANGES_TIMESTAMP_KEY) ?: 0
+                    val lastLocalChangesTimestamp = preferences.getLastLocalFriendsTableChangesTimestamp()
+
+                    if (lastRemoteChangesTimestamp > lastLocalChangesTimestamp) {
+                        val result = friendsLocalDataSource.deleteAllFriends()
+                        result.onSuccess {
+                            val remoteFriends = firebaseDBRepository.getAllFriends().map { it.toFriendEntity() }
+                            friendsLocalDataSource.saveFriends(remoteFriends)
+                            val currentTimestamp = System.currentTimeMillis()
+                            preferences.saveLastLocalFriendsTableChangesTimestamp(currentTimestamp)
+                            firebaseDBRepository.saveLastFriendChangesTimestamp(currentTimestamp)
+                        }
+                    }
+                    else if (lastRemoteChangesTimestamp < lastLocalChangesTimestamp) {
+                        firebaseDBRepository.deleteAllFriends()
+                        val localFriends = friendsLocalDataSource.getAllFriendsLiveData().value
+                        localFriends?.let { firebaseDBRepository.saveFriends(it) }
+                        val currentTimestamp = System.currentTimeMillis()
+                        preferences.saveLastLocalFriendsTableChangesTimestamp(currentTimestamp)
+                        firebaseDBRepository.saveLastFriendChangesTimestamp(currentTimestamp)
+                    }
+                }
+            }
+        }
+    }
+
+}

@@ -1,4 +1,4 @@
-package com.example.dashcarr.data.datasource.messages
+package com.example.dashcarr.data.datasource.sentmessages
 
 import androidx.lifecycle.LiveData
 import com.example.dashcarr.data.database.dao.SentMessageDao
