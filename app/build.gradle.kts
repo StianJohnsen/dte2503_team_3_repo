@@ -15,7 +15,6 @@ android {
     defaultConfig {
         applicationId = "com.example.dashcarr"
         minSdk = 28
-
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
