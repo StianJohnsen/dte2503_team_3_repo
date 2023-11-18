@@ -33,7 +33,7 @@
     <string name="pause_recording">Pause</string>
     <string name="resume_recording">Resume</string>
     <string name="delete_recording">Delete</string>
-    <string name="recording_in_progress">Recording...</string>
+    <string name="recording_in_progress">Recording…</string>
     <string name="header_security_camera">Security Camera</string>
 
     <!--Error-->
@@ -64,6 +64,11 @@
     <string name="new_features_setting">New Features</string>
     <string name="saved_recordings">Saved Recordings</string>
     <string name="power_settings">Power Settings</string>
+    <string name="how_to_use">How to use</string>
+    <string name="friend_list">Friend list</string>
+    <string name="quick_messages">Quick Messages</string>
+    <string name="point_of_interest">Point of Interest</string>
+    <string name="credits">Credits</string>
 
     <!--HistoryFragment-->
 
