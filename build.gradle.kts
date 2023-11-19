@@ -1,14 +1,15 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
-buildscript{
+buildscript {
 
 
-    repositories{
+    repositories {
         google()
+        jcenter()
         mavenCentral()
     }
 
-    dependencies{
+    dependencies {
         classpath("androidx.navigation.safeargs:androidx.navigation.safeargs.gradle.plugin:2.7.3")
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.9.0")
         classpath("com.google.gms:google-services:4.4.0")

@@ -33,12 +33,12 @@
                 android:focusable="true"
                 android:background="?android:attr/selectableItemBackground"
                 android:drawablePadding="@dimen/margin_padding_size_8"
-                android:gravity="start|center_vertical"/>
+                android:gravity="start|center_vertical" />
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
-                android:background="@drawable/line_separator_gray"/>
+                android:background="@drawable/line_separator_gray" />
 
             <TextView
                 android:id="@+id/btnMapsSettings"
@@ -55,12 +55,12 @@
                 android:focusable="true"
                 android:background="?android:attr/selectableItemBackground"
                 android:drawablePadding="@dimen/margin_padding_size_8"
-                android:gravity="start|center_vertical"/>
+                android:gravity="start|center_vertical" />
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
-                android:background="@drawable/line_separator_gray"/>
+                android:background="@drawable/line_separator_gray" />
 
             <TextView
                 android:id="@+id/btnSocialSettings"
@@ -77,12 +77,12 @@
                 android:focusable="true"
                 android:background="?android:attr/selectableItemBackground"
                 android:drawablePadding="@dimen/margin_padding_size_8"
-                android:gravity="start|center_vertical"/>
+                android:gravity="start|center_vertical" />
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
-                android:background="@drawable/line_separator_gray"/>
+                android:background="@drawable/line_separator_gray" />
 
             <TextView
                 android:id="@+id/btnDashcamSettings"
@@ -99,12 +99,12 @@
                 android:focusable="true"
                 android:background="?android:attr/selectableItemBackground"
                 android:drawablePadding="@dimen/margin_padding_size_8"
-                android:gravity="start|center_vertical"/>
+                android:gravity="start|center_vertical" />
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
-                android:background="@drawable/line_separator_gray"/>
+                android:background="@drawable/line_separator_gray" />
 
             <TextView
                 android:id="@+id/btnHistorySettings"
@@ -121,12 +121,12 @@
                 android:focusable="true"
                 android:background="?android:attr/selectableItemBackground"
                 android:drawablePadding="@dimen/margin_padding_size_8"
-                android:gravity="start|center_vertical"/>
+                android:gravity="start|center_vertical" />
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
-                android:background="@drawable/line_separator_gray"/>
+                android:background="@drawable/line_separator_gray" />
 
             <TextView
                 android:id="@+id/btnNewFeatures"
@@ -143,12 +143,12 @@
                 android:focusable="true"
                 android:background="?android:attr/selectableItemBackground"
                 android:drawablePadding="@dimen/margin_padding_size_8"
-                android:gravity="start|center_vertical"/>
+                android:gravity="start|center_vertical" />
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
-                android:background="@drawable/line_separator_gray"/>
+                android:background="@drawable/line_separator_gray" />
 
 
             <TextView
@@ -166,8 +166,22 @@
                 android:focusable="true"
                 android:background="?android:attr/selectableItemBackground"
                 android:drawablePadding="@dimen/margin_padding_size_8"
-                android:gravity="start|center_vertical"/>
+                android:gravity="start|center_vertical" />
 
+            <TextView
+                android:id="@+id/send_email_button"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/standard_touch_size"
+                android:paddingEnd="@dimen/margin_padding_size_6"
+                android:paddingStart="@dimen/margin_padding_size_0"
+                android:text="Send Email"
+                android:textColor="@color/gray3"
+                android:textSize="@dimen/text_size_16"
+                android:clickable="true"
+                android:focusable="true"
+                android:background="?android:attr/selectableItemBackground"
+                android:drawablePadding="@dimen/margin_padding_size_8"
+                android:gravity="start|center_vertical" />
         </LinearLayout>
 
         <com.google.android.material.button.MaterialButton
@@ -187,13 +201,13 @@
             app:iconGravity="textEnd"
             app:iconTint="@null"
             android:layout_gravity="center_horizontal"
-            android:layout_marginVertical="@dimen/margin_padding_size_40"/>
+            android:layout_marginVertical="@dimen/margin_padding_size_40" />
 
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:src="@drawable/logo_small"
-            android:layout_marginBottom="@dimen/margin_padding_size_26"/>
+            android:layout_marginBottom="@dimen/margin_padding_size_26" />
 
     </LinearLayout>
 

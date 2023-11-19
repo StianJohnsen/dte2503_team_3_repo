@@ -8,18 +8,23 @@ plugins {
     id("androidx.navigation.safeargs.kotlin")
 }
 
+
 android {
     namespace = "com.example.dashcarr"
     compileSdk = 34
+    buildFeatures.buildConfig = true
 
     defaultConfig {
         applicationId = "com.example.dashcarr"
-        minSdk = 29
+        minSdk = 28
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        buildConfigField("String", "DASHCARR_SMTP_PASSWORD", "\"${System.getenv("DASHCARR_SMTP_PASSWORD")}\"")
+
     }
 
     buildTypes {
@@ -152,5 +157,8 @@ dependencies {
 
     // Preferences DataStore
     implementation("androidx.datastore:datastore-preferences:1.0.0")
+
+    implementation("com.sun.mail:android-mail:1.6.0")
+    implementation("com.sun.mail:android-activation:1.6.0")
 
 }
