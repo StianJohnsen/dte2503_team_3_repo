@@ -1,6 +1,7 @@
 package com.example.dashcarr.presentation.tabs.settings
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -74,6 +75,8 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>(
         super.onViewCreated(view, savedInstanceState)
         initListeners()
         observeViewModel()
+        val currentLocal = resources.configuration.locales[0]
+        Log.d("spraak", currentLocal.language)
 
     }
 }
