@@ -16,6 +16,7 @@ import android.widget.ImageButton
 import android.widget.ImageView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.navigation.NavController
@@ -40,6 +41,7 @@ class MainActivity : AppCompatActivity() {
     private val rideButton by lazy { findViewById<FloatingActionButton>(R.id.camera_button) }
     private val arrowView by lazy { findViewById<ImageView>(R.id.arrow) }
     private val redButton by lazy { findViewById<ImageButton>(R.id.big_red_button) }
+    private val redButtonFrame by lazy { findViewById<ConstraintLayout>(R.id.cl_height_adjustment) }
 
     private val powerSaveReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
@@ -120,21 +122,13 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun showRedButton(startDelay: Long = 0) {
-        arrowView.animate()
+        (redButton.drawable as AnimatedVectorDrawable).reset()
+        redButton.visibility = View.VISIBLE
+        redButtonFrame.animate()
             .withStartAction {
                 arrowView.visibility = View.VISIBLE
             }
             .setDuration(1000)
-            .setStartDelay(startDelay)
-            .translationY(0F)
-            .withEndAction { }
-            .start()
-        redButton.animate()
-            .withStartAction {
-                redButton.visibility = View.VISIBLE
-                (redButton.drawable as AnimatedVectorDrawable).reset()
-            }
-            .setDuration(500)
             .setStartDelay(startDelay)
             .translationY(0F)
             .start()
@@ -151,7 +145,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun hideRedButton(startDelay: Long = 0, endAction: () -> Unit = {}) {
-        arrowView.animate()
+        redButtonFrame.animate()
             .setDuration(1800)
             .setStartDelay(startDelay)
             .translationY(2000F)
@@ -160,17 +154,12 @@ class MainActivity : AppCompatActivity() {
                 redButton.visibility = View.GONE
             }
             .start()
-        redButton.animate()
-            .setDuration(800)
-            .setStartDelay(startDelay)
-            .translationY(800F)
-            .withEndAction(endAction)
-            .start()
         slidingBox.setHeightSmooth(
             500,
             0,
             doOnEnd = {
                 slidingBox.visibility = View.GONE
+                endAction()
             },
             startDelay = startDelay
         )
