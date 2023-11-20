@@ -37,36 +37,51 @@
             android:layout_width="wrap_content"
             android:layout_height="100dp"
             android:background="@drawable/rounded_sliding_box"
-            android:visibility="gone"
+            android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
-        <ImageButton
-            android:id="@+id/big_red_button"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/margin_padding_size_32"
-            android:adjustViewBounds="true"
-            android:backgroundTint="#00FFFFFF"
-            android:scaleType="fitCenter"
-            android:src="@drawable/animated_red_button"
-            android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
-
-        <ImageView
-            android:id="@+id/arrow"
-            android:layout_width="0dp"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_height_adjustment"
+            android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:scaleType="fitCenter"
-            android:visibility="gone"
-            app:layout_constraintBottom_toTopOf="@+id/big_red_button"
+            android:layout_marginTop="50dp"
+            android:layout_marginBottom="32dp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/animated_arrow" />
+            app:layout_constraintVertical_bias="1.0">
+
+            <ImageView
+                android:id="@+id/arrow"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:adjustViewBounds="true"
+                android:minHeight="500dp"
+                android:scaleType="fitCenter"
+                android:visibility="visible"
+                app:layout_constraintBottom_toTopOf="@+id/big_red_button"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/animated_arrow" />
+
+            <ImageButton
+                android:id="@+id/big_red_button"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:backgroundTint="#00FFFFFF"
+                android:scaleType="fitCenter"
+                android:src="@drawable/animated_red_button"
+                android:visibility="visible"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
