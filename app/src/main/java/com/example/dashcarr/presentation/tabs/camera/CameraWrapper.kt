@@ -119,7 +119,7 @@ class CameraWrapper(private var activity: Activity) {
     }
 
     fun startCamera(
-        videoPreviewView: PreviewView?,
+        videoPreviewView: PreviewView,
         lifecycleOwner: LifecycleOwner,
         cameraSelector: CameraSelector,
         started: () -> Unit
@@ -136,7 +136,7 @@ class CameraWrapper(private var activity: Activity) {
             // Preview
             preview = Preview.Builder()
                 .build().also {
-                    it.setSurfaceProvider(videoPreviewView?.surfaceProvider)
+                    it.setSurfaceProvider(videoPreviewView.surfaceProvider)
                 }
 
             // Video
@@ -167,6 +167,7 @@ class CameraWrapper(private var activity: Activity) {
             started()
         }, ContextCompat.getMainExecutor(activity.applicationContext))
 
+        videoPreviewView.clipToOutline = true
     }
 
     fun destroy() {
