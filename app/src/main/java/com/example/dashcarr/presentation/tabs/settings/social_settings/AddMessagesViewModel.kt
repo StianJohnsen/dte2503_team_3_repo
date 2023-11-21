@@ -2,6 +2,7 @@ package com.example.dashcarr.presentation.tabs.settings.social_settings
 
 import android.content.Context
 import android.widget.Toast
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.dashcarr.data.database.AppDatabase
@@ -39,5 +40,52 @@ class AddMessagesViewModel(private val messagesDao: MessagesDao) : ViewModel() {
             }
         }
 
+    }
+
+    fun getMessageById(id: Int): LiveData<MessagesEntity> {
+        return messagesDao.getMesssageById(id)
+    }
+
+    fun updateMessage(context: Context, id: Int, content: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                val updatedFriend = MessagesEntity(
+                    id = id.toLong(),
+                    content = content,
+                    isPhone = false
+                )
+                val updateCount = messagesDao.update(updatedFriend)
+                withContext(Dispatchers.Main) {
+                    if (updateCount > 0) {
+                        Toast.makeText(context, "Updated", Toast.LENGTH_SHORT).show()
+                    } else {
+                        Toast.makeText(context, "Error updating", Toast.LENGTH_SHORT).show()
+                    }
+                }
+            } catch (e: Exception) {
+                withContext(Dispatchers.Main) {
+                    Toast.makeText(context, "Error: ${e.message}", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+    }
+
+    fun deleteMessage(context: Context, id: Int) {
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                val numberOfRowsDeleted = messagesDao.deleteById(id)
+                withContext(Dispatchers.Main) {
+                    if (numberOfRowsDeleted > 0) {
+                        Toast.makeText(context, "Message deleted", Toast.LENGTH_SHORT).show()
+                    } else {
+                        Toast.makeText(context, "Error deleting Message", Toast.LENGTH_SHORT).show()
+                    }
+                }
+            } catch (e: Exception) {
+                withContext(Dispatchers.Main) {
+                    Toast.makeText(context, "Error: ${e.message}", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
     }
 }
