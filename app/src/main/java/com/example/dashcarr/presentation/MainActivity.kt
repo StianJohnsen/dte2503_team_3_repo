@@ -78,15 +78,15 @@ class MainActivity : AppCompatActivity() {
             intArrayOf(-android.R.attr.state_selected)  // normal state
         )
 
-        // Define colors associated with each state
+        // Define colors associated with each icon
         val iconColors = intArrayOf(
-            ContextCompat.getColor(this, R.color.mainBlue), // selected state: blue
-            ContextCompat.getColor(this, R.color.gray2)  // normal state: gray
+            ContextCompat.getColor(this, R.color.ride_button), // selected state: blue
+            ContextCompat.getColor(this, R.color.primary_color)  // normal state: gray
         )
 
         // Define text colors
         val textColors = intArrayOf(
-            ContextCompat.getColor(this, R.color.mainBlue), // selected state: blue
+            ContextCompat.getColor(this, R.color.text_color), // selected state: blue
             ContextCompat.getColor(this, android.R.color.transparent) // normal state: transparent (no text)
         )
 
@@ -182,7 +182,6 @@ class MainActivity : AppCompatActivity() {
 
     @SuppressLint("ResourceType")
     private fun initRedButtonListeners() {
-        rideButton.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(this, R.color.mainBlue))
         (arrowView.drawable as Animatable).start()
 
         val destinationChangedListener =

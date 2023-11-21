@@ -4,14 +4,14 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="@color/mainBlue">
+    android:background="@color/primary_color">
 
     <TextView
-        android:textColor="@color/white"
+        android:textColor="@color/secondary_color"
         android:id="@+id/select_contact_text_view"
         android:text="@string/select_contact"
         android:textStyle="bold"
-        android:textSize="@dimen/text_size_34"
+        android:textSize="@dimen/header"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintLeft_toLeftOf="parent"

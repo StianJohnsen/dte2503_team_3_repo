@@ -24,8 +24,8 @@ import kotlinx.coroutines.launch
 @AndroidEntryPoint
 class SocialSettingsFragment : BaseFragment<FragmentSocialSettingsBinding>(
     FragmentSocialSettingsBinding::inflate,
-    showBottomNavBar = false)
-{
+    showBottomNavBar = false
+) {
     private val viewModel: SocialSettingsViewModel by viewModels()
 
     private val MY_PERMISSION_REQUEST_SEND_SMS = 0
@@ -102,7 +102,7 @@ class SocialSettingsFragment : BaseFragment<FragmentSocialSettingsBinding>(
                         else -> null
                     }
 
-                    setBackgroundResource(R.color.white)
+                    setBackgroundResource(R.color.secondary_color)
 
                     setCompoundDrawablesWithIntrinsicBounds(null, null, drawableRight, null)
                     compoundDrawablePadding = 10

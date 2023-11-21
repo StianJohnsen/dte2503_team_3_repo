@@ -5,12 +5,12 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/mainBlue">
+        android:background="@color/primary_color">
 
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/mainBlue">
+            android:background="@color/primary_color">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -22,7 +22,7 @@
                     android:layout_height="@dimen/standard_touch_size"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    android:src="@drawable/baseline_arrow_back_24"/>
+                    android:src="@drawable/baseline_arrow_back_24" />
 
                 <TextView
                     android:id="@+id/text_social_settings"
@@ -33,8 +33,8 @@
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    android:textSize="@dimen/text_size_34"
-                    android:textColor="@color/white"
+                    android:textColor="@color/secondary_color"
+                    android:textSize="@dimen/header"
                     android:textStyle="bold" />
 
                 <TextView
@@ -42,13 +42,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/contact_list"
-                    android:textColor="@color/white"
+                    android:layout_marginTop="@dimen/margin_padding_size_26"
                     android:textSize="@dimen/text_size_16"
                     app:layout_constraintTop_toBottomOf="@+id/text_social_settings"
                     app:layout_constraintStart_toStartOf="parent"
                     android:layout_marginStart="@dimen/margin_padding_size_18"
                     android:paddingHorizontal="@dimen/margin_padding_size_12"
-                    android:layout_marginTop="@dimen/margin_padding_size_26"/>
+                    android:textColor="@color/secondary_color" />
 
                 <LinearLayout
                     android:id="@+id/linear_friends"
@@ -70,7 +70,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/margin_padding_size_38"
-                    android:backgroundTint="@color/black"
+                    android:backgroundTint="@color/button_color"
                     android:insetTop="@dimen/margin_padding_size_0"
                     android:insetBottom="@dimen/margin_padding_size_0"
                     android:text="@string/add_friend_button"
@@ -90,7 +90,7 @@
                     android:text="@string/add_message_capitalized"
                     android:insetTop="@dimen/margin_padding_size_0"
                     android:insetBottom="@dimen/margin_padding_size_0"
-                    android:backgroundTint="@color/black"
+                    android:backgroundTint="@color/button_color"
                     app:cornerRadius="20dp"
                     android:textSize="@dimen/text_size_14"
                     android:textStyle="bold"
@@ -118,7 +118,7 @@
             android:id="@+id/flDeleteMessageLayout"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:background="@color/black20"
+            android:background="@color/transparent_25"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -146,7 +146,7 @@
                         android:layout_marginEnd="@dimen/margin_padding_size_6"
                         android:layout_marginBottom="@dimen/margin_padding_size_10"
                         android:layout_weight="1"
-                        android:backgroundTint="@color/black"
+                        android:backgroundTint="@color/button_color"
                         android:insetTop="@dimen/margin_padding_size_0"
                         android:insetBottom="@dimen/margin_padding_size_0"
                         android:text="@string/delete_poi"
@@ -166,7 +166,7 @@
                         android:layout_marginStart="@dimen/margin_padding_size_6"
                         android:layout_marginTop="@dimen/margin_padding_size_10"
                         android:layout_weight="1"
-                        android:backgroundTint="@color/black"
+                        android:backgroundTint="@color/button_color"
                         android:insetTop="@dimen/margin_padding_size_0"
                         android:insetBottom="@dimen/margin_padding_size_0"
                         android:text="@string/cancel_poi"

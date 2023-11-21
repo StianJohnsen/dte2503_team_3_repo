@@ -1,9 +1,21 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
     <!-- Base application theme. -->
     <style name="Base.Theme.DashCarr" parent="Theme.MaterialComponents.Light.NoActionBar">
         <!-- Customize your dark theme here. -->
-        <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
-
-        <item name="settingButtonTextColor">@color/white</item>
+        <item name="settingButtonTextColor">@color/secondary_color</item>
     </style>
+
+    <!--General-->
+    <color name="button_color">#FF3E4291</color>
+
+    <color name="header_color">#FFCFCFCF</color>
+    <color name="text_color">#C5CEE7</color>
+
+    <color name="primary_color">#FF0F121A</color>
+    <color name="secondary_color">#FF292F45</color>
+
+    <!--MainFragment-->
+    <color name="image_shade">#22292F45</color>
+    <color name="ride_button">#FF565DE1</color>
+    <color name="sliding_box">#7C839C</color>
 </resources>

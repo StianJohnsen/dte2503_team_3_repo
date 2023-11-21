@@ -1,11 +1,17 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
     <!-- Base application theme. -->
     <style name="Base.Theme.DashCarr" parent="Theme.MaterialComponents.Light.NoActionBar">
         <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
 
-        <item name="settingButtonTextColor">@color/white</item>
+        <item name="settingButtonTextColor">@color/secondary_color</item>
     </style>
 
-    <style name="Theme.DashCarr" parent="Base.Theme.DashCarr" />
+    <style name="Theme.DashCarr" parent="Base.Theme.DashCarr">
+        <item name="android:spinnerDropDownItemStyle">@style/mySpinnerItemStyle</item>
+        <item name="android:spinnerItemStyle">@style/mySpinnerItemStyle</item>
+    </style>
+
+    <style name="mySpinnerItemStyle" parent="@android:style/Widget.Holo.DropDownItem.Spinner">
+        <item name="android:textColor">@color/text_color</item>
+    </style>
 </resources>

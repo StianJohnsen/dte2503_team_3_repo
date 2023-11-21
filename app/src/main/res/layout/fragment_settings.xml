@@ -5,7 +5,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/mainBlue"
+        android:background="@color/primary_color"
         android:orientation="vertical">
 
         <LinearLayout
@@ -22,151 +22,151 @@
                 android:id="@+id/btnAboutApp"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/standard_touch_size"
-                android:paddingEnd="@dimen/margin_padding_size_6"
-                android:paddingStart="@dimen/margin_padding_size_0"
-                app:drawableEndCompat="@drawable/ic_polygon"
-                app:drawableStartCompat="@drawable/ic_about_small"
-                android:text="@string/about_app"
-                android:textColor="@color/gray3"
-                android:textSize="@dimen/text_size_16"
-                android:clickable="true"
-                android:focusable="true"
                 android:background="?android:attr/selectableItemBackground"
+                android:clickable="true"
                 android:drawablePadding="@dimen/margin_padding_size_8"
-                android:gravity="start|center_vertical"/>
+                android:focusable="true"
+                android:gravity="start|center_vertical"
+                android:paddingStart="@dimen/margin_padding_size_0"
+                android:paddingEnd="@dimen/margin_padding_size_6"
+                android:text="@string/about_app"
+                android:textColor="@color/text_color"
+                android:textSize="@dimen/text_size_16"
+                app:drawableEndCompat="@drawable/ic_polygon"
+                app:drawableStartCompat="@drawable/ic_about_small" />
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
-                android:background="@drawable/line_separator_gray"/>
+                android:background="@drawable/line_separator_gray" />
 
             <TextView
                 android:id="@+id/btnMapsSettings"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/standard_touch_size"
-                android:paddingEnd="@dimen/margin_padding_size_6"
-                android:paddingStart="@dimen/margin_padding_size_0"
-                app:drawableEndCompat="@drawable/ic_polygon"
-                app:drawableStartCompat="@drawable/ic_maps_settings_small"
-                android:text="@string/maps_settings"
-                android:textColor="@color/gray3"
-                android:textSize="@dimen/text_size_16"
-                android:clickable="true"
-                android:focusable="true"
                 android:background="?android:attr/selectableItemBackground"
+                android:clickable="true"
                 android:drawablePadding="@dimen/margin_padding_size_8"
-                android:gravity="start|center_vertical"/>
+                android:focusable="true"
+                android:gravity="start|center_vertical"
+                android:paddingStart="@dimen/margin_padding_size_0"
+                android:paddingEnd="@dimen/margin_padding_size_6"
+                android:text="@string/maps_settings"
+                android:textColor="@color/text_color"
+                android:textSize="@dimen/text_size_16"
+                app:drawableEndCompat="@drawable/ic_polygon"
+                app:drawableStartCompat="@drawable/ic_maps_settings_small" />
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
-                android:background="@drawable/line_separator_gray"/>
+                android:background="@drawable/line_separator_gray" />
 
             <TextView
                 android:id="@+id/btnSocialSettings"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/standard_touch_size"
-                android:paddingEnd="@dimen/margin_padding_size_6"
-                android:paddingStart="@dimen/margin_padding_size_0"
-                app:drawableEndCompat="@drawable/ic_polygon"
-                app:drawableStartCompat="@drawable/ic_social_settings_small"
-                android:text="@string/social_settings"
-                android:textColor="@color/gray3"
-                android:textSize="@dimen/text_size_16"
-                android:clickable="true"
-                android:focusable="true"
                 android:background="?android:attr/selectableItemBackground"
+                android:clickable="true"
                 android:drawablePadding="@dimen/margin_padding_size_8"
-                android:gravity="start|center_vertical"/>
+                android:focusable="true"
+                android:gravity="start|center_vertical"
+                android:paddingStart="@dimen/margin_padding_size_0"
+                android:paddingEnd="@dimen/margin_padding_size_6"
+                android:text="@string/social_settings"
+                android:textColor="@color/text_color"
+                android:textSize="@dimen/text_size_16"
+                app:drawableEndCompat="@drawable/ic_polygon"
+                app:drawableStartCompat="@drawable/ic_social_settings_small" />
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
-                android:background="@drawable/line_separator_gray"/>
+                android:background="@drawable/line_separator_gray" />
 
             <TextView
                 android:id="@+id/btnDashcamSettings"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/standard_touch_size"
-                android:paddingEnd="@dimen/margin_padding_size_6"
-                android:paddingStart="@dimen/margin_padding_size_0"
-                app:drawableEndCompat="@drawable/ic_polygon"
-                app:drawableStartCompat="@drawable/ic_triangle_settings_small"
-                android:text="@string/dashcam_settings"
-                android:textColor="@color/gray3"
-                android:textSize="@dimen/text_size_16"
-                android:clickable="true"
-                android:focusable="true"
                 android:background="?android:attr/selectableItemBackground"
+                android:clickable="true"
                 android:drawablePadding="@dimen/margin_padding_size_8"
-                android:gravity="start|center_vertical"/>
+                android:focusable="true"
+                android:gravity="start|center_vertical"
+                android:paddingStart="@dimen/margin_padding_size_0"
+                android:paddingEnd="@dimen/margin_padding_size_6"
+                android:text="@string/dashcam_settings"
+                android:textColor="@color/text_color"
+                android:textSize="@dimen/text_size_16"
+                app:drawableEndCompat="@drawable/ic_polygon"
+                app:drawableStartCompat="@drawable/ic_triangle_settings_small" />
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
-                android:background="@drawable/line_separator_gray"/>
+                android:background="@drawable/line_separator_gray" />
 
             <TextView
                 android:id="@+id/btnHistorySettings"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/standard_touch_size"
-                android:paddingEnd="@dimen/margin_padding_size_6"
-                android:paddingStart="@dimen/margin_padding_size_0"
-                app:drawableEndCompat="@drawable/ic_polygon"
-                app:drawableStartCompat="@drawable/ic_history_settings_small"
-                android:text="@string/history_settings"
-                android:textColor="@color/gray3"
-                android:textSize="@dimen/text_size_16"
-                android:clickable="true"
-                android:focusable="true"
                 android:background="?android:attr/selectableItemBackground"
+                android:clickable="true"
                 android:drawablePadding="@dimen/margin_padding_size_8"
-                android:gravity="start|center_vertical"/>
+                android:focusable="true"
+                android:gravity="start|center_vertical"
+                android:paddingStart="@dimen/margin_padding_size_0"
+                android:paddingEnd="@dimen/margin_padding_size_6"
+                android:text="@string/history_settings"
+                android:textColor="@color/text_color"
+                android:textSize="@dimen/text_size_16"
+                app:drawableEndCompat="@drawable/ic_polygon"
+                app:drawableStartCompat="@drawable/ic_history_settings_small" />
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
-                android:background="@drawable/line_separator_gray"/>
+                android:background="@drawable/line_separator_gray" />
 
             <TextView
                 android:id="@+id/btnNewFeatures"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/standard_touch_size"
-                android:paddingEnd="@dimen/margin_padding_size_6"
-                android:paddingStart="@dimen/margin_padding_size_0"
-                app:drawableEndCompat="@drawable/ic_polygon"
-                app:drawableStartCompat="@drawable/ic_manual_small"
-                android:text="@string/new_features_setting"
-                android:textColor="@color/gray3"
-                android:textSize="@dimen/text_size_16"
-                android:clickable="true"
-                android:focusable="true"
                 android:background="?android:attr/selectableItemBackground"
+                android:clickable="true"
                 android:drawablePadding="@dimen/margin_padding_size_8"
-                android:gravity="start|center_vertical"/>
+                android:focusable="true"
+                android:gravity="start|center_vertical"
+                android:paddingStart="@dimen/margin_padding_size_0"
+                android:paddingEnd="@dimen/margin_padding_size_6"
+                android:text="@string/new_features_setting"
+                android:textColor="@color/text_color"
+                android:textSize="@dimen/text_size_16"
+                app:drawableEndCompat="@drawable/ic_polygon"
+                app:drawableStartCompat="@drawable/ic_manual_small" />
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
-                android:background="@drawable/line_separator_gray"/>
+                android:background="@drawable/line_separator_gray" />
 
 
             <TextView
                 android:id="@+id/btn_power_settings"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/standard_touch_size"
-                android:paddingEnd="@dimen/margin_padding_size_6"
-                android:paddingStart="@dimen/margin_padding_size_0"
-                app:drawableEndCompat="@drawable/ic_polygon"
-                app:drawableStartCompat="@drawable/ic_power_icon"
-                android:text="@string/power_settings"
-                android:textColor="@color/gray3"
-                android:textSize="@dimen/text_size_16"
-                android:clickable="true"
-                android:focusable="true"
                 android:background="?android:attr/selectableItemBackground"
+                android:clickable="true"
                 android:drawablePadding="@dimen/margin_padding_size_8"
-                android:gravity="start|center_vertical"/>
+                android:focusable="true"
+                android:gravity="start|center_vertical"
+                android:paddingStart="@dimen/margin_padding_size_0"
+                android:paddingEnd="@dimen/margin_padding_size_6"
+                android:text="@string/power_settings"
+                android:textColor="@color/text_color"
+                android:textSize="@dimen/text_size_16"
+                app:drawableEndCompat="@drawable/ic_polygon"
+                app:drawableStartCompat="@drawable/ic_power_icon" />
 
         </LinearLayout>
 
@@ -176,7 +176,7 @@
             android:layout_height="@dimen/standard_touch_size"
             android:layout_marginTop="@dimen/margin_padding_size_10"
             android:layout_marginBottom="@dimen/margin_padding_size_10"
-            android:backgroundTint="@color/black"
+            android:layout_marginVertical="@dimen/margin_padding_size_40"
             android:insetTop="@dimen/margin_padding_size_0"
             android:insetBottom="@dimen/margin_padding_size_0"
             android:text="@string/btnLogout"
@@ -187,13 +187,13 @@
             app:iconGravity="textEnd"
             app:iconTint="@null"
             android:layout_gravity="center_horizontal"
-            android:layout_marginVertical="@dimen/margin_padding_size_40"/>
+            android:backgroundTint="@color/button_color" />
 
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:src="@drawable/logo_small"
-            android:layout_marginBottom="@dimen/margin_padding_size_26"/>
+            android:layout_marginBottom="@dimen/margin_padding_size_26" />
 
     </LinearLayout>
 

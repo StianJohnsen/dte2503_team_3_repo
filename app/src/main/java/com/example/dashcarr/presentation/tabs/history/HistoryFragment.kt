@@ -1,6 +1,7 @@
 package com.example.dashcarr.presentation.tabs.history
 
 import android.content.Context
+import android.content.res.ColorStateList
 import android.graphics.Color
 import android.os.Bundle
 import android.view.View
@@ -8,6 +9,7 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.LinearLayout
 import android.widget.Spinner
+import androidx.core.content.ContextCompat
 import androidx.navigation.fragment.findNavController
 import com.example.dashcarr.R
 import com.example.dashcarr.databinding.FragmentHistoryBinding
@@ -120,7 +122,8 @@ class HistoryFragment : BaseFragment<FragmentHistoryBinding>(
                 setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
                 spinner.adapter = this
             }
-
+            spinner.backgroundTintList =
+                ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.text_color));
             spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
                 override fun onNothingSelected(parent: AdapterView<*>?) {
                     // No action needed

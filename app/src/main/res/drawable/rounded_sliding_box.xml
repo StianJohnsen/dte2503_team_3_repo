@@ -6,5 +6,5 @@
         android:topLeftRadius="25dp"
         android:topRightRadius="25dp" />
 
-    <solid android:color="@color/light_gray" />
+    <solid android:color="@color/sliding_box" />
 </shape>

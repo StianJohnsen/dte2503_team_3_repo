@@ -5,6 +5,7 @@ import android.os.BatteryManager
 import android.os.Bundle
 import android.view.View
 import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.activityViewModels
 import com.example.dashcarr.R
@@ -31,6 +32,15 @@ class PowerSettingsFragment : BaseFragment<FragmentPowerSettingsBinding>(
         super.onViewCreated(view, savedInstanceState)
 
         val spinner = binding.powerSettingsSpinner
+        val adapter: ArrayAdapter<String> =
+            ArrayAdapter<String>(
+                requireContext(),
+                R.layout.spinner_item,
+                resources.getStringArray(R.array.power_settings_array)
+            )
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        spinner.adapter = adapter
+
         val savedValue = sharedPreferences.getInt(spinnerValueKey, 0)
 
         spinner.setSelection(savedValue)

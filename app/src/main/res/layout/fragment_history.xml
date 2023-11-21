@@ -19,7 +19,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/mainBlue">
+            android:background="@color/primary_color">
 
             <TextView
                 android:id="@+id/text_saved_recordings"
@@ -28,8 +28,8 @@
                 android:layout_marginTop="@dimen/margin_padding_size_10"
                 android:text="@string/saved_recordings"
                 android:textAlignment="center"
-                android:textColor="@color/white"
-                android:textSize="@dimen/text_size_34"
+                android:textColor="@color/header_color"
+                android:textSize="@dimen/header"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toTopOf="@+id/linear_recordings_buttons"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -57,7 +57,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/margin_padding_size_38"
-                android:backgroundTint="@color/black"
+                android:backgroundTint="@color/button_color"
                 android:insetTop="@dimen/margin_padding_size_0"
                 android:insetBottom="@dimen/margin_padding_size_0"
                 android:text="@string/show_statistics"

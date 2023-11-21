@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:tools="http://schemas.android.com/tools"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+
         <variable
             name="loginFragment"
             type="com.example.dashcarr.presentation.authentication.login.LoginFragment" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/mainBlue" >
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/primary_color">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/clWhiteBackground"
@@ -31,7 +31,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_padding_size_38"
                 android:text="@string/login"
-                android:textColor="@color/black"
+                android:textColor="@color/button_color"
                 android:textAllCaps="true"
                 android:textSize="@dimen/text_size_18"
                 android:textStyle="bold"
@@ -46,7 +46,7 @@
                 android:layout_marginHorizontal="@dimen/margin_padding_size_46"
                 android:layout_marginTop="@dimen/margin_padding_size_18"
                 android:hint="@string/email_necessary"
-                app:boxStrokeErrorColor="@color/red"
+                app:boxStrokeErrorColor="@color/error_color"
                 app:boxStrokeWidth="1dp"
                 app:endIconMode="custom"
                 app:errorEnabled="false"
@@ -78,7 +78,7 @@
                 android:layout_marginHorizontal="@dimen/margin_padding_size_46"
                 android:layout_marginVertical="@dimen/margin_padding_size_18"
                 android:hint="@string/password_necessary"
-                app:boxStrokeErrorColor="@color/red"
+                app:boxStrokeErrorColor="@color/error_color"
                 app:boxStrokeWidth="1dp"
                 app:endIconMode="custom"
                 app:errorEnabled="false"
@@ -108,7 +108,7 @@
                 android:layout_height="@dimen/standard_touch_size"
                 android:layout_marginTop="@dimen/margin_padding_size_18"
                 android:layout_marginBottom="@dimen/margin_padding_size_18"
-                android:backgroundTint="@color/black"
+                android:backgroundTint="@color/button_color"
                 android:insetTop="@dimen/margin_padding_size_0"
                 android:insetBottom="@dimen/margin_padding_size_0"
                 android:text="@string/btnLogin"
@@ -146,7 +146,7 @@
                     android:layout_marginHorizontal="10dp"
                     android:text="@string/or"
                     android:textAllCaps="true"
-                    android:textColor="@color/black"
+                    android:textColor="@color/button_color"
                     android:textSize="@dimen/text_size_14" />
 
                 <View
@@ -165,7 +165,7 @@
                 android:layout_marginHorizontal="@dimen/margin_padding_size_46"
                 android:layout_marginTop="@dimen/margin_padding_size_18"
                 android:layout_marginBottom="@dimen/margin_padding_size_38"
-                android:backgroundTint="@color/black"
+                android:backgroundTint="@color/button_color"
                 android:insetTop="@dimen/margin_padding_size_0"
                 android:insetBottom="@dimen/margin_padding_size_0"
                 android:text="@string/continue_with_google"

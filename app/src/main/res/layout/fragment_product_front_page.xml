@@ -15,7 +15,7 @@
         android:id="@+id/product_front_page_constraint"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/mainBlue">
+        android:background="@color/primary_color">
 
 
         <com.google.android.material.button.MaterialButton
@@ -24,7 +24,7 @@
             android:layout_height="@dimen/standard_touch_size"
             android:layout_gravity="center_horizontal"
             android:layout_marginVertical="@dimen/margin_padding_size_40"
-            android:backgroundTint="@color/black"
+            android:backgroundTint="@color/button_color"
             android:insetTop="@dimen/margin_padding_size_0"
             android:insetBottom="@dimen/margin_padding_size_0"
             android:text="@string/start_using"
@@ -60,7 +60,7 @@
                 android:gravity="center|center_vertical"
                 android:scrollbars="vertical"
                 android:text="@string/product_info_text"
-                android:textColor="@color/white"
+                android:textColor="@color/header_color"
                 android:textSize="24sp"
                 android:textStyle="bold" />
         </FrameLayout>

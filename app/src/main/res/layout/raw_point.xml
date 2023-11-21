@@ -28,7 +28,7 @@
         android:id="@+id/btnRename"
         android:layout_width="wrap_content"
         android:layout_height="@dimen/standard_touch_size"
-        android:backgroundTint="@color/yellow"
+        android:backgroundTint="@color/rename_button"
         android:text="@string/btnRename"
         android:textSize="@dimen/text_size_10"
         android:textStyle="bold"
@@ -50,8 +50,7 @@
 
         android:layout_marginEnd="@dimen/margin_padding_size_4"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        />
+        app:layout_constraintTop_toTopOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
