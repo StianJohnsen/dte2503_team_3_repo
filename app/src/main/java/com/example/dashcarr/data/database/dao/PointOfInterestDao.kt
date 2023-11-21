@@ -22,4 +22,7 @@ interface PointOfInterestDao: BaseDao<PointOfInterestEntity> {
     @Query("SELECT * from points_of_interest")
     fun getAllPointsOfInterestLiveData(): LiveData<List<PointOfInterestEntity>>
 
+    @Query("DELETE FROM points_of_interest")
+    suspend fun deleteAllData(): Int
+
 }

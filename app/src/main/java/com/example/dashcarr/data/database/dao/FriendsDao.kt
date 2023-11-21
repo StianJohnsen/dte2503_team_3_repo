@@ -18,7 +18,10 @@ interface FriendsDao: BaseDao<FriendsEntity> {
     suspend fun getAllFriends(): List<FriendsEntity>
 
     @Query("SELECT * FROM friends_entity WHERE id = :id")
-    fun getFriendById(id: Int): LiveData<FriendsEntity>
+    fun getFriendByIdLiveData(id: Int): LiveData<FriendsEntity>
+
+    @Query("SELECT * FROM friends_entity WHERE id = :id")
+    fun getFriendById(id: Int): FriendsEntity
 
     @Query("SELECT * FROM friends_entity")
     fun getAllFriendsLiveData(): LiveData<List<FriendsEntity>>

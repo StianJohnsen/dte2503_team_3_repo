@@ -5,21 +5,25 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.dashcarr.data.database.AppDatabase
-import com.example.dashcarr.data.database.dao.FriendsDao
 import com.example.dashcarr.domain.entity.FriendsEntity
+import com.example.dashcarr.domain.repository.IFriendsRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class SelectContactViewModel(friendsDao: FriendsDao) : ViewModel() {
+@HiltViewModel
+class SelectContactViewModel @Inject constructor(
+    private val friendsRepository: IFriendsRepository
+) : ViewModel() {
 
     private var _friendsList = MutableLiveData<List<FriendsEntity>>()
     val friendsList: LiveData<List<FriendsEntity>> = _friendsList
 
     fun getAllFriends(context: Context) {
         viewModelScope.launch(Dispatchers.IO) {
-            val db = AppDatabase.getInstance(context)
-            _friendsList.postValue(db.FriendsDao().getAllFriends())
+            val db = friendsRepository.getAllFriends()
+            _friendsList.postValue(friendsRepository.getAllFriends())
         }
     }
 

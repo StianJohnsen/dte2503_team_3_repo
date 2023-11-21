@@ -29,4 +29,7 @@ interface SentMessageDao: BaseDao<SentMessagesEntity> {
 
     @Query("SELECT * FROM sent_messages")
     fun getAllSentMessagesLiveData(): LiveData<List<SentMessageFinalEntity>>
+
+    @Query("DELETE FROM sent_messages")
+    suspend fun deleteAllData(): Int
 }

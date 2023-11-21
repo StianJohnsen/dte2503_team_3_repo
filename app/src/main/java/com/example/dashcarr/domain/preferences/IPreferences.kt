@@ -24,6 +24,7 @@ interface IPreferences {
     fun getLastLocalSentMessagesTableChangesTimestamp(): Long
 
     fun saveLastLocalSentMessagesTableChangesTimestamp(timeStamp: Long)
+    fun deleteAllLocalChangeTimeStamps()
 
 
 

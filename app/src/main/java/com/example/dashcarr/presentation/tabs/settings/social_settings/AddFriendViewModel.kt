@@ -16,7 +16,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AddFriendViewModel @Inject constructor(
-    private val friendsRepository: IFriendsRepository
+    val friendsRepository: IFriendsRepository
 ) : ViewModel() {
 
     private val saveResult = MutableStateFlow<Boolean?>(null)
@@ -49,9 +49,6 @@ class AddFriendViewModel @Inject constructor(
     }
 
     fun getFriendById(id: Int): LiveData<FriendsEntity> {
-        viewModelScope.launch {
-            friendsRepository.getFriendById(id)
-        }
         return friendsRepository.getFriendById(id)
     }
 

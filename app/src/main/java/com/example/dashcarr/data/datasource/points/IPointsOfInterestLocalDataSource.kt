@@ -19,5 +19,6 @@ interface IPointsOfInterestLocalDataSource {
 
     @WorkerThread
     suspend fun updatePoint(point: PointOfInterestEntity): Result<Unit>
+    suspend fun deleteAllData(): Int
 
 }

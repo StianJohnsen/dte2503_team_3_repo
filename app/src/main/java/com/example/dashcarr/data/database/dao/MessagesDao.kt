@@ -25,6 +25,9 @@ interface MessagesDao: BaseDao<MessagesEntity> {
     @Query("SELECT * FROM messages_entity")
     fun getAllMessagesLiveData(): LiveData<List<MessagesEntity>>
 
+    @Query("DELETE FROM messages_entity")
+    suspend fun deleteAllData(): Int
+
     @Update
     suspend fun update(message: MessagesEntity): Int
 

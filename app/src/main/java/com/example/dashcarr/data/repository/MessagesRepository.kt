@@ -20,4 +20,7 @@ class MessagesRepository @Inject constructor(
 
     override suspend fun updateMessage(message: MessagesEntity): Result<Unit> =
         messagesLocalDataSource.updateMessage(message)
+
+    override suspend fun deleteAllData(): Int =
+        messagesLocalDataSource.deleteAllData()
 }

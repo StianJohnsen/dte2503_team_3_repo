@@ -15,11 +15,13 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.Spinner
+import androidx.fragment.app.viewModels
 import androidx.core.content.ContextCompat
 import androidx.navigation.fragment.findNavController
 import com.example.dashcarr.R
 import com.example.dashcarr.databinding.FragmentHistoryBinding
 import com.example.dashcarr.presentation.core.BaseFragment
+import dagger.hilt.android.AndroidEntryPoint
 import org.json.JSONArray
 import java.io.BufferedReader
 import java.io.File
@@ -34,10 +36,14 @@ import kotlin.math.min
 /**
  * HistoryFragment manages the display and interactions in the history tab.
  */
+@AndroidEntryPoint
 class HistoryFragment : BaseFragment<FragmentHistoryBinding>(
     FragmentHistoryBinding::inflate,
     showBottomNavBar = true
 ) {
+
+    private val viewModel: HistoryViewModel by viewModels()
+
     private data class RecordingDescription(val label: String, var fileName: String, val chartType: String = "line") {
         fun exists(): Boolean = fileName.isNotEmpty()
     }

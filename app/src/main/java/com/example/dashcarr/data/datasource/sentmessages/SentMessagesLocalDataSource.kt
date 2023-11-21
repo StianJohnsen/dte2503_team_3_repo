@@ -21,4 +21,6 @@ class SentMessagesLocalDataSource @Inject constructor(
         Result.success(sentMessageDao.deleteData(sentMessage))
     }
 
+    override suspend fun deleteAllData(): Int =
+        sentMessageDao.deleteAllData()
 }

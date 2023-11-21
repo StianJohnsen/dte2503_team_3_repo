@@ -8,4 +8,5 @@ interface ISentMessagesRepository {
     fun getAllSentMessagesLiveData(): LiveData<List<SentMessageFinalEntity>>
     suspend fun saveNewSentMessage(sentMessage: SentMessagesEntity): Result<Unit>
     suspend fun deleteSentMessage(sentMessage: SentMessagesEntity): Result<Unit>
+    suspend fun deleteAllData(): Int
 }

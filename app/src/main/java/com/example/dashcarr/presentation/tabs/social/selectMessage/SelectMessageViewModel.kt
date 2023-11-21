@@ -1,45 +1,42 @@
 package com.example.dashcarr.presentation.tabs.social.selectMessage
 
-import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.dashcarr.data.database.AppDatabase
-import com.example.dashcarr.data.database.dao.MessagesDao
 import com.example.dashcarr.domain.entity.FriendsEntity
-import com.example.dashcarr.domain.entity.MessagesEntity
 import com.example.dashcarr.domain.entity.SentMessagesEntity
+import com.example.dashcarr.domain.repository.IFriendsRepository
+import com.example.dashcarr.domain.repository.IMessagesRepository
+import com.example.dashcarr.domain.repository.ISentMessagesRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class SelectMessageViewModel(messagesDao: MessagesDao) : ViewModel() {
+@HiltViewModel
+class SelectMessageViewModel @Inject constructor(
+    private val messagesRepository: IMessagesRepository,
+    private val friendsRepository: IFriendsRepository,
+    private val sentMessagesRepository: ISentMessagesRepository
+) : ViewModel() {
 
-    private var _messagesList = MutableLiveData<List<MessagesEntity>>()
-    val messagesList: LiveData<List<MessagesEntity>> = _messagesList
+    val messagesList = messagesRepository.getAllMessagesLiveData()
 
     private var _contactsList = MutableLiveData<FriendsEntity>()
     val contactsList: LiveData<FriendsEntity> = _contactsList
 
-    fun getAllMessages(context: Context) {
+    fun getContact(id: Int?) {
+        if (id == null) return
         viewModelScope.launch(Dispatchers.IO) {
-            val db = AppDatabase.getInstance(context)
-            _messagesList.postValue(db.MessagesDao().getAllMessages())
+            if (_contactsList.value != null) return@launch
+            _contactsList.postValue(friendsRepository.getFriendById(id).value)
         }
     }
 
-    fun getContact(id: Int, context: Context) {
+    fun insertIntoSentMessages(sentMessagesEntity: SentMessagesEntity) {
         viewModelScope.launch(Dispatchers.IO) {
-            val db = AppDatabase.getInstance(context)
-            _contactsList.postValue(db.FriendsDao().getContactById(id))
-
-        }
-    }
-
-    fun insertIntoSentMessages(context: Context, sentMessagesEntity: SentMessagesEntity) {
-        viewModelScope.launch(Dispatchers.IO) {
-            val db = AppDatabase.getInstance(context)
-            db.SentMessageDao().insert(sentMessagesEntity)
+            sentMessagesRepository.saveNewSentMessage(sentMessagesEntity)
         }
 
     }

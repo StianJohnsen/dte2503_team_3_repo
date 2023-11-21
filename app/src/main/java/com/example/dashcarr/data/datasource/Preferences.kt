@@ -79,6 +79,15 @@ class Preferences @Inject constructor(
             .apply()
     }
 
+    override fun deleteAllLocalChangeTimeStamps() {
+        preferences.edit()
+            .remove(KEY_LAST_LOCAL_SENT_MESSAGES_TABLE_CHANGES_TIMESTAMP)
+            .remove(KEY_LAST_LOCAL_POINT_OF_INTEREST_TABLE_CHANGES_TIMESTAMP)
+            .remove(KEY_LAST_LOCAL_MESSAGES_TABLE_CHANGES_TIMESTAMP)
+            .remove(KEY_LAST_LOCAL_FRIENDS_TABLE_CHANGES_TIMESTAMP)
+            .apply()
+    }
+
     companion object {
         const val SHARED_PREFERENCES_NAME = "DASH_CARR_PREFERENCES"
         const val KEY_USER_LAST_LOCATION = "USER_LAST_LOCATION"
