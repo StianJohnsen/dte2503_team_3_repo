@@ -5,12 +5,12 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/primary_color">
+        android:background="@color/mainBlue">
 
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/primary_color">
+            android:background="@color/mainBlue">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -20,9 +20,6 @@
                     android:id="@+id/btnBackToSettings"
                     android:layout_width="@dimen/standard_touch_size"
                     android:layout_height="@dimen/standard_touch_size"
-                    android:layout_marginStart="@dimen/margin_padding_size_10"
-                    android:layout_marginTop="@dimen/margin_padding_size_10"
-                    android:src="@drawable/baseline_arrow_back_24"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     android:src="@drawable/baseline_arrow_back_24" />
@@ -31,10 +28,10 @@
                     android:id="@+id/text_social_settings"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/friends"
                     android:layout_marginTop="@dimen/margin_padding_size_10"
-                    android:textColor="@color/header_color"
-                    android:textSize="@dimen/header"
+                    android:text="@string/quick_messages"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_size_34"
                     android:textStyle="bold"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
@@ -44,13 +41,14 @@
                     android:id="@+id/contactsHeader"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/contact_list"
-                    android:textColor="@color/header_color"
+                    android:layout_marginStart="@dimen/margin_padding_size_18"
+                    android:layout_marginTop="@dimen/margin_padding_size_26"
+                    android:paddingHorizontal="@dimen/margin_padding_size_12"
+                    android:text="@string/message_list"
+                    android:textColor="@color/white"
                     android:textSize="@dimen/text_size_16"
                     app:layout_constraintStart_toStartOf="parent"
-                    android:layout_marginStart="@dimen/margin_padding_size_18"
-                    android:paddingHorizontal="@dimen/margin_padding_size_12"
-                    android:layout_marginTop="@dimen/margin_padding_size_26" />
+                    app:layout_constraintTop_toBottomOf="@+id/text_social_settings" />
 
                 <LinearLayout
                     android:id="@+id/linear_friends"
@@ -68,21 +66,20 @@
                     app:layout_constraintTop_toBottomOf="@+id/contactsHeader" />
 
                 <Button
-                    android:id="@+id/btnAddFriend"
+                    android:id="@+id/add_message_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/margin_padding_size_26"
-                    android:layout_marginEnd="144dp"
-                    android:backgroundTint="@color/button_color"
+                    android:layout_marginTop="24dp"
+                    android:backgroundTint="@color/black"
                     android:insetTop="@dimen/margin_padding_size_0"
                     android:insetBottom="@dimen/margin_padding_size_0"
-                    android:text="@string/add_friend_button"
+                    android:text="@string/add_message_capitalized"
                     android:textSize="@dimen/text_size_14"
                     android:textStyle="bold"
                     app:cornerRadius="20dp"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/linear_friends" />
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/linear_friends" />
 
                 <Button
                     android:visibility="gone"
@@ -103,7 +100,7 @@
             android:id="@+id/flDeleteMessageLayout"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:background="@color/transparent_25"
+            android:background="@color/black20"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -131,7 +128,7 @@
                         android:layout_marginEnd="@dimen/margin_padding_size_6"
                         android:layout_marginBottom="@dimen/margin_padding_size_10"
                         android:layout_weight="1"
-                        android:backgroundTint="@color/button_color"
+                        android:backgroundTint="@color/black"
                         android:insetTop="@dimen/margin_padding_size_0"
                         android:insetBottom="@dimen/margin_padding_size_0"
                         android:text="@string/delete_poi"
@@ -151,7 +148,7 @@
                         android:layout_marginStart="@dimen/margin_padding_size_6"
                         android:layout_marginTop="@dimen/margin_padding_size_10"
                         android:layout_weight="1"
-                        android:backgroundTint="@color/button_color"
+                        android:backgroundTint="@color/black"
                         android:insetTop="@dimen/margin_padding_size_0"
                         android:insetBottom="@dimen/margin_padding_size_0"
                         android:text="@string/cancel_poi"
@@ -173,5 +170,3 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>
-
-

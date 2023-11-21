@@ -20,6 +20,7 @@
             android:id="@+id/text_social_settings"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="@string/friends"
             android:layout_marginTop="@dimen/margin_padding_size_10"
             android:text="@string/social_settings_text"
             android:textColor="@color/header_color"

@@ -27,6 +27,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <LinearLayout
+        android:id="@+id/messagesLayout"
         android:layout_marginStart="@dimen/margin_padding_size_10"
         android:layout_marginEnd="@dimen/margin_padding_size_10"
         android:orientation="vertical"
@@ -53,20 +54,42 @@
     </LinearLayout>
 
     <Button
-        android:id="@+id/add_message_to_db_button"
+        android:id="@+id/btnAddMessage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/add_message"
-        android:backgroundTint="@color/button_color"
-        android:textStyle="bold"
+        android:layout_marginBottom="@dimen/margin_padding_size_38"
+        android:backgroundTint="@color/black"
         android:insetTop="@dimen/margin_padding_size_0"
         android:insetBottom="@dimen/margin_padding_size_0"
+        android:text="@string/add_message"
+        android:backgroundTint="@color/button_color"
         android:textSize="@dimen/text_size_14"
+        android:textStyle="bold"
         app:cornerRadius="20dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginBottom="@dimen/margin_padding_size_22" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/messagesLayout" />
+
+    <Button
+        android:id="@+id/btnDeleteMessage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/margin_padding_size_12"
+        android:backgroundTint="@color/black"
+        android:insetTop="@dimen/margin_padding_size_0"
+        android:insetBottom="@dimen/margin_padding_size_0"
+        android:text="@string/delete_message"
+        android:textSize="@dimen/text_size_14"
+        android:textStyle="bold"
+        app:cornerRadius="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/messagesLayout"
+        app:layout_constraintVertical_bias="0.86" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

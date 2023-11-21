@@ -43,7 +43,7 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>(
         }
 
         binding.btnSocialSettings.setOnClickListener {
-            findNavController().navigate(R.id.action_action_settings_to_socialSettingsFragment)
+            findNavController().navigate(R.id.action_action_settings_to_quickMessagesFragment)
         }
 
         binding.btnLogout.setOnClickListener {
@@ -55,12 +55,8 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>(
             findNavController().navigate(R.id.action_action_settings_to_powerSettings)
         }
 
-        binding.btnSocialSettings.setOnClickListener{
-            findNavController().navigate(R.id.action_action_settings_to_socialSettingsFragment)
-        }
-
         binding.btnHistorySettings.setOnClickListener {
-            findNavController().navigate(R.id.action_action_settings_to_selectContactFragment)
+            findNavController().navigate(R.id.action_action_settings_to_socialSettingsFragment)
         }
 
     }

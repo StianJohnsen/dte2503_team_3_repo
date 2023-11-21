@@ -67,10 +67,6 @@ class SocialSettingsFragment : BaseFragment<FragmentSocialSettingsBinding>(
             sendMessage()
         }
 
-        binding.addMessageButton.setOnClickListener {
-            findNavController().navigate(R.id.action_socialSettingsFragment_to_addMessagesFragment)
-        }
-
         val dao = AppDatabase.getInstance(requireContext()).FriendsDao()
 
         lifecycleScope.launch {
