@@ -15,17 +15,13 @@ interface IPreferences {
     fun saveLastLocalFriendsTableChangesTimestamp(timeStamp: Long)
 
     fun getLastLocalMessagesTableChangesTimestamp(): Long
-
     fun saveLastLocalMessagesTableChangesTimestamp(timeStamp: Long)
 
     fun getLastLocalPointOfInterestTableChangesTimestamp(): Long
     fun saveLastLocalPointOfInterestTableChangesTimestamp(timeStamp: Long)
 
     fun getLastLocalSentMessagesTableChangesTimestamp(): Long
-
     fun saveLastLocalSentMessagesTableChangesTimestamp(timeStamp: Long)
+
     fun deleteAllLocalChangeTimeStamps()
-
-
-
 }

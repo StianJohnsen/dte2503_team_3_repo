@@ -18,8 +18,6 @@ class AddMessagesFragment : BaseFragment<FragmentAddMessagesBinding>(
     showBottomNavBar = false
 ) {
 
-    private val viewModel: AddMessagesViewModel by viewModels()
-
     private val viewModel: AddMessagesViewModel by viewModels {
         AddMessagesViewModelFactory(AppDatabase.getInstance(requireContext()).MessagesDao())
     }

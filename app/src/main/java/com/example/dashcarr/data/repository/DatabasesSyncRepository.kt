@@ -2,7 +2,9 @@ package com.example.dashcarr.data.repository
 
 import com.example.dashcarr.data.constants.FirebaseTables
 import com.example.dashcarr.data.datasource.friends.IFriendsLocalDataSource
+import com.example.dashcarr.data.datasource.messages.IMessagesLocalDataSource
 import com.example.dashcarr.data.mapper.toFriendEntity
+import com.example.dashcarr.data.mapper.toMessageEntity
 import com.example.dashcarr.domain.preferences.IPreferences
 import com.example.dashcarr.domain.repository.IDatabasesSyncRepository
 import com.example.dashcarr.domain.repository.IFirebaseAuthRepository
@@ -16,12 +18,14 @@ class DatabasesSyncRepository @Inject constructor(
     private val firebaseDBRepository: IFirebaseDBRepository,
     private val preferences: IPreferences,
     private val friendsLocalDataSource: IFriendsLocalDataSource,
-    private val firebaseAuthRepository: IFirebaseAuthRepository
+    private val firebaseAuthRepository: IFirebaseAuthRepository,
+    private val messagesLocalDataSource: IMessagesLocalDataSource
 ) : IDatabasesSyncRepository {
 
     override suspend fun syncDatabases() {
         if (firebaseAuthRepository.getUserId().isNullOrEmpty()) return
         syncFriendsDatabases()
+        syncMessagesDatabases()
     }
 
     private suspend fun syncFriendsDatabases() {
@@ -48,6 +52,36 @@ class DatabasesSyncRepository @Inject constructor(
                         val currentTimestamp = System.currentTimeMillis()
                         preferences.saveLastLocalFriendsTableChangesTimestamp(currentTimestamp)
                         firebaseDBRepository.saveLastFriendChangesTimestamp(currentTimestamp)
+                    }
+                }
+            }
+        }
+    }
+
+    private suspend fun syncMessagesDatabases() {
+        firebaseDBRepository.getLastMessageChangesTimestamp().addOnCompleteListener {
+            CoroutineScope(Dispatchers.IO).launch {
+                if (it.isSuccessful) {
+                    val lastRemoteChangesTimestamp = it.result.getLong(FirebaseTables.LAST_MESSAGES_CHANGES_TIMESTAMP_KEY) ?: 0
+                    val lastLocalChangesTimestamp = preferences.getLastLocalMessagesTableChangesTimestamp()
+
+                    if (lastRemoteChangesTimestamp > lastLocalChangesTimestamp) {
+                        val result = messagesLocalDataSource.deleteAllMessages()
+                        result.onSuccess {
+                            val remoteMessages = firebaseDBRepository.getAllMessages().map { it.toMessageEntity() }
+                            messagesLocalDataSource.saveMessages(remoteMessages)
+                            val currentTimestamp = System.currentTimeMillis()
+                            preferences.saveLastLocalMessagesTableChangesTimestamp(currentTimestamp)
+                            firebaseDBRepository.saveLastMessageChangesTimestamp(currentTimestamp)
+                        }
+                    }
+                    else if (lastRemoteChangesTimestamp < lastLocalChangesTimestamp) {
+                        firebaseDBRepository.deleteAllMessages()
+                        val localMessages = messagesLocalDataSource.getAllMessagesLiveData().value
+                        localMessages?.let { firebaseDBRepository.saveMessages(it) }
+                        val currentTimestamp = System.currentTimeMillis()
+                        preferences.saveLastLocalMessagesTableChangesTimestamp(currentTimestamp)
+                        firebaseDBRepository.saveLastMessageChangesTimestamp(currentTimestamp)
                     }
                 }
             }
