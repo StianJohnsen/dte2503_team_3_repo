@@ -2,7 +2,9 @@ package com.example.dashcarr.data.repository
 
 import com.example.dashcarr.data.constants.FirebaseTables
 import com.example.dashcarr.domain.entity.FriendsEntity
+import com.example.dashcarr.domain.entity.MessagesEntity
 import com.example.dashcarr.domain.entity.firebase.FirebaseFriendEntity
+import com.example.dashcarr.domain.entity.firebase.FirebaseMessageEntity
 import com.example.dashcarr.domain.entity.firebase.GeoPointEntity
 import com.example.dashcarr.domain.repository.IFirebaseAuthRepository
 import com.example.dashcarr.domain.repository.IFirebaseDBRepository
@@ -43,7 +45,6 @@ class FirebaseDBRepository @Inject constructor(
         return true
     }
 
-
     override suspend fun getAllGeoPoints(): List<GeoPointEntity> =
         db.collection(firebaseAuthRepository.getUserId()!!)
             .document(FirebaseTables.GEO_POINT_DOCUMENT)
@@ -69,8 +70,6 @@ class FirebaseDBRepository @Inject constructor(
             )
         return true
     }
-
-
 
     override suspend fun getAllFriends(): List<FirebaseFriendEntity> =
         db.collection(firebaseAuthRepository.getUserId()!!)
@@ -136,7 +135,6 @@ class FirebaseDBRepository @Inject constructor(
             .await()
     }
 
-
     override suspend fun saveLastFriendChangesTimestamp(timestamp: Long) {
         db.collection(firebaseAuthRepository.getUserId()!!)
             .document(FirebaseTables.LAST_CHANGES_DOCUMENT)
@@ -145,4 +143,93 @@ class FirebaseDBRepository @Inject constructor(
 
             ))
     }
+
+    override suspend fun saveNewMessage(message: MessagesEntity, timestamp: Long): Boolean {
+        saveLastMessageChangesTimestamp(timestamp)
+        db.collection(firebaseAuthRepository.getUserId()!!)
+            .document(FirebaseTables.MESSAGES_DOCUMENT)
+            .collection(FirebaseTables.MESSAGES_COLLECTION)
+            .add(
+                mapOf(
+                    Pair(FirebaseTables.MESSAGE_CONTENT_KEY, message.content),
+                    Pair(FirebaseTables.MESSAGE_IPHONE_KEY, message.isPhone),
+                    Pair(FirebaseTables.MESSAGE_CREATED_TIMESTAMP_KEY, message.createdTimeStamp)
+                )
+            )
+        return true
+    }
+
+    override suspend fun getAllMessages(): List<FirebaseMessageEntity> =
+        db.collection(firebaseAuthRepository.getUserId()!!)
+            .document(FirebaseTables.MESSAGES_DOCUMENT)
+            .collection(FirebaseTables.MESSAGES_COLLECTION)
+            .get()
+            .await()
+            .map {
+                it.toObject()
+            }
+
+
+    override suspend fun updateMessage(message: MessagesEntity): Result<Unit> {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun deleteMessage(message: MessagesEntity, timestamp: Long) {
+        saveLastMessageChangesTimestamp(timestamp)
+        db.collection(firebaseAuthRepository.getUserId()!!)
+            .document(FirebaseTables.MESSAGES_DOCUMENT)
+            .collection(FirebaseTables.MESSAGES_COLLECTION)
+            .get()
+            .addOnCompleteListener { snapshot ->
+                if (snapshot.isSuccessful) {
+                    snapshot.result.documents.forEach { document ->
+                        if (document.data?.
+                            get(FirebaseTables.MESSAGE_CREATED_TIMESTAMP_KEY).toString()
+                            == message.createdTimeStamp.toString()
+                        )
+                            document.reference.delete()
+                    }
+                }
+            }
+    }
+
+    override suspend fun getLastMessageChangesTimestamp(): Task<DocumentSnapshot> =
+        db.collection(firebaseAuthRepository.getUserId()!!)
+            .document(FirebaseTables.LAST_CHANGES_DOCUMENT)
+            .get()
+
+    override suspend fun saveLastMessageChangesTimestamp(timestamp: Long) {
+        db.collection(firebaseAuthRepository.getUserId()!!)
+            .document(FirebaseTables.LAST_CHANGES_DOCUMENT)
+            .set(mapOf(
+                Pair(FirebaseTables.LAST_MESSAGES_CHANGES_TIMESTAMP_KEY, timestamp)
+
+            ))
+    }
+
+    override suspend fun deleteAllMessages(): Any =
+        db.collection(firebaseAuthRepository.getUserId()!!)
+            .document(FirebaseTables.MESSAGES_DOCUMENT)
+            .delete()
+            .await()
+
+    override suspend fun saveMessages(messages: List<MessagesEntity>) {
+        val mapOfMessages = mutableListOf<Map<String, Any>>()
+        messages.forEach { message ->
+            mapOfMessages.add(
+                mapOf(
+                    Pair(FirebaseTables.MESSAGE_CONTENT_KEY, message.content),
+                    Pair(FirebaseTables.MESSAGE_IPHONE_KEY, message.isPhone),
+                    Pair(FirebaseTables.MESSAGE_CREATED_TIMESTAMP_KEY, message.createdTimeStamp)
+                )
+            )
+        }
+        saveLastMessageChangesTimestamp(System.currentTimeMillis())
+        db.collection(firebaseAuthRepository.getUserId()!!)
+            .document(FirebaseTables.MESSAGES_DOCUMENT)
+            .collection(FirebaseTables.MESSAGES_COLLECTION)
+            .add(mapOfMessages)
+            .await()
+    }
+
 }

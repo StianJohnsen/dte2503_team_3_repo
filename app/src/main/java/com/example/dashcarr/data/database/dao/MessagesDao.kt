@@ -20,7 +20,10 @@ interface MessagesDao: BaseDao<MessagesEntity> {
 
 
     @Query("SELECT * FROM messages_entity WHERE id=:id")
-    fun getMesssageById(id: Int): LiveData<MessagesEntity>
+    fun getMessageByIdLiveData(id: Int): LiveData<MessagesEntity>
+
+    @Query("SELECT * FROM messages_entity WHERE id=:id")
+    suspend fun getMessageById(id: Int): MessagesEntity
 
     @Query("SELECT * FROM messages_entity")
     fun getAllMessagesLiveData(): LiveData<List<MessagesEntity>>
