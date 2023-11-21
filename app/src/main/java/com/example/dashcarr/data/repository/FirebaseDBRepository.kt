@@ -1,6 +1,5 @@
 package com.example.dashcarr.data.repository
 
-import androidx.lifecycle.LiveData
 import com.example.dashcarr.data.constants.FirebaseTables
 import com.example.dashcarr.domain.entity.FriendsEntity
 import com.example.dashcarr.domain.entity.firebase.FirebaseFriendEntity
@@ -83,18 +82,27 @@ class FirebaseDBRepository @Inject constructor(
                 it.toObject()
             }
 
-
-
-    override fun getFriendById(id: Int): LiveData<FriendsEntity> {
-        TODO()
-    }
-
     override suspend fun updateFriend(friend: FriendsEntity): Result<Unit> {
         TODO("Not yet implemented")
     }
 
-    override suspend fun deleteFriendById(friend: FriendsEntity): Result<Unit> {
-        TODO("Not yet implemented")
+    override suspend fun deleteFriend(friend: FriendsEntity, timestamp: Long) {
+        saveLastFriendChangesTimestamp(timestamp)
+        db.collection(firebaseAuthRepository.getUserId()!!)
+            .document(FirebaseTables.FRIENDS_DOCUMENT)
+            .collection(FirebaseTables.FRIENDS_COLLECTION)
+            .get()
+            .addOnCompleteListener { snapshot ->
+                if (snapshot.isSuccessful) {
+                    snapshot.result.documents.forEach { document ->
+                        if (document.data?.
+                            get(FirebaseTables.FRIEND_CREATED_TIMESTAMP_KEY).toString()
+                            == friend.createdTimeStamp.toString()
+                            )
+                            document.reference.delete()
+                    }
+                }
+            }
     }
 
     override suspend fun getLastFriendChangesTimestamp(): Task<DocumentSnapshot> =
@@ -102,7 +110,7 @@ class FirebaseDBRepository @Inject constructor(
             .document(FirebaseTables.LAST_CHANGES_DOCUMENT)
             .get()
 
-    override suspend fun deleteAllFriends(): Void =
+    override suspend fun deleteAllFriends(): Any =
         db.collection(firebaseAuthRepository.getUserId()!!)
             .document(FirebaseTables.FRIENDS_DOCUMENT)
             .delete()

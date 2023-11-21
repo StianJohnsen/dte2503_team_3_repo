@@ -1,5 +1,6 @@
 package com.example.dashcarr.di.modules
 
+import com.example.dashcarr.data.repository.ClearLocalDatabaseRepository
 import com.example.dashcarr.data.repository.DatabasesSyncRepository
 import com.example.dashcarr.data.repository.FirebaseAuthRepository
 import com.example.dashcarr.data.repository.FirebaseDBRepository
@@ -7,6 +8,7 @@ import com.example.dashcarr.data.repository.FriendsRepository
 import com.example.dashcarr.data.repository.MessagesRepository
 import com.example.dashcarr.data.repository.PointsOfInterestRepository
 import com.example.dashcarr.data.repository.SentMessagesRepository
+import com.example.dashcarr.domain.repository.IClearLocalDatabaseRepository
 import com.example.dashcarr.domain.repository.IDatabasesSyncRepository
 import com.example.dashcarr.domain.repository.IFirebaseAuthRepository
 import com.example.dashcarr.domain.repository.IFirebaseDBRepository
@@ -46,4 +48,7 @@ interface RepositoryModule {
 
     @Binds
     fun bindSyncDatabasesRepository(repository: DatabasesSyncRepository): IDatabasesSyncRepository
+
+    @Binds
+    fun bindClearLocalDatabaseRepository(repository: ClearLocalDatabaseRepository): IClearLocalDatabaseRepository
 }

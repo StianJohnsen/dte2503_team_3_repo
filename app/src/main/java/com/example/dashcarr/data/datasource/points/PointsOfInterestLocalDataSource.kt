@@ -28,4 +28,7 @@ class PointsOfInterestLocalDataSource @Inject constructor(
     override suspend fun updatePoint(point: PointOfInterestEntity) = safeCall {
         Result.success(pointsDao.updateData(point))
     }
+
+    override suspend fun deleteAllData(): Int =
+        pointsDao.deleteAllData()
 }

@@ -16,4 +16,5 @@ interface IMessagesLocalDataSource {
 
     @WorkerThread
     suspend fun updateMessage(message: MessagesEntity): Result<Unit>
+    suspend fun deleteAllData(): Int
 }

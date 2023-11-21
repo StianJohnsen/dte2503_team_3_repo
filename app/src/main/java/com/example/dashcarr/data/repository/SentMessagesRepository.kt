@@ -19,4 +19,7 @@ class SentMessagesRepository @Inject constructor(
     override suspend fun deleteSentMessage(sentMessage: SentMessagesEntity): Result<Unit> =
         sendMessagesLocalDataSource.deleteSentMessage(sentMessage)
 
+    override suspend fun deleteAllData(): Int =
+        sendMessagesLocalDataSource.deleteAllData()
+
 }

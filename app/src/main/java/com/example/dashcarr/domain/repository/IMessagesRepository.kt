@@ -12,4 +12,5 @@ interface IMessagesRepository {
     suspend fun deleteMessage(message: MessagesEntity): Result<Unit>
 
     suspend fun updateMessage(message: MessagesEntity): Result<Unit>
+    suspend fun deleteAllData(): Int
 }

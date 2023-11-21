@@ -5,6 +5,7 @@ import com.example.dashcarr.data.datasource.friends.IFriendsLocalDataSource
 import com.example.dashcarr.data.mapper.toFriendEntity
 import com.example.dashcarr.domain.preferences.IPreferences
 import com.example.dashcarr.domain.repository.IDatabasesSyncRepository
+import com.example.dashcarr.domain.repository.IFirebaseAuthRepository
 import com.example.dashcarr.domain.repository.IFirebaseDBRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -14,12 +15,13 @@ import javax.inject.Inject
 class DatabasesSyncRepository @Inject constructor(
     private val firebaseDBRepository: IFirebaseDBRepository,
     private val preferences: IPreferences,
-    private val friendsLocalDataSource: IFriendsLocalDataSource
+    private val friendsLocalDataSource: IFriendsLocalDataSource,
+    private val firebaseAuthRepository: IFirebaseAuthRepository
 ) : IDatabasesSyncRepository {
 
     override suspend fun syncDatabases() {
+        if (firebaseAuthRepository.getUserId().isNullOrEmpty()) return
         syncFriendsDatabases()
-
     }
 
     private suspend fun syncFriendsDatabases() {

@@ -11,6 +11,7 @@ interface IFriendsRepository {
     fun getFriendById(id: Int): LiveData<FriendsEntity>
     suspend fun updateFriend(friend: FriendsEntity): Result<Unit>
     suspend fun deleteFriend(friend: FriendsEntity): Result<Unit>
-    suspend fun deleteFriendById(id: Int): Int
+    suspend fun deleteFriendById(id: Int): Result<Unit>
+    suspend fun deleteAllData(): Int
 
 }

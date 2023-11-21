@@ -13,4 +13,5 @@ interface ISentMessagesLocalDataSource {
     suspend fun saveNewSentMessage(sentMessage: SentMessagesEntity): Result<Unit>
     @WorkerThread
     suspend fun deleteSentMessage(sentMessage: SentMessagesEntity): Result<Unit>
+    suspend fun deleteAllData(): Int
 }

@@ -66,9 +66,7 @@ class SelectMessageFragment : BaseFragment<FragmentSelectMessageBinding>(
 
     private fun observeViewModel() {
         val contactId = arguments?.getInt("contactId")
-        if (contactId != null) {
-            viewModel.getContact(contactId, requireContext())
-        }
+        viewModel.getContact(contactId)
 
         var currentFriendsEntity: FriendsEntity? = null
         viewModel.contactsList.observe(viewLifecycleOwner) {
@@ -82,7 +80,6 @@ class SelectMessageFragment : BaseFragment<FragmentSelectMessageBinding>(
             }
             findNavController().navigate(R.id.action_selectMessageFragment_to_action_map)
             Toast.makeText(requireContext(), "Message sent", Toast.LENGTH_SHORT).show()
-
         }
 
         binding.selectMessageRecycler.adapter = adapter
@@ -121,7 +118,7 @@ class SelectMessageFragment : BaseFragment<FragmentSelectMessageBinding>(
     private fun insertIntoMessageHistory(messageId: Long, friendId: Int, createdTimeStamp: Long) {
         val sentMessageEntity =
             SentMessagesEntity(messageId = messageId, friendId = friendId, createdTimeStamp = createdTimeStamp)
-        viewModel.insertIntoSentMessages(requireContext(), sentMessageEntity)
+        viewModel.insertIntoSentMessages(sentMessageEntity)
     }
 
 
