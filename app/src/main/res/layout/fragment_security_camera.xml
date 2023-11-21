@@ -75,7 +75,7 @@
             android:layout_width="wrap_content"
             android:layout_height="@dimen/standard_touch_size"
             android:layout_marginBottom="@dimen/margin_padding_size_10"
-            android:backgroundTint="@color/black"
+            android:backgroundTint="@color/button_color"
             android:text="@string/start_recording"
             android:textSize="@dimen/text_size_14"
             android:textStyle="bold"

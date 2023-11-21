@@ -3,7 +3,7 @@
     android:layout_height="match_parent"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@color/mainBlue">
+    android:background="@color/primary_color">
 
     <ImageView
         android:id="@+id/back_to_social_settings_from_add_messages"
@@ -22,8 +22,8 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginTop="@dimen/margin_padding_size_10"
-        android:textSize="@dimen/text_size_34"
-        android:textColor="@color/white"
+        android:textColor="@color/secondary_color"
+        android:textSize="@dimen/header"
         android:textStyle="bold" />
 
     <LinearLayout
@@ -54,7 +54,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/add_message"
-        android:backgroundTint="@color/black"
+        android:backgroundTint="@color/button_color"
         android:textStyle="bold"
         android:insetTop="@dimen/margin_padding_size_0"
         android:insetBottom="@dimen/margin_padding_size_0"

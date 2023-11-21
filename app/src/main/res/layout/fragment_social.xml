@@ -12,30 +12,30 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/mainBlue">
+        android:background="@color/primary_color">
 
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/mainBlue">
+            android:background="@color/primary_color">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/mainBlue">
+                android:background="@color/primary_color">
 
                 <TextView
                     android:id="@+id/text_sent_messages"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/sent_messages"
                     android:layout_marginTop="@dimen/margin_padding_size_10"
+                    android:text="@string/sent_messages"
+                    android:textColor="@color/header_color"
+                    android:textSize="@dimen/header"
+                    android:textStyle="bold"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    android:textSize="@dimen/text_size_34"
-                    android:textColor="@color/white"
-                    android:textStyle="bold" />
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/clContainer"
@@ -66,76 +66,76 @@
 
         </ScrollView>
 
-            <FrameLayout
-                android:id="@+id/flDeleteMessageLayout"
+        <FrameLayout
+            android:id="@+id/flDeleteMessageLayout"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:background="@color/transparent_25"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:background="@color/black20"
-                android:visibility="gone"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginHorizontal="@dimen/margin_padding_size_18"
+                android:background="@drawable/white_rounded_16dp_background"
+                android:orientation="vertical">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginHorizontal="@dimen/margin_padding_size_18"
-                    android:background="@drawable/white_rounded_16dp_background"
-                    android:orientation="vertical">
+                    android:layout_marginHorizontal="@dimen/margin_padding_size_20"
+                    android:orientation="horizontal"
+                    android:weightSum="2">
 
-                    <LinearLayout
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnDelete"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginHorizontal="@dimen/margin_padding_size_20"
-                        android:orientation="horizontal"
-                        android:weightSum="2">
+                        android:layout_height="@dimen/standard_touch_size"
+                        android:layout_marginTop="@dimen/margin_padding_size_10"
+                        android:layout_marginEnd="@dimen/margin_padding_size_6"
+                        android:layout_marginBottom="@dimen/margin_padding_size_10"
+                        android:layout_weight="1"
+                        android:backgroundTint="@color/button_color"
+                        android:insetTop="@dimen/margin_padding_size_0"
+                        android:insetBottom="@dimen/margin_padding_size_0"
+                        android:text="@string/delete_poi"
+                        android:textSize="@dimen/text_size_14"
+                        android:textStyle="bold"
+                        app:cornerRadius="20dp"
+                        app:icon="@drawable/ic_save_small"
+                        app:iconGravity="textStart"
+                        app:iconTint="@null"
+                        app:layout_constraintEnd_toEndOf="@+id/tilPassword"
+                        app:layout_constraintTop_toBottomOf="@id/tilPassword" />
 
-                        <com.google.android.material.button.MaterialButton
-                            android:id="@+id/btnDelete"
-                            android:layout_width="match_parent"
-                            android:layout_height="@dimen/standard_touch_size"
-                            android:layout_marginTop="@dimen/margin_padding_size_10"
-                            android:layout_marginEnd="@dimen/margin_padding_size_6"
-                            android:layout_marginBottom="@dimen/margin_padding_size_10"
-                            android:layout_weight="1"
-                            android:backgroundTint="@color/black"
-                            android:insetTop="@dimen/margin_padding_size_0"
-                            android:insetBottom="@dimen/margin_padding_size_0"
-                            android:text="@string/delete_poi"
-                            android:textSize="@dimen/text_size_14"
-                            android:textStyle="bold"
-                            app:cornerRadius="20dp"
-                            app:icon="@drawable/ic_save_small"
-                            app:iconGravity="textStart"
-                            app:iconTint="@null"
-                            app:layout_constraintEnd_toEndOf="@+id/tilPassword"
-                            app:layout_constraintTop_toBottomOf="@id/tilPassword" />
-
-                        <com.google.android.material.button.MaterialButton
-                            android:id="@+id/btnCancelDelete"
-                            android:layout_width="match_parent"
-                            android:layout_height="@dimen/standard_touch_size"
-                            android:layout_marginStart="@dimen/margin_padding_size_6"
-                            android:layout_marginTop="@dimen/margin_padding_size_10"
-                            android:layout_weight="1"
-                            android:backgroundTint="@color/black"
-                            android:insetTop="@dimen/margin_padding_size_0"
-                            android:insetBottom="@dimen/margin_padding_size_0"
-                            android:text="@string/cancel_poi"
-                            android:textSize="@dimen/text_size_14"
-                            android:textStyle="bold"
-                            app:cornerRadius="20dp"
-                            app:icon="@drawable/ic_cancel_small"
-                            app:iconGravity="textStart"
-                            app:iconTint="@null"
-                            app:layout_constraintEnd_toEndOf="@+id/tilPassword"
-                            app:layout_constraintTop_toBottomOf="@id/tilPassword" />
-
-                    </LinearLayout>
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnCancelDelete"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/standard_touch_size"
+                        android:layout_marginStart="@dimen/margin_padding_size_6"
+                        android:layout_marginTop="@dimen/margin_padding_size_10"
+                        android:layout_weight="1"
+                        android:backgroundTint="@color/button_color"
+                        android:insetTop="@dimen/margin_padding_size_0"
+                        android:insetBottom="@dimen/margin_padding_size_0"
+                        android:text="@string/cancel_poi"
+                        android:textSize="@dimen/text_size_14"
+                        android:textStyle="bold"
+                        app:cornerRadius="20dp"
+                        app:icon="@drawable/ic_cancel_small"
+                        app:iconGravity="textStart"
+                        app:iconTint="@null"
+                        app:layout_constraintEnd_toEndOf="@+id/tilPassword"
+                        app:layout_constraintTop_toBottomOf="@id/tilPassword" />
 
                 </LinearLayout>
 
-            </FrameLayout>
+            </LinearLayout>
+
+        </FrameLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

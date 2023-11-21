@@ -10,7 +10,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/mainBlue"
+        android:background="@color/primary_color"
         android:padding="8dp">
 
         <TextView
@@ -19,10 +19,9 @@
             android:layout_height="wrap_content"
             android:text="@string/to_whom_message"
             android:textStyle="bold"
-            android:textColor="@color/white"
+            android:textColor="@color/secondary_color"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            />
+            app:layout_constraintStart_toStartOf="parent" />
 
         <TextView
             android:id="@+id/tv_to"
@@ -31,10 +30,9 @@
             android:text="Tom"
             android:layout_marginStart="@dimen/margin_padding_size_4"
             android:textStyle="bold"
-            android:textColor="@color/white"
+            android:textColor="@color/secondary_color"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toEndOf="@id/tv_to_whom"
-            />
+            app:layout_constraintStart_toEndOf="@id/tv_to_whom" />
 
         <TextView
             android:id="@+id/tv_message_content"
@@ -43,7 +41,7 @@
             android:layout_below="@id/tv_to"
             android:layout_marginTop="@dimen/margin_padding_size_4"
             android:text="Sorry bro, I'm late!"
-            android:textColor="@color/white"
+            android:textColor="@color/secondary_color"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_to" />
 
@@ -52,10 +50,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="8:25"
-            android:textColor="@color/white"
+            android:textColor="@color/secondary_color"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            />
+            app:layout_constraintEnd_toEndOf="parent" />
 
         <ImageView
             android:id="@+id/icon_email"

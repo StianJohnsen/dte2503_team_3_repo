@@ -717,10 +717,10 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
                 if (batteryPercent <= 15) {
                     greenCircle.setColorFilter(ContextCompat.getColor(requireContext(), R.color.dark_green))
                     yellowCircle.setColorFilter(ContextCompat.getColor(requireContext(), R.color.dark_yellow))
-                    redCircle.setColorFilter(ContextCompat.getColor(requireContext(), R.color.red))
+                    redCircle.setColorFilter(ContextCompat.getColor(requireContext(), R.color.error_color))
                 } else if (batteryPercent <= 25) {
                     greenCircle.setColorFilter(ContextCompat.getColor(requireContext(), R.color.dark_green))
-                    yellowCircle.setColorFilter(ContextCompat.getColor(requireContext(), R.color.yellow))
+                    yellowCircle.setColorFilter(ContextCompat.getColor(requireContext(), R.color.rename_button))
                     redCircle.setColorFilter(ContextCompat.getColor(requireContext(), R.color.dark_red))
                 } else {
                     greenCircle.setColorFilter(ContextCompat.getColor(requireContext(), R.color.green))
