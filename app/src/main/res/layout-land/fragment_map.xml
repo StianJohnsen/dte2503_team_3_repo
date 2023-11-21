@@ -1,0 +1,366 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <org.osmdroid.views.MapView
+            android:id="@+id/mapView"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:clickable="true"
+            android:focusable="true"
+            app:layout_constraintBottom_toTopOf="@id/hudView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+        </org.osmdroid.views.MapView>
+
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/hudView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/mapView" />
+
+        <LinearLayout
+            android:id="@+id/ll_side_buttons"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/blue_rounded_16dp_background"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/mapView"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageButton
+                android:id="@+id/btn_dashcam"
+                android:layout_width="@dimen/standard_touch_size"
+                android:layout_height="@dimen/standard_touch_size"
+                android:layout_margin="4dp"
+                android:backgroundTint="#00FFFFFF"
+                android:paddingHorizontal="0dp"
+                android:paddingVertical="0dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_triangle_recording" />
+
+            <ImageButton
+                android:id="@+id/btn_out_of_car_mode"
+                android:layout_width="@dimen/standard_touch_size"
+                android:layout_height="@dimen/standard_touch_size"
+                android:layout_margin="4dp"
+                android:backgroundTint="#00FFFFFF"
+                android:paddingHorizontal="0dp"
+                android:paddingVertical="0dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_dashcam_settings" />
+
+            <ImageButton
+                android:id="@+id/btn_send_message"
+                android:layout_width="@dimen/standard_touch_size"
+                android:layout_height="@dimen/standard_touch_size"
+                android:layout_margin="4dp"
+                android:backgroundTint="#00FFFFFF"
+                android:paddingHorizontal="0dp"
+                android:paddingVertical="0dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_social_settings" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_traffic_light"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_padding_size_10"
+            android:background="@drawable/blue_rounded_16dp_background"
+            android:orientation="vertical"
+            android:paddingHorizontal="@dimen/margin_padding_size_8"
+            android:paddingVertical="@dimen/margin_padding_size_8"
+            app:layout_constraintBottom_toTopOf="@+id/hudView"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/mapView">
+
+            <ImageView
+                android:id="@+id/redIndicator"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginBottom="8dp"
+                android:contentDescription="@null"
+                android:src="@drawable/traffic_light_indicator" />
+
+            <ImageView
+                android:id="@+id/yellowIndicator"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginBottom="8dp"
+                android:contentDescription="@null"
+                android:src="@drawable/traffic_light_indicator" />
+
+            <ImageView
+                android:id="@+id/greenIndicator"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:contentDescription="@null"
+                android:src="@drawable/traffic_light_indicator" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_recording_buttons"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_padding_size_10"
+            android:layout_marginTop="@dimen/margin_padding_size_10"
+            android:background="@drawable/blue_rounded_16dp_background"
+            android:orientation="vertical"
+            android:paddingHorizontal="@dimen/margin_padding_size_8"
+            android:paddingVertical="@dimen/margin_padding_size_8"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnShowHideBar"
+                android:layout_width="@dimen/standard_touch_size"
+                android:layout_height="@dimen/standard_touch_size"
+                android:backgroundTint="@color/white"
+                android:gravity="center_vertical"
+                android:insetTop="@dimen/margin_padding_size_0"
+                android:insetBottom="@dimen/margin_padding_size_0"
+                android:paddingTop="0dp"
+                app:icon="@drawable/ic_menu"
+                app:iconGravity="top"
+                app:iconPadding="@dimen/margin_padding_size_0"
+                app:iconSize="@dimen/standard_touch_size"
+                app:iconTint="@null" />
+
+            <LinearLayout
+                android:id="@+id/llExpandedBar"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:orientation="vertical">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnStart"
+                    android:layout_width="@dimen/standard_touch_size"
+                    android:layout_height="@dimen/standard_touch_size"
+                    android:layout_marginTop="@dimen/margin_padding_size_6"
+                    android:layout_marginBottom="@dimen/margin_padding_size_6"
+                    android:backgroundTint="@color/white"
+                    android:gravity="start|center_vertical"
+                    android:insetTop="@dimen/margin_padding_size_0"
+                    android:insetBottom="@dimen/margin_padding_size_0"
+                    android:paddingTop="0dp"
+                    app:icon="@drawable/ic_circle_start_recording"
+                    app:iconGravity="top"
+                    app:iconSize="@dimen/standard_touch_size"
+                    app:iconTint="@null" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnPause"
+                    android:layout_width="@dimen/standard_touch_size"
+                    android:layout_height="@dimen/standard_touch_size"
+                    android:layout_marginTop="@dimen/margin_padding_size_6"
+                    android:layout_marginBottom="@dimen/margin_padding_size_6"
+                    android:backgroundTint="@color/white"
+                    android:gravity="start|center_vertical"
+                    android:insetTop="@dimen/margin_padding_size_0"
+                    android:insetBottom="@dimen/margin_padding_size_0"
+                    android:paddingTop="0dp"
+                    android:visibility="gone"
+                    app:icon="@drawable/ic_pause"
+                    app:iconGravity="top"
+                    app:iconSize="@dimen/standard_touch_size"
+                    app:iconTint="@null" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnResume"
+                    android:layout_width="@dimen/standard_touch_size"
+                    android:layout_height="@dimen/standard_touch_size"
+                    android:layout_marginTop="@dimen/margin_padding_size_6"
+                    android:layout_marginBottom="@dimen/margin_padding_size_6"
+                    android:backgroundTint="@color/white"
+                    android:gravity="start|center_vertical"
+                    android:insetTop="@dimen/margin_padding_size_0"
+                    android:insetBottom="@dimen/margin_padding_size_0"
+                    android:paddingTop="0dp"
+                    android:visibility="gone"
+                    app:icon="@drawable/ic_start"
+                    app:iconGravity="top"
+                    app:iconSize="@dimen/standard_touch_size"
+                    app:iconTint="@null" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnStop"
+                    android:layout_width="@dimen/standard_touch_size"
+                    android:layout_height="@dimen/standard_touch_size"
+                    android:layout_marginBottom="@dimen/margin_padding_size_6"
+                    android:backgroundTint="@color/white"
+                    android:gravity="start|center_vertical"
+                    android:insetTop="@dimen/margin_padding_size_0"
+                    android:insetBottom="@dimen/margin_padding_size_0"
+                    android:paddingTop="0dp"
+                    android:visibility="gone"
+                    app:icon="@drawable/ic_stop"
+                    app:iconGravity="top"
+                    app:iconSize="@dimen/standard_touch_size"
+                    app:iconTint="@null" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnDelete"
+                    android:layout_width="@dimen/standard_touch_size"
+                    android:layout_height="@dimen/standard_touch_size"
+                    android:backgroundTint="@color/white"
+                    android:gravity="start|center_vertical"
+                    android:insetTop="@dimen/margin_padding_size_0"
+                    android:insetBottom="@dimen/margin_padding_size_0"
+                    android:paddingTop="0dp"
+                    android:visibility="gone"
+                    app:icon="@drawable/ic_delete"
+                    app:iconGravity="top"
+                    app:iconSize="@dimen/standard_touch_size"
+                    app:iconTint="@null" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <FrameLayout
+            android:id="@+id/flCreateMarkerLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/black20"
+            android:visibility="gone">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginHorizontal="@dimen/margin_padding_size_18"
+                android:background="@drawable/white_rounded_16dp_background"
+                android:orientation="vertical">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/tilMarkerName"
+                    style="@style/PrimaryTextInputLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/margin_padding_size_46"
+                    android:layout_marginTop="@dimen/margin_padding_size_8"
+                    android:hint="@string/marker_name"
+                    app:boxStrokeErrorColor="@color/red"
+                    app:boxStrokeWidth="1dp"
+                    app:endIconMode="custom"
+                    app:errorEnabled="false"
+                    app:errorIconDrawable="@null"
+                    app:expandedHintEnabled="false"
+                    app:hintAnimationEnabled="false"
+                    app:hintEnabled="true"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/loginLabel">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etMarkerName"
+                        style="@style/PrimaryTextInputEditText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:imeOptions="actionNext"
+                        android:includeFontPadding="false"
+                        android:inputType="textEmailAddress"
+                        android:maxLength="255" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/margin_padding_size_20"
+                    android:orientation="horizontal"
+                    android:weightSum="2">
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnSave"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/standard_touch_size"
+                        android:layout_marginTop="@dimen/margin_padding_size_10"
+                        android:layout_marginEnd="@dimen/margin_padding_size_6"
+                        android:layout_marginBottom="@dimen/margin_padding_size_10"
+                        android:layout_weight="1"
+                        android:backgroundTint="@color/black"
+                        android:insetTop="@dimen/margin_padding_size_0"
+                        android:insetBottom="@dimen/margin_padding_size_0"
+                        android:text="@string/save_poi"
+                        android:textSize="@dimen/text_size_12"
+                        android:textStyle="bold"
+                        app:cornerRadius="20dp"
+                        app:icon="@drawable/ic_save_small"
+                        app:iconGravity="textStart"
+                        app:iconTint="@null"
+                        app:layout_constraintEnd_toEndOf="@+id/tilPassword"
+                        app:layout_constraintTop_toBottomOf="@id/tilPassword" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnCancel"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/standard_touch_size"
+                        android:layout_marginStart="@dimen/margin_padding_size_6"
+                        android:layout_marginTop="@dimen/margin_padding_size_10"
+                        android:layout_weight="1"
+                        android:backgroundTint="@color/black"
+                        android:insetTop="@dimen/margin_padding_size_0"
+                        android:insetBottom="@dimen/margin_padding_size_0"
+                        android:text="@string/cancel_poi"
+                        android:textSize="@dimen/text_size_12"
+                        android:textStyle="bold"
+                        app:cornerRadius="20dp"
+                        app:icon="@drawable/ic_cancel_small"
+                        app:iconGravity="textStart"
+                        app:iconTint="@null"
+                        app:layout_constraintEnd_toEndOf="@+id/tilPassword"
+                        app:layout_constraintTop_toBottomOf="@id/tilPassword" />
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+        </FrameLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnCenterLocation"
+            android:layout_width="@dimen/standard_touch_size"
+            android:layout_height="@dimen/standard_touch_size"
+            android:layout_marginEnd="@dimen/margin_padding_size_12"
+            android:layout_marginBottom="@dimen/margin_padding_size_12"
+            android:backgroundTint="@color/white"
+            android:gravity="center_vertical"
+            android:insetTop="@dimen/margin_padding_size_0"
+            android:insetBottom="@dimen/margin_padding_size_0"
+            android:paddingTop="0dp"
+            app:icon="@drawable/ic_center_location"
+            app:iconGravity="top"
+            app:iconPadding="@dimen/margin_padding_size_0"
+            app:iconSize="@dimen/standard_touch_size"
+            app:iconTint="@null"
+            app:layout_constraintBottom_toTopOf="@id/hudView"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <ImageButton
+            android:id="@+id/button_maximize"
+            android:layout_width="@dimen/standard_touch_size"
+            android:layout_height="@dimen/standard_touch_size"
+            android:backgroundTint="#00FFFFFF"
+            android:scaleType="centerCrop"
+            app:layout_constraintEnd_toEndOf="@+id/hudView"
+            app:layout_constraintTop_toTopOf="@+id/hudView"
+            app:srcCompat="@drawable/ic_maximize_100" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>
