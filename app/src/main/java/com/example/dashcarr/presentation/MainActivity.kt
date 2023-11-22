@@ -81,7 +81,7 @@ class MainActivity : AppCompatActivity() {
         // Define colors associated with each icon
         val iconColors = intArrayOf(
             ContextCompat.getColor(this, R.color.ride_button), // selected state: blue
-            ContextCompat.getColor(this, R.color.primary_color)  // normal state: gray
+            ContextCompat.getColor(this, R.color.icon_color)  // normal state: gray
         )
 
         // Define text colors

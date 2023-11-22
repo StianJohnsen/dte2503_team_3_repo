@@ -18,8 +18,9 @@
         android:layout_width="0dp"
         android:layout_height="@dimen/standard_touch_size"
         android:gravity="center_vertical"
-        android:textSize="@dimen/text_size_16"
         android:paddingHorizontal="@dimen/margin_padding_size_4"
+        android:textColor="@color/text_color"
+        android:textSize="@dimen/text_size_16"
         app:layout_constraintBottom_toBottomOf="@+id/btnRename"
         app:layout_constraintEnd_toStartOf="@+id/btnRename"
         app:layout_constraintStart_toEndOf="@+id/point_image" />

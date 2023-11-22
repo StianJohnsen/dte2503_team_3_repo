@@ -7,12 +7,19 @@
 
     <!--General-->
     <color name="button_color">#FF3E4291</color>
+    <color name="icon_color">#66718F</color>
 
-    <color name="header_color">#FFCFCFCF</color>
-    <color name="text_color">#C5CEE7</color>
+    <color name="text_field_color">#66718F</color>
+
+    <color name="header_color">#E3E3E3</color>
+    <color name="text_color">#C2C8DA</color>
 
     <color name="primary_color">#FF0F121A</color>
     <color name="secondary_color">#FF292F45</color>
+
+    <!--login-->
+    <color name="error_color">#B12A28</color>
+    <color name="mtrl_textinput_default_box_stroke_color">#FF66718F</color>
 
     <!--MainFragment-->
     <color name="image_shade">#22292F45</color>
