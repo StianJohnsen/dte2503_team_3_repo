@@ -6,10 +6,6 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.content.pm.ActivityInfo
-import android.hardware.Sensor
-import android.hardware.SensorEvent
-import android.hardware.SensorEventListener
-import android.hardware.SensorManager
 import android.icu.util.Calendar
 import android.location.Location
 import android.location.LocationListener
@@ -65,13 +61,11 @@ import java.time.LocalDateTime
 @AndroidEntryPoint
 class MapFragment : BaseFragment<FragmentMapBinding>(
     FragmentMapBinding::inflate, null
-), LocationListener, MapEventsReceiver, SensorEventListener {
-    FragmentMapBinding::inflate,
-    showBottomNavBar = true
 ), LocationListener, MapEventsReceiver {
 
     private val mapViewModel: MapViewModel by viewModels()
-    private val recordingViewModel: RecordingViewModel by viewModels()
+
+    //private val recordingViewModel: RecordingViewModel by viewModels()
     private val sensorRecordingViewModel by lazy {
         ViewModelProvider(this)[SensorRecordingViewModel::class.java]
     }
@@ -97,6 +91,8 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
     private var elapsedTime = ""
 
     private var isRecordingLocation = false
+
+    private var isRecording = false
 
     /**
      * Observes the ViewModel's LiveData and updates the UI accordingly.
@@ -128,11 +124,15 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
             }
         }
 
+
         viewLifecycleOwner.lifecycleScope.launch {
-            recordingViewModel.elapsedTime.collect {
+            sensorRecordingViewModel.recordViewModel.elapsedTime.collect {
+                Log.d("timer", it)
                 elapsedTime = it
             }
         }
+
+
         viewLifecycleOwner.lifecycleScope.launch {
             sensorRecordingViewModel.rpmLiveData.isBtnStopShowing.collect {
                 binding.btnStop.visibility = it
@@ -158,7 +158,6 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
         viewLifecycleOwner.lifecycleScope.launch {
             sensorRecordingViewModel.rpmLiveData.isRecording.collect {
                 isRecordingLocation = it
-                Log.d("monster", it.toString())
             }
         }
         viewLifecycleOwner.lifecycleScope.launch {
@@ -166,6 +165,15 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
                 binding.btnStart.visibility = it
             }
         }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            sensorRecordingViewModel.rpmLiveData.isRecording.collect {
+                isRecording = it
+                Log.d("stian", it.toString())
+            }
+        }
+
+
     }
 
     /**
@@ -233,13 +241,13 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
         // sets visibility and functionality for recording buttons
         binding.apply {
             btnStart.setOnClickListener {
-                startRecording()
                 viewLifecycleOwner.lifecycleScope.launch {
                     sensorRecordingViewModel.rpmLiveData.setIsRecordingButtonsShowing("Start", false)
                     sensorRecordingViewModel.rpmLiveData.setIsRecordingButtonsShowing("Stop", true)
                     sensorRecordingViewModel.rpmLiveData.setIsRecordingButtonsShowing("Pause", true)
                     sensorRecordingViewModel.rpmLiveData.setIsRecordingButtonsShowing("Delete", true)
                 }
+                startRecording()
 
 
             }
@@ -252,6 +260,7 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
                     sensorRecordingViewModel.rpmLiveData.setIsRecordingButtonsShowing("Delete", false)
                     sensorRecordingViewModel.rpmLiveData.setIsRecordingButtonsShowing("Resume", false)
                 }
+                findNavController().navigate(R.id.action_action_map_to_action_history)
 
 
             }
@@ -281,6 +290,7 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
                     sensorRecordingViewModel.rpmLiveData.setIsRecordingButtonsShowing("Start", true)
                     sensorRecordingViewModel.rpmLiveData.setIsRecordingButtonsShowing("Resume", false)
                 }
+                findNavController().navigate(R.id.action_action_map_to_action_history)
 
 
             }
@@ -293,31 +303,6 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
                 .commit()
 
             binding.apply {
-                btnStart.setOnClickListener {
-                    startRecording()
-                    it.visibility = View.GONE
-                    btnStop.visibility = View.VISIBLE
-                    btnPause.visibility = View.VISIBLE
-                    btnDelete.visibility = View.VISIBLE
-                }
-                btnStop.setOnClickListener {
-                    stopRecording()
-                    findNavController().navigate(R.id.action_action_map_to_action_history)
-                }
-                btnPause.setOnClickListener {
-                    pauseRecording()
-                    it.visibility = View.GONE
-                    btnResume.visibility = View.VISIBLE
-                }
-                btnResume.setOnClickListener {
-                    resumeRecording()
-                    it.visibility = View.GONE
-                    btnPause.visibility = View.VISIBLE
-                }
-                btnDelete.setOnClickListener {
-                    deleteRecording()
-                    findNavController().navigate(R.id.action_action_map_to_action_history)
-                }
                 btnDashcam.setOnClickListener {
                     if (!DashcamFragment.exists()) {
                         val transaction = parentFragmentManager.beginTransaction()
@@ -332,10 +317,13 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
                     findNavController().navigate(R.id.action_action_map_to_action_security_camera)
                 }
             }
-            accelSensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)
-            gyroSensor = sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE)
-            magnetoSensor = sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD)
+
+
+
+
             binding.btnStart.callOnClick()
+
+
         } else {
             binding.llSideButtons.visibility = View.GONE
             binding.llRecordingButtons.visibility = View.GONE
@@ -352,16 +340,6 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
     override fun onResume() {
         super.onResume()
         sensorRecordingViewModel.rpmLiveData.registerSensors()
-
-        val sensorSamplingRate: Int = if (PowerSavingMode.getPowerMode()) {
-            SensorManager.SENSOR_DELAY_NORMAL
-        } else {
-            SensorManager.SENSOR_DELAY_FASTEST
-        }
-
-        Log.d(this::class.simpleName, sensorSamplingRate.toString())
-
-
     }
 
     override fun onPause() {
@@ -375,19 +353,22 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
 
 
     private fun startRecording() {
-        recordingViewModel.startRecording()
+        viewLifecycleOwner.lifecycleScope.launch {
+            sensorRecordingViewModel.recordViewModel.startRecording()
+        }
         viewLifecycleOwner.lifecycleScope.launch {
             sensorRecordingViewModel.rpmLiveData.setIsRecording(true)
-
         }
         Toast.makeText(context, "Recording Started", Toast.LENGTH_SHORT).show()
     }
 
     private fun stopRecording() {
-        recordingViewModel.stopRecording()
+        //recordingViewModel.stopRecording()
+        viewLifecycleOwner.lifecycleScope.launch {
+            sensorRecordingViewModel.recordViewModel.stopRecording()
+        }
         viewLifecycleOwner.lifecycleScope.launch {
             sensorRecordingViewModel.rpmLiveData.setIsRecording(false)
-
         }
         saveToCSV()
     }
@@ -452,7 +433,8 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
         // Location
         viewLifecycleOwner.lifecycleScope.launch {
             sensorRecordingViewModel.rpmLiveData.unfilteredLocationList.collect {
-                currentSensorStringObject = sensorRecordingViewModel.rpmLiveData.buildSensorStringBuilder(it)
+                currentSensorStringObject =
+                    sensorRecordingViewModel.rpmLiveData.buildSensorStringBuilder(it)
 
             }
         }
@@ -475,7 +457,8 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
 
         viewLifecycleOwner.lifecycleScope.launch {
             sensorRecordingViewModel.rpmLiveData.filteredAccelerometerList.collect {
-                currentSensorStringObject = sensorRecordingViewModel.rpmLiveData.buildSensorStringBuilder(it)
+                currentSensorStringObject =
+                    sensorRecordingViewModel.rpmLiveData.buildSensorStringBuilder(it)
             }
         }
         viewLifecycleOwner.lifecycleScope.launch {
@@ -492,7 +475,8 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
 
         viewLifecycleOwner.lifecycleScope.launch {
             sensorRecordingViewModel.rpmLiveData.unfilteredAccelerometerList.collect {
-                currentSensorStringObject = sensorRecordingViewModel.rpmLiveData.buildSensorStringBuilder(it)
+                currentSensorStringObject =
+                    sensorRecordingViewModel.rpmLiveData.buildSensorStringBuilder(it)
             }
         }
         viewLifecycleOwner.lifecycleScope.launch {
@@ -511,7 +495,8 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
 
         viewLifecycleOwner.lifecycleScope.launch {
             sensorRecordingViewModel.rpmLiveData.filteredGyroScopeList.collect {
-                currentSensorStringObject = sensorRecordingViewModel.rpmLiveData.buildSensorStringBuilder(it)
+                currentSensorStringObject =
+                    sensorRecordingViewModel.rpmLiveData.buildSensorStringBuilder(it)
             }
         }
         viewLifecycleOwner.lifecycleScope.launch {
@@ -528,7 +513,8 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
 
         viewLifecycleOwner.lifecycleScope.launch {
             sensorRecordingViewModel.rpmLiveData.unfilteredGyroscopeList.collect {
-                currentSensorStringObject = sensorRecordingViewModel.rpmLiveData.buildSensorStringBuilder(it)
+                currentSensorStringObject =
+                    sensorRecordingViewModel.rpmLiveData.buildSensorStringBuilder(it)
             }
         }
         viewLifecycleOwner.lifecycleScope.launch {
@@ -556,17 +542,22 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
     }
 
     private fun pauseRecording() {
-        recordingViewModel.pauseRecording()
+        //recordingViewModel.pauseRecording()
+        viewLifecycleOwner.lifecycleScope.launch {
+            sensorRecordingViewModel.recordViewModel.pauseRecording()
+        }
         viewLifecycleOwner.lifecycleScope.launch {
             sensorRecordingViewModel.rpmLiveData.setIsRecording(false)
-
         }
         Toast.makeText(context, "Recording Paused", Toast.LENGTH_SHORT).show()
 
     }
 
     private fun resumeRecording() {
-        recordingViewModel.resumeRecording()
+        //recordingViewModel.resumeRecording()
+        viewLifecycleOwner.lifecycleScope.launch {
+            sensorRecordingViewModel.recordViewModel.resumeRecording()
+        }
         viewLifecycleOwner.lifecycleScope.launch {
             sensorRecordingViewModel.rpmLiveData.setIsRecording(true)
 
@@ -576,7 +567,10 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
     }
 
     private fun deleteRecording() {
-        recordingViewModel.stopRecording()
+        //recordingViewModel.stopRecording()
+        viewLifecycleOwner.lifecycleScope.launch {
+            sensorRecordingViewModel.recordViewModel.stopRecording()
+        }
         viewLifecycleOwner.lifecycleScope.launch {
             sensorRecordingViewModel.rpmLiveData.setIsRecording(false)
 
@@ -645,9 +639,6 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
 
     override fun onDestroy() {
         super.onDestroy()
-        if (isRecording) {
-            stopRecording()
-        }
     }
 
     override fun singleTapConfirmedHelper(geoPoint: GeoPoint?): Boolean {

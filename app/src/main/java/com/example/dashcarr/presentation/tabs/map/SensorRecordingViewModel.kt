@@ -28,8 +28,10 @@ import java.time.format.DateTimeFormatter
 class SensorRecordingViewModel(application: Application) : AndroidViewModel(application) {
 
     val rpmLiveData = RPMLiveData()
+    val recordViewModel = RecordingViewModel()
 
     inner class RPMLiveData : SensorEventListener {
+
         private val sensorManager
             get() = getApplication<Application>().getSystemService(Context.SENSOR_SERVICE) as SensorManager
 
