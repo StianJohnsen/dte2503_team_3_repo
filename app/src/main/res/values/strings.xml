@@ -148,6 +148,11 @@
     <string name="message_deleted_successfully">Message deleted successfully</string>
     <string name="unknown_user">Unknown user</string>
     <string name="to_whom_message">To:</string>
+    <string name="developers">Developers</string>
+    <string name="stian_ellingsen_johnsen">Stian Ellingsen Johnsen</string>
+    <string name="yves_simon_zeulner">Yves-Simon Zeulner</string>
+    <string name="quentin_michel_st_phane_regnie">Quentin Michel Stéphane Regnie</string>
+    <string name="yevhen_verkhalantsev">Yevhen Verkhalantsev</string>
 
     <!--QuickMessageFragment-->
     <string name="message_list">Messages</string>
