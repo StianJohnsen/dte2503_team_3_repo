@@ -155,10 +155,6 @@
             app:exitAnim="@anim/up_to_down"
             app:popEnterAnim="@anim/pop_y_enter"
             app:popExitAnim="@anim/pop_y_exit" />
-        android:id="@+id/action_loginFragment_to_action_map"
-        app:destination="@id/action_map"
-        app:popUpTo="@id/nav_graph"
-        app:popUpToInclusive="true" />
     </fragment>
 
     <fragment
@@ -181,7 +177,6 @@
         android:id="@+id/animationSampleFragment"
         android:name="com.example.dashcarr.presentation.tabs.settings.about_app.AboutAppFragment"
         android:label="fragment_animation_sample"
-        tools:layout="@layout/fragment_about_app">
         tools:layout="@layout/fragment_about_app">
         <action
             android:id="@+id/action_animationSampleFragment_to_action_settings"
