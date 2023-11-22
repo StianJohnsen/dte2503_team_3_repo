@@ -17,14 +17,14 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_padding_size_10"
         android:text="@string/add_message"
+        android:textColor="@color/header_color"
+        android:textSize="@dimen/header"
+        android:textStyle="bold"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="@dimen/margin_padding_size_10"
-        android:textColor="@color/secondary_color"
-        android:textSize="@dimen/header"
-        android:textStyle="bold" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <LinearLayout
         android:layout_marginStart="@dimen/margin_padding_size_10"
@@ -42,9 +42,12 @@
             android:id="@+id/add_message_input_field"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:hint="@string/message"
             android:inputType="textCapSentences|textAutoCorrect"
-            android:layout_gravity="center" />
+            android:textColor="@color/text_color"
+            android:textColorHint="@color/text_color"
+            android:textColorLink="@color/button_color" />
 
 
     </LinearLayout>

@@ -87,6 +87,7 @@ class RecordingStatisticsFragment : BaseFragment<FragmentRecordingStatisticsBind
 
         // Customize the pie Chart
         val pieChart: PieChart = view.findViewById(R.id.pieChart_stats)
+        pieChart.setHoleColor(android.R.color.transparent)
         val dataSet = PieDataSet(entries, "Categories")
 
         dataSet.valueTextSize = 16f

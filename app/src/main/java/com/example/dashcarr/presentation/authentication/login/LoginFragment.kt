@@ -37,14 +37,14 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(
         val response = it.idpResponse
         when (it.resultCode) {
             Activity.RESULT_OK -> {
-                if (response == null) {
-                } else {
+                if (response != null) {
                     if (response.user.providerId.lowercase().contains("facebook")) {
                         saveCredentialsToFirebase(response.idpToken)
                     } else findNavController().navigate(R.id.action_loginFragment_to_productFrontPage)
                 }
             }
-            else -> if (response != null) {
+
+            else -> {
             }
         }
     }
@@ -127,9 +127,11 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(
             val password = binding.etPassword.text.toString()
 
             if (email.isEmpty() || password.isEmpty()) {
-                Toast.makeText(requireContext(),
+                Toast.makeText(
+                    requireContext(),
                     getString(R.string.error_enter_both_email_and_password),
-                    Toast.LENGTH_SHORT).show()
+                    Toast.LENGTH_SHORT
+                ).show()
             } else {
                 viewModel.signIn(email, password)
             }

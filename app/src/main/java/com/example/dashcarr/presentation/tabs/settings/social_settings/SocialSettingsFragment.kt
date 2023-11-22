@@ -103,6 +103,7 @@ class SocialSettingsFragment : BaseFragment<FragmentSocialSettingsBinding>(
                     }
 
                     setBackgroundResource(R.color.secondary_color)
+                    setTextColor(ContextCompat.getColor(requireContext(), R.color.text_color))
 
                     setCompoundDrawablesWithIntrinsicBounds(null, null, drawableRight, null)
                     compoundDrawablePadding = 10
