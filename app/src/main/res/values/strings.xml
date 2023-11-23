@@ -24,7 +24,6 @@
     <string name="total_distance">Total distance:</string>
     <string name="average_speed">Average speed:</string>
 
-
     <!--Error-->
 
     <string name="error_invalid_email">Invalid Email</string>
@@ -142,6 +141,7 @@
     <string name="message">Message</string>
     <string name="add_message_capitalized">ADD MESSAGE</string>
     <string name="send_message">Send message</string>
+    <string name="change_tiles">Change Map Tile</string>
 
     <!--SocialSettingsFragment-->
     <string name="sent_messages">Sent Messages</string>

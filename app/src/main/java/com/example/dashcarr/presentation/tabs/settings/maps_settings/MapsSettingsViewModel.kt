@@ -1,5 +1,7 @@
 package com.example.dashcarr.presentation.tabs.settings.maps_settings
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.dashcarr.data.repository.PointsOfInterestRepository
@@ -22,7 +24,7 @@ class MapsSettingsViewModel @Inject constructor(
 
     // LiveData to observe points of interest
     val pointsOfInterest = pointsOfInterestRepository.getAllPointsLiveData()
-    private var currentPoint : PointOfInterestEntity? = null
+    private var currentPoint: PointOfInterestEntity? = null
 
     private val _showDeleteDialog = MutableSharedFlow<Boolean>()
     val showDeleteDialog = _showDeleteDialog.asSharedFlow()
@@ -37,6 +39,16 @@ class MapsSettingsViewModel @Inject constructor(
     val onRenamePointSuccess = _onRenamePointSuccess.asSharedFlow()
     private val _onRenamePointFailure = MutableSharedFlow<Throwable>()
     val onRenamePointFailure = _onRenamePointFailure.asSharedFlow()
+
+    private val tileSources = arrayOf(
+        "MAPNIK",
+        "USGS SAT",
+        "USGS TOPO"
+    )
+    private var currentTileIndex = 0
+
+    private val _currentTileName = MutableLiveData<String>()
+    val currentTileName: LiveData<String> = _currentTileName
 
     /**
      * Function to rename a point of interest.
@@ -117,6 +129,16 @@ class MapsSettingsViewModel @Inject constructor(
         viewModelScope.launch {
             _showRenameDialog.emit(false)
         }
+    }
+
+    init {
+        // Initialise avec le nom de la source de tuile actuelle
+        _currentTileName.value = tileSources[currentTileIndex]
+    }
+
+    fun nextTileName() {
+        currentTileIndex = (currentTileIndex + 1) % tileSources.size
+        _currentTileName.value = tileSources[currentTileIndex]
     }
 
 }

@@ -25,8 +25,8 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class MapsSettingsFragment : BaseFragment<FragmentMapsSettingsBinding>(
     FragmentMapsSettingsBinding::inflate,
-    showBottomNavBar = false ), PointOfInterestRecyclerAdapter.OnPointClickListener
-{
+    showBottomNavBar = false
+), PointOfInterestRecyclerAdapter.OnPointClickListener {
 
     private val viewModel: MapsSettingsViewModel by viewModels()
     private val pointsAdapter by lazy {
@@ -127,5 +127,17 @@ class MapsSettingsFragment : BaseFragment<FragmentMapsSettingsBinding>(
         viewModel.showRenameDialog(point)
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        viewModel.currentTileName.observe(this) { tileName ->
+            val txt = "Current Tile: $tileName"
+            binding.txtTile.text = txt
+        }
+
+        binding.buttonChangeTile.setOnClickListener {
+            viewModel.nextTileName()
+        }
+    }
 
 }
