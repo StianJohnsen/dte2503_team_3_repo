@@ -1,16 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/primary_color">
+        android:background="@color/mainBlue">
 
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/primary_color">
+            android:background="@color/mainBlue"
+            tools:layout_editor_absoluteX="16dp"
+            tools:layout_editor_absoluteY="0dp">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -20,8 +23,6 @@
                     android:id="@+id/btnBackToSettings"
                     android:layout_width="@dimen/standard_touch_size"
                     android:layout_height="@dimen/standard_touch_size"
-                    android:layout_marginStart="@dimen/margin_padding_size_10"
-                    android:layout_marginTop="@dimen/margin_padding_size_10"
                     android:src="@drawable/baseline_arrow_back_24"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -30,11 +31,10 @@
                     android:id="@+id/text_statistics"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_padding_size_10"
                     android:text="@string/maps_settings"
                     android:textAlignment="center"
-                    android:textColor="@color/header_color"
-                    android:textSize="@dimen/header"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_size_34"
                     android:textStyle="bold"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -48,7 +48,7 @@
                     android:layout_marginTop="@dimen/margin_padding_size_8"
                     android:paddingHorizontal="@dimen/margin_padding_size_12"
                     android:text="@string/points_of_interest"
-                    android:textColor="@color/header_color"
+                    android:textColor="@color/white"
                     android:textSize="@dimen/text_size_16"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/btnBackToSettings" />
@@ -79,7 +79,39 @@
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
+                <Button
+                    android:id="@+id/button_change_tile"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
 
+                    android:layout_marginTop="50dp"
+                    android:backgroundTint="@color/blue"
+                    android:text="@string/change_tiles"
+                    android:textColor="@color/white"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="@+id/clContainer"
+                    app:layout_constraintTop_toBottomOf="@+id/clContainer"
+                    app:layout_constraintVertical_bias="1.0">
+
+                </Button>
+
+                <TextView
+                    android:id="@+id/txt_tile"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:backgroundTint="@color/blue"
+                    android:text="@string/incoming"
+                    android:textColor="@color/white"
+                    app:layout_constraintBottom_toBottomOf="@+id/button_change_tile"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.095"
+                    app:layout_constraintStart_toEndOf="@+id/button_change_tile"
+                    app:layout_constraintTop_toTopOf="@+id/button_change_tile">
+
+                </TextView>
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </ScrollView>
@@ -88,7 +120,7 @@
             android:id="@+id/flEditMarkerLayout"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:background="@color/transparent_25"
+            android:background="@color/black20"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -109,7 +141,7 @@
                     android:layout_marginHorizontal="@dimen/margin_padding_size_46"
                     android:layout_marginTop="@dimen/margin_padding_size_8"
                     android:hint="@string/marker_name"
-                    app:boxStrokeErrorColor="@color/error_color"
+                    app:boxStrokeErrorColor="@color/red"
                     app:boxStrokeWidth="1dp"
                     app:endIconMode="custom"
                     app:errorEnabled="false"
@@ -148,7 +180,7 @@
                         android:layout_marginEnd="@dimen/margin_padding_size_6"
                         android:layout_marginBottom="@dimen/margin_padding_size_10"
                         android:layout_weight="1"
-                        android:backgroundTint="@color/button_color"
+                        android:backgroundTint="@color/black"
                         android:insetTop="@dimen/margin_padding_size_0"
                         android:insetBottom="@dimen/margin_padding_size_0"
                         android:text="@string/update_poi"
@@ -168,7 +200,7 @@
                         android:layout_marginStart="@dimen/margin_padding_size_6"
                         android:layout_marginTop="@dimen/margin_padding_size_10"
                         android:layout_weight="1"
-                        android:backgroundTint="@color/button_color"
+                        android:backgroundTint="@color/black"
                         android:insetTop="@dimen/margin_padding_size_0"
                         android:insetBottom="@dimen/margin_padding_size_0"
                         android:text="@string/cancel_poi"
@@ -192,7 +224,7 @@
             android:id="@+id/flDeleteMarkerLayout"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:background="@color/transparent_25"
+            android:background="@color/black20"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -220,7 +252,7 @@
                         android:layout_marginEnd="@dimen/margin_padding_size_6"
                         android:layout_marginBottom="@dimen/margin_padding_size_10"
                         android:layout_weight="1"
-                        android:backgroundTint="@color/button_color"
+                        android:backgroundTint="@color/black"
                         android:insetTop="@dimen/margin_padding_size_0"
                         android:insetBottom="@dimen/margin_padding_size_0"
                         android:text="@string/delete_poi"
@@ -240,7 +272,7 @@
                         android:layout_marginStart="@dimen/margin_padding_size_6"
                         android:layout_marginTop="@dimen/margin_padding_size_10"
                         android:layout_weight="1"
-                        android:backgroundTint="@color/button_color"
+                        android:backgroundTint="@color/black"
                         android:insetTop="@dimen/margin_padding_size_0"
                         android:insetBottom="@dimen/margin_padding_size_0"
                         android:text="@string/cancel_poi"
