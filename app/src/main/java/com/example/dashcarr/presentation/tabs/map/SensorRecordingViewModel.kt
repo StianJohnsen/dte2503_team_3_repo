@@ -27,10 +27,153 @@ import java.time.format.DateTimeFormatter
 
 class SensorRecordingViewModel(application: Application) : AndroidViewModel(application) {
 
-    val rpmLiveData = RPMLiveData()
-    val recordViewModel = RecordingViewModel()
+    val sensorRecording = SensorRecording()
+    val timerController = TimerController()
 
-    inner class RPMLiveData : SensorEventListener {
+    fun startRecording() {
+        viewModelScope.launch {
+            timerController.startRecording()
+        }
+        viewModelScope.launch {
+            sensorRecording.setIsRecording(true)
+        }
+
+    }
+
+    fun stopRecording(context: Context) {
+        val currentTime = LocalDateTime.now()
+        viewModelScope.launch {
+            timerController.stopRecording()
+        }
+        viewModelScope.launch {
+            sensorRecording.setIsRecording(false)
+        }
+        viewModelScope.launch {
+            val startJSONObject = makeStartJsonObject(currentTime)
+            val currentSessionJsonObject = makeJsonObject(currentTime, startJSONObject)
+            val existingJsonArray = sensorRecording.readJsonFromFile(context)
+            sensorRecording.writeToJsonFile(context, existingJsonArray, currentSessionJsonObject)
+        }
+
+        viewModelScope.launch {
+            val unfilteredGPSStringBuilder =
+                sensorRecording.buildSensorStringBuilder(sensorRecording.unfilteredLocationList.value)
+            sensorRecording.saveToFile(context, unfilteredGPSStringBuilder, "unfiltered", "GPS", currentTime)
+        }
+
+        viewModelScope.launch {
+            val unfilteredAccelerometerStringBuilder =
+                sensorRecording.buildSensorStringBuilder(sensorRecording.unfilteredAccelerometerList.value)
+            sensorRecording.saveToFile(
+                context,
+                unfilteredAccelerometerStringBuilder,
+                "unfiltered",
+                "accel",
+                currentTime
+            )
+        }
+
+        viewModelScope.launch {
+            val filteredAccelerometerStringBuilder =
+                sensorRecording.buildSensorStringBuilder(sensorRecording.filteredAccelerometerList.value)
+            sensorRecording.saveToFile(context, filteredAccelerometerStringBuilder, "filtered", "accel", currentTime)
+        }
+
+        viewModelScope.launch {
+            val unfilteredGyroscopeStringBuilder =
+                sensorRecording.buildSensorStringBuilder(sensorRecording.unfilteredGyroscopeList.value)
+            sensorRecording.saveToFile(context, unfilteredGyroscopeStringBuilder, "unfiltered", "gyro", currentTime)
+        }
+
+        viewModelScope.launch {
+            val filteredGyroscopeStringBuilder =
+                sensorRecording.buildSensorStringBuilder(sensorRecording.filteredGyroScopeList.value)
+            sensorRecording.saveToFile(context, filteredGyroscopeStringBuilder, "filtered", "gyro", currentTime)
+        }
+
+        viewModelScope.launch {
+            changeButtonWhenClickingStop()
+        }
+    }
+
+    fun makeStartJsonObject(localDateTime: LocalDateTime) =
+        sensorRecording.makeStartJsonObject(localDateTime, timerController.elapsedTime.value)
+
+    fun makeJsonObject(localDateTime: LocalDateTime, jsonObject: JSONObject) =
+        sensorRecording.makeJsonObject(localDateTime, jsonObject)
+
+    fun pauseRecording() {
+        viewModelScope.launch {
+            timerController.pauseRecording()
+        }
+        viewModelScope.launch {
+            sensorRecording.setIsRecording(false)
+        }
+        viewModelScope.launch {
+            sensorRecording.setIsPaused(true)
+        }
+        viewModelScope.launch {
+            changeButtonsWhenClickingPause()
+        }
+
+    }
+
+    suspend fun changeButtonsWhenClickingPause() {
+        sensorRecording.setIsRecordingButtonsShowing("Pause", false)
+        sensorRecording.setIsRecordingButtonsShowing("Resume", true)
+    }
+
+    suspend fun changeButtonsWhenClickingResume() {
+        sensorRecording.setIsRecordingButtonsShowing("Resume", false)
+        sensorRecording.setIsRecordingButtonsShowing("Pause", true)
+    }
+
+    suspend fun changeButtonWhenClickingStop() {
+        sensorRecording.setIsRecordingButtonsShowing("Stop", false)
+        sensorRecording.setIsRecordingButtonsShowing("Start", true)
+        sensorRecording.setIsRecordingButtonsShowing("Pause", false)
+        sensorRecording.setIsRecordingButtonsShowing("Delete", false)
+        sensorRecording.setIsRecordingButtonsShowing("Resume", false)
+    }
+
+    suspend fun changeButtonWhenClickingDelete() {
+
+        sensorRecording.setIsRecordingButtonsShowing("Delete", false)
+        sensorRecording.setIsRecordingButtonsShowing("Pause", false)
+        sensorRecording.setIsRecordingButtonsShowing("Stop", false)
+        sensorRecording.setIsRecordingButtonsShowing("Start", true)
+        sensorRecording.setIsRecordingButtonsShowing("Resume", false)
+
+    }
+
+    fun resumeRecording() {
+        viewModelScope.launch {
+            timerController.resumeRecording()
+        }
+        viewModelScope.launch {
+            sensorRecording.setIsRecording(true)
+        }
+        viewModelScope.launch {
+            sensorRecording.setIsPaused(false)
+        }
+        viewModelScope.launch {
+            changeButtonsWhenClickingResume()
+        }
+    }
+
+    fun deleteRecording() {
+        viewModelScope.launch {
+            timerController.stopRecording()
+        }
+        viewModelScope.launch {
+            sensorRecording.setIsRecording(false)
+        }
+        viewModelScope.launch {
+            changeButtonWhenClickingDelete()
+        }
+    }
+
+    inner class SensorRecording : SensorEventListener {
 
         private val sensorManager
             get() = getApplication<Application>().getSystemService(Context.SENSOR_SERVICE) as SensorManager
@@ -54,21 +197,23 @@ class SensorRecordingViewModel(application: Application) : AndroidViewModel(appl
         private val _isRecording = MutableStateFlow(false)
         val isRecording = _isRecording.asStateFlow()
 
+        private val _isPaused = MutableStateFlow(false)
+        val isPaused = _isPaused.asStateFlow()
+
         private val _stepNumber = MutableStateFlow(0)
 
-        private val _isBtnStartShowing = MutableStateFlow(0) // 0 == showing, 8 == not showing
-        val isBtnStartShowing = _isBtnStartShowing.asStateFlow()
+        private val _isBtnStartShowing = MutableStateFlow(8) // 0 == showing, 8 == not showing
 
-        private val _isBtnStopShowing = MutableStateFlow(8)
+        private val _isBtnStopShowing = MutableStateFlow(0)
         val isBtnStopShowing = _isBtnStopShowing.asStateFlow()
 
-        private val _isBtnPauseShowing = MutableStateFlow(8)
+        private val _isBtnPauseShowing = MutableStateFlow(0)
         val isBtnPauseShowing = _isBtnPauseShowing.asStateFlow()
 
         private val _isBtnResumeShowing = MutableStateFlow(8)
         val isBtnResumeShowing = _isBtnResumeShowing.asStateFlow()
 
-        private val _isBtnDeleteShowing = MutableStateFlow(8)
+        private val _isBtnDeleteShowing = MutableStateFlow(0)
         val isBtnDeleteShowing = _isBtnDeleteShowing.asStateFlow()
 
 
@@ -76,14 +221,18 @@ class SensorRecordingViewModel(application: Application) : AndroidViewModel(appl
             _isRecording.emit(isRecordingBoolean)
         }
 
-        fun makeStartJsonObject(elapsedTime: String): JSONObject {
+        suspend fun setIsPaused(isPausedBoolean: Boolean) {
+            _isPaused.emit(isPausedBoolean)
+        }
+
+        fun makeStartJsonObject(localDateTime: LocalDateTime, elapsedTime: String): JSONObject {
             val startJsonObject = JSONObject()
-            val stopDateTime = LocalDateTime.now()
+
             val formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm")
 
-            startJsonObject.put("name", "Recording from ${stopDateTime.format(formatter)}")
+            startJsonObject.put("name", "Recording from ${localDateTime.format(formatter)}")
             startJsonObject.put("elapsed_time", elapsedTime)
-            startJsonObject.put("date", stopDateTime)
+            startJsonObject.put("date", localDateTime)
 
             return startJsonObject
 
@@ -91,15 +240,29 @@ class SensorRecordingViewModel(application: Application) : AndroidViewModel(appl
 
         fun makeJsonObject(
             dateTime: LocalDateTime,
-            filtered: String,
-            sensor: String,
             jsonObject: JSONObject
         ): JSONObject {
             val formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy_HH-mm-ss")
 
             jsonObject.put(
-                "${filtered}_${sensor}",
-                "${dateTime.format(formatter)}_${filtered}tered_${sensor}.csv"
+                "unfil_GPS",
+                "${dateTime.format(formatter)}_unfiltered_GPS.csv"
+            )
+            jsonObject.put(
+                "unfil_accel",
+                "${dateTime.format(formatter)}_unfiltered_accel.csv"
+            )
+            jsonObject.put(
+                "fil_accel",
+                "${dateTime.format(formatter)}_filtered_accel.csv"
+            )
+            jsonObject.put(
+                "unfil_gyro",
+                "${dateTime.format(formatter)}_unfiltered_gyro.csv"
+            )
+            jsonObject.put(
+                "fil_gyro",
+                "${dateTime.format(formatter)}_filtered_gyro.csv"
             )
             return jsonObject
         }
@@ -119,7 +282,6 @@ class SensorRecordingViewModel(application: Application) : AndroidViewModel(appl
             }
         }
 
-        //fun readJsonFromFile()
 
         private fun addToUnfilteredSensorList(kindOfSensor: String, sensorEvent: SensorEvent) {
             if (kindOfSensor == "Accelerometer") {
@@ -287,13 +449,16 @@ class SensorRecordingViewModel(application: Application) : AndroidViewModel(appl
             }
         }
 
-        suspend fun writeToJsonFile(context: Context, currentJsonArray: JSONArray, newJsonObjects: JSONObject) {
+        fun writeToJsonFile(context: Context, currentJsonArray: JSONArray, newJsonObjects: JSONObject) {
             currentJsonArray.put(newJsonObjects)
-            withContext(Dispatchers.IO) {
-                context.openFileOutput("sensor_config.json", Context.MODE_PRIVATE).use {
-                    it?.write(currentJsonArray.toString().toByteArray())
+            viewModelScope.launch {
+                withContext(Dispatchers.IO) {
+                    context.openFileOutput("sensor_config.json", Context.MODE_PRIVATE).use {
+                        it?.write(currentJsonArray.toString().toByteArray())
+                    }
                 }
             }
+
         }
 
 

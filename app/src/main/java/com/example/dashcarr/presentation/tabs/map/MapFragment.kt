@@ -41,7 +41,6 @@ import com.example.dashcarr.presentation.tabs.map.data.PointOfInterest
 import com.example.dashcarr.presentation.tabs.settings.PowerSavingMode
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
-import org.json.JSONObject
 import org.osmdroid.config.Configuration
 import org.osmdroid.events.MapEventsReceiver
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory
@@ -50,7 +49,6 @@ import org.osmdroid.views.CustomZoomButtonsController
 import org.osmdroid.views.MapView
 import org.osmdroid.views.overlay.MapEventsOverlay
 import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay
-import java.time.LocalDateTime
 
 /**
  * Fragment representing the map screen in the application. This fragment includes the map view,
@@ -65,7 +63,7 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
 
     private val mapViewModel: MapViewModel by viewModels()
 
-    //private val recordingViewModel: RecordingViewModel by viewModels()
+
     private val sensorRecordingViewModel by lazy {
         ViewModelProvider(this)[SensorRecordingViewModel::class.java]
     }
@@ -86,13 +84,11 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
             createLocationRequest()
         }
     }
-
-
-    private var elapsedTime = ""
-
     private var isRecordingLocation = false
 
     private var isRecording = false
+
+    private var isPaused = false
 
     /**
      * Observes the ViewModel's LiveData and updates the UI accordingly.
@@ -123,53 +119,50 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
                 binding.llExpandedBar.setHeightSmooth(newHeight = if (show) -2 else 0)
             }
         }
-
-
         viewLifecycleOwner.lifecycleScope.launch {
-            sensorRecordingViewModel.recordViewModel.elapsedTime.collect {
-                Log.d("timer", it)
-                elapsedTime = it
+            sensorRecordingViewModel.timerController.isRecording.collect {
             }
         }
 
-
         viewLifecycleOwner.lifecycleScope.launch {
-            sensorRecordingViewModel.rpmLiveData.isBtnStopShowing.collect {
+            sensorRecordingViewModel.sensorRecording.isBtnStopShowing.collect {
                 binding.btnStop.visibility = it
             }
         }
+
         viewLifecycleOwner.lifecycleScope.launch {
-            sensorRecordingViewModel.rpmLiveData.isBtnPauseShowing.collect {
+            sensorRecordingViewModel.sensorRecording.isBtnPauseShowing.collect {
                 binding.btnPause.visibility = it
             }
         }
 
         viewLifecycleOwner.lifecycleScope.launch {
-            sensorRecordingViewModel.rpmLiveData.isBtnResumeShowing.collect {
+            sensorRecordingViewModel.sensorRecording.isBtnResumeShowing.collect {
                 binding.btnResume.visibility = it
+
             }
         }
         viewLifecycleOwner.lifecycleScope.launch {
-            sensorRecordingViewModel.rpmLiveData.isBtnDeleteShowing.collect {
+            sensorRecordingViewModel.sensorRecording.isBtnDeleteShowing.collect {
                 binding.btnDelete.visibility = it
             }
         }
 
         viewLifecycleOwner.lifecycleScope.launch {
-            sensorRecordingViewModel.rpmLiveData.isRecording.collect {
+            sensorRecordingViewModel.sensorRecording.isRecording.collect {
                 isRecordingLocation = it
-            }
-        }
-        viewLifecycleOwner.lifecycleScope.launch {
-            sensorRecordingViewModel.rpmLiveData.isBtnStartShowing.collect {
-                binding.btnStart.visibility = it
             }
         }
 
         viewLifecycleOwner.lifecycleScope.launch {
-            sensorRecordingViewModel.rpmLiveData.isRecording.collect {
+            sensorRecordingViewModel.sensorRecording.isRecording.collect {
                 isRecording = it
-                Log.d("stian", it.toString())
+            }
+        }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            sensorRecordingViewModel.sensorRecording.isPaused.collect {
+                isPaused = it
             }
         }
 
@@ -240,56 +233,21 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
 
         // sets visibility and functionality for recording buttons
         binding.apply {
-            btnStart.setOnClickListener {
-                viewLifecycleOwner.lifecycleScope.launch {
-                    sensorRecordingViewModel.rpmLiveData.setIsRecordingButtonsShowing("Start", false)
-                    sensorRecordingViewModel.rpmLiveData.setIsRecordingButtonsShowing("Stop", true)
-                    sensorRecordingViewModel.rpmLiveData.setIsRecordingButtonsShowing("Pause", true)
-                    sensorRecordingViewModel.rpmLiveData.setIsRecordingButtonsShowing("Delete", true)
-                }
-                startRecording()
 
-
-            }
             btnStop.setOnClickListener {
                 stopRecording()
-                viewLifecycleOwner.lifecycleScope.launch {
-                    sensorRecordingViewModel.rpmLiveData.setIsRecordingButtonsShowing("Stop", false)
-                    sensorRecordingViewModel.rpmLiveData.setIsRecordingButtonsShowing("Start", true)
-                    sensorRecordingViewModel.rpmLiveData.setIsRecordingButtonsShowing("Pause", false)
-                    sensorRecordingViewModel.rpmLiveData.setIsRecordingButtonsShowing("Delete", false)
-                    sensorRecordingViewModel.rpmLiveData.setIsRecordingButtonsShowing("Resume", false)
-                }
                 findNavController().navigate(R.id.action_action_map_to_action_history)
-
-
             }
             btnPause.setOnClickListener {
                 pauseRecording()
-                viewLifecycleOwner.lifecycleScope.launch {
-                    sensorRecordingViewModel.rpmLiveData.setIsRecordingButtonsShowing("Pause", false)
-                    sensorRecordingViewModel.rpmLiveData.setIsRecordingButtonsShowing("Resume", true)
-                }
-
-
             }
             btnResume.setOnClickListener {
                 resumeRecording()
-                viewLifecycleOwner.lifecycleScope.launch {
-                    sensorRecordingViewModel.rpmLiveData.setIsRecordingButtonsShowing("Resume", false)
-                    sensorRecordingViewModel.rpmLiveData.setIsRecordingButtonsShowing("Pause", true)
-                }
             }
 
             btnDelete.setOnClickListener {
                 deleteRecording()
-                viewLifecycleOwner.lifecycleScope.launch {
-                    sensorRecordingViewModel.rpmLiveData.setIsRecordingButtonsShowing("Delete", false)
-                    sensorRecordingViewModel.rpmLiveData.setIsRecordingButtonsShowing("Pause", false)
-                    sensorRecordingViewModel.rpmLiveData.setIsRecordingButtonsShowing("Stop", false)
-                    sensorRecordingViewModel.rpmLiveData.setIsRecordingButtonsShowing("Start", true)
-                    sensorRecordingViewModel.rpmLiveData.setIsRecordingButtonsShowing("Resume", false)
-                }
+
                 findNavController().navigate(R.id.action_action_map_to_action_history)
 
 
@@ -320,8 +278,9 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
 
 
 
-
-            binding.btnStart.callOnClick()
+            if (!isRecording && !isPaused) {
+                startRecording()
+            }
 
 
         } else {
@@ -339,12 +298,12 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
 
     override fun onResume() {
         super.onResume()
-        sensorRecordingViewModel.rpmLiveData.registerSensors()
+        sensorRecordingViewModel.sensorRecording.registerSensors()
     }
 
     override fun onPause() {
         super.onPause()
-        sensorRecordingViewModel.rpmLiveData.unregisterSensors()
+        sensorRecordingViewModel.sensorRecording.unregisterSensors()
     }
 
     /**
@@ -353,230 +312,29 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
 
 
     private fun startRecording() {
-        viewLifecycleOwner.lifecycleScope.launch {
-            sensorRecordingViewModel.recordViewModel.startRecording()
-        }
-        viewLifecycleOwner.lifecycleScope.launch {
-            sensorRecordingViewModel.rpmLiveData.setIsRecording(true)
-        }
-        Toast.makeText(context, "Recording Started", Toast.LENGTH_SHORT).show()
+        sensorRecordingViewModel.startRecording()
+        Toast.makeText(requireContext(), "Recording Started", Toast.LENGTH_SHORT).show()
     }
 
     private fun stopRecording() {
-        //recordingViewModel.stopRecording()
-        viewLifecycleOwner.lifecycleScope.launch {
-            sensorRecordingViewModel.recordViewModel.stopRecording()
-        }
-        viewLifecycleOwner.lifecycleScope.launch {
-            sensorRecordingViewModel.rpmLiveData.setIsRecording(false)
-        }
-        saveToCSV()
-    }
+        sensorRecordingViewModel.stopRecording(requireContext())
+        Toast.makeText(requireContext(), "Recording Stopped", Toast.LENGTH_SHORT).show()
 
-    private fun saveToCSV() {
-        val stopDateTime = LocalDateTime.now()
-
-        var currentSensorStringObject = StringBuilder()
-
-        val startJSONObject = sensorRecordingViewModel.rpmLiveData.makeStartJsonObject(elapsedTime)
-
-        val unfilteredGpsJSONObject =
-            sensorRecordingViewModel.rpmLiveData.makeJsonObject(stopDateTime, "unfil", "GPS", startJSONObject)
-
-        val unfilAccelJsonObject =
-            sensorRecordingViewModel.rpmLiveData.makeJsonObject(stopDateTime, "unfil", "accel", startJSONObject)
-        val filAccelJsonObject =
-            sensorRecordingViewModel.rpmLiveData.makeJsonObject(stopDateTime, "fil", "accel", startJSONObject)
-
-        val unfilGyroJsonObject =
-            sensorRecordingViewModel.rpmLiveData.makeJsonObject(stopDateTime, "unfil", "gyro", startJSONObject)
-        val filGyroJsonObject =
-            sensorRecordingViewModel.rpmLiveData.makeJsonObject(stopDateTime, "fil", "gyro", startJSONObject)
-
-        val allSensorJsonObject = JSONObject()
-
-        var keys = unfilteredGpsJSONObject.keys()
-
-        var key: String
-        var value: Any
-        while (keys.hasNext()) {
-            key = keys.next() as String
-            value = unfilteredGpsJSONObject[key]
-            allSensorJsonObject.put(key, value)
-        }
-        keys = unfilAccelJsonObject.keys()
-        while (keys.hasNext()) {
-            key = keys.next() as String
-            value = unfilAccelJsonObject[key]
-            allSensorJsonObject.put(key, value)
-        }
-        keys = filAccelJsonObject.keys()
-        while (keys.hasNext()) {
-            key = keys.next() as String
-            value = filAccelJsonObject[key]
-            allSensorJsonObject.put(key, value)
-        }
-        keys = unfilGyroJsonObject.keys()
-        while (keys.hasNext()) {
-            key = keys.next() as String
-            value = unfilGyroJsonObject[key]
-            allSensorJsonObject.put(key, value)
-        }
-        keys = filGyroJsonObject.keys()
-        while (keys.hasNext()) {
-            key = keys.next() as String
-            value = filGyroJsonObject[key]
-            allSensorJsonObject.put(key, value)
-        }
-
-
-        // Location
-        viewLifecycleOwner.lifecycleScope.launch {
-            sensorRecordingViewModel.rpmLiveData.unfilteredLocationList.collect {
-                currentSensorStringObject =
-                    sensorRecordingViewModel.rpmLiveData.buildSensorStringBuilder(it)
-
-            }
-        }
-
-        viewLifecycleOwner.lifecycleScope.launch {
-            context?.let {
-                sensorRecordingViewModel.rpmLiveData.saveToFile(
-                    it,
-                    currentSensorStringObject,
-                    "unfiltered",
-                    "GPS",
-                    stopDateTime
-                )
-
-            }
-        }
-
-
-        // Accelerometer
-
-        viewLifecycleOwner.lifecycleScope.launch {
-            sensorRecordingViewModel.rpmLiveData.filteredAccelerometerList.collect {
-                currentSensorStringObject =
-                    sensorRecordingViewModel.rpmLiveData.buildSensorStringBuilder(it)
-            }
-        }
-        viewLifecycleOwner.lifecycleScope.launch {
-            context?.let {
-                sensorRecordingViewModel.rpmLiveData.saveToFile(
-                    it,
-                    currentSensorStringObject,
-                    "filtered",
-                    "accel",
-                    stopDateTime
-                )
-            }
-        }
-
-        viewLifecycleOwner.lifecycleScope.launch {
-            sensorRecordingViewModel.rpmLiveData.unfilteredAccelerometerList.collect {
-                currentSensorStringObject =
-                    sensorRecordingViewModel.rpmLiveData.buildSensorStringBuilder(it)
-            }
-        }
-        viewLifecycleOwner.lifecycleScope.launch {
-            context?.let {
-                sensorRecordingViewModel.rpmLiveData.saveToFile(
-                    it,
-                    currentSensorStringObject,
-                    "unfiltered",
-                    "accel",
-                    stopDateTime
-                )
-            }
-        }
-
-        // GyroScope
-
-        viewLifecycleOwner.lifecycleScope.launch {
-            sensorRecordingViewModel.rpmLiveData.filteredGyroScopeList.collect {
-                currentSensorStringObject =
-                    sensorRecordingViewModel.rpmLiveData.buildSensorStringBuilder(it)
-            }
-        }
-        viewLifecycleOwner.lifecycleScope.launch {
-            context?.let {
-                sensorRecordingViewModel.rpmLiveData.saveToFile(
-                    it,
-                    currentSensorStringObject,
-                    "filtered",
-                    "gyro",
-                    stopDateTime
-                )
-            }
-        }
-
-        viewLifecycleOwner.lifecycleScope.launch {
-            sensorRecordingViewModel.rpmLiveData.unfilteredGyroscopeList.collect {
-                currentSensorStringObject =
-                    sensorRecordingViewModel.rpmLiveData.buildSensorStringBuilder(it)
-            }
-        }
-        viewLifecycleOwner.lifecycleScope.launch {
-            context?.let {
-                sensorRecordingViewModel.rpmLiveData.saveToFile(
-                    it,
-                    currentSensorStringObject,
-                    "unfiltered",
-                    "gyro",
-                    stopDateTime
-                )
-            }
-        }
-
-        viewLifecycleOwner.lifecycleScope.launch {
-            val existingJsonArray = context?.let { sensorRecordingViewModel.rpmLiveData.readJsonFromFile(it) }
-            context?.let {
-                if (existingJsonArray != null) {
-                    sensorRecordingViewModel.rpmLiveData.writeToJsonFile(it, existingJsonArray, allSensorJsonObject)
-                }
-            }
-        }
-
-        Toast.makeText(context, "Recording Saved", Toast.LENGTH_SHORT).show()
     }
 
     private fun pauseRecording() {
-        //recordingViewModel.pauseRecording()
-        viewLifecycleOwner.lifecycleScope.launch {
-            sensorRecordingViewModel.recordViewModel.pauseRecording()
-        }
-        viewLifecycleOwner.lifecycleScope.launch {
-            sensorRecordingViewModel.rpmLiveData.setIsRecording(false)
-        }
-        Toast.makeText(context, "Recording Paused", Toast.LENGTH_SHORT).show()
-
+        sensorRecordingViewModel.pauseRecording()
+        Toast.makeText(requireContext(), "Recording Paused", Toast.LENGTH_SHORT).show()
     }
 
     private fun resumeRecording() {
-        //recordingViewModel.resumeRecording()
-        viewLifecycleOwner.lifecycleScope.launch {
-            sensorRecordingViewModel.recordViewModel.resumeRecording()
-        }
-        viewLifecycleOwner.lifecycleScope.launch {
-            sensorRecordingViewModel.rpmLiveData.setIsRecording(true)
-
-        }
-        Toast.makeText(context, "Recording Resumed", Toast.LENGTH_SHORT).show()
-
+        sensorRecordingViewModel.resumeRecording()
+        Toast.makeText(requireContext(), "Recording Resumed", Toast.LENGTH_SHORT).show()
     }
 
     private fun deleteRecording() {
-        //recordingViewModel.stopRecording()
-        viewLifecycleOwner.lifecycleScope.launch {
-            sensorRecordingViewModel.recordViewModel.stopRecording()
-        }
-        viewLifecycleOwner.lifecycleScope.launch {
-            sensorRecordingViewModel.rpmLiveData.setIsRecording(false)
-
-        }
-        Toast.makeText(context, "Recording Deleted", Toast.LENGTH_SHORT).show()
-
+        sensorRecordingViewModel.deleteRecording()
+        Toast.makeText(requireContext(), "Recording Deleted", Toast.LENGTH_SHORT).show()
     }
 
     /**
@@ -625,7 +383,7 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
         Log.e(this::class.simpleName, "location changed! lat = ${location.latitude} , long = ${location.longitude}")
 
         if (isRecordingLocation) {
-            sensorRecordingViewModel.rpmLiveData.insertIntoLocationList(location)
+            sensorRecordingViewModel.sensorRecording.insertIntoLocationList(location)
         }
 
 

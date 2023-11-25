@@ -145,21 +145,6 @@
                 android:layout_height="0dp"
                 android:orientation="vertical">
 
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btnStart"
-                    android:layout_width="@dimen/standard_touch_size"
-                    android:layout_height="@dimen/standard_touch_size"
-                    android:layout_marginTop="@dimen/margin_padding_size_6"
-                    android:layout_marginBottom="@dimen/margin_padding_size_6"
-                    android:backgroundTint="@color/secondary_color"
-                    android:gravity="start|center_vertical"
-                    android:insetTop="@dimen/margin_padding_size_0"
-                    android:insetBottom="@dimen/margin_padding_size_0"
-                    android:paddingTop="0dp"
-                    app:icon="@drawable/ic_circle_start_recording"
-                    app:iconGravity="top"
-                    app:iconSize="@dimen/standard_touch_size"
-                    app:iconTint="@null" />
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnPause"
@@ -172,7 +157,6 @@
                     android:insetTop="@dimen/margin_padding_size_0"
                     android:insetBottom="@dimen/margin_padding_size_0"
                     android:paddingTop="0dp"
-                    android:visibility="gone"
                     app:icon="@drawable/ic_pause"
                     app:iconGravity="top"
                     app:iconSize="@dimen/standard_touch_size"
@@ -188,8 +172,8 @@
                     android:gravity="start|center_vertical"
                     android:insetTop="@dimen/margin_padding_size_0"
                     android:insetBottom="@dimen/margin_padding_size_0"
-                    android:paddingTop="0dp"
                     android:visibility="gone"
+                    android:paddingTop="0dp"
                     app:icon="@drawable/ic_start"
                     app:iconGravity="top"
                     app:iconSize="@dimen/standard_touch_size"
@@ -205,7 +189,6 @@
                     android:insetTop="@dimen/margin_padding_size_0"
                     android:insetBottom="@dimen/margin_padding_size_0"
                     android:paddingTop="0dp"
-                    android:visibility="gone"
                     app:icon="@drawable/ic_stop"
                     app:iconGravity="top"
                     app:iconSize="@dimen/standard_touch_size"
@@ -220,7 +203,6 @@
                     android:insetTop="@dimen/margin_padding_size_0"
                     android:insetBottom="@dimen/margin_padding_size_0"
                     android:paddingTop="0dp"
-                    android:visibility="gone"
                     app:icon="@drawable/ic_delete"
                     app:iconGravity="top"
                     app:iconSize="@dimen/standard_touch_size"
