@@ -5,7 +5,8 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 
-class RecordingViewModel {
+class TimerController // TODO RENAME, NOT VIEWMODEL!!! {
+{
 
     private var _startTimeMillis = MutableStateFlow<Long>(0)
     private var _resumedElapsedTimeMillis = MutableStateFlow<Long>(0)
@@ -14,34 +15,36 @@ class RecordingViewModel {
     private var _elapsedTime = MutableStateFlow<String>("")
     val elapsedTime = _elapsedTime.asStateFlow()
 
-    private var isRecording = false
+    private var _isRecording = MutableStateFlow<Boolean>(false)
+    val isRecording = _isRecording.asStateFlow()
 
     suspend fun startRecording() {
         _startTimeMillis.emit(SystemClock.elapsedRealtime())
-        isRecording = true
+        _isRecording.emit(true)
         updateElapsedTime()
     }
 
     suspend fun pauseRecording() {
-        if (isRecording) {
+        if (_isRecording.value) {
             _pausedElapsedTimeMillis.emit(SystemClock.elapsedRealtime())
-            isRecording = false
+            _isRecording.emit(false)
         }
+
     }
 
     suspend fun resumeRecording() {
-        if (!isRecording) {
+        if (!_isRecording.value) {
             val currentTime = SystemClock.elapsedRealtime()
             val timePaused = currentTime - _pausedElapsedTimeMillis.value
             _pauseDuration.value += timePaused
             _resumedElapsedTimeMillis.emit(currentTime)
-            isRecording = true
+            _isRecording.emit(true)
             updateElapsedTime()
         }
     }
 
     suspend fun stopRecording() {
-        isRecording = false
+        _isRecording.emit(false)
         // Reset all timing variables
         _startTimeMillis.emit(0)
         _pausedElapsedTimeMillis.emit(0)
@@ -50,7 +53,7 @@ class RecordingViewModel {
     }
 
     private suspend fun updateElapsedTime() {
-        while (isRecording) {
+        while (_isRecording.value) {
             val currentTimeMillis = SystemClock.elapsedRealtime()
             // Corrects for pausing
             val updatedTime = (currentTimeMillis - _startTimeMillis.value) - _pauseDuration.value
