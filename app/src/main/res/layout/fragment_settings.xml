@@ -5,12 +5,12 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/mainBlue">
+        android:background="@color/primary_color">
 
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/mainBlue">
+            android:background="@color/primary_color">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -35,15 +35,15 @@
                         android:paddingEnd="@dimen/margin_padding_size_6"
                         android:paddingStart="@dimen/margin_padding_size_0"
                         app:drawableEndCompat="@drawable/ic_polygon"
-                app:drawableStartCompat="@drawable/ic_manual_small"
+                        app:drawableStartCompat="@drawable/ic_manual_small"
                         android:text="@string/how_to_use"
                         android:textColor="@color/text_color"
                         android:textSize="@dimen/text_size_16"
                         android:clickable="true"
                         android:focusable="true"
-                android:background="?android:attr/selectableItemBackground"
-                android:drawablePadding="@dimen/margin_padding_size_8"
-                android:gravity="start|center_vertical" />
+                        android:background="?android:attr/selectableItemBackground"
+                        android:drawablePadding="@dimen/margin_padding_size_8"
+                        android:gravity="start|center_vertical" />
 
                     <View
                         android:layout_width="match_parent"
@@ -57,15 +57,15 @@
                         android:paddingEnd="@dimen/margin_padding_size_6"
                         android:paddingStart="@dimen/margin_padding_size_0"
                         app:drawableEndCompat="@drawable/ic_polygon"
-                app:drawableStartCompat="@drawable/ic_triangle_settings_small"
+                        app:drawableStartCompat="@drawable/ic_triangle_settings_small"
                         android:text="@string/camera_settings"
                         android:textColor="@color/text_color"
                         android:textSize="@dimen/text_size_16"
                         android:clickable="true"
                         android:focusable="true"
-                android:background="?android:attr/selectableItemBackground"
-                android:drawablePadding="@dimen/margin_padding_size_8"
-                android:gravity="start|center_vertical" />
+                        android:background="?android:attr/selectableItemBackground"
+                        android:drawablePadding="@dimen/margin_padding_size_8"
+                        android:gravity="start|center_vertical" />
 
                     <View
                         android:layout_width="match_parent"
@@ -79,14 +79,14 @@
                         android:paddingEnd="@dimen/margin_padding_size_6"
                         android:paddingStart="@dimen/margin_padding_size_0"
                         app:drawableEndCompat="@drawable/ic_polygon"
-                app:drawableStartCompat="@drawable/ic_social_settings_small"
+                        app:drawableStartCompat="@drawable/ic_social_settings_small"
                         android:text="@string/friends"
                         android:textColor="@color/text_color"
                         android:textSize="@dimen/text_size_16"
                         android:clickable="true"
-                android:focusable="true"
-                android:background="?android:attr/selectableItemBackground"
-                android:drawablePadding="@dimen/margin_padding_size_8"
+                        android:focusable="true"
+                        android:background="?android:attr/selectableItemBackground"
+                        android:drawablePadding="@dimen/margin_padding_size_8"
                         android:gravity="start|center_vertical" />
 
                     <View
@@ -101,15 +101,15 @@
                         android:paddingEnd="@dimen/margin_padding_size_6"
                         android:paddingStart="@dimen/margin_padding_size_0"
                         app:drawableEndCompat="@drawable/ic_polygon"
-                app:drawableStartCompat="@drawable/baseline_email_24"
+                        app:drawableStartCompat="@drawable/baseline_email_24"
                         android:text="@string/quick_messages"
                         android:textColor="@color/text_color"
                         android:textSize="@dimen/text_size_16"
                         android:clickable="true"
                         android:focusable="true"
-                android:background="?android:attr/selectableItemBackground"
-                android:drawablePadding="@dimen/margin_padding_size_8"
-                android:gravity="start|center_vertical" />
+                        android:background="?android:attr/selectableItemBackground"
+                        android:drawablePadding="@dimen/margin_padding_size_8"
+                        android:gravity="start|center_vertical" />
 
                     <View
                         android:layout_width="match_parent"
@@ -123,15 +123,15 @@
                         android:paddingEnd="@dimen/margin_padding_size_6"
                         android:paddingStart="@dimen/margin_padding_size_0"
                         app:drawableEndCompat="@drawable/ic_polygon"
-                app:drawableStartCompat="@drawable/ic_maps_settings_small"
+                        app:drawableStartCompat="@drawable/ic_maps_settings_small"
                         android:text="@string/maps_settings"
                         android:textColor="@color/text_color"
                         android:textSize="@dimen/text_size_16"
                         android:clickable="true"
                         android:focusable="true"
-                android:background="?android:attr/selectableItemBackground"
-                android:drawablePadding="@dimen/margin_padding_size_8"
-                android:gravity="start|center_vertical" />
+                        android:background="?android:attr/selectableItemBackground"
+                        android:drawablePadding="@dimen/margin_padding_size_8"
+                        android:gravity="start|center_vertical" />
 
                     <View
                         android:layout_width="match_parent"
@@ -145,15 +145,15 @@
                         android:paddingEnd="@dimen/margin_padding_size_6"
                         android:paddingStart="@dimen/margin_padding_size_0"
                         app:drawableEndCompat="@drawable/ic_polygon"
-                app:drawableStartCompat="@drawable/ic_power_icon"
+                        app:drawableStartCompat="@drawable/ic_power_icon"
                         android:text="@string/power_settings"
                         android:textColor="@color/text_color"
                         android:textSize="@dimen/text_size_16"
                         android:clickable="true"
                         android:focusable="true"
-                android:background="?android:attr/selectableItemBackground"
-                android:drawablePadding="@dimen/margin_padding_size_8"
-                android:gravity="start|center_vertical" />
+                        android:background="?android:attr/selectableItemBackground"
+                        android:drawablePadding="@dimen/margin_padding_size_8"
+                        android:gravity="start|center_vertical" />
 
                     <View
                         android:layout_width="match_parent"
@@ -168,15 +168,15 @@
                         android:paddingEnd="@dimen/margin_padding_size_6"
                         android:paddingStart="@dimen/margin_padding_size_0"
                         app:drawableEndCompat="@drawable/ic_polygon"
-                app:drawableStartCompat="@drawable/ic_about_small"
+                        app:drawableStartCompat="@drawable/ic_about_small"
                         android:text="@string/credits"
                         android:textColor="@color/text_color"
                         android:textSize="@dimen/text_size_16"
                         android:clickable="true"
                         android:focusable="true"
-                android:background="?android:attr/selectableItemBackground"
-                android:drawablePadding="@dimen/margin_padding_size_8"
-                android:gravity="start|center_vertical" />
+                        android:background="?android:attr/selectableItemBackground"
+                        android:drawablePadding="@dimen/margin_padding_size_8"
+                        android:gravity="start|center_vertical" />
 
                 </LinearLayout>
 
@@ -184,20 +184,22 @@
                     android:id="@+id/btnLogout"
                     android:layout_width="wrap_content"
                     android:layout_height="@dimen/standard_touch_size"
+
                     android:layout_marginTop="@dimen/margin_padding_size_10"
                     android:layout_marginBottom="@dimen/margin_padding_size_10"
                     android:backgroundTint="@color/button_color"
                     android:insetTop="@dimen/margin_padding_size_0"
                     android:insetBottom="@dimen/margin_padding_size_0"
                     android:text="@string/btnLogout"
+
                     android:textSize="@dimen/text_size_14"
                     android:textStyle="bold"
                     app:cornerRadius="20dp"
                     app:icon="@drawable/ic_logout_small"
                     app:iconGravity="textEnd"
                     app:iconTint="@null"
-                   android:layout_gravity="center_horizontal"
-            android:layout_marginVertical="@dimen/margin_padding_size_40" />
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginVertical="@dimen/margin_padding_size_40" />
 
                 <ImageView
                     android:layout_width="match_parent"
