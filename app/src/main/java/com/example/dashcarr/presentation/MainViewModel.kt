@@ -29,6 +29,8 @@ class MainViewModel @Inject constructor(
     private val _isUserLoggedIn = Channel<Boolean>()
     val isUserLoggedIn = _isUserLoggedIn.receiveAsFlow()
 
+    val userState = firebaseAuthRepository.getUserChangeFlow()
+
     /**
      * Checks the authentication status and updates [isUserLoggedIn] accordingly.
      */
@@ -51,9 +53,10 @@ class MainViewModel @Inject constructor(
         PowerSavingMode.setAppPowerMode(PowerSavingMode.PowerState.values()[powerSaveModeOn])
     }
 
-    private fun syncRemoteAndLocalDB() {
+    fun syncRemoteAndLocalDB() {
         viewModelScope.launch {
             syncDatabasesRepository.syncDatabases()
         }
     }
+
 }
