@@ -1,12 +1,15 @@
 package com.example.dashcarr.presentation.tabs.settings.maps_settings
 
+import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.dashcarr.R
 import com.example.dashcarr.data.repository.PointsOfInterestRepository
 import com.example.dashcarr.domain.entity.PointOfInterestEntity
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
@@ -19,7 +22,8 @@ import javax.inject.Inject
  */
 @HiltViewModel
 class MapsSettingsViewModel @Inject constructor(
-    private val pointsOfInterestRepository: PointsOfInterestRepository
+    private val pointsOfInterestRepository: PointsOfInterestRepository,
+    @ApplicationContext private val appContext: Context
 ) : ViewModel() {
 
     // LiveData to observe points of interest
@@ -40,15 +44,18 @@ class MapsSettingsViewModel @Inject constructor(
     private val _onRenamePointFailure = MutableSharedFlow<Throwable>()
     val onRenamePointFailure = _onRenamePointFailure.asSharedFlow()
 
-    private val tileSources = arrayOf(
-        "MAPNIK",
-        "USGS SAT",
-        "USGS TOPO"
+    private val tileSourceNamesResIds = arrayOf(
+        R.string.mapnik,
+        R.string.usgs_sat,
+        R.string.usgs_topo
     )
     private var currentTileIndex = 0
 
-    private val _currentTileName = MutableLiveData<String>()
-    val currentTileName: LiveData<String> = _currentTileName
+    private val _currentTileNameResId = MutableLiveData<Int>().apply {
+        value = tileSourceNamesResIds[currentTileIndex]
+    }
+    val currentTileNameResId: LiveData<Int> = _currentTileNameResId
+
 
     /**
      * Function to rename a point of interest.
@@ -131,14 +138,22 @@ class MapsSettingsViewModel @Inject constructor(
         }
     }
 
-    init {
-        // Initialise avec le nom de la source de tuile actuelle
-        _currentTileName.value = tileSources[currentTileIndex]
+    fun nextTileName() {
+        currentTileIndex = (currentTileIndex + 1) % tileSourceNamesResIds.size
+        _currentTileNameResId.value = tileSourceNamesResIds[currentTileIndex]
     }
 
-    fun nextTileName() {
-        currentTileIndex = (currentTileIndex + 1) % tileSources.size
-        _currentTileName.value = tileSources[currentTileIndex]
+    fun saveCurrentTileName(tileNameResId: Int) {
+        val sharedPrefs = appContext.getSharedPreferences("MapPrefs", Context.MODE_PRIVATE)
+        with(sharedPrefs.edit()) {
+            putInt("current_tile_name_res_id", tileNameResId)
+            apply()
+        }
+    }
+
+    fun getCurrentTileNameResId(): Int {
+        val sharedPrefs = appContext.getSharedPreferences("MapPrefs", Context.MODE_PRIVATE)
+        return sharedPrefs.getInt("current_tile_name_res_id", R.string.current_tile)
     }
 
 }

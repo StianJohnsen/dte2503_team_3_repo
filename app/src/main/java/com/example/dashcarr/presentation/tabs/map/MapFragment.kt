@@ -42,10 +42,12 @@ import com.example.dashcarr.presentation.mapper.toMarker
 import com.example.dashcarr.presentation.tabs.camera.dashcam.DashcamFragment
 import com.example.dashcarr.presentation.tabs.map.data.PointOfInterest
 import com.example.dashcarr.presentation.tabs.settings.PowerSavingMode
+import com.example.dashcarr.presentation.tabs.settings.maps_settings.MapsSettingsViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import org.osmdroid.config.Configuration
 import org.osmdroid.events.MapEventsReceiver
+import org.osmdroid.tileprovider.tilesource.ITileSource
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory
 import org.osmdroid.util.GeoPoint
 import org.osmdroid.views.CustomZoomButtonsController
@@ -70,7 +72,8 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
 ), LocationListener, MapEventsReceiver {
 
     private val mapViewModel: MapViewModel by viewModels()
-
+    private val mapSettingsviewModel: MapsSettingsViewModel by viewModels()
+    private val recordingViewModel: RecordingViewModel by viewModels()
 
     private val sensorRecordingViewModel by lazy {
         ViewModelProvider(this)[SensorRecordingViewModel::class.java]
@@ -241,6 +244,8 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
         observeViewModel()
         initMap()
         requestLocationPermission()
+        setupMapView()
+
         if (PowerSavingMode.getPowerMode() && args.isRideActivated) {
             binding.llTrafficLight.visibility = View.VISIBLE
             binding.llBattery?.visibility = View.VISIBLE
@@ -330,6 +335,123 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
         requestLocationPermissionsLauncher.launch(locationPermissions)
     }
 
+    private fun setupMapView() {
+        val sharedPrefs = requireActivity().getSharedPreferences("MapPrefs", Context.MODE_PRIVATE)
+        val tileNameResId = sharedPrefs.getInt("current_tile_name_res_id", R.string.mapnik)
+
+        val tileName = getString(tileNameResId)
+
+        binding.mapView.setTileSource(getTileSourceFromName(tileName))
+    }
+
+    private fun getTileSourceFromName(tileName: String): ITileSource {
+        return when (tileName) {
+            getString(R.string.mapnik) -> TileSourceFactory.MAPNIK
+            getString(R.string.usgs_sat) -> TileSourceFactory.USGS_SAT
+            getString(R.string.usgs_topo) -> TileSourceFactory.USGS_TOPO
+            else -> TileSourceFactory.DEFAULT_TILE_SOURCE
+        }
+    }
+
+    private fun readJsonFromFile(): JSONArray {
+        var jsonArray = JSONArray()
+        try {
+            val inputStream = context?.openFileInput("sensor_config.json")
+            if (inputStream != null) {
+                val reader = BufferedReader(InputStreamReader(inputStream, Charset.forName("UTF-8")))
+                val line: String? = reader.readLine()
+                jsonArray = JSONArray(line.toString())
+                inputStream.close()
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+        return jsonArray
+    }
+
+    private fun writeToLocationStringBuilder(gpsList: MutableList<SensorData>): StringBuilder {
+        val stringBuilder = StringBuilder()
+        var id = 0
+        stringBuilder.append("ID, GPS_Timestamp(ms), Longitude, Latitude, Altitude\n")
+        gpsList.forEach {
+            // Longitude = x, Latitude = y, Altitude = z
+            stringBuilder.append("$id, ${it.timestamp}, ${it.x}, ${it.y}, ${it.z}\n")
+            id++
+        }
+        return stringBuilder
+    }
+
+    private fun writeToSensorStringBuilder(sensor: String, sensorList: MutableList<SensorData>): StringBuilder {
+        val stringBuilder = StringBuilder()
+        var id = 0
+        stringBuilder.append("ID, ${sensor}_Timestamp(ms), ${sensor}_X, ${sensor}_Y, ${sensor}_Z\n")
+        sensorList.forEach {
+            stringBuilder.append("$id, ${it.timestamp}, ${it.x}, ${it.y}, ${it.z}\n")
+            id++
+        }
+        return stringBuilder
+    }
+
+    private fun saveToFile(stringBuilder: StringBuilder, filtered: String, sensor: String, dateTime: LocalDateTime) {
+        val formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy_HH-mm-ss")
+        context?.openFileOutput("${dateTime.format(formatter)}_${filtered}_${sensor}.csv", Context.MODE_PRIVATE).use {
+            it?.write(stringBuilder.toString().toByteArray())
+        }
+    }
+
+    private fun makeJSONObject(
+        dateTime: LocalDateTime,
+        filtered: String,
+        sensor: String,
+    ) {
+        val formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy_HH-mm-ss")
+        recordingJson.put("${filtered}_${sensor}", "${dateTime.format(formatter)}_${filtered}tered_${sensor}.csv")
+    }
+
+    private fun saveToCSV() {
+        val stopDateTime = LocalDateTime.now()
+
+        val formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm")
+        recordingJson.put("name", "Recording from ${stopDateTime.format(formatter)}")
+        recordingJson.put("elapsed_time", elapsedTime)
+        recordingJson.put("date", stopDateTime)
+
+        // Location
+        var currentStringBuilder: StringBuilder = writeToLocationStringBuilder(rawLocationRecord)
+        saveToFile(currentStringBuilder, "unfiltered", "GPS", stopDateTime)
+        makeJSONObject(stopDateTime, "unfil", "GPS")
+
+        // Accelerometer
+        currentStringBuilder = writeToSensorStringBuilder("accel", filtAcclRecord)
+        saveToFile(currentStringBuilder, "filtered", "accel", stopDateTime)
+        makeJSONObject(stopDateTime, "fil", "accel")
+
+        currentStringBuilder = writeToSensorStringBuilder("accel", rawAcclRecord)
+        saveToFile(currentStringBuilder, "unfiltered", "accel", stopDateTime)
+        makeJSONObject(stopDateTime, "unfil", "accel")
+
+        // Gyroscope
+        currentStringBuilder = writeToSensorStringBuilder("gyro", filtGyroRecord)
+        saveToFile(currentStringBuilder, "filtered", "gyro", stopDateTime)
+        makeJSONObject(stopDateTime, "fil", "gyro")
+
+        currentStringBuilder = writeToSensorStringBuilder("Gyro", rawGyroRecord)
+        saveToFile(currentStringBuilder, "unfiltered", "gyro", stopDateTime)
+        makeJSONObject(stopDateTime, "unfil", "gyro")
+
+
+        val existingJSONArray = readJsonFromFile()
+        val jsonArray: JSONArray = existingJSONArray
+
+        jsonArray.put(recordingJson)
+
+        context?.openFileOutput("sensor_config.json", Context.MODE_PRIVATE).use {
+            it?.write(jsonArray.toString().toByteArray())
+        }
+        Toast.makeText(context, "Saved", Toast.LENGTH_SHORT).show()
+    }
+
+
     override fun onResume() {
         super.onResume()
         sensorRecordingViewModel.sensorRecording.registerSensors()
@@ -376,7 +498,7 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
     private fun initMap() {
         Configuration.getInstance()
             .load(requireContext(), PreferenceManager.getDefaultSharedPreferences(requireContext()))
-        binding.mapView.setTileSource(TileSourceFactory.MAPNIK)
+
         binding.mapView.isHorizontalMapRepetitionEnabled = false
         binding.mapView.isVerticalMapRepetitionEnabled = false
         binding.mapView.setScrollableAreaLimitLatitude(

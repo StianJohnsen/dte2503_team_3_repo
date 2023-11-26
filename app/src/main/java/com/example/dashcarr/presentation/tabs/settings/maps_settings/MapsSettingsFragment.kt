@@ -40,11 +40,23 @@ class MapsSettingsFragment : BaseFragment<FragmentMapsSettingsBinding>(
      * @param view The fragment's root view.
      * @param savedInstanceState The saved state of the fragment.
      */
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupAdapter()
         initListeners()
         observeViewModel()
+        loadCurrentTileChoice()
+
+        binding.buttonChangeTile.setOnClickListener {
+            viewModel.nextTileName()
+        }
+
+        viewModel.currentTileNameResId.observe(viewLifecycleOwner) { tileNameResId ->
+            val tileName = getString(tileNameResId)
+            binding.txtTile.text = getString(R.string.current_tile, tileName)
+            viewModel.saveCurrentTileName(tileNameResId)
+        }
     }
 
     /**
@@ -127,17 +139,13 @@ class MapsSettingsFragment : BaseFragment<FragmentMapsSettingsBinding>(
         viewModel.showRenameDialog(point)
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        viewModel.currentTileName.observe(this) { tileName ->
-            val txt = "Current Tile: $tileName"
-            binding.txtTile.text = txt
-        }
-
-        binding.buttonChangeTile.setOnClickListener {
-            viewModel.nextTileName()
-        }
+    private fun loadCurrentTileChoice() {
+        val tileNameResId = viewModel.getCurrentTileNameResId()
+        updateTileChoiceUI(tileNameResId)
     }
 
+    private fun updateTileChoiceUI(tileNameResId: Int) {
+        val tileName = getString(tileNameResId)
+        binding.txtTile.text = getString(R.string.current_tile, tileName)
+    }
 }
