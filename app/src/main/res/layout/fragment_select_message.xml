@@ -23,7 +23,7 @@
         android:id="@+id/back_to_settings_from_select_message"
         android:layout_width="@dimen/standard_touch_size"
         android:layout_height="@dimen/standard_touch_size"
-        android:layout_marginLeft="@dimen/margin_padding_size_10"
+        android:layout_marginStart="@dimen/margin_padding_size_10"
         android:layout_marginTop="@dimen/margin_padding_size_10"
         android:contentDescription="@string/back_button_content_description"
         android:src="@drawable/baseline_arrow_back_24"
