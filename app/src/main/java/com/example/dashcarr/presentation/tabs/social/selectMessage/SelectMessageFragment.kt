@@ -81,8 +81,8 @@ class SelectMessageFragment : BaseFragment<FragmentSelectMessageBinding>(
             if (contactId != null) {
                 insertIntoMessageHistory(it.id, contactId, System.currentTimeMillis())
             }
-            findNavController().navigate(R.id.action_selectMessageFragment_to_action_settings)
-            Toast.makeText(context, "Message sent", Toast.LENGTH_SHORT).show()
+            findNavController().navigate(R.id.action_selectMessageFragment_to_action_map)
+            Toast.makeText(requireContext(), "Message sent", Toast.LENGTH_SHORT).show()
 
         }
 

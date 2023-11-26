@@ -304,6 +304,9 @@
         <action
             android:id="@+id/action_selectMessageFragment_to_action_settings"
             app:destination="@id/action_settings" />
+        <action
+            android:id="@+id/action_selectMessageFragment_to_action_map"
+            app:destination="@id/action_map" />
     </fragment>
 
 </navigation>
