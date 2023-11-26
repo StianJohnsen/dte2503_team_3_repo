@@ -47,7 +47,8 @@ class MapsSettingsViewModel @Inject constructor(
     private val tileSourceNamesResIds = arrayOf(
         R.string.mapnik,
         R.string.usgs_sat,
-        R.string.usgs_topo
+        R.string.usgs_topo,
+        R.string.dark
     )
     private var currentTileIndex = 0
 
