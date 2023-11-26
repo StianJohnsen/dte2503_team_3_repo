@@ -124,7 +124,6 @@ class SelectMessageFragment : BaseFragment<FragmentSelectMessageBinding>(
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.getAllMessages(requireContext())
         requestPermission.launch(Manifest.permission.SEND_SMS)
         observeViewModel()
         binding.apply {
