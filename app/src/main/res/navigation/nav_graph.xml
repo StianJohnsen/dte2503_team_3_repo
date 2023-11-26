@@ -111,6 +111,13 @@
         <action
             android:id="@+id/action_action_settings_to_selectContactFragment"
             app:destination="@id/selectContactFragment" />
+        <action
+            android:id="@+id/action_action_settings_to_cameraSettings"
+            app:destination="@id/cameraSettings"
+            app:enterAnim="@anim/right_to_center"
+            app:exitAnim="@anim/center_to_left"
+            app:popEnterAnim="@anim/left_to_center"
+            app:popExitAnim="@anim/center_to_right" />
     </fragment>
 
     <fragment
@@ -359,5 +366,10 @@
             android:id="@+id/action_selectMessageFragment_to_action_map"
             app:destination="@id/action_map" />
     </fragment>
+    <fragment
+        android:id="@+id/cameraSettings"
+        android:name="com.example.dashcarr.presentation.tabs.settings.camera_settings.CameraSettingsFragment"
+        android:label="fragment_camera_settings"
+        tools:layout="@layout/fragment_camera_settings" />
 
 </navigation>
