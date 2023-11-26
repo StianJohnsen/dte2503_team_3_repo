@@ -54,7 +54,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="1.0">
+            app:layout_constraintVertical_bias="1.0"
+            tools:ignore="UseAppTint" />
 
             <ImageView
                 android:id="@+id/arrow"
@@ -69,7 +70,8 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/animated_arrow" />
+                app:srcCompat="@drawable/animated_arrow"
+                tools:ignore="UseAppTint" />
 
             <ImageButton
                 android:id="@+id/big_red_button"
