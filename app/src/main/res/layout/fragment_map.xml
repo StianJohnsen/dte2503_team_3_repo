@@ -71,6 +71,17 @@
                 android:paddingVertical="0dp"
                 android:scaleType="fitCenter"
                 android:src="@drawable/ic_social_settings" />
+
+            <ImageButton
+                android:id="@+id/btn_emergency_call"
+                android:layout_width="@dimen/standard_touch_size"
+                android:layout_height="@dimen/standard_touch_size"
+                android:layout_margin="4dp"
+                android:backgroundTint="#00FFFFFF"
+                android:paddingHorizontal="0dp"
+                android:paddingVertical="0dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/baseline_emergency_24" />
         </LinearLayout>
 
         <LinearLayout
