@@ -43,6 +43,8 @@ class SessionInformationDrawable(
     private var lastSpeedUpdate = LocalDateTime.now().minusHours(1)
     private var speed: Float = 0F
 
+    private var displayInMph = false
+
     /**
      * This function refreshes the speed and might trigger a request to refresh the current street.
      *
@@ -121,10 +123,20 @@ class SessionInformationDrawable(
         bigPaint.textAlign = Paint.Align.CENTER
     }
 
+
+    fun toggleSpeedUnit() {
+        displayInMph = !displayInMph
+        invalidateSelf()
+    }
+
     override fun draw(canvas: Canvas) {
         if (Duration.between(lastSpeedUpdate, LocalDateTime.now()).get(ChronoUnit.SECONDS) > 5)
             speed = 0F
-        val speedText = "${(speed * 3.6).roundToInt()} km/h"
+        val speedText = if (displayInMph) {
+            "${(speed * 2.237).roundToInt()} mph"
+        } else {
+            "${(speed * 3.6).roundToInt()} km/h"
+        }
 
         if (rotateDrawing) {
             canvas.rotate(90F, bounds.width() / 2F, bounds.height() / 2F)
