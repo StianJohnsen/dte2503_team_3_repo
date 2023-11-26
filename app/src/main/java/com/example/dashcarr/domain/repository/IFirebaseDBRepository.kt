@@ -19,13 +19,13 @@ interface IFirebaseDBRepository {
     // FRIENDS
     suspend fun saveNewFriend(friend: FriendsEntity, timestamp: Long): Boolean
     suspend fun getAllFriends(): List<FirebaseFriendEntity>
-    suspend fun updateFriend(friend: FriendsEntity): Result<Unit>
+    suspend fun updateFriend(friend: FriendsEntity, oldFriendTimestamp: Long,  timestamp: Long): Any?
     suspend fun deleteFriend(friend: FriendsEntity, timestamp: Long)
 
     suspend fun getLastFriendChangesTimestamp(): Task<DocumentSnapshot>
     suspend fun saveLastFriendChangesTimestamp(timestamp: Long)
 
-    suspend fun deleteAllFriends(): Any
+    suspend fun deleteAllFriends(): Any?
     suspend fun saveFriends(friends: List<FriendsEntity>)
 
     // MESSAGES
@@ -35,7 +35,7 @@ interface IFirebaseDBRepository {
     suspend fun deleteMessage(message: MessagesEntity, timestamp: Long)
     suspend fun getLastMessageChangesTimestamp(): Task<DocumentSnapshot>
     suspend fun saveLastMessageChangesTimestamp(timestamp: Long)
-    suspend fun deleteAllMessages(): Any
+    suspend fun deleteAllMessages(): Any?
     suspend fun saveMessages(messages: List<MessagesEntity>)
 
 

@@ -10,6 +10,7 @@ import com.example.dashcarr.domain.repository.IFirebaseAuthRepository
 import com.example.dashcarr.domain.repository.IFirebaseDBRepository
 import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.DocumentSnapshot
+import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
@@ -81,9 +82,27 @@ class FirebaseDBRepository @Inject constructor(
                 it.toObject()
             }
 
-    override suspend fun updateFriend(friend: FriendsEntity): Result<Unit> {
-        TODO("Not yet implemented")
-    }
+    override suspend fun updateFriend(friend: FriendsEntity, oldFriendTimestamp: Long, timestamp: Long): Any? =
+        db.collection(firebaseAuthRepository.getUserId()!!)
+            .document(FirebaseTables.FRIENDS_DOCUMENT)
+            .collection(FirebaseTables.FRIENDS_COLLECTION)
+            .get()
+            .addOnCompleteListener {
+                if (it.isSuccessful) {
+                    it.result.documents.forEach { document ->
+                        if (document.data?.get(FirebaseTables.FRIEND_CREATED_TIMESTAMP_KEY).toString() == oldFriendTimestamp.toString()) {
+                            document.reference.update(
+                                mapOf(
+                                    Pair(FirebaseTables.FRIEND_EMAIL_KEY, friend.email),
+                                    Pair(FirebaseTables.FRIEND_PHONE_KEY, friend.phone),
+                                    Pair(FirebaseTables.FRIEND_NAME_KEY, friend.name),
+                                    Pair(FirebaseTables.FRIEND_CREATED_TIMESTAMP_KEY, friend.createdTimeStamp)
+                                )
+                            )
+                        }
+                    }
+                }
+            }
 
     override suspend fun deleteFriend(friend: FriendsEntity, timestamp: Long) {
         saveLastFriendChangesTimestamp(timestamp)
@@ -109,7 +128,7 @@ class FirebaseDBRepository @Inject constructor(
             .document(FirebaseTables.LAST_CHANGES_DOCUMENT)
             .get()
 
-    override suspend fun deleteAllFriends(): Any =
+    override suspend fun deleteAllFriends(): Any? =
         db.collection(firebaseAuthRepository.getUserId()!!)
             .document(FirebaseTables.FRIENDS_DOCUMENT)
             .delete()
@@ -140,8 +159,7 @@ class FirebaseDBRepository @Inject constructor(
             .document(FirebaseTables.LAST_CHANGES_DOCUMENT)
             .set(mapOf(
                 Pair(FirebaseTables.LAST_FRIENDS_CHANGES_TIMESTAMP_KEY, timestamp)
-
-            ))
+            ), SetOptions.merge())
     }
 
     override suspend fun saveNewMessage(message: MessagesEntity, timestamp: Long): Boolean {
@@ -203,11 +221,10 @@ class FirebaseDBRepository @Inject constructor(
             .document(FirebaseTables.LAST_CHANGES_DOCUMENT)
             .set(mapOf(
                 Pair(FirebaseTables.LAST_MESSAGES_CHANGES_TIMESTAMP_KEY, timestamp)
-
-            ))
+            ), SetOptions.merge())
     }
 
-    override suspend fun deleteAllMessages(): Any =
+    override suspend fun deleteAllMessages(): Any? =
         db.collection(firebaseAuthRepository.getUserId()!!)
             .document(FirebaseTables.MESSAGES_DOCUMENT)
             .delete()

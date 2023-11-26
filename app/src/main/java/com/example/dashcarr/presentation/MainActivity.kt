@@ -119,6 +119,11 @@ class MainActivity : AppCompatActivity() {
         viewModel.isUserLoggedIn.collectWithLifecycle(this) {
             if (it) navController.navigate(R.id.action_loginFragment_to_productFrontPage)
         }
+        viewModel.userState.collectWithLifecycle(this) {
+            it?.let {
+                viewModel.syncRemoteAndLocalDB()
+            }
+        }
     }
 
     fun showRedButton(startDelay: Long = 0) {

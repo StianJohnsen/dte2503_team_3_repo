@@ -22,23 +22,24 @@ class FriendsRepository @Inject constructor(
         return remoteResult && localResult
     }
 
-    override suspend fun getAllFriends(): List<FriendsEntity> {
-        val friends = firebaseDBRepository.getAllFriends()
-        return friends.map { FriendsEntity(
-            id = 0,
-            name = it.name ?: "",
-            phone = it.phone ?: "",
-            email = it.email ?: "",
-            createdTimeStamp = it.createdTimeStamp ?: 0
-        ) }
-    }
+    override suspend fun getAllFriends(): List<FriendsEntity> =
+        friendsLocalDataSource.getAllFriendsLiveData().value ?: emptyList()
+
 
     override fun getFriendById(id: Int): LiveData<FriendsEntity> {
         return friendsLocalDataSource.getFriendByIdLiveData(id)
     }
 
-    override suspend fun updateFriend(friend: FriendsEntity): Result<Unit> =
-        friendsLocalDataSource.updateFriend(friend)
+    override suspend fun updateFriend(friend: FriendsEntity): Result<Unit> {
+        val timestamp = System.currentTimeMillis()
+        val oldFriend = friendsLocalDataSource.getFriendById(friend.id).getOrThrow()
+        preference.saveLastLocalFriendsTableChangesTimestamp(timestamp)
+        firebaseDBRepository.updateFriend(
+            friend = friend,
+            oldFriendTimestamp = oldFriend.createdTimeStamp,
+            timestamp = timestamp)
+        return friendsLocalDataSource.updateFriend(friend)
+    }
 
     override suspend fun deleteFriend(friend: FriendsEntity): Result<Unit> {
         return if (friend.name.isEmpty()) {

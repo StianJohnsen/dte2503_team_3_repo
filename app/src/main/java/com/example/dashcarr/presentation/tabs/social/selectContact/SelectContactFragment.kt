@@ -41,7 +41,6 @@ class SelectContactFragment : BaseFragment<FragmentSelectContactBinding>(
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.getAllFriends(requireContext())
         observeViewModel()
         binding.apply {
             backToSettingsFromSelectContact.setOnClickListener {
