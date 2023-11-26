@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout android:layout_height="match_parent"
-    android:layout_width="match_parent"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:background="@color/primary_color">
 
     <TextView
@@ -11,6 +11,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin_padding_size_10"
+        android:paddingBottom="@dimen/margin_padding_size_10"
         android:text="@string/select_message"
         android:textColor="@color/header_color"
         android:textSize="@dimen/header"
@@ -18,8 +19,6 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="@dimen/margin_padding_size_10" />
 
     <ImageView
         android:id="@+id/back_to_settings_from_select_message"
@@ -28,31 +27,29 @@
         android:layout_marginStart="@dimen/margin_padding_size_10"
         android:layout_marginTop="@dimen/margin_padding_size_10"
         android:contentDescription="@string/back_button_content_description"
-        android:layout_marginTop="@dimen/margin_padding_size_10"
         android:src="@drawable/baseline_arrow_back_24"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="@dimen/margin_padding_size_56"
+        android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/select_message_text_view">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/select_message_recycler"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginTop="@dimen/margin_padding_size_10"
             android:orientation="vertical"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             tools:listitem="@layout/select_message_item" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
