@@ -123,10 +123,11 @@ class MainActivity : AppCompatActivity() {
 
     fun showRedButton(startDelay: Long = 0) {
         (redButton.drawable as AnimatedVectorDrawable).reset()
-        redButton.visibility = View.VISIBLE
+
         redButtonFrame.animate()
             .withStartAction {
                 arrowView.visibility = View.VISIBLE
+                redButton.visibility = View.VISIBLE
             }
             .setDuration(1000)
             .setStartDelay(startDelay)
@@ -183,7 +184,7 @@ class MainActivity : AppCompatActivity() {
     @SuppressLint("ResourceType")
     private fun initRedButtonListeners() {
         (arrowView.drawable as Animatable).start()
-
+        hideRedButton()
         val destinationChangedListener =
             NavController.OnDestinationChangedListener { _, destination, args ->
                 val isRideStarting = args?.getBoolean("isRideActivated", false) ?: false
