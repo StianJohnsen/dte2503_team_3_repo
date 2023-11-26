@@ -57,37 +57,35 @@
             app:layout_constraintVertical_bias="1.0"
             tools:ignore="UseAppTint" />
 
-            <ImageView
-                android:id="@+id/arrow"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:adjustViewBounds="true"
-                android:minHeight="500dp"
-                android:scaleType="fitCenter"
-                android:tint="@color/image_shade"
-                android:visibility="gone"
-                app:layout_constraintBottom_toTopOf="@+id/big_red_button"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/animated_arrow"
-                tools:ignore="UseAppTint" />
+        <ImageView
+            android:id="@+id/arrow"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:adjustViewBounds="true"
+            android:minHeight="500dp"
+            android:scaleType="fitCenter"
+            android:tint="@color/image_shade"
+            android:visibility="gone"
+            app:layout_constraintBottom_toTopOf="@+id/big_red_button"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/animated_arrow"
+            tools:ignore="UseAppTint" />
 
-            <ImageButton
-                android:id="@+id/big_red_button"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:adjustViewBounds="true"
-                android:backgroundTint="#00FFFFFF"
-                android:scaleType="fitCenter"
-                android:src="@drawable/animated_red_button"
-                android:visibility="gone"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
+        <ImageButton
+            android:id="@+id/big_red_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:backgroundTint="#00FFFFFF"
+            android:scaleType="fitCenter"
+            android:src="@drawable/animated_red_button"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
