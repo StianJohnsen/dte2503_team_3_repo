@@ -41,14 +41,14 @@
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/mainBlue"
+            android:background="@color/primary_color"
             app:layout_constraintTop_toBottomOf="@id/tv_power_settings"
             app:layout_constraintBottom_toBottomOf="parent">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/mainBlue">
+                android:background="@color/primary_color">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -74,8 +74,10 @@
                             android:id="@+id/battery_saving_mode_text_view"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
-                            android:foregroundTint="@color/text_color"android:gravity="center_vertical"
-                            android:text="@string/battery_saving_mode"android:textColor="@color/text_color"
+                            android:foregroundTint="@color/text_color"
+                            android:gravity="center_vertical"
+                            android:text="@string/battery_saving_mode"
+                            android:textColor="@color/text_color"
                             android:textSize="@dimen/text_size_20"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
@@ -87,12 +89,12 @@
                             android:layout_height="0dp"
                             android:backgroundTint="@color/text_color"
                             android:popupBackground="@drawable/white_rounded_16dp_background"
-                    android:textSize="@dimen/text_size_20"
+                            android:textSize="@dimen/text_size_20"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintStart_toEndOf="@+id/battery_saving_mode_text_view"
                             app:layout_constraintTop_toTopOf="parent" />
-                    </androidx.constraintlayout.widget.ConstraintLayout>
 
+                    </androidx.constraintlayout.widget.ConstraintLayout>
 
                     <TextView
                         android:id="@+id/battery_lost_percentage"
@@ -104,13 +106,13 @@
                         android:layout_marginEnd="5dp"
                         android:layout_marginBottom="@dimen/margin_padding_size_10"
                         android:height="@dimen/standard_touch_size"
-                        android:foregroundTint="@color/text_color"android:gravity="center_vertical"
-                        android:text="@string/lost_percentage"android:textColor="@color/text_color"
+                        android:foregroundTint="@color/text_color"
+                        android:gravity="center_vertical"
+                        android:text="@string/lost_percentage"
+                        android:textColor="@color/text_color"
                         android:textSize="@dimen/text_size_20" />
 
-
                 </LinearLayout>
-
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
