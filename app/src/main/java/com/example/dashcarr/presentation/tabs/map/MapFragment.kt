@@ -42,17 +42,16 @@ import com.example.dashcarr.presentation.mapper.toMarker
 import com.example.dashcarr.presentation.tabs.camera.dashcam.DashcamFragment
 import com.example.dashcarr.presentation.tabs.map.data.PointOfInterest
 import com.example.dashcarr.presentation.tabs.settings.PowerSavingMode
-import com.example.dashcarr.presentation.tabs.settings.maps_settings.MapsSettingsViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import org.osmdroid.config.Configuration
 import org.osmdroid.events.MapEventsReceiver
-import org.osmdroid.tileprovider.tilesource.ITileSource
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory
 import org.osmdroid.util.GeoPoint
 import org.osmdroid.views.CustomZoomButtonsController
 import org.osmdroid.views.MapView
 import org.osmdroid.views.overlay.MapEventsOverlay
+import org.osmdroid.views.overlay.TilesOverlay
 import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay
 
 /**
@@ -72,7 +71,6 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
 ), LocationListener, MapEventsReceiver {
 
     private val mapViewModel: MapViewModel by viewModels()
-    private val mapSettingsviewModel: MapsSettingsViewModel by viewModels()
     private val recordingViewModel: RecordingViewModel by viewModels()
 
     private val sensorRecordingViewModel by lazy {
@@ -339,17 +337,39 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
         val sharedPrefs = requireActivity().getSharedPreferences("MapPrefs", Context.MODE_PRIVATE)
         val tileNameResId = sharedPrefs.getInt("current_tile_name_res_id", R.string.mapnik)
 
-        val tileName = getString(tileNameResId)
+        var tileName = getString(tileNameResId)
+        tileName = getTileSourceFromName(tileName)
+        when (tileName) {
+            "MAPNIK" -> {
+                binding.mapView.setTileSource(TileSourceFactory.MAPNIK)
+            }
 
-        binding.mapView.setTileSource(getTileSourceFromName(tileName))
+            "USGS_SAT" -> {
+                binding.mapView.setTileSource(TileSourceFactory.USGS_SAT)
+            }
+
+            "USGS_TOPO" -> {
+                binding.mapView.setTileSource(TileSourceFactory.USGS_TOPO)
+            }
+
+            "DARK" -> {
+                binding.mapView.setTileSource(TileSourceFactory.MAPNIK)
+                binding.mapView.getOverlayManager().getTilesOverlay().setColorFilter(TilesOverlay.INVERT_COLORS)
+            }
+
+            else -> {
+                binding.mapView.setTileSource(TileSourceFactory.MAPNIK)
+            }
+        }
     }
 
-    private fun getTileSourceFromName(tileName: String): ITileSource {
+    private fun getTileSourceFromName(tileName: String): String {
         return when (tileName) {
-            getString(R.string.mapnik) -> TileSourceFactory.MAPNIK
-            getString(R.string.usgs_sat) -> TileSourceFactory.USGS_SAT
-            getString(R.string.usgs_topo) -> TileSourceFactory.USGS_TOPO
-            else -> TileSourceFactory.DEFAULT_TILE_SOURCE
+            getString(R.string.mapnik) -> "MAPNIK"
+            getString(R.string.usgs_sat) -> "USGS_SAT"
+            getString(R.string.usgs_topo) -> "USGS_TOPO"
+            getString(R.string.dark) -> "DARK"
+            else -> "DEFAULT_TILE_SOURCE"
         }
     }
 
