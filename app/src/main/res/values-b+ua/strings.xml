@@ -3,48 +3,48 @@
 
     <!--SensorRecording-->
 
-    <string name="accelerometer_unfiltered_template">Accelerometer: %f m/s^2</string>
-    <string name="gyroscope_unfiltered_template">Gyroscope: %f rad/s</string>
-    <string name="accelerometer_filtered_template">Filtered Accelerometer: %f m/s^2</string>
-    <string name="gyroscope_filtered_template">Filtered Gyroscope: %f rad/s</string>
-    <string name="orientation_tenplate">Orientation %f</string>
+    <string name="accelerometer_unfiltered_template">Акселерометер: %f m/с^2</string>
+    <string name="gyroscope_unfiltered_template">Гіроскоп: %f рад/с</string>
+    <string name="accelerometer_filtered_template">Фільтрований акселерометер: %f m/с^2</string>
+    <string name="gyroscope_filtered_template">Фільтрований гіроскоп: %f рад/с</string>
+    <string name="orientation_tenplate">Орієнтація: %f</string>
 
     <!--LoginFragment-->
 
-    <string name="continue_with_google">Continue with Google</string>
-    <string name="continue_with_facebook">Continue with Facebook</string>
-    <string name="login">Login</string>
-    <string name="email_necessary">Email<font color='#DD2421'>*</font></string>
-    <string name="password_necessary">Password<font color='#DD2421'>*</font></string>
-    <string name="forgot_password">Forgot Password?</string>
-    <string name="btnLogin">Login</string>
-    <string name="btnLogout">Logout</string>
-    <string name="signUp">Sign Up</string>
-    <string name="or">Or</string>
+    <string name="continue_with_google">Продовжити з Google</string>
+    <string name="continue_with_facebook">Продовжити з Facebook</string>
+    <string name="login">Увійти</string>
+    <string name="email_necessary">Електронна пошта<font color='#DD2421'>*</font></string>
+    <string name="password_necessary">Пароль<font color='#DD2421'>*</font></string>
+    <string name="forgot_password">Забули пароль?</string>
+    <string name="btnLogin">Увійти</string>
+    <string name="btnLogout">Вийти</string>
+    <string name="signUp">Зареєструватися</string>
+    <string name="or">Або</string>
 
     <!--Camera-->
 
-    <string name="label_record">Record</string>
-    <string name="label_saved_recordings">Files</string>
-    <string name="label_dashcam">Dashcam</string>
+    <string name="label_record">Запис</string>
+    <string name="label_saved_recordings">Файли</string>
+    <string name="label_dashcam">Дашкам</string>
 
-    <string name="start_recording">Start</string>
-    <string name="stop_recording">Stop</string>
-    <string name="pause_recording">Pause</string>
-    <string name="resume_recording">Resume</string>
-    <string name="delete_recording">Delete</string>
-    <string name="recording_in_progress">Recording...</string>
+    <string name="start_recording">Почати</string>
+    <string name="stop_recording">Зупинити</string>
+    <string name="pause_recording">Пауза</string>
+    <string name="resume_recording">Продовжити</string>
+    <string name="delete_recording">Видалити</string>
+    <string name="recording_in_progress">Запис…</string>
 
     <!--Error-->
 
-    <string name="error_invalid_email">Invalid Email</string>
-    <string name="error_invalid_password">Invalid password</string>
-    <string name="error_too_short_password">Too short password</string>
-    <string name="error_non_upper_case">Password must contain at least one upper case</string>
-    <string name="error_non_digit">Password must contain at least one digit</string>
-    <string name="error_unknown">Oops, something went wrong</string>
-    <string name="error_email_empty">Email cannot be empty.</string>
-    <string name="error_enter_both_email_and_password">Please enter both email and password</string>
+    <string name="error_invalid_email">Невірна електронна пошта</string>
+    <string name="error_invalid_password">Невірний пароль</string>
+    <string name="error_too_short_password">Пароль занадто короткий</string>
+    <string name="error_non_upper_case">Пароль повинен містити принаймні одну велику літеру</string>
+    <string name="error_non_digit">Пароль повинен містити принаймні одну цифру</string>
+    <string name="error_unknown">Ой, щось пішло не так</string>
+    <string name="error_email_empty">Електронна пошта не може бути порожньою.</string>
+    <string name="error_enter_both_email_and_password">Будь ласка, введіть електронну пошту та пароль</string>
 
     <!--Credentials-->
 
@@ -54,119 +54,119 @@
 
     <!--SettingsFragment-->
 
-    <string name="about_app">Налаштування карти</string>
-    <string name="maps_settings">Map Settings</string>
-    <string name="social_settings">Social Settings</string>
-    <string name="dashcam_settings">Dashcam Settings</string>
-    <string name="history_settings">History Settings</string>
-    <string name="preferences_settings">Preferences</string>
-    <string name="new_features_setting">New Features</string>
-    <string name="saved_recordings">Saved Recordings</string>
-    <string name="power_settings">Power Settings</string>
+    <string name="about_app">Налаштування додатку</string>
+    <string name="maps_settings">Налаштування карт</string>
+    <string name="social_settings">Соціальні налаштування</string>
+    <string name="dashcam_settings">Налаштування відеореєстратора</string>
+    <string name="history_settings">Історія налаштувань</string>
+    <string name="preferences_settings">Параметри</string>
+    <string name="new_features_setting">Нові функції</string>
+    <string name="saved_recordings">Збережені записи</string>
+    <string name="power_settings">Налаштування живлення</string>
 
     <!--HistoryFragment-->
 
-    <string name="show_statistics">Show Statistics</string>
+    <string name="show_statistics">Показати статистику</string>
 
     <!--RecordingStatisticsFragment-->
 
-    <string name="statistics">Statistics</string>
-    <string name="total_storage">Total Storage:</string>
-    <string name="number_of_files">Number Of Files:</string>
+    <string name="statistics">Статистика</string>
+    <string name="total_storage">Загальний обсяг:</string>
+    <string name="number_of_files">Кількість файлів:</string>
     <string name="incoming">…</string>
-    <string name="avg_time">Average Time:</string>
-    <string name="avg_size">Average file size:</string>
-    <string name="btnBack">Back</string>
+    <string name="avg_time">Середній час:</string>
+    <string name="avg_size">Середній розмір файлу:</string>
+    <string name="btnBack">Назад</string>
 
     <!--RecordingDetailsFragment-->
 
-    <string name="length">Length:</string>
-    <string name="amount_of_datapoints">Amount of Datapoints:</string>
-    <string name="date_of_recording">Date of recording:</string>
-    <string name="data_size">Data size:</string>
+    <string name="length">Довжина:</string>
+    <string name="amount_of_datapoints">Кількість даних:</string>
+    <string name="date_of_recording">Дата запису:</string>
+    <string name="data_size">Розмір даних:</string>
     <string name="bar">______________________________________</string>
 
     <!--RecordingFragment-->
 
-    <string name="sensor_recording">Recording</string>
-    <string name="elapsed_time">Elapsed Time: %s</string>
-    <string name="amount_of_data">Amount of Data:</string>
-    <string name="current_data">Current Data:</string>Configure
-    <string name="stop_sensor_recording">Stop Recording</string>
+    <string name="sensor_recording">Запис</string>
+    <string name="elapsed_time">Пройшло часу: %s</string>
+    <string name="amount_of_data">Кількість даних:</string>
+    <string name="current_data">Поточні дані:</string>Налаштувати
+    <string name="stop_sensor_recording">Зупинити запис</string>
 
 
     <!--ConfigureFragment-->
 
-    <string name="configure">Configure</string>
-    <string name="name">Name:</string>
-    <string name="filter_data">Filter data</string>
-    <string name="include_gyro">Include gyro</string>
-    <string name="include_accelerometer">Include accelerometer</string>
-    <string name="include_orientation">Include orientation</string>
-    <string name="configure_start_recording">Start recording</string>
-    <string name="enter_file_name">Enter file name</string>
+    <string name="configure">Налаштувати</string>
+    <string name="name">Назва:</string>
+    <string name="filter_data">Фільтрувати дані</string>
+    <string name="include_gyro">Включити гіроскоп</string>
+    <string name="include_accelerometer">Включити акселерометр</string>
+    <string name="include_orientation">Включити орієнтацію</string>
+    <string name="configure_start_recording">Почати запис</string>
+    <string name="enter_file_name">Ввести назву файлу</string>
     <string name="product_info_text">
-        This app will support you while driving!\n\n
-        Adding points of interests is easy, just press and hold on the map.\n\n
-        You can start a new recording on the map tab with the button in the corner.\n\n
-        After saving it, you can analyse the data in the history.\n\n
-        When you hold the map tab a experimental feature will appear, feel free to try it!\n\n
-        You can also use your camera as a dashcam. To activate this feature click the camera and select the triangle.
-    </string>
+        Цей додаток допоможе вам під час водіння!\n\n
+        Додавання точок інтересу просте, просто натисніть і утримуйте на карті.\n\n
+        Ви можете почати новий запис на вкладці карти за допомогою кнопки в кутку.\n\n
+        Після збереження ви можете проаналізувати дані в історії.\n\n
+        При утриманні вкладки карти з'явиться експериментальна функція, можете спробувати!\n\n
+        Ви також можете використовувати свою камеру як відеореєстратор. Щоб активувати цю функцію, натисніть на камеру та виберіть трикутник.
+</string>
 
-    <string name="start_using">Start Using!</string>
+    <string name="start_using">Почати використання!</string>
 
     <!--MapFragment-->
-    <string name="marker_name">Marker name</string>
-    <string name="save_poi">save</string>
-    <string name="cancel_poi">Cancel</string>
-    <string name="some_permissions_missing">Location is not allowed. Change in settings</string>
+    <string name="marker_name">Назва маркера</string>
+    <string name="save_poi">Зберегти</string>
+    <string name="cancel_poi">Скасувати</string>
+    <string name="some_permissions_missing">Геолокація не дозволена. Змініть у налаштуваннях</string>
 
     <!--Copyright-->
-    <string name="version_0_9">Version: 0.9</string>
+    <string name="version_0_9">Версія: 0.9</string>
     <string name="_2023_uit">© 2023 UIT</string>
-    <string name="icons8">Icons by icons8.com</string>
+    <string name="icons8">Іконки від icons8.com</string>
 
     <!--PowerSettingsFragment-->
-    <string name="lost_percentage">Battery consumption: %d%%</string>
-    <string name="gained_percentage">Charged amount: %d%%</string>
-    <string name="power_settings_text">Power Settings</string>
-    <string name="battery_saving_mode">Battery Saving Mode:</string>
+    <string name="lost_percentage">Споживання батареї: %d%%</string>
+    <string name="gained_percentage">Заряджено: %d%%</string>
+    <string name="power_settings_text">Налаштування живлення</string>
+    <string name="battery_saving_mode">Режим енергозбереження:</string>
 
     <!--SocialSettingsFragment-->
-    <string name="social_settings_text">Social Settings</string>
-    <string name="add_friend_button">Add Friend</string>
-    <string name="delete_friend_button">Delete Friend</string>
-    <string name="cancel_friend_button">Cancel</string>
-    <string name="input_name">Name</string>
-    <string name="input_phone">Phone</string>
-    <string name="input_email">Email</string>
-    <string name="update">Update</string>
+    <string name="social_settings_text">Соціальні налаштування</string>
+    <string name="add_friend_button">Додати друга</string>
+    <string name="delete_friend_button">Видалити друга</string>
+    <string name="cancel_friend_button">Скасувати</string>
+    <string name="input_name">Ім\'я</string>
+    <string name="input_phone">Телефон</string>
+    <string name="input_email">Електронна пошта</string>
+    <string name="update">Оновити</string>
 
     <!--HudView-->
-    <string name="search_for_location">Waiting for GPS</string>
-    <string name="back_button_content_description">Back button</string>
+    <string name="search_for_location">Очікування GPS</string>
+    <string name="back_button_content_description">Кнопка назад</string>
 
     <!--MapSettingsFragment-->
-    <string name="points_of_interest">Points Of Interest</string>
-    <string name="btnRename">Rename</string>
-    <string name="btnDelete">delete</string>
-    <string name="update_poi">update</string>
-    <string name="delete_poi">delete</string>
-    <string name="point_deleted_successfully">Point deleted successfully</string>
-    <string name="point_renamed_successfully">Point renamed successfully</string>
-    <string name="add_message">Add Message</string>
-    <string name="select_contact">Select Contact</string>
-    <string name="select_message">Select Message</string>
-    <string name="message">Message</string>
-    <string name="add_message_capitalized">ADD MESSAGE</string>
-    <string name="send_message">Send message</string>
+    <string name="points_of_interest">Точки інтересів</string>
+    <string name="btnRename">Перейменувати</string>
+    <string name="btnDelete">видалити</string>
+    <string name="update_poi">оновити</string>
+    <string name="delete_poi">видалити</string>
+    <string name="point_deleted_successfully">Точка успішно видалена</string>
+    <string name="point_renamed_successfully">Точка успішно перейменована</string>
+    <string name="add_message">Додати повідомлення</string>
+    <string name="select_contact">Вибрати контакт</string>
+    <string name="select_message">Вибрати повідомлення</string>
+    <string name="message">Повідомлення</string>
+    <string name="add_message_capitalized">ДОДАТИ ПОВІДОМЛЕННЯ</string>
+    <string name="send_message">Відправити повідомлення</string>
 
     <!--SocialSettingsFragment-->
-    <string name="sent_messages">Sent Messages</string>
-    <string name="contact_list">Contacts</string>
-    <string name="message_deleted_successfully">Message deleted successfully</string>
-    <string name="unknown_user">Unknown user</string>
-    <string name="to_whom_message">To:</string>
+    <string name="sent_messages">Відправлені повідомлення</string>
+    <string name="contact_list">Контакти</string>
+    <string name="message_deleted_successfully">Повідомлення успішно видалено</string>
+    <string name="unknown_user">Невідомий користувач</string>
+    <string name="to_whom_message">Кому:</string>
 
 </resources>
