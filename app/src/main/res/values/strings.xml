@@ -142,6 +142,11 @@
     <string name="add_message_capitalized">ADD MESSAGE</string>
     <string name="send_message">Send message</string>
     <string name="change_tiles">Change Map Tile</string>
+    <string name="mapnik">Standard</string>
+    <string name="usgs_sat">Satellite</string>
+    <string name="usgs_topo">Relief</string>
+    <string name="default_tile_source">Standard</string>
+    <string name="current_tile">Current tile: %1$s</string>
 
     <!--SocialSettingsFragment-->
     <string name="sent_messages">Sent Messages</string>
