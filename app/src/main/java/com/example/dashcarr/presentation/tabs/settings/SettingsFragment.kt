@@ -64,6 +64,10 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>(
             findNavController().navigate(R.id.action_action_settings_to_socialSettingsFragment)
         }
 
+        binding.btnDashcamSettings.setOnClickListener {
+            findNavController().navigate(R.id.action_action_settings_to_cameraSettings)
+        }
+
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
