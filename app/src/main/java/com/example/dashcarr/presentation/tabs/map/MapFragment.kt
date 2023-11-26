@@ -10,6 +10,7 @@ import android.icu.util.Calendar
 import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
+import android.net.Uri
 import android.os.BatteryManager
 import android.os.Bundle
 import android.os.PowerManager
@@ -186,6 +187,13 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
 
         binding.btnSendMessage.setOnClickListener {
             findNavController().navigate(R.id.action_action_map_to_selectContactFragment)
+        }
+
+        binding.btnEmergencyCall.setOnClickListener {
+            val intent = Intent(Intent.ACTION_DIAL).apply {
+                data = Uri.parse("tel:112")
+            }
+            startActivity(intent)
         }
     }
 
