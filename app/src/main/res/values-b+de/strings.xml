@@ -3,48 +3,48 @@
 
     <!--SensorRecording-->
 
-    <string name="accelerometer_unfiltered_template">Accelerometer: %f m/s^2</string>
-    <string name="gyroscope_unfiltered_template">Gyroscope: %f rad/s</string>
-    <string name="accelerometer_filtered_template">Filtered Accelerometer: %f m/s^2</string>
-    <string name="gyroscope_filtered_template">Filtered Gyroscope: %f rad/s</string>
-    <string name="orientation_tenplate">Orientation %f</string>
+    <string name="accelerometer_unfiltered_template">Beschleunigungssensor: %f m/s^2</string>
+    <string name="gyroscope_unfiltered_template">Gyroskop: %f rad/s</string>
+    <string name="accelerometer_filtered_template">Gefilterter Beschleunigungssensor: %f m/s^2</string>
+    <string name="gyroscope_filtered_template">Gefiltertes Gyroskop: %f rad/s</string>
+    <string name="orientation_tenplate">Orientierung %f</string>
 
     <!--LoginFragment-->
 
-    <string name="continue_with_google">Continue with Google</string>
-    <string name="continue_with_facebook">Continue with Facebook</string>
+    <string name="continue_with_google">Fortfahren mit Google</string>
+    <string name="continue_with_facebook">Fortfahren mit Facebook</string>
     <string name="login">Login</string>
     <string name="email_necessary">Email<font color='#DD2421'>*</font></string>
-    <string name="password_necessary">Password<font color='#DD2421'>*</font></string>
-    <string name="forgot_password">Forgot Password?</string>
+    <string name="password_necessary">Passwort<font color='#DD2421'>*</font></string>
+    <string name="forgot_password">Passwort vergessen?</string>
     <string name="btnLogin">Login</string>
     <string name="btnLogout">Logout</string>
-    <string name="signUp">Sign Up</string>
-    <string name="or">Or</string>
+    <string name="signUp">Registrieren</string>
+    <string name="or">Oder</string>
 
     <!--Camera-->
 
-    <string name="label_record">Record</string>
-    <string name="label_saved_recordings">Files</string>
+    <string name="label_record">Aufnehmen</string>
+    <string name="label_saved_recordings">Dateien</string>
     <string name="label_dashcam">Dashcam</string>
 
     <string name="start_recording">Start</string>
     <string name="stop_recording">Stop</string>
     <string name="pause_recording">Pause</string>
-    <string name="resume_recording">Resume</string>
-    <string name="delete_recording">Delete</string>
-    <string name="recording_in_progress">Recording...</string>
+    <string name="resume_recording">Weiter</string>
+    <string name="delete_recording">Löschen</string>
+    <string name="recording_in_progress">Aufnahme…</string>
 
     <!--Error-->
 
-    <string name="error_invalid_email">Invalid Email</string>
-    <string name="error_invalid_password">Invalid password</string>
-    <string name="error_too_short_password">Too short password</string>
-    <string name="error_non_upper_case">Password must contain at least one upper case</string>
-    <string name="error_non_digit">Password must contain at least one digit</string>
-    <string name="error_unknown">Oops, something went wrong</string>
-    <string name="error_email_empty">Email cannot be empty.</string>
-    <string name="error_enter_both_email_and_password">Please enter both email and password</string>
+    <string name="error_invalid_email">Email ungültig</string>
+    <string name="error_invalid_password">Passwort ungültig</string>
+    <string name="error_too_short_password">Passwort zu kurz</string>
+    <string name="error_non_upper_case">Das Passwort muss mindestens einen Großbuchstaben beinhalten</string>
+    <string name="error_non_digit">Das Passwort muss mindestens eine Zahl beinhalten</string>
+    <string name="error_unknown">Ups, etwas ist schief gelaufen</string>
+    <string name="error_email_empty">Email darf nicht leer sein</string>
+    <string name="error_enter_both_email_and_password">Bitte gib dein Email und das Passwort ein</string>
 
     <!--Credentials-->
 
@@ -54,42 +54,42 @@
 
     <!--SettingsFragment-->
 
-    <string name="about_app">Karteneinstellungen</string>
-    <string name="maps_settings">Map Settings</string>
+    <string name="about_app">Tutorial</string>
+    <string name="maps_settings">Karteneinstellungen</string>
     <string name="social_settings">Social Settings</string>
-    <string name="dashcam_settings">Dashcam Settings</string>
-    <string name="history_settings">History Settings</string>
-    <string name="preferences_settings">Preferences</string>
-    <string name="new_features_setting">New Features</string>
-    <string name="saved_recordings">Saved Recordings</string>
-    <string name="power_settings">Power Settings</string>
+    <string name="dashcam_settings">Dashcam</string>
+    <string name="history_settings">Verlauf</string>
+    <string name="preferences_settings">Einstellungen</string>
+    <string name="new_features_setting">Neue Funktionen</string>
+    <string name="saved_recordings">Gespeicherete Aufnahmen</string>
+    <string name="power_settings">Energiesparmodus</string>
 
     <!--HistoryFragment-->
 
-    <string name="show_statistics">Show Statistics</string>
+    <string name="show_statistics">Statistiken Anzeigen</string>
 
     <!--RecordingStatisticsFragment-->
 
-    <string name="statistics">Statistics</string>
-    <string name="total_storage">Total Storage:</string>
-    <string name="number_of_files">Number Of Files:</string>
+    <string name="statistics">Statistiken</string>
+    <string name="total_storage">Gesamtspeicher:</string>
+    <string name="number_of_files">Anzahl Dateien:</string>
     <string name="incoming">…</string>
-    <string name="avg_time">Average Time:</string>
-    <string name="avg_size">Average file size:</string>
-    <string name="btnBack">Back</string>
+    <string name="avg_time">Durchschnittsdauer:</string>
+    <string name="avg_size">Durchschnittsgröße:</string>
+    <string name="btnBack">Zurück</string>
 
     <!--RecordingDetailsFragment-->
 
-    <string name="length">Length:</string>
-    <string name="amount_of_datapoints">Amount of Datapoints:</string>
-    <string name="date_of_recording">Date of recording:</string>
-    <string name="data_size">Data size:</string>
+    <string name="length">Dauer:</string>
+    <string name="amount_of_datapoints">Anzahl Datenpunkte:</string>
+    <string name="date_of_recording">Datum der Aufnahme:</string>
+    <string name="data_size">Dateigröße:</string>
     <string name="bar">______________________________________</string>
 
+    <!--TODO: Delete?-->
     <!--RecordingFragment-->
-
-    <string name="sensor_recording">Recording</string>
-    <string name="elapsed_time">Elapsed Time: %s</string>
+    <string name="sensor_recording">Aufnahme</string>
+    <string name="elapsed_time">Vergange Zeit: %s</string>
     <string name="amount_of_data">Amount of Data:</string>
     <string name="current_data">Current Data:</string>Configure
     <string name="stop_sensor_recording">Stop Recording</string>
@@ -97,7 +97,7 @@
 
     <!--ConfigureFragment-->
 
-    <string name="configure">Configure</string>
+    <string name="configure">Configurieren</string>
     <string name="name">Name:</string>
     <string name="filter_data">Filter data</string>
     <string name="include_gyro">Include gyro</string>
@@ -117,56 +117,56 @@
     <string name="start_using">Start Using!</string>
 
     <!--MapFragment-->
-    <string name="marker_name">Marker name</string>
-    <string name="save_poi">save</string>
-    <string name="cancel_poi">Cancel</string>
-    <string name="some_permissions_missing">Location is not allowed. Change in settings</string>
+    <string name="marker_name">Bezeichnung</string>
+    <string name="save_poi">Speichern</string>
+    <string name="cancel_poi">Abbruch</string>
+    <string name="some_permissions_missing">Standortzugriff nicht gewährt.</string>
 
     <!--Copyright-->
     <string name="version_0_9">Version: 0.9</string>
     <string name="_2023_uit">© 2023 UIT</string>
-    <string name="icons8">Icons by icons8.com</string>
+    <string name="icons8">Icons von icons8.com</string>
 
     <!--PowerSettingsFragment-->
-    <string name="lost_percentage">Battery consumption: %d%%</string>
-    <string name="gained_percentage">Charged amount: %d%%</string>
-    <string name="power_settings_text">Power Settings</string>
-    <string name="battery_saving_mode">Battery Saving Mode:</string>
+    <string name="lost_percentage">Verbrauchter akku: %d%%</string>
+    <string name="gained_percentage">Geladen: %d%%</string>
+    <string name="power_settings_text">Energieoptionen</string>
+    <string name="battery_saving_mode">Energiesparmodus:</string>
 
     <!--SocialSettingsFragment-->
-    <string name="social_settings_text">Social Settings</string>
-    <string name="add_friend_button">Add Friend</string>
-    <string name="delete_friend_button">Delete Friend</string>
-    <string name="cancel_friend_button">Cancel</string>
+    <string name="social_settings_text">Freundesliste</string>
+    <string name="add_friend_button">Freund hinzufügen</string>
+    <string name="delete_friend_button">Freund löschen</string>
+    <string name="cancel_friend_button">Abbruch</string>
     <string name="input_name">Name</string>
-    <string name="input_phone">Phone</string>
+    <string name="input_phone">Telefon</string>
     <string name="input_email">Email</string>
-    <string name="update">Update</string>
+    <string name="update">Aktualisieren</string>
 
     <!--HudView-->
-    <string name="search_for_location">Waiting for GPS</string>
-    <string name="back_button_content_description">Back button</string>
+    <string name="search_for_location">Auf GPS warten</string>
+    <string name="back_button_content_description">Zurück</string>
 
     <!--MapSettingsFragment-->
-    <string name="points_of_interest">Points Of Interest</string>
-    <string name="btnRename">Rename</string>
-    <string name="btnDelete">delete</string>
-    <string name="update_poi">update</string>
-    <string name="delete_poi">delete</string>
-    <string name="point_deleted_successfully">Point deleted successfully</string>
-    <string name="point_renamed_successfully">Point renamed successfully</string>
-    <string name="add_message">Add Message</string>
-    <string name="select_contact">Select Contact</string>
-    <string name="select_message">Select Message</string>
-    <string name="message">Message</string>
-    <string name="add_message_capitalized">ADD MESSAGE</string>
-    <string name="send_message">Send message</string>
+    <string name="points_of_interest">Gespeicherte Orte</string>
+    <string name="btnRename">Umbenennen</string>
+    <string name="btnDelete">Löschen</string>
+    <string name="update_poi">Aktualisieren</string>
+    <string name="delete_poi">Löschen</string>
+    <string name="point_deleted_successfully">Ort erfolgreich gelöscht</string>
+    <string name="point_renamed_successfully">Ort erfolgreich umbenannt</string>
+    <string name="add_message">Nachricht hinzufügen</string>
+    <string name="select_contact">Freund Auswählen</string>
+    <string name="select_message">Nachricht Auswählen</string>
+    <string name="message">Nachricht</string>
+    <string name="add_message_capitalized">NEUE NACHRICHT</string>
+    <string name="send_message">Senden</string>
 
     <!--SocialSettingsFragment-->
-    <string name="sent_messages">Sent Messages</string>
-    <string name="contact_list">Contacts</string>
-    <string name="message_deleted_successfully">Message deleted successfully</string>
-    <string name="unknown_user">Unknown user</string>
-    <string name="to_whom_message">To:</string>
+    <string name="sent_messages">Verlauf</string>
+    <string name="contact_list">Freunde</string>
+    <string name="message_deleted_successfully">Nachricht erfolgreich gelöscht</string>
+    <string name="unknown_user">Unbekannter Nutzer</string>
+    <string name="to_whom_message">An:</string>
 
 </resources>
