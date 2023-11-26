@@ -54,6 +54,7 @@ class HudFragment : BaseFragment<FragmentHudBinding>(
             binding.hudImage.setHeightSmooth(0, view.height, true)
             binding.hudImage.scaleY = -1F
             binding.imageContainer.setBackgroundColor(Color.BLACK)
+
         } else {
             textCanvas =
                 SessionInformationDrawable(
@@ -64,7 +65,12 @@ class HudFragment : BaseFragment<FragmentHudBinding>(
                     binding.hudImage.setHeightSmooth(0, it, true)
                 }
         }
+
         binding.hudImage.setImageDrawable(textCanvas)
+
+        binding.hudImage.setOnClickListener {
+            textCanvas.toggleSpeedUnit()
+        }
 
         permissionHandling()
     }
