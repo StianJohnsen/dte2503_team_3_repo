@@ -97,7 +97,7 @@ class SensorRecordingViewModel(application: Application) : AndroidViewModel(appl
     }
 
     fun makeStartJsonObject(localDateTime: LocalDateTime) =
-        sensorRecording.makeStartJsonObject(localDateTime, timerController.elapsedTime.value)
+        sensorRecording.makeStartJsonObject(localDateTime, timerController.getElapsedTime())
 
     fun makeJsonObject(localDateTime: LocalDateTime, jsonObject: JSONObject) =
         sensorRecording.makeJsonObject(localDateTime, jsonObject)
