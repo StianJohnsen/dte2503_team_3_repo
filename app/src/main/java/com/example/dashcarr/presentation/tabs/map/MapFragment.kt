@@ -120,11 +120,6 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
             }
         }
         viewLifecycleOwner.lifecycleScope.launch {
-            sensorRecordingViewModel.timerController.isRecording.collect {
-            }
-        }
-
-        viewLifecycleOwner.lifecycleScope.launch {
             sensorRecordingViewModel.sensorRecording.isBtnStopShowing.collect {
                 binding.btnStop.visibility = it
             }
