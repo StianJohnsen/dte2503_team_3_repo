@@ -3,7 +3,7 @@
     android:id="@+id/flEditMarkerLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/black20">
+    android:background="@color/transparent_25">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -21,7 +21,7 @@
             android:layout_marginHorizontal="@dimen/margin_padding_size_46"
             android:layout_marginTop="@dimen/margin_padding_size_8"
             android:hint="@string/marker_name"
-            app:boxStrokeErrorColor="@color/red"
+            app:boxStrokeErrorColor="@color/recording_red"
             app:boxStrokeWidth="1dp"
             app:endIconMode="custom"
             app:errorEnabled="false"
@@ -60,7 +60,7 @@
                 android:layout_marginEnd="@dimen/margin_padding_size_6"
                 android:layout_marginBottom="@dimen/margin_padding_size_10"
                 android:layout_weight="1"
-                android:backgroundTint="@color/black"
+                android:backgroundTint="@color/button_color"
                 android:insetTop="@dimen/margin_padding_size_0"
                 android:insetBottom="@dimen/margin_padding_size_0"
                 android:text="@string/update_recording"
@@ -80,7 +80,7 @@
                 android:layout_marginStart="@dimen/margin_padding_size_6"
                 android:layout_marginTop="@dimen/margin_padding_size_10"
                 android:layout_weight="1"
-                android:backgroundTint="@color/black"
+                android:backgroundTint="@color/button_color"
                 android:insetTop="@dimen/margin_padding_size_0"
                 android:insetBottom="@dimen/margin_padding_size_0"
                 android:text="@string/cancel_poi"
