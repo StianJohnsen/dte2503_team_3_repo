@@ -9,10 +9,6 @@ import android.content.pm.ActivityInfo
 import android.graphics.Color
 import android.graphics.ColorMatrix
 import android.graphics.ColorMatrixColorFilter
-import android.hardware.Sensor
-import android.hardware.SensorEvent
-import android.hardware.SensorEventListener
-import android.hardware.SensorManager
 import android.icu.util.Calendar
 import android.location.Location
 import android.location.LocationListener
@@ -78,7 +74,6 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
 ), LocationListener, MapEventsReceiver {
 
     private val mapViewModel: MapViewModel by viewModels()
-    private val recordingViewModel: RecordingViewModel by viewModels()
 
     private val sensorRecordingViewModel by lazy {
         ViewModelProvider(this)[SensorRecordingViewModel::class.java]
@@ -430,105 +425,6 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
             else -> "DEFAULT_TILE_SOURCE"
         }
     }
-
-    private fun readJsonFromFile(): JSONArray {
-        var jsonArray = JSONArray()
-        try {
-            val inputStream = context?.openFileInput("sensor_config.json")
-            if (inputStream != null) {
-                val reader = BufferedReader(InputStreamReader(inputStream, Charset.forName("UTF-8")))
-                val line: String? = reader.readLine()
-                jsonArray = JSONArray(line.toString())
-                inputStream.close()
-            }
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
-        return jsonArray
-    }
-
-    private fun writeToLocationStringBuilder(gpsList: MutableList<SensorData>): StringBuilder {
-        val stringBuilder = StringBuilder()
-        var id = 0
-        stringBuilder.append("ID, GPS_Timestamp(ms), Longitude, Latitude, Altitude\n")
-        gpsList.forEach {
-            // Longitude = x, Latitude = y, Altitude = z
-            stringBuilder.append("$id, ${it.timestamp}, ${it.x}, ${it.y}, ${it.z}\n")
-            id++
-        }
-        return stringBuilder
-    }
-
-    private fun writeToSensorStringBuilder(sensor: String, sensorList: MutableList<SensorData>): StringBuilder {
-        val stringBuilder = StringBuilder()
-        var id = 0
-        stringBuilder.append("ID, ${sensor}_Timestamp(ms), ${sensor}_X, ${sensor}_Y, ${sensor}_Z\n")
-        sensorList.forEach {
-            stringBuilder.append("$id, ${it.timestamp}, ${it.x}, ${it.y}, ${it.z}\n")
-            id++
-        }
-        return stringBuilder
-    }
-
-    private fun saveToFile(stringBuilder: StringBuilder, filtered: String, sensor: String, dateTime: LocalDateTime) {
-        val formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy_HH-mm-ss")
-        context?.openFileOutput("${dateTime.format(formatter)}_${filtered}_${sensor}.csv", Context.MODE_PRIVATE).use {
-            it?.write(stringBuilder.toString().toByteArray())
-        }
-    }
-
-    private fun makeJSONObject(
-        dateTime: LocalDateTime,
-        filtered: String,
-        sensor: String,
-    ) {
-        val formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy_HH-mm-ss")
-        recordingJson.put("${filtered}_${sensor}", "${dateTime.format(formatter)}_${filtered}tered_${sensor}.csv")
-    }
-
-    private fun saveToCSV() {
-        val stopDateTime = LocalDateTime.now()
-
-        val formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm")
-        recordingJson.put("name", "Recording from ${stopDateTime.format(formatter)}")
-        recordingJson.put("elapsed_time", elapsedTime)
-        recordingJson.put("date", stopDateTime)
-
-        // Location
-        var currentStringBuilder: StringBuilder = writeToLocationStringBuilder(rawLocationRecord)
-        saveToFile(currentStringBuilder, "unfiltered", "GPS", stopDateTime)
-        makeJSONObject(stopDateTime, "unfil", "GPS")
-
-        // Accelerometer
-        currentStringBuilder = writeToSensorStringBuilder("accel", filtAcclRecord)
-        saveToFile(currentStringBuilder, "filtered", "accel", stopDateTime)
-        makeJSONObject(stopDateTime, "fil", "accel")
-
-        currentStringBuilder = writeToSensorStringBuilder("accel", rawAcclRecord)
-        saveToFile(currentStringBuilder, "unfiltered", "accel", stopDateTime)
-        makeJSONObject(stopDateTime, "unfil", "accel")
-
-        // Gyroscope
-        currentStringBuilder = writeToSensorStringBuilder("gyro", filtGyroRecord)
-        saveToFile(currentStringBuilder, "filtered", "gyro", stopDateTime)
-        makeJSONObject(stopDateTime, "fil", "gyro")
-
-        currentStringBuilder = writeToSensorStringBuilder("Gyro", rawGyroRecord)
-        saveToFile(currentStringBuilder, "unfiltered", "gyro", stopDateTime)
-        makeJSONObject(stopDateTime, "unfil", "gyro")
-
-
-        val existingJSONArray = readJsonFromFile()
-        val jsonArray: JSONArray = existingJSONArray
-
-        jsonArray.put(recordingJson)
-
-        context?.openFileOutput("sensor_config.json", Context.MODE_PRIVATE).use {
-            it?.write(jsonArray.toString().toByteArray())
-        }
-        Toast.makeText(context, "Saved", Toast.LENGTH_SHORT).show()
-    }
-
 
     override fun onResume() {
         super.onResume()
