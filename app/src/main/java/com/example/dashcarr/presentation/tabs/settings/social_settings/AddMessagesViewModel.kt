@@ -5,11 +5,13 @@ import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.dashcarr.data.database.AppDatabase
 import com.example.dashcarr.data.repository.MessagesRepository
 import com.example.dashcarr.domain.entity.MessagesEntity
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
@@ -17,20 +19,12 @@ class AddMessagesViewModel @Inject constructor(
     private val messagesRepository: MessagesRepository
 ) : ViewModel() {
 
-    private val saveResult = MutableStateFlow<Boolean?>(null)
-
-    fun saveNewMessage(message: MessagesEntity) {
-        viewModelScope.launch {
-            val result = messagesRepository.saveNewMessage(message)
-            saveResult.value = result
-        }
-    }
-
     fun addToDatabase(context: Context, messageContent: String) {
         val newMessage =
             MessagesEntity(
                 content = messageContent,
-                isPhone = true
+                isPhone = true,
+                createdTimeStamp = System.currentTimeMillis()
             )
 
         viewModelScope.launch(Dispatchers.IO) {
@@ -55,7 +49,7 @@ class AddMessagesViewModel @Inject constructor(
     }
 
     fun getMessageById(id: Int): LiveData<MessagesEntity> {
-        return messagesDao.getMesssageById(id)
+        return messagesRepository.getMessageById(id)
     }
 
     fun updateMessage(context: Context, id: Int, content: String) {
@@ -64,11 +58,12 @@ class AddMessagesViewModel @Inject constructor(
                 val updatedFriend = MessagesEntity(
                     id = id.toLong(),
                     content = content,
-                    isPhone = false
+                    isPhone = false,
+                    createdTimeStamp = System.currentTimeMillis()
                 )
-                val updateCount = messagesDao.update(updatedFriend)
+                val result = messagesRepository.updateMessage(updatedFriend)
                 withContext(Dispatchers.Main) {
-                    if (updateCount > 0) {
+                    if (result.isSuccess) {
                         Toast.makeText(context, "Updated", Toast.LENGTH_SHORT).show()
                     } else {
                         Toast.makeText(context, "Error updating", Toast.LENGTH_SHORT).show()
@@ -85,9 +80,15 @@ class AddMessagesViewModel @Inject constructor(
     fun deleteMessage(context: Context, id: Int) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                val numberOfRowsDeleted = messagesDao.deleteById(id)
+                val messageToDelete = MessagesEntity(
+                    id = id.toLong(),
+                    content = "",
+                    isPhone = false,
+                    createdTimeStamp = System.currentTimeMillis()
+                )
+                val result = messagesRepository.deleteMessage(messageToDelete)
                 withContext(Dispatchers.Main) {
-                    if (numberOfRowsDeleted > 0) {
+                    if (result.isSuccess) {
                         Toast.makeText(context, "Message deleted", Toast.LENGTH_SHORT).show()
                     } else {
                         Toast.makeText(context, "Error deleting Message", Toast.LENGTH_SHORT).show()
