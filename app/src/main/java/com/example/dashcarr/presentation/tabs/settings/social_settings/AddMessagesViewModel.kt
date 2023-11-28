@@ -33,9 +33,9 @@ class AddMessagesViewModel(private val messagesDao: MessagesDao) : ViewModel() {
 
 
                 }
-            } catch (E: Exception) {
+            } catch (e: Exception) {
                 withContext(Dispatchers.Main) {
-                    Toast.makeText(context, "Error: ${E.message}", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, "Error: ${e.message}", Toast.LENGTH_SHORT).show()
                 }
             }
         }
