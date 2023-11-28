@@ -104,10 +104,10 @@
         <action
             android:id="@+id/action_action_settings_to_quickMessagesFragment"
             app:destination="@id/quickMessagesFragment"
-            app:enterAnim="@anim/left_to_right"
-            app:exitAnim="@anim/right_to_left"
-            app:popEnterAnim="@anim/pop_x_enter"
-            app:popExitAnim="@anim/pop_x_exit" />
+            app:enterAnim="@anim/right_to_center"
+            app:exitAnim="@anim/center_to_left"
+            app:popEnterAnim="@anim/left_to_center"
+            app:popExitAnim="@anim/center_to_right" />
         <action
             android:id="@+id/action_action_settings_to_selectContactFragment"
             app:destination="@id/selectContactFragment" />

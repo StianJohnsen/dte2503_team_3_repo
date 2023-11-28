@@ -53,7 +53,7 @@ class QuickMessagesFragment : BaseFragment<FragmentQuickMessagesBinding>(
                     text = message.content
                     id = message.id.toInt()
 
-                    setBackgroundResource(R.color.white)
+                    setBackgroundResource(R.color.secondary_color)
 
                     compoundDrawablePadding = 10
                 }
