@@ -48,7 +48,7 @@
                 android:paddingStart="@dimen/margin_padding_size_0"
                 app:drawableEndCompat="@drawable/ic_polygon"
                 app:drawableStartCompat="@drawable/ic_triangle_settings_small"
-                android:text="@string/dashcam_settings"
+                android:text="@string/camera_settings"
                 android:textColor="@color/gray3"
                 android:textSize="@dimen/text_size_16"
                 android:clickable="true"
