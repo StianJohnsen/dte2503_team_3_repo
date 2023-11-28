@@ -48,7 +48,7 @@ class MainViewModel @Inject constructor(
         checkAuthentication()
         var powerSaveModeOn: Int
         runBlocking {
-            powerSaveModeOn = userPreferencesRepository.appBoolFlow.first().isPowerSaveModeOn
+            powerSaveModeOn = userPreferencesRepository.userPreferenceFlow.first().isPowerSaveModeOn
         }
         PowerSavingMode.setAppPowerMode(PowerSavingMode.PowerState.values()[powerSaveModeOn])
     }

@@ -9,9 +9,10 @@ import androidx.datastore.preferences.core.intPreferencesKey
  * @property alreadyLoggedIn Boolean indicating whether the user is already logged in.
  * @property isPowerSaveModeOn Integer representing the state of power save mode.
  */
-data class LoggedInAndPowerModeValue(
+data class UserPreferenceDataClass(
     val alreadyLoggedIn: Boolean,
-    val isPowerSaveModeOn: Int
+    val isPowerSaveModeOn: Int,
+    val cameraDuration: Int
 )
 
 /**
@@ -20,4 +21,5 @@ data class LoggedInAndPowerModeValue(
 object DataStoreKey {
     val ALREADY_LOGGED_IN = booleanPreferencesKey("already_logged_in")
     val IS_POWER_SAVE_MODE_ON = intPreferencesKey("is_power_save_mode_on")
+    val CAMERA_DURATION = intPreferencesKey("camera_duration")
 }

@@ -40,7 +40,7 @@ class MapViewModel @Inject constructor(
     private val pointsOfInterestRepository: IPointsOfInterestRepository
 ) : ViewModel() {
 
-    val appPreferences = userPreferencesRepository.appBoolFlow.asLiveData()
+    val appPreferences = userPreferencesRepository.userPreferenceFlow.asLiveData()
 
     fun updateAppPreferences(bool: Boolean) {
         viewModelScope.launch {
