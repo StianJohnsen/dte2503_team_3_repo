@@ -189,7 +189,7 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
             findNavController().navigate(R.id.action_action_map_to_selectContactFragment)
         }
 
-        binding.btnEmergencyCall.setOnClickListener {
+        binding.btnEmergencyCall?.setOnClickListener {
             val intent = Intent(Intent.ACTION_DIAL).apply {
                 data = Uri.parse("tel:112")
             }
