@@ -23,7 +23,7 @@ class UserPreferencesRepository @Inject constructor(
      * Flow of LoggedInAndPowerModeValue which represents the user's login status and power save mode state.
      * It catches IOExceptions during data read and provides default values in case of an error.
      */
-    val appBoolFlow: Flow<LoggedInAndPowerModeValue> = dataStore.data
+    val userPreferenceFlow: Flow<UserPreferenceDataClass> = dataStore.data
         .catch {
             if (it is IOException) {
                 it.printStackTrace()
@@ -35,7 +35,9 @@ class UserPreferencesRepository @Inject constructor(
             val alreadyLoggedIn = preferences[DataStoreKey.ALREADY_LOGGED_IN] ?: false
             val isPowerSaveModeOn =
                 preferences[DataStoreKey.IS_POWER_SAVE_MODE_ON] ?: PowerSavingMode.PowerState.AUTO.ordinal
-            LoggedInAndPowerModeValue(alreadyLoggedIn, isPowerSaveModeOn)
+            val cameraDuration =
+                preferences[DataStoreKey.CAMERA_DURATION] ?: 5
+            UserPreferenceDataClass(alreadyLoggedIn, isPowerSaveModeOn, cameraDuration)
         }
 
     /**
@@ -55,6 +57,12 @@ class UserPreferencesRepository @Inject constructor(
     suspend fun updateIsSaveModeOn(newValue: Int) {
         dataStore.edit { preferences ->
             preferences[DataStoreKey.IS_POWER_SAVE_MODE_ON] = newValue
+        }
+    }
+
+    suspend fun updateCameraDuration(newValue: Int) {
+        dataStore.edit { preferences ->
+            preferences[DataStoreKey.CAMERA_DURATION] = newValue
         }
     }
 }
