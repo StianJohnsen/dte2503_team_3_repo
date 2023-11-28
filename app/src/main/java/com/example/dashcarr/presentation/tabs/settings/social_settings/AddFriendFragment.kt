@@ -49,9 +49,13 @@ class AddFriendFragment : BaseFragment<FragmentAddFriendBinding>(
             val inputName = binding.inputName.text.toString().trim()
             val email = binding.inputEmail.text.toString().trim()
             val phone = binding.inputPhone.text.toString().trim()
+            val emailRegex = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}$"
+            val emailToValidate = binding.inputEmail.text.toString()
 
             if (inputName.isEmpty()) {
                 Toast.makeText(context, "Name is a mandatory field", Toast.LENGTH_SHORT).show()
+            } else if (!emailToValidate.matches(emailRegex.toRegex()) && emailToValidate != "") {
+                Toast.makeText(context, "Check your email please", Toast.LENGTH_SHORT).show()
             } else {
                 if (currentFriendId == null) {
                     viewModel.addToDatabase(requireContext(), inputName, email, phone)
