@@ -208,11 +208,11 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
         requestLocationPermission()
         if (PowerSavingMode.getPowerMode() && args.isRideActivated) {
             binding.llTrafficLight.visibility = View.VISIBLE
-            binding.llBattery.visibility = View.VISIBLE
+            binding.llBattery?.visibility = View.VISIBLE
             setupBatteryStatus()
         } else {
             binding.llTrafficLight.visibility = View.GONE
-            binding.llBattery.visibility = View.GONE
+            binding.llBattery?.visibility = View.GONE
         }
 
         val powerManager = requireContext().getSystemService(Context.POWER_SERVICE) as PowerManager
@@ -458,7 +458,7 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
                 val batteryInt: Int = batteryPct.toInt()
                 val batteryString = "$batteryInt%"
 
-                binding.batteryPercentage.text = batteryString
+                binding.batteryPercentage?.text = batteryString
             }
         }
 
