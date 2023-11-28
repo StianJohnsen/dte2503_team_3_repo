@@ -1,5 +1,6 @@
 package com.example.dashcarr.presentation.tabs.settings.maps_settings
 
+import android.content.Context
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
@@ -50,13 +51,14 @@ class MapsSettingsFragment : BaseFragment<FragmentMapsSettingsBinding>(
 
         binding.buttonChangeTile.setOnClickListener {
             viewModel.nextTileName()
+            viewModel.currentTileNameResId.observe(viewLifecycleOwner) { tileNameResId ->
+                var tileName = getString(tileNameResId)
+                tileName = getTileSourceFromName(tileName)
+                binding.txtTile.text = getString(R.string.current_tile, tileName)
+                viewModel.saveCurrentTileName(tileNameResId)
+            }
         }
 
-        viewModel.currentTileNameResId.observe(viewLifecycleOwner) { tileNameResId ->
-            val tileName = getString(tileNameResId)
-            binding.txtTile.text = getString(R.string.current_tile, tileName)
-            viewModel.saveCurrentTileName(tileNameResId)
-        }
     }
 
     /**
@@ -140,12 +142,20 @@ class MapsSettingsFragment : BaseFragment<FragmentMapsSettingsBinding>(
     }
 
     private fun loadCurrentTileChoice() {
-        val tileNameResId = viewModel.getCurrentTileNameResId()
-        updateTileChoiceUI(tileNameResId)
+        val sharedPrefs = requireActivity().getSharedPreferences("MapPrefs", Context.MODE_PRIVATE)
+        val tileNameResId = sharedPrefs.getInt("current_tile_name_res_id", R.string.mapnik)
+        var tileName = getString(tileNameResId)
+        tileName = getTileSourceFromName(tileName)
+        binding.txtTile.text = getString(R.string.current_tile, tileName)
     }
 
-    private fun updateTileChoiceUI(tileNameResId: Int) {
-        val tileName = getString(tileNameResId)
-        binding.txtTile.text = getString(R.string.current_tile, tileName)
+    private fun getTileSourceFromName(tileName: String): String {
+        return when (tileName) {
+            getString(R.string.mapnik) -> "Standard"
+            getString(R.string.usgs_sat) -> "Satellite"
+            getString(R.string.usgs_topo) -> "Relief"
+            getString(R.string.dark) -> "Dark"
+            else -> "Standard"
+        }
     }
 }

@@ -12,8 +12,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/mainBlue"
-            tools:layout_editor_absoluteX="16dp"
-            tools:layout_editor_absoluteY="0dp">
+            tools:layout_editor_absoluteX="@dimen/margin_padding_size_16"
+            tools:layout_editor_absoluteY="@dimen/margin_padding_size_0">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -23,6 +23,8 @@
                     android:id="@+id/btnBackToSettings"
                     android:layout_width="@dimen/standard_touch_size"
                     android:layout_height="@dimen/standard_touch_size"
+                    android:layout_marginStart="@dimen/margin_padding_size_8"
+                    android:layout_marginTop="@dimen/margin_padding_size_8"
                     android:src="@drawable/baseline_arrow_back_24"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -31,6 +33,7 @@
                     android:id="@+id/text_statistics"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_padding_size_10"
                     android:text="@string/maps_settings"
                     android:textAlignment="center"
                     android:textColor="@color/white"
@@ -40,25 +43,70 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/clContainer2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_padding_size_18"
+                    android:layout_marginTop="30dp"
+                    android:layout_marginEnd="@dimen/margin_padding_size_18"
+                    android:background="@drawable/white_rounded_16dp_background"
+                    android:padding="@dimen/margin_padding_size_6"
+                    app:layout_constraintBottom_toTopOf="@+id/pointsHeader"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/text_statistics">
+
+                    <Button
+                        android:id="@+id/button_change_tile"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="5dp"
+                        android:backgroundTint="@color/blue"
+                        android:text="@string/change_tiles"
+                        android:textColor="@color/white"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent">
+
+                    </Button>
+
+                    <TextView
+                        android:id="@+id/txt_tile"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/margin_padding_size_20"
+                        android:backgroundTint="@color/blue"
+                        android:text="@string/incoming"
+                        android:textColor="@color/black"
+                        app:layout_constraintBottom_toBottomOf="@+id/button_change_tile"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.095"
+                        app:layout_constraintStart_toEndOf="@+id/button_change_tile"
+                        app:layout_constraintTop_toTopOf="@+id/button_change_tile">
+
+                    </TextView>
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
                 <TextView
                     android:id="@+id/pointsHeader"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/margin_padding_size_18"
-                    android:layout_marginTop="@dimen/margin_padding_size_8"
+                    android:layout_marginTop="@dimen/margin_padding_size_20"
                     android:paddingHorizontal="@dimen/margin_padding_size_12"
                     android:text="@string/points_of_interest"
                     android:textColor="@color/white"
                     android:textSize="@dimen/text_size_16"
+                    app:layout_constraintBottom_toTopOf="@+id/clContainer"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/btnBackToSettings" />
+                    app:layout_constraintTop_toBottomOf="@+id/clContainer2" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/clContainer"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/margin_padding_size_18"
-                    android:layout_marginTop="@dimen/margin_padding_size_26"
+                    android:layout_marginTop="10dp"
                     android:layout_marginEnd="@dimen/margin_padding_size_18"
                     android:layout_marginBottom="@dimen/margin_padding_size_26"
                     android:background="@drawable/white_rounded_16dp_background"
@@ -66,7 +114,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/pointsHeader">
+                    app:layout_constraintTop_toBottomOf="@+id/pointsHeader">
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/recycler_view"
@@ -79,39 +127,6 @@
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
-                <Button
-                    android:id="@+id/button_change_tile"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-
-                    android:layout_marginTop="50dp"
-                    android:backgroundTint="@color/blue"
-                    android:text="@string/change_tiles"
-                    android:textColor="@color/white"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.0"
-                    app:layout_constraintStart_toStartOf="@+id/clContainer"
-                    app:layout_constraintTop_toBottomOf="@+id/clContainer"
-                    app:layout_constraintVertical_bias="1.0">
-
-                </Button>
-
-                <TextView
-                    android:id="@+id/txt_tile"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
-                    android:backgroundTint="@color/blue"
-                    android:text="@string/incoming"
-                    android:textColor="@color/white"
-                    app:layout_constraintBottom_toBottomOf="@+id/button_change_tile"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.095"
-                    app:layout_constraintStart_toEndOf="@+id/button_change_tile"
-                    app:layout_constraintTop_toTopOf="@+id/button_change_tile">
-
-                </TextView>
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </ScrollView>
