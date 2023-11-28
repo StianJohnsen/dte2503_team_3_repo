@@ -6,6 +6,13 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.content.pm.ActivityInfo
+import android.graphics.Color
+import android.graphics.ColorMatrix
+import android.graphics.ColorMatrixColorFilter
+import android.hardware.Sensor
+import android.hardware.SensorEvent
+import android.hardware.SensorEventListener
+import android.hardware.SensorManager
 import android.icu.util.Calendar
 import android.location.Location
 import android.location.LocationListener
@@ -51,8 +58,8 @@ import org.osmdroid.util.GeoPoint
 import org.osmdroid.views.CustomZoomButtonsController
 import org.osmdroid.views.MapView
 import org.osmdroid.views.overlay.MapEventsOverlay
-import org.osmdroid.views.overlay.TilesOverlay
 import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay
+
 
 /**
  * Fragment representing the map screen in the DashCarr application.
@@ -353,8 +360,59 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
             }
 
             "DARK" -> {
-                binding.mapView.setTileSource(TileSourceFactory.MAPNIK)
-                binding.mapView.getOverlayManager().getTilesOverlay().setColorFilter(TilesOverlay.INVERT_COLORS)
+                val inverseMatrix = ColorMatrix(
+                    floatArrayOf(
+                        -1.0f, 0.0f, 0.0f, 0.0f, 255f,
+                        0.0f, -1.0f, 0.0f, 0.0f, 255f,
+                        0.0f, 0.0f, -1.0f, 0.0f, 255f,
+                        0.0f, 0.0f, 0.0f, 1.0f, 0.0f
+                    )
+                )
+
+                val destinationColor: Int = Color.parseColor("#FF2A2A2A")
+                val lr: Float = (255.0f - Color.red(destinationColor)) / 255.0f
+                val lg: Float = (255.0f - Color.green(destinationColor)) / 255.0f
+                val lb: Float = (255.0f - Color.blue(destinationColor)) / 255.0f
+                val grayscaleMatrix = ColorMatrix(
+                    floatArrayOf(
+                        lr, lg, lb, 0f, 0f,  //
+                        lr, lg, lb, 0f, 0f,  //
+                        lr, lg, lb, 0f, 0f,  //
+                        0f, 0f, 0f, 0f, 255f
+                    )
+                )
+                grayscaleMatrix.preConcat(inverseMatrix)
+                val dr: Int = Color.red(destinationColor)
+                val dg: Int = Color.green(destinationColor)
+                val db: Int = Color.blue(destinationColor)
+                val drf = dr / 255f
+                val dgf = dg / 255f
+                val dbf = db / 255f
+                val tintMatrix = ColorMatrix(
+                    floatArrayOf(
+                        drf, 0f, 0f, 0f, 0f,  //
+                        0f, dgf, 0f, 0f, 0f,  //
+                        0f, 0f, dbf, 0f, 0f,  //
+                        0f, 0f, 0f, 1f, 0f
+                    )
+                )
+                tintMatrix.preConcat(grayscaleMatrix)
+                val lDestination = drf * lr + dgf * lg + dbf * lb
+                val scale = 1f - lDestination
+                val translate = 1 - scale * 0.5f
+                val scaleMatrix = ColorMatrix(
+                    floatArrayOf(
+                        scale, 0f, 0f, 0f, dr * translate,  //
+                        0f, scale, 0f, 0f, dg * translate,  //
+                        0f, 0f, scale, 0f, db * translate,  //
+                        0f, 0f, 0f, 1f, 0f
+                    )
+                )
+                scaleMatrix.preConcat(tintMatrix)
+                val filter = ColorMatrixColorFilter(scaleMatrix)
+                binding.mapView.getOverlayManager().getTilesOverlay().setColorFilter(filter)
+                //binding.mapView.setTileSource(TileSourceFactory.MAPNIK)
+                //binding.mapView.getOverlayManager().getTilesOverlay().setColorFilter(TilesOverlay.INVERT_COLORS)
             }
 
             else -> {
