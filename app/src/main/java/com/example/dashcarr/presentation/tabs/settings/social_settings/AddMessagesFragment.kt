@@ -6,9 +6,7 @@ import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.dashcarr.R
-import com.example.dashcarr.data.database.AppDatabase
 import com.example.dashcarr.databinding.FragmentAddMessagesBinding
-import com.example.dashcarr.domain.entity.MessagesEntity
 import com.example.dashcarr.presentation.core.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -18,9 +16,7 @@ class AddMessagesFragment : BaseFragment<FragmentAddMessagesBinding>(
     showBottomNavBar = false
 ) {
 
-    private val viewModel: AddMessagesViewModel by viewModels {
-        AddMessagesViewModelFactory(AppDatabase.getInstance(requireContext()).MessagesDao())
-    }
+    private val viewModel: AddMessagesViewModel by viewModels()
     private var currentMessageId: Int? = null
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
