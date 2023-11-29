@@ -1,37 +1,20 @@
 <resources>
     <string name="app_name">Dash Carr</string>
 
-    <!--SensorRecording-->
-
-    <string name="accelerometer_unfiltered_template">Accelerometer: %f m/s^2</string>
-    <string name="gyroscope_unfiltered_template">Gyroscope: %f rad/s</string>
-    <string name="accelerometer_filtered_template">Filtered Accelerometer: %f m/s^2</string>
-    <string name="gyroscope_filtered_template">Filtered Gyroscope: %f rad/s</string>
-    <string name="orientation_tenplate">Orientation %f</string>
-
     <!--LoginFragment-->
 
     <string name="continue_with_google">Continue with Google</string>
-    <string name="continue_with_facebook">Continue with Facebook</string>
     <string name="login">Login</string>
     <string name="email_necessary">Email<font color='#DD2421'>*</font></string>
     <string name="password_necessary">Password<font color='#DD2421'>*</font></string>
-    <string name="forgot_password">Forgot Password?</string>
     <string name="btnLogin">Login</string>
     <string name="btnLogout">Logout</string>
-    <string name="signUp">Sign Up</string>
     <string name="or">Or</string>
 
     <!--Camera-->
 
-    <string name="label_record">Record</string>
-    <string name="label_saved_recordings">Files</string>
-    <string name="label_dashcam">Dashcam</string>
-
     <string name="start_recording">Start</string>
     <string name="stop_recording">Stop</string>
-    <string name="pause_recording">Pause</string>
-    <string name="resume_recording">Resume</string>
     <string name="delete_recording">Delete</string>
     <string name="recording_in_progress">Recording…</string>
     <string name="header_security_camera">Security Camera</string>
@@ -45,18 +28,15 @@
     <!--Error-->
 
     <string name="error_invalid_email">Invalid Email</string>
-    <string name="error_invalid_password">Invalid password</string>
     <string name="error_too_short_password">Too short password</string>
     <string name="error_non_upper_case">Password must contain at least one upper case</string>
     <string name="error_non_digit">Password must contain at least one digit</string>
     <string name="error_unknown">Oops, something went wrong</string>
-    <string name="error_email_empty">Email cannot be empty.</string>
     <string name="error_enter_both_email_and_password">Please enter both email and password</string>
 
     <!--Credentials-->
 
     <string name="facebook_application_id">129380996925597</string>
-    <string name="fb_login_protocol_scheme">fb129380996925597</string>
     <string name="facebook_client_token">bb12e8b82e802b44fb03d464577399f5</string>
 
     <!--SettingsFragment-->
@@ -66,8 +46,6 @@
     <string name="social_settings">Social Settings</string>
     <string name="camera_settings">Camera Settings</string>
     <string name="history_settings">History Settings</string>
-    <string name="preferences_settings">Preferences</string>
-    <string name="new_features_setting">New Features</string>
     <string name="saved_recordings">Saved Recordings</string>
     <string name="power_settings">Power Settings</string>
     <string name="how_to_use">How to use</string>
@@ -79,10 +57,7 @@
     <!--HistoryFragment-->
 
     <string name="show_statistics">Show Statistics</string>
-    <string name="h_btnRename">Rename</string>
-    <string name="h_btnDelete">delete</string>
     <string name="update_recording">Update</string>
-    <string name="cancel_recording">Cancel</string>
 
     <!--RecordingStatisticsFragment-->
 
@@ -107,19 +82,11 @@
     <string name="sensor_recording">Recording</string>
     <string name="elapsed_time">Elapsed Time: %s</string>
     <string name="amount_of_data">Amount of Data:</string>
-    <string name="current_data">Current Data:</string>Configure
-    <string name="stop_sensor_recording">Stop Recording</string>
 
     <!--ConfigureFragment-->
 
     <string name="configure">Configure</string>
     <string name="name">Name:</string>
-    <string name="filter_data">Filter data</string>
-    <string name="include_gyro">Include gyro</string>
-    <string name="include_accelerometer">Include accelerometer</string>
-    <string name="include_orientation">Include orientation</string>
-    <string name="configure_start_recording">Start recording</string>
-    <string name="enter_file_name">Enter file name</string>
     <string name="product_info_text">
         This app will support you while driving!\n\n
         Adding points of interests is easy, just press and hold on the map.\n\n
@@ -128,7 +95,6 @@
         When you hold the map tab a experimental feature will appear, feel free to try it!\n\n
         You can also use your camera as a dashcam. To activate this feature click the camera and select the triangle.
     </string>
-
     <string name="start_using">Start Using!</string>
 
     <!--MapFragment-->
@@ -150,10 +116,8 @@
     <string name="battery_saving_mode">Battery Saving Mode:</string>
 
     <!--SocialSettingsFragment-->
-    <string name="friends_list">Friend List</string>
     <string name="add_friend_button">Add Friend</string>
     <string name="delete_friend_button">Delete Friend</string>
-    <string name="cancel_friend_button">Cancel</string>
     <string name="input_name">Name</string>
     <string name="input_phone">Phone</string>
     <string name="input_email">Email</string>
@@ -161,7 +125,6 @@
 
     <!--HudView-->
 
-    <string name="search_for_location">Waiting for GPS</string>
     <string name="back_button_content_description">Back button</string>
 
     <!--MapSettingsFragment-->
@@ -178,8 +141,6 @@
     <string name="message">Message</string>
     <string name="add_message_capitalized">ADD MESSAGE</string>
     <string name="send_message">Send message</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 
     <!--SocialSettingsFragment-->
     <string name="sent_messages">Sent Messages</string>
