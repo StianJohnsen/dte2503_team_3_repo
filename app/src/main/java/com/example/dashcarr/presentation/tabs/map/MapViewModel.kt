@@ -9,6 +9,7 @@ import com.example.dashcarr.domain.preferences.IPreferences
 import com.example.dashcarr.domain.repository.IPointsOfInterestRepository
 import com.example.dashcarr.presentation.tabs.map.data.PointOfInterest
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -16,7 +17,13 @@ import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import org.json.JSONObject
 import org.osmdroid.util.GeoPoint
+import java.io.BufferedReader
+import java.io.InputStreamReader
+import java.net.HttpURLConnection
+import java.net.URL
 import javax.inject.Inject
 
 /**
@@ -136,6 +143,49 @@ class MapViewModel @Inject constructor(
             _showButtonsBarState.emit(if (currentShowValue == null) true else currentShowValue == false)
         }
     }
+
+    fun getWeatherData(latitude: Double, longitude: Double, callback: (String) -> Unit) {
+        viewModelScope.launch {
+            val response = withContext(Dispatchers.IO) {
+                val urlString =
+                    "https://api.met.no/weatherapi/locationforecast/2.0/compact?lat=$latitude&lon=$longitude"
+                val url = URL(urlString)
+                val connection = url.openConnection() as HttpURLConnection
+                connection.requestMethod = "GET"
+                connection.setRequestProperty(
+                    "User-Agent",
+                    "DashCarr/0.9 https://github.com/StianJohnsen/dte2503_team_3_repo"
+                )
+
+                if (connection.responseCode == HttpURLConnection.HTTP_OK) {
+                    val reader = BufferedReader(InputStreamReader(connection.inputStream))
+                    val response = StringBuilder()
+                    var line: String?
+                    while (reader.readLine().also { line = it } != null) {
+                        response.append(line)
+                    }
+                    reader.close()
+
+                    val fileContent = response.toString()
+                    val jsonObject = JSONObject(fileContent)
+                    val timeseries = jsonObject.getJSONObject("properties")
+                        .getJSONArray("timeseries")
+                        .getJSONObject(0)
+                        .getJSONObject("data")
+                        .getJSONObject("next_1_hours")
+                        .getJSONObject("summary")
+                        .getString("symbol_code")
+
+                    timeseries
+                } else {
+                    "Error: ${connection.responseCode}"
+                }
+            }
+            callback(response)
+        }
+    }
+
+
 }
 
 

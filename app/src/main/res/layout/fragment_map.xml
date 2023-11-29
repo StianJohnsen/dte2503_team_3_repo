@@ -149,6 +149,45 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/ll_weather"
+            android:visibility="visible"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_padding_size_10"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/blue_rounded_16dp_background"
+            android:orientation="vertical"
+            android:paddingHorizontal="@dimen/margin_padding_size_8"
+            android:paddingVertical="@dimen/margin_padding_size_8"
+            app:layout_constraintBottom_toTopOf="@+id/hudView"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ll_traffic_light"
+            app:layout_constraintVertical_bias="0.05">
+
+            <ImageView
+                android:id="@+id/icon_weather"
+                android:layout_width="@dimen/margin_padding_size_32"
+                android:layout_height="@dimen/margin_padding_size_32"
+                android:layout_marginBottom="@dimen/margin_padding_size_8"
+                android:contentDescription="@null"
+                android:src="@drawable/ic_cancel_small" />
+
+            <TextView
+                android:id="@+id/txt_weather"
+                android:layout_width="@dimen/margin_padding_size_32"
+                android:layout_height="@dimen/margin_padding_size_14"
+                android:orientation="vertical"
+                android:text="@string/incoming"
+                android:textColor="@color/header_color"
+                android:textSize="@dimen/text_size_12"
+                android:gravity="center"
+                app:layout_constraintBottom_toTopOf="@+id/greenIndicator"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/icon_weather" />
+
+        </LinearLayout>
+
+        <LinearLayout
             android:id="@+id/ll_recording_buttons"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
