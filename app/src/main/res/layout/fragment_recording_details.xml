@@ -9,172 +9,178 @@
             type="com.example.dashcarr.presentation.tabs.history.RecordingDetailsFragment" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/primary_color">
+        android:layout_height="match_parent">
 
-        <ImageView
-            android:id="@+id/image_back_details"
-            android:layout_width="@dimen/standard_touch_size"
-            android:layout_height="@dimen/standard_touch_size"
-            android:layout_marginStart="@dimen/margin_padding_size_10"
-            android:layout_marginTop="@dimen/margin_padding_size_10"
-            android:contentDescription="@null"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/baseline_arrow_back_24" />
-
-        <TextView
-            android:id="@+id/text_recording_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_padding_size_10"
-            android:ems="10"
-            android:text="@string/incoming"
-            android:textAlignment="center"
-            android:textColor="@color/header_color"
-            android:textSize="24sp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@+id/graph_gyro"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <FrameLayout
-            android:id="@+id/graph_gyro"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/margin_padding_size_0"
-            android:layout_marginTop="@dimen/margin_padding_size_32"
-            android:layout_marginHorizontal="@dimen/margin_padding_size_32"
-            app:layout_constraintBottom_toTopOf="@+id/text_bar_record_1"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/text_recording_name" />
-
-        <View
-            android:id="@+id/text_bar_record_1"
-            android:layout_width="match_parent"
-            android:layout_height="0.75dp"
-            android:layout_marginVertical="@dimen/margin_padding_size_32"
-            android:layout_marginHorizontal="@dimen/margin_padding_size_32"
-            android:background="@drawable/line_separator_gray"
-            app:layout_constraintEnd_toEndOf="@id/text_recording_name"
-            app:layout_constraintStart_toStartOf="@id/text_recording_name"
-            app:layout_constraintTop_toBottomOf="@+id/graph_gyro" />
-
-        <View
-            android:id="@+id/text_bar_record_2"
-            android:layout_width="match_parent"
-            android:layout_height="0.75dp"
-            android:background="@drawable/line_separator_gray"
-            android:layout_marginHorizontal="@dimen/margin_padding_size_32"
-            android:layout_marginVertical="@dimen/margin_padding_size_32"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/text_datasize" />
-
-        <TextView
-            android:id="@+id/text_lenght"
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_padding_size_26"
-            android:text="@string/length"
-            android:textColor="@color/header_color"
-            android:textSize="@dimen/text_size_20"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="@+id/text_bar_record_1"
-            app:layout_constraintTop_toBottomOf="@+id/text_bar_record_1" />
+            android:background="@color/primary_color">
 
-        <TextView
-            android:id="@+id/inputElapsedTime"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_padding_size_18"
-            android:textColor="@color/text_color"
-            android:textSize="@dimen/text_size_20"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="@+id/text_lenght"
-            app:layout_constraintStart_toEndOf="@+id/text_lenght"
-            app:layout_constraintTop_toTopOf="@+id/text_lenght" />
 
-        <TextView
-            android:id="@+id/text_datapoint"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_padding_size_10"
-            android:text="@string/amount_of_datapoints"
-            android:textColor="@color/header_color"
-            android:textSize="@dimen/text_size_20"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@+id/text_date"
-            app:layout_constraintStart_toStartOf="@+id/text_lenght"
-            app:layout_constraintTop_toBottomOf="@+id/text_lenght" />
+            <ImageView
+                android:id="@+id/image_back_details"
+                android:layout_width="@dimen/standard_touch_size"
+                android:layout_height="@dimen/standard_touch_size"
+                android:layout_marginStart="@dimen/margin_padding_size_10"
+                android:layout_marginTop="@dimen/margin_padding_size_10"
+                android:contentDescription="@null"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/baseline_arrow_back_24" />
 
-        <TextView
-            android:id="@+id/input_amount_of_datapoints"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_padding_size_18"
-            android:textColor="@color/text_color"
-            android:textSize="@dimen/text_size_20"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="@+id/text_datapoint"
-            app:layout_constraintStart_toEndOf="@+id/text_datapoint"
-            app:layout_constraintTop_toTopOf="@+id/text_datapoint"
-            app:layout_constraintVertical_bias="0.705" />
+            <TextView
+                android:id="@+id/text_recording_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_padding_size_10"
+                android:ems="10"
+                android:text="@string/incoming"
+                android:textAlignment="center"
+                android:textColor="@color/header_color"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@+id/graph_gyro"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/text_date"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_padding_size_10"
-            android:text="@string/date_of_recording"
-            android:textColor="@color/header_color"
-            android:textSize="@dimen/text_size_20"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@+id/text_datasize"
-            app:layout_constraintStart_toStartOf="@+id/text_datapoint"
-            app:layout_constraintTop_toBottomOf="@+id/text_datapoint" />
+            <FrameLayout
+                android:id="@+id/graph_gyro"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:layout_marginTop="@dimen/margin_padding_size_32"
+                android:layout_marginHorizontal="@dimen/margin_padding_size_32"
+                app:layout_constraintBottom_toTopOf="@+id/text_bar_record_1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/text_recording_name" />
 
-        <TextView
-            android:id="@+id/inputFileDate"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_padding_size_18"
-            android:textColor="@color/text_color"
-            android:textSize="@dimen/text_size_20"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="@+id/text_date"
-            app:layout_constraintStart_toEndOf="@+id/text_date"
-            app:layout_constraintTop_toTopOf="@+id/text_date" />
+            <View
+                android:id="@+id/text_bar_record_1"
+                android:layout_width="match_parent"
+                android:layout_height="0.75dp"
+                android:layout_marginVertical="@dimen/margin_padding_size_32"
+                android:layout_marginHorizontal="@dimen/margin_padding_size_32"
+                android:background="@drawable/line_separator_gray"
+                app:layout_constraintEnd_toEndOf="@id/text_recording_name"
+                app:layout_constraintStart_toStartOf="@id/text_recording_name"
+                app:layout_constraintTop_toBottomOf="@+id/graph_gyro" />
 
-        <TextView
-            android:id="@+id/text_datasize"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_padding_size_10"
-            android:text="@string/data_size"
-            android:textColor="@color/header_color"
-            android:textSize="@dimen/text_size_20"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@+id/text_bar_record_2"
-            app:layout_constraintStart_toStartOf="@+id/text_date"
-            app:layout_constraintTop_toBottomOf="@+id/text_date" />
+            <View
+                android:id="@+id/text_bar_record_2"
+                android:layout_width="match_parent"
+                android:layout_height="0.75dp"
+                android:background="@drawable/line_separator_gray"
+                android:layout_marginHorizontal="@dimen/margin_padding_size_32"
+                android:layout_marginVertical="@dimen/margin_padding_size_32"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/text_datasize" />
 
-        <TextView
-            android:id="@+id/inputDataSize"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_padding_size_18"
-            android:textColor="@color/text_color"
-            android:textSize="@dimen/text_size_20"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="@+id/text_datasize"
-            app:layout_constraintStart_toEndOf="@+id/text_datasize"
-            app:layout_constraintTop_toTopOf="@+id/text_datasize" />
+            <TextView
+                android:id="@+id/text_lenght"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_padding_size_26"
+                android:text="@string/length"
+                android:textColor="@color/header_color"
+                android:textSize="@dimen/text_size_20"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="@+id/text_bar_record_1"
+                app:layout_constraintTop_toBottomOf="@+id/text_bar_record_1" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <TextView
+                android:id="@+id/inputElapsedTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_padding_size_18"
+                android:textColor="@color/text_color"
+                android:textSize="@dimen/text_size_20"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@+id/text_lenght"
+                app:layout_constraintStart_toEndOf="@+id/text_lenght"
+                app:layout_constraintTop_toTopOf="@+id/text_lenght" />
+
+            <TextView
+                android:id="@+id/text_datapoint"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_padding_size_10"
+                android:text="@string/amount_of_datapoints"
+                android:textColor="@color/header_color"
+                android:textSize="@dimen/text_size_20"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@+id/text_date"
+                app:layout_constraintStart_toStartOf="@+id/text_lenght"
+                app:layout_constraintTop_toBottomOf="@+id/text_lenght" />
+
+            <TextView
+                android:id="@+id/input_amount_of_datapoints"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_padding_size_18"
+                android:textColor="@color/text_color"
+                android:textSize="@dimen/text_size_20"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@+id/text_datapoint"
+                app:layout_constraintStart_toEndOf="@+id/text_datapoint"
+                app:layout_constraintTop_toTopOf="@+id/text_datapoint"
+                app:layout_constraintVertical_bias="0.705" />
+
+            <TextView
+                android:id="@+id/text_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_padding_size_10"
+                android:text="@string/date_of_recording"
+                android:textColor="@color/header_color"
+                android:textSize="@dimen/text_size_20"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@+id/text_datasize"
+                app:layout_constraintStart_toStartOf="@+id/text_datapoint"
+                app:layout_constraintTop_toBottomOf="@+id/text_datapoint" />
+
+            <TextView
+                android:id="@+id/inputFileDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_padding_size_18"
+                android:textColor="@color/text_color"
+                android:textSize="@dimen/text_size_20"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@+id/text_date"
+                app:layout_constraintStart_toEndOf="@+id/text_date"
+                app:layout_constraintTop_toTopOf="@+id/text_date" />
+
+            <TextView
+                android:id="@+id/text_datasize"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_padding_size_10"
+                android:text="@string/data_size"
+                android:textColor="@color/header_color"
+                android:textSize="@dimen/text_size_20"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@+id/text_bar_record_2"
+                app:layout_constraintStart_toStartOf="@+id/text_date"
+                app:layout_constraintTop_toBottomOf="@+id/text_date" />
+
+            <TextView
+                android:id="@+id/inputDataSize"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_padding_size_18"
+                android:textColor="@color/text_color"
+                android:textSize="@dimen/text_size_20"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@+id/text_datasize"
+                app:layout_constraintStart_toEndOf="@+id/text_datasize"
+                app:layout_constraintTop_toTopOf="@+id/text_datasize" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
 
 </layout>
