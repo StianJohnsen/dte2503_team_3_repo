@@ -109,6 +109,7 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
                 }
             }
         }
+
         mapViewModel.pointsOfInterestState.observe(viewLifecycleOwner) {
             if (it.isEmpty()) return@observe
             it.forEach { pointOfInterest ->
@@ -161,8 +162,6 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
                 isPaused = it
             }
         }
-
-
     }
 
     /**
@@ -279,6 +278,7 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
                 btnOutOfCarMode.setOnClickListener {
                     findNavController().navigate(R.id.action_action_map_to_action_security_camera)
                 }
+                llWeather?.visibility = View.VISIBLE
             }
 
 
@@ -291,6 +291,7 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
         } else {
             binding.llSideButtons.visibility = View.GONE
             binding.llRecordingButtons.visibility = View.GONE
+            binding.llWeather?.visibility = View.GONE
         }
     }
 
@@ -391,9 +392,36 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
             sensorRecordingViewModel.sensorRecording.insertIntoLocationList(location)
         }
 
+        val latitude = location.latitude
+        val longitude = location.longitude
 
+        mapViewModel.getWeatherData(latitude, longitude) { response ->
+            handleWeatherResponse(response)
+        }
     }
 
+    private fun handleWeatherResponse(response: String) {
+        val (iconResourceId, weatherText) = when {
+            response.contains("rain") -> Pair(R.drawable.ic_rain, "Rain")
+            response.contains("clear") -> Pair(R.drawable.ic_sun, "Sun")
+            response.contains("fair") -> Pair(R.drawable.ic_sun, "Fair")
+            response.contains("cloud") -> Pair(R.drawable.ic_cloud, "Cloud")
+            response.contains("snow") -> Pair(R.drawable.ic_snow, "Snow")
+            response.contains("sleet") -> Pair(R.drawable.ic_snow, "Sleet")
+            response.contains("thunder") -> Pair(R.drawable.ic_thunder, "Thunder")
+            else -> Pair(R.drawable.ic_cancel_small, "No Data")
+        }
+        if (isAdded) {
+            binding.txtWeather?.text = weatherText
+        }
+        updateWeatherIconOnMap(iconResourceId)
+    }
+
+    private fun updateWeatherIconOnMap(iconResourceId: Int) {
+        if (isAdded) {
+            binding.iconWeather?.setImageResource(iconResourceId)
+        }
+    }
 
     override fun onStop() {
         mapViewModel.saveLastKnownLocation()
