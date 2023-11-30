@@ -41,16 +41,16 @@
                 android:id="@+id/scrollButtons"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
+                android:layout_marginStart="@dimen/margin_padding_size_10"
+                android:layout_marginTop="@dimen/margin_padding_size_10"
+                android:layout_marginEnd="@dimen/margin_padding_size_10"
+                android:layout_marginBottom="@dimen/margin_padding_size_10"
+                android:background="@drawable/white_rounded_16dp_background"
                 android:contentDescription="@string/incoming"
                 app:layout_constraintBottom_toTopOf="@+id/button_show_stats"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/text_saved_recordings"
-                android:layout_marginStart="@dimen/margin_padding_size_10"
-                android:layout_marginTop="20dp"
-                android:layout_marginEnd="@dimen/margin_padding_size_10"
-                android:layout_marginBottom="50dp"
-                android:background="@drawable/white_rounded_16dp_background">
+                app:layout_constraintTop_toBottomOf="@+id/text_saved_recordings">
 
                 <LinearLayout
                     android:id="@+id/linear_recordings_buttons"
@@ -72,7 +72,8 @@
                 android:id="@+id/button_show_stats"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/margin_padding_size_38"
+                android:layout_marginTop="@dimen/margin_padding_size_10"
+                android:layout_marginBottom="@dimen/margin_padding_size_10"
                 android:backgroundTint="@color/button_color"
                 android:insetTop="@dimen/margin_padding_size_0"
                 android:insetBottom="@dimen/margin_padding_size_0"
