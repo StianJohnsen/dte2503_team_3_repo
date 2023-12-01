@@ -13,9 +13,12 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.animation.doOnEnd
 import androidx.core.animation.doOnStart
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import com.example.dashcarr.databinding.FragmentDashcamBinding
 import com.example.dashcarr.presentation.core.BaseFragment
 import com.example.dashcarr.presentation.tabs.settings.PowerSavingMode
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 /**
  * Fragment for handling dashcam functionalities in the app.
@@ -28,6 +31,7 @@ import com.example.dashcarr.presentation.tabs.settings.PowerSavingMode
  *
  * @property viewModel ViewModel associated with dashcam functionalities, handling camera operations.
  */
+@AndroidEntryPoint
 class DashcamFragment() : BaseFragment<FragmentDashcamBinding>(
     FragmentDashcamBinding::inflate,
     showBottomNavBar = false
@@ -63,15 +67,17 @@ class DashcamFragment() : BaseFragment<FragmentDashcamBinding>(
             ActivityResultContracts.RequestPermission()
         ) { isGranted ->
             if (isGranted) {
-                viewModel.startRecording(requireActivity(), this) {
-                    val animation = ObjectAnimator.ofFloat(binding.dashcamPreview, "translationX", 300F, 0F).apply {
-                        duration = 1000L
-                        interpolator = DecelerateInterpolator()
+                viewModel.userPreferencesLiveData.observe(viewLifecycleOwner) {
+                    viewModel.activate(requireActivity(), this, it.cameraDuration) {
+                        val animation = ObjectAnimator.ofFloat(binding.dashcamPreview, "translationX", 300F, 0F).apply {
+                            duration = 1000L
+                            interpolator = DecelerateInterpolator()
+                        }
+                        animation.doOnStart {
+                            binding.dashcamPreview.visibility = View.VISIBLE
+                        }
+                        animation.start()
                     }
-                    animation.doOnStart {
-                        binding.dashcamPreview.visibility = View.VISIBLE
-                    }
-                    animation.start()
                 }
             } else {
                 destroy()
@@ -82,18 +88,22 @@ class DashcamFragment() : BaseFragment<FragmentDashcamBinding>(
         return view
     }
 
-    fun saveRecording() {
-        viewModel.saveRecording {
-            val animation = ObjectAnimator.ofFloat(binding.dashcamPreview, "translationX", 0F, 300F).apply {
-                duration = 1000L
-                interpolator = AccelerateInterpolator()
-            }
-            animation.doOnEnd {
-                destroy()
-                parentFragmentManager.beginTransaction().remove(this).commit()
-            }
-            animation.start()
+    fun deactivate() {
+        val turnRecordingOfJob = lifecycleScope.launch {
+            viewModel.deactivate()
         }
+        val animation = ObjectAnimator.ofFloat(binding.dashcamPreview, "translationX", 0F, 300F).apply {
+            duration = 1000L
+            interpolator = AccelerateInterpolator()
+        }
+        animation.doOnEnd {
+            lifecycleScope.launch {
+                turnRecordingOfJob.join()
+                destroy()
+                parentFragmentManager.beginTransaction().remove(this@DashcamFragment).commit()
+            }
+        }
+        animation.start()
     }
 
     override fun onDestroyView() {

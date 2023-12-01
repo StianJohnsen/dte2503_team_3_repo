@@ -1,11 +1,21 @@
 package com.example.dashcarr.presentation.tabs.camera.dashcam
 
 import android.app.Activity
+import android.util.Log
 import androidx.camera.core.CameraSelector
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.asLiveData
+import androidx.lifecycle.viewModelScope
 import com.example.dashcarr.R
+import com.example.dashcarr.data.repository.UserPreferencesRepository
 import com.example.dashcarr.presentation.tabs.camera.CameraWrapper
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import java.util.concurrent.CancellationException
+import javax.inject.Inject
 
 /**
  * ViewModel associated with the Dashcame.
@@ -17,16 +27,21 @@ import com.example.dashcarr.presentation.tabs.camera.CameraWrapper
  *
  * @property camera An instance of CameraWrapper to handle camera operations.
  */
-class DashcamViewModel : ViewModel() {
+@HiltViewModel
+class DashcamViewModel @Inject constructor(
+    private val userPreferencesRepository: UserPreferencesRepository
+) : ViewModel() {
 
+    val userPreferencesLiveData = userPreferencesRepository.userPreferenceFlow.asLiveData()
     private var camera: CameraWrapper? = null
+    private lateinit var dashcamJob: Job
 
     fun closeCamera() {
         camera?.destroy()
         camera = null
     }
 
-    fun startRecording(activity: Activity, fragment: Fragment, slideIn: () -> Unit) {
+    fun activate(activity: Activity, fragment: Fragment, cameraDuration: Int, slideIn: () -> Unit) {
         if (camera == null) {
             camera = CameraWrapper(activity)
         }
@@ -36,14 +51,25 @@ class DashcamViewModel : ViewModel() {
             CameraSelector.DEFAULT_BACK_CAMERA
         ) {
             slideIn()
-            camera!!.startRecording({}, "Movies/Dashcarr/Dashcam")
+            dashcamJob = viewModelScope.launch {
+                recordingLoop(cameraDuration)
+            }
         }
     }
 
-    fun saveRecording(destroy: () -> Unit) {
-        camera!!.stopRecording {
-            destroy()
+    private suspend fun recordingLoop(cameraDuration: Int) {
+        val files = emptyList<String>().toMutableList()
+        while (true) {
+            val file_name = camera!!.startRecording({ }, "Movies/Dashcarr/Dashcam")
+            Log.d(this@DashcamViewModel::class.simpleName, "New Record: $file_name")
+            delay(cameraDuration * 1000L)
+            camera!!.stopRecording {}
         }
+    }
 
+    suspend fun deactivate() {
+        dashcamJob.cancel(CancellationException("Dashcam mode deactivated"))
+        dashcamJob.join()
+        camera?.stopRecording {}
     }
 }

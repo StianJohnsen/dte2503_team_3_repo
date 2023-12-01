@@ -299,7 +299,7 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
                         transaction.disallowAddToBackStack()
                         transaction.commit()
                     } else {
-                        DashcamFragment.getInstance().saveRecording()
+                        DashcamFragment.getInstance().deactivate()
                     }
                 }
                 btnOutOfCarMode.setOnClickListener {

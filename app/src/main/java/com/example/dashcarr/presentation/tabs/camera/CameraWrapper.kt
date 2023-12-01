@@ -62,9 +62,10 @@ class CameraWrapper(private var activity: Activity) {
         return this.videoCapture != null
     }
 
-    fun startRecording(onStarted: () -> Unit, path: String) {
+    fun startRecording(onRecordingStarted: () -> Unit, path: String): String? {
         if (isRecording() || !isCameraStarted()) {
-            return
+            Log.d(this::class.simpleName, "isRecording: ${isRecording()} isCameraStarted:${isCameraStarted()}")
+            return null
         }
         onFinished = null
         // To start recording, we create a new recording session.
@@ -100,13 +101,12 @@ class CameraWrapper(private var activity: Activity) {
             .start(ContextCompat.getMainExecutor(activity.applicationContext)) { recordEvent ->
                 when (recordEvent) {
                     is VideoRecordEvent.Start -> {
-                        onStarted()
+                        onRecordingStarted()
                     }
 
                     is VideoRecordEvent.Finalize -> {
                         if (!recordEvent.hasError()) {
-                            val msg = "Video capture succeeded"
-                            Log.d(this::class.simpleName, msg)
+                            Log.d(this::class.simpleName, "Video capture succeeded")
                             Toast.makeText(activity, "File saved", Toast.LENGTH_SHORT).show()
                         } else {
                             recording?.close()
@@ -117,6 +117,7 @@ class CameraWrapper(private var activity: Activity) {
                     }
                 }
             }
+        return name
     }
 
     fun stopRecording(onFinished: () -> Unit) {
