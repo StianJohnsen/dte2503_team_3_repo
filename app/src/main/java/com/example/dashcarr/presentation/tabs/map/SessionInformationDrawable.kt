@@ -121,13 +121,25 @@ class SessionInformationDrawable(
         bigPaint.style = Paint.Style.FILL
         bigPaint.isFakeBoldText = true
         bigPaint.textAlign = Paint.Align.CENTER
+
+        val sharedPref = context.getSharedPreferences("AppPreferences", Context.MODE_PRIVATE)
+        displayInMph = sharedPref.getBoolean("DisplayInMph", false)
     }
 
 
     fun toggleSpeedUnit() {
         displayInMph = !displayInMph
+
+        // Save preference in SharedPreferences
+        val sharedPref = context.getSharedPreferences("AppPreferences", Context.MODE_PRIVATE)
+        with(sharedPref.edit()) {
+            putBoolean("DisplayInMph", displayInMph)
+            apply()
+        }
+
         invalidateSelf()
     }
+
 
     override fun draw(canvas: Canvas) {
         if (Duration.between(lastSpeedUpdate, LocalDateTime.now()).get(ChronoUnit.SECONDS) > 5)
@@ -193,6 +205,11 @@ class SessionInformationDrawable(
 
         // draw to calculated position
         val baselineOffset = 15
+        var additionalOffset = 0
+        if (displayInMph) {
+            additionalOffset = 15
+        }
+
         var y =
             -baselineOffset + centeredY - (smallTextBounds.height() + bigTextBounds.height()) / 2F + bigTextBounds.height()
         canvas.drawText(
@@ -201,7 +218,7 @@ class SessionInformationDrawable(
             y,
             bigPaint
         )
-        y += smallTextBounds.height()
+        y += smallTextBounds.height() + additionalOffset
         canvas.drawText(
             shortenedSmallText,
             centeredX,
