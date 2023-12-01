@@ -301,6 +301,13 @@
                 android:name="friendId"
                 app:argType="integer" />
         </action>
+        <action
+            android:id="@+id/action_socialSettingsFragment_to_addMessagesFragment"
+            app:destination="@id/addMessagesFragment"
+            app:enterAnim="@anim/down_to_up"
+            app:exitAnim="@anim/up_to_down"
+            app:popEnterAnim="@anim/pop_y_enter"
+            app:popExitAnim="@anim/pop_y_exit" />
     </fragment>
 
     <fragment
@@ -364,7 +371,15 @@
             app:destination="@id/action_settings" />
         <action
             android:id="@+id/action_selectMessageFragment_to_action_map"
-            app:destination="@id/action_map" />
+            app:destination="@id/action_map">
+
+            <argument
+                android:name="isRideActivated"
+                android:defaultValue="false"
+                app:argType="boolean" />
+        </action>
+
+
     </fragment>
     <fragment
         android:id="@+id/cameraSettings"
