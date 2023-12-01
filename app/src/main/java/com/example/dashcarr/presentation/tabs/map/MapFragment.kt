@@ -385,9 +385,9 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
                 val dbf = db / 255f
                 val tintMatrix = ColorMatrix(
                     floatArrayOf(
-                        drf, 0f, 0f, 0f, 0f,  //
-                        0f, dgf, 0f, 0f, 0f,  //
-                        0f, 0f, dbf, 0f, 0f,  //
+                        1f, 0f, 0f, 0f, 0f,  //
+                        0f, 1f, 0f, 0f, 0f,  //
+                        0f, 0f, 1f, 0f, 0f,  //
                         0f, 0f, 0f, 1f, 0f
                     )
                 )
