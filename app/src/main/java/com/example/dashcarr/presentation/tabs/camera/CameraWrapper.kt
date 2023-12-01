@@ -5,6 +5,7 @@ import android.app.Activity
 import android.content.ContentValues
 import android.content.Context
 import android.content.pm.PackageManager
+import android.os.Environment
 import android.provider.MediaStore
 import android.util.Log
 import android.widget.Toast
@@ -23,6 +24,8 @@ import androidx.camera.view.PreviewView
 import androidx.core.content.ContextCompat
 import androidx.core.content.PermissionChecker
 import androidx.lifecycle.LifecycleOwner
+import java.nio.file.Path
+import java.nio.file.Paths
 import java.text.SimpleDateFormat
 import java.util.Locale
 import java.util.concurrent.ExecutorService
@@ -62,7 +65,7 @@ class CameraWrapper(private var activity: Activity) {
         return this.videoCapture != null
     }
 
-    fun startRecording(onRecordingStarted: () -> Unit, path: String): String? {
+    fun startRecording(onRecordingStarted: () -> Unit, path: String): Path? {
         if (isRecording() || !isCameraStarted()) {
             Log.d(this::class.simpleName, "isRecording: ${isRecording()} isCameraStarted:${isCameraStarted()}")
             return null
@@ -117,7 +120,8 @@ class CameraWrapper(private var activity: Activity) {
                     }
                 }
             }
-        return name
+
+        return Paths.get(Environment.getExternalStorageDirectory().path, path, "${name}.mp4")
     }
 
     fun stopRecording(onFinished: () -> Unit) {
