@@ -71,7 +71,7 @@ class DashcamViewModel @Inject constructor(
                     }
                 }
             }
-            delay(cameraDuration * 1000L)
+            delay(cameraDuration * 1000L * 60)
             camera!!.stopRecording {}
         }
     }

@@ -2,6 +2,7 @@ package com.example.dashcarr.presentation.tabs.camera.dashcam
 
 import android.Manifest
 import android.animation.ObjectAnimator
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -66,7 +67,7 @@ class DashcamFragment() : BaseFragment<FragmentDashcamBinding>(
         registerForActivityResult(
             ActivityResultContracts.RequestMultiplePermissions()
         ) { isGranted ->
-            if (isGranted.all { it.value }) {
+            if (isGranted[Manifest.permission.CAMERA]!! && (isGranted[Manifest.permission.WRITE_EXTERNAL_STORAGE]!! || Build.VERSION.SDK_INT >= Build.VERSION_CODES.R)) {
                 viewModel.userPreferencesLiveData.observe(viewLifecycleOwner) {
                     viewModel.activate(requireActivity(), this, it.cameraDuration) {
                         val animation = ObjectAnimator.ofFloat(binding.dashcamPreview, "translationX", 300F, 0F).apply {
