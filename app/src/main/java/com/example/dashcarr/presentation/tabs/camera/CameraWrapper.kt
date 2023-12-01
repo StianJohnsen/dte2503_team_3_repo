@@ -8,7 +8,6 @@ import android.content.pm.PackageManager
 import android.os.Environment
 import android.provider.MediaStore
 import android.util.Log
-import android.widget.Toast
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
@@ -110,7 +109,6 @@ class CameraWrapper(private var activity: Activity) {
                     is VideoRecordEvent.Finalize -> {
                         if (!recordEvent.hasError()) {
                             Log.d(this::class.simpleName, "Video capture succeeded")
-                            Toast.makeText(activity, "File saved", Toast.LENGTH_SHORT).show()
                         } else {
                             recording?.close()
                             recording = null
