@@ -11,6 +11,7 @@ plugins {
 android {
     namespace = "com.example.dashcarr"
     compileSdk = 34
+    buildFeatures.buildConfig = true
 
     defaultConfig {
         applicationId = "com.example.dashcarr"
@@ -21,6 +22,7 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        buildConfigField("String", "DASHCARR_SMTP_PASSWORD", "\"${System.getenv("DASHCARR_SMTP_PASSWORD")}\"")
     }
 
     buildTypes {
@@ -157,5 +159,9 @@ dependencies {
     implementation("androidx.biometric:biometric:1.1.0")
     implementation("androidx.activity:activity-ktx:1.8.0")
     implementation("androidx.fragment:fragment-ktx:1.6.2")
+
+
+    implementation("com.sun.mail:android-mail:1.6.0")
+    implementation("com.sun.mail:android-activation:1.6.0")
 
 }

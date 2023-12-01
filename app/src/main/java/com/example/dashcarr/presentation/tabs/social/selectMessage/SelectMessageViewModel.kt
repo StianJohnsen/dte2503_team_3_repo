@@ -18,8 +18,8 @@ class SelectMessageViewModel(messagesDao: MessagesDao) : ViewModel() {
     private var _messagesList = MutableLiveData<List<MessagesEntity>>()
     val messagesList: LiveData<List<MessagesEntity>> = _messagesList
 
-    private var _contactsList = MutableLiveData<FriendsEntity>()
-    val contactsList: LiveData<FriendsEntity> = _contactsList
+    private var _currentContact = MutableLiveData<FriendsEntity>()
+    val currentContact: LiveData<FriendsEntity> = _currentContact
 
     fun getAllMessages(context: Context) {
         viewModelScope.launch(Dispatchers.IO) {
@@ -31,8 +31,7 @@ class SelectMessageViewModel(messagesDao: MessagesDao) : ViewModel() {
     fun getContact(id: Int, context: Context) {
         viewModelScope.launch(Dispatchers.IO) {
             val db = AppDatabase.getInstance(context)
-            _contactsList.postValue(db.FriendsDao().getContactById(id))
-
+            _currentContact.postValue(db.FriendsDao().getContactById(id))
         }
     }
 

@@ -54,13 +54,10 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>(
             findNavController().navigate(R.id.action_action_settings_to_powerSettings)
         }
 
-        binding.btnSocialSettings.setOnClickListener{
+        binding.btnSocialSettings.setOnClickListener {
             findNavController().navigate(R.id.action_action_settings_to_socialSettingsFragment)
         }
 
-        binding.btnHistorySettings.setOnClickListener {
-            findNavController().navigate(R.id.action_action_settings_to_selectContactFragment)
-        }
 
     }
 

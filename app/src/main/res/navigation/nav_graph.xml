@@ -101,9 +101,7 @@
             app:exitAnim="@anim/center_to_left"
             app:popEnterAnim="@anim/left_to_center"
             app:popExitAnim="@anim/center_to_right" />
-        <action
-            android:id="@+id/action_action_settings_to_selectContactFragment"
-            app:destination="@id/selectContactFragment" />
+
     </fragment>
 
     <fragment
@@ -306,7 +304,16 @@
             app:destination="@id/action_settings" />
         <action
             android:id="@+id/action_selectMessageFragment_to_action_map"
-            app:destination="@id/action_map" />
+            app:destination="@id/action_map">
+
+            <argument
+                android:name="isRideActivated"
+                android:defaultValue="false"
+                app:argType="boolean" />
+            />
+        </action>
+
+
     </fragment>
 
 </navigation>
