@@ -2,23 +2,15 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.camera.view.PreviewView
+        android:id="@+id/dashcam_preview"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@drawable/blue_rounded_16dp_background"
+        android:backgroundTint="#00000000"
+        android:visibility="visible"
+        app:scaleType="fillCenter">
 
-        <androidx.camera.view.PreviewView
-            android:id="@+id/dashcam_preview"
-            android:layout_width="110dp"
-            android:layout_height="190dp"
-            android:background="@drawable/blue_rounded_16dp_background"
-            android:backgroundTint="#00000000"
-            android:visibility="visible"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:scaleType="fillCenter">
-
-        </androidx.camera.view.PreviewView>
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.camera.view.PreviewView>
 
 </layout>

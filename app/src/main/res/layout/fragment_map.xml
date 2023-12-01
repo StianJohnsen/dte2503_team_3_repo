@@ -30,8 +30,8 @@
 
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/dashcam_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="110dp"
+            android:layout_height="190dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
