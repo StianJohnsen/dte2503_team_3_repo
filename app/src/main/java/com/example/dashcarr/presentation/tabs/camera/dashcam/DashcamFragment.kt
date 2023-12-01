@@ -92,6 +92,7 @@ class DashcamFragment() : BaseFragment<FragmentDashcamBinding>(
     fun deactivate() {
         val turnRecordingOfJob = lifecycleScope.launch {
             viewModel.deactivate()
+            Toast.makeText(activity, "Video saved", Toast.LENGTH_SHORT).show()
         }
         val animation = ObjectAnimator.ofFloat(binding.dashcamPreview, "translationX", 0F, 300F).apply {
             duration = 1000L

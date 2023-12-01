@@ -115,6 +115,7 @@ class SecurityCameraFragment : BaseFragment<FragmentSecurityCameraBinding>(
         currentState.authorize()
         viewModel.stopRecording(showStartButton = {
             if (context != null) {
+                Toast.makeText(activity, "Video saved", Toast.LENGTH_SHORT).show()
                 binding.videoCaptureButton.apply {
                     text = getString(R.string.start_recording)
                     isClickable = true
