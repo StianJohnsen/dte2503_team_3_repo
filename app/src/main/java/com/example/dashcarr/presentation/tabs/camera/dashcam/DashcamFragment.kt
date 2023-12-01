@@ -64,9 +64,9 @@ class DashcamFragment() : BaseFragment<FragmentDashcamBinding>(
             Toast.makeText(context, "Recording increases the power consumption!", Toast.LENGTH_SHORT).show()
         }
         registerForActivityResult(
-            ActivityResultContracts.RequestPermission()
+            ActivityResultContracts.RequestMultiplePermissions()
         ) { isGranted ->
-            if (isGranted) {
+            if (isGranted.all { it.value }) {
                 viewModel.userPreferencesLiveData.observe(viewLifecycleOwner) {
                     viewModel.activate(requireActivity(), this, it.cameraDuration) {
                         val animation = ObjectAnimator.ofFloat(binding.dashcamPreview, "translationX", 300F, 0F).apply {
@@ -83,7 +83,7 @@ class DashcamFragment() : BaseFragment<FragmentDashcamBinding>(
                 destroy()
                 parentFragmentManager.beginTransaction().remove(this).commit()
             }
-        }.launch(Manifest.permission.CAMERA)
+        }.launch(arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA))
 
         return view
     }

@@ -1,7 +1,6 @@
 package com.example.dashcarr.presentation.tabs.camera.dashcam
 
 import android.app.Activity
-import android.util.Log
 import androidx.camera.core.CameraSelector
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
@@ -11,9 +10,13 @@ import com.example.dashcarr.R
 import com.example.dashcarr.data.repository.UserPreferencesRepository
 import com.example.dashcarr.presentation.tabs.camera.CameraWrapper
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import java.nio.file.Files
+import java.nio.file.Path
 import java.util.concurrent.CancellationException
 import javax.inject.Inject
 
@@ -58,10 +61,16 @@ class DashcamViewModel @Inject constructor(
     }
 
     private suspend fun recordingLoop(cameraDuration: Int) {
-        val files = emptyList<String>().toMutableList()
+        val files = emptyList<Path>().toMutableList()
         while (true) {
-            val file_name = camera!!.startRecording({ }, "Movies/Dashcarr/Dashcam")
-            Log.d(this@DashcamViewModel::class.simpleName, "New Record: $file_name")
+            files.add(0, camera!!.startRecording({ }, "Movies/Dashcarr/Dashcam")!!)
+            viewModelScope.launch {
+                if (files.size > 2) {
+                    withContext(Dispatchers.IO) {
+                        Files.deleteIfExists(files.removeLast())
+                    }
+                }
+            }
             delay(cameraDuration * 1000L)
             camera!!.stopRecording {}
         }
