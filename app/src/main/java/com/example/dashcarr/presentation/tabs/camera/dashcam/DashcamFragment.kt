@@ -89,7 +89,7 @@ class DashcamFragment() : BaseFragment<FragmentDashcamBinding>(
         return view
     }
 
-    fun deactivate() {
+    fun deactivate(onFinished: () -> Unit = {}) {
         val turnRecordingOfJob = lifecycleScope.launch {
             viewModel.deactivate()
             Toast.makeText(activity, "Video saved", Toast.LENGTH_SHORT).show()
@@ -102,7 +102,10 @@ class DashcamFragment() : BaseFragment<FragmentDashcamBinding>(
             lifecycleScope.launch {
                 turnRecordingOfJob.join()
                 destroy()
-                parentFragmentManager.beginTransaction().remove(this@DashcamFragment).commit()
+                if (!parentFragmentManager.isStateSaved) {
+                    parentFragmentManager.beginTransaction().remove(this@DashcamFragment).commit()
+                }
+                onFinished()
             }
         }
         animation.start()
