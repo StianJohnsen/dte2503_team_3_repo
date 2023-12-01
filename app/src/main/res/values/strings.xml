@@ -168,9 +168,7 @@
 
     <!--Camera Settings-->
 
-    <string name="camera_settings">Camera Settings</string>
     <string name="select_duration">Select Duration</string>
     <string name="open_saved_recordings">Open Saved Recordings</string>
-
 
 </resources>
