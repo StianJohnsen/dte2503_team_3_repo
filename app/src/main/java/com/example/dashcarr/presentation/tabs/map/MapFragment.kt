@@ -278,10 +278,7 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
 
             btnDelete.setOnClickListener {
                 deleteRecording()
-
                 findNavController().navigate(R.id.action_action_map_to_action_history)
-
-
             }
         }
 
@@ -294,8 +291,8 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
             binding.apply {
                 btnDashcam.setOnClickListener {
                     if (!DashcamFragment.exists()) {
-                        val transaction = parentFragmentManager.beginTransaction()
-                        transaction.add(R.id.nav_host_container, DashcamFragment.getInstance())
+                        val transaction = childFragmentManager.beginTransaction()
+                        transaction.add(R.id.dashcam_view, DashcamFragment.getInstance())
                         transaction.disallowAddToBackStack()
                         transaction.commit()
                     } else {
@@ -352,7 +349,6 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
     private fun stopRecording() {
         sensorRecordingViewModel.stopRecording(requireContext())
         Toast.makeText(requireContext(), "Recording Stopped", Toast.LENGTH_SHORT).show()
-
     }
 
     private fun pauseRecording() {
@@ -446,11 +442,10 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
 
     override fun onStop() {
         mapViewModel.saveLastKnownLocation()
+        if (DashcamFragment.exists()) {
+            DashcamFragment.getInstance().deactivate { }
+        }
         super.onStop()
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
     }
 
     override fun singleTapConfirmedHelper(geoPoint: GeoPoint?): Boolean {
