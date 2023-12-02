@@ -1,6 +1,5 @@
 package com.example.dashcarr.presentation.tabs.social.selectMessage
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,8 +14,8 @@ import com.example.dashcarr.databinding.SelectMessageItemBinding
  * @param onItemClicked Lambda function to handle item click events.
  */
 class SelectMessageAdapter(
-    private var isPhoneNumber: String,
-    private var isEmailAdress: String,
+    private var phoneNumber: String,
+    private var emailAddress: String,
     private var onMessageButtonClicked: (SelectMessage) -> Unit,
     private var onEmailButtonClicked: (SelectMessage) -> Unit
 ) : ListAdapter<
@@ -35,26 +34,19 @@ class SelectMessageAdapter(
     class SelectMessageViewHolder(private var binding: SelectMessageItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(
-            isPhoneNumber: String,
-            isEmailAdress: String,
+            phoneNumber: String,
+            emailAddress: String,
             selectMessage: SelectMessage,
             onMessageButtonClicked: (SelectMessage) -> Unit,
             onEmailButtonClicked: (SelectMessage) -> Unit,
         ) {
-            if (isEmailAdress.isNotEmpty()) {
+            if (emailAddress.isNotEmpty()) {
                 binding.cardViewEmailButton.visibility = View.VISIBLE
             }
-            if (isPhoneNumber.isNotEmpty()) {
+            if (phoneNumber.isNotEmpty()) {
                 binding.cardViewMessageButton.visibility = View.VISIBLE
             }
-            /*
-                        binding.cardViewMessageButton.visibility = View.VISIBLE
-            binding.cardViewEmailButton.visibility = View.VISIBLE
-             */
 
-
-            Log.d("lasse", isPhoneNumber)
-            Log.d("lasse", isEmailAdress)
             binding.selectMessage = selectMessage
             binding.executePendingBindings()
             binding.cardViewMessageButton.setOnClickListener {
@@ -72,6 +64,6 @@ class SelectMessageAdapter(
 
     override fun onBindViewHolder(holder: SelectMessageViewHolder, position: Int) {
         val selectMessage = getItem(position)
-        holder.bind(isPhoneNumber, isEmailAdress, selectMessage, onMessageButtonClicked, onEmailButtonClicked)
+        holder.bind(phoneNumber, emailAddress, selectMessage, onMessageButtonClicked, onEmailButtonClicked)
     }
 }

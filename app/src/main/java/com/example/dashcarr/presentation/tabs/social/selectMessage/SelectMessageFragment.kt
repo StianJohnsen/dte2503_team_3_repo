@@ -1,7 +1,6 @@
 package com.example.dashcarr.presentation.tabs.social.selectMessage
 
 import android.Manifest
-import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
@@ -15,7 +14,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import com.example.dashcarr.BuildConfig
+import com.example.dashcarr.R
 import com.example.dashcarr.data.database.AppDatabase
 import com.example.dashcarr.R
 import com.example.dashcarr.databinding.FragmentSelectMessageBinding
@@ -23,6 +22,7 @@ import com.example.dashcarr.domain.entity.FriendsEntity
 import com.example.dashcarr.domain.entity.SentMessagesEntity
 import com.example.dashcarr.presentation.core.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
+import java.util.concurrent.Executors
 import javax.mail.Message
 import javax.mail.PasswordAuthentication
 import javax.mail.Session
@@ -30,6 +30,9 @@ import javax.mail.Transport
 import javax.mail.internet.InternetAddress
 import javax.mail.internet.MimeMessage
 import dagger.hilt.android.AndroidEntryPoint
+
+
+private const val MY_PERMISSION_REQUEST_SEND_SMS = 0
 
 /**
  * Fragment for selecting and sending messages to a specific contact.
@@ -40,6 +43,7 @@ class SelectMessageFragment : BaseFragment<FragmentSelectMessageBinding>(
     FragmentSelectMessageBinding::inflate,
     showBottomNavBar = false
 ) {
+
 
     private val viewModel: SelectMessageViewModel by viewModels {
         SelectMessageViewModelFactory(AppDatabase.getInstance(requireContext()).MessagesDao())
@@ -61,9 +65,7 @@ class SelectMessageFragment : BaseFragment<FragmentSelectMessageBinding>(
             }
         }
 
-    private val MY_PERMISSION_REQUEST_SEND_SMS = 0
 
-    // Initialize SmsManager for sending SMS messages
     private val smsManagerObject: SmsManager by lazy {
         requireContext().getSystemService(SmsManager::class.java) as SmsManager
     }
@@ -86,27 +88,39 @@ class SelectMessageFragment : BaseFragment<FragmentSelectMessageBinding>(
         }
     }
 
-    fun setAdapter(
+    private fun setAdapter(
         friendId: Int,
-        isPhoneNumer: String,
-        isEmailAdress: String,
+        phoneNumber: String,
+        emailAddress: String,
         messageList: MutableList<SelectMessage>
     ) {
         val action = SelectMessageFragmentDirections.actionSelectMessageFragmentToActionMap(true)
         val adapter = SelectMessageAdapter(
-            isPhoneNumber = isPhoneNumer,
-            isEmailAdress = isEmailAdress,
+            phoneNumber = phoneNumber,
+            emailAddress = emailAddress,
             onMessageButtonClicked = {
-                sendMessage(isPhoneNumer, it.content)
-                insertIntoMessageHistory(it.id, friendId, System.currentTimeMillis())
-                Toast.makeText(requireContext(), "Sent message to: $isPhoneNumer", Toast.LENGTH_SHORT).show()
-                findNavController().navigate(action)
+                try {
+                    sendMessage(phoneNumber, it.content)
+                    insertIntoMessageHistory(it.id, friendId, System.currentTimeMillis())
+                    Toast.makeText(requireContext(), "Sent message to: $phoneNumber", Toast.LENGTH_SHORT).show()
+                    findNavController().navigate(action)
+                } catch (e: Exception) {
+                    Log.e(this::class.simpleName, "Message exception: ${e.stackTraceToString()}")
+                    Toast.makeText(requireContext(), "SMS could not be sent", Toast.LENGTH_LONG).show()
+                }
             },
             onEmailButtonClicked = {
-                sendEmail(isEmailAdress, it.content)
-                insertIntoMessageHistory(it.id, friendId, System.currentTimeMillis())
-                Toast.makeText(requireContext(), "Sent email to: $isEmailAdress", Toast.LENGTH_SHORT).show()
+                try {
+                    sendEmail(emailAddress, it.content)
+                    insertIntoMessageHistory(it.id, friendId, System.currentTimeMillis())
+                    Toast.makeText(requireContext(), "Sent email to: $emailAddress", Toast.LENGTH_SHORT).show()
+                } catch (e: Exception) {
+                    Log.e(this::class.simpleName, "Email exception: ${e.stackTraceToString()}")
+                    Toast.makeText(requireContext(), "Email could not be sent", Toast.LENGTH_LONG).show()
+
+                }
                 findNavController().navigate(action)
+
 
             }
         )
@@ -116,8 +130,8 @@ class SelectMessageFragment : BaseFragment<FragmentSelectMessageBinding>(
 
     private fun observeViewModel() {
         viewModel.messagesList.observe(viewLifecycleOwner) {
-            it.forEach {
-                messageList.add(SelectMessage(it.id, it.content, it.isPhone))
+            it.forEach { messagesEntity ->
+                messageList.add(SelectMessage(messagesEntity.id, messagesEntity.content, messagesEntity.isPhone))
             }
         }
 
@@ -130,39 +144,30 @@ class SelectMessageFragment : BaseFragment<FragmentSelectMessageBinding>(
         }
     }
 
-    override fun onAttach(context: Context) {
-        appExecutors = AppExecutors()
-        super.onAttach(context)
 
-    }
-
-    private fun sendMessage(destinationNumer: String, message: String) {
+    private fun sendMessage(destinationNumber: String, message: String) {
         requestSmsPermission()
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            sendTextMessageAndroid12AndAbove(destinationNumer, message)
+            sendTextMessageAndroid12AndAbove(destinationNumber, message)
         } else {
-            sendTextMessageBelowAndroid12(destinationNumer, message)
+            sendTextMessageBelowAndroid12(destinationNumber, message)
         }
 
 
     }
 
-    fun sendEmail(destinationEmail: String, message: String) {
+    private fun sendEmail(destinationEmail: String, message: String) {
         val stringSenderEmail = "dashcarr.business@gmail.com"
-        val stringRecieverMail = destinationEmail
-        val stringPasswordSenderEmail = BuildConfig.DASHCARR_SMTP_PASSWORD
+        val stringPasswordSenderEmail = getString(R.string.email_smtp_app_app_password)
 
 
-        appExecutors.diskIO().execute {
+        Executors.newSingleThreadExecutor().execute {
             val props = System.getProperties()
-            props.put("mail.smtp.host", "smtp.gmail.com")
-            props.put("mail.smtp.socketFactory.port", "465")
-            props.put(
-                "mail.smtp.socketFactory.class",
-                "javax.net.ssl.SSLSocketFactory"
-            )
-            props.put("mail.smtp.auth", "true")
-            props.put("mail.smtp.port", "465")
+            props["mail.smtp.host"] = "smtp.gmail.com"
+            props["mail.smtp.socketFactory.port"] = "465"
+            props["mail.smtp.socketFactory.class"] = "javax.net.ssl.SSLSocketFactory"
+            props["mail.smtp.auth"] = "true"
+            props["mail.smtp.port"] = "465"
             val session = Session.getInstance(props,
                 object : javax.mail.Authenticator() {
                     override fun getPasswordAuthentication(): PasswordAuthentication {
@@ -170,30 +175,28 @@ class SelectMessageFragment : BaseFragment<FragmentSelectMessageBinding>(
                     }
                 }
             )
-            try {
-                val mm = MimeMessage(session)
-                mm.setFrom(InternetAddress(stringSenderEmail))
-                mm.addRecipient(
-                    Message.RecipientType.TO,
-                    InternetAddress(stringRecieverMail)
-                )
-                mm.subject = "Message from: ${userViewModel.getUser()?.email}"
-                mm.setText("Hi!\n\nYou have gotten a message from: ${userViewModel.getUser()?.email}\nMessage:\n\n$message")
+            val mm = MimeMessage(session)
+            mm.setFrom(InternetAddress(stringSenderEmail))
+            mm.addRecipient(
+                Message.RecipientType.TO,
+                InternetAddress(destinationEmail)
+            )
+            mm.subject = "DashCarr Message from: ${userViewModel.getUser()?.email}"
+            mm.setText("You have gotten a message from ${userViewModel.getUser()?.email}: \n\n$message\n\nSent from DashCarr")
 
-                Transport.send(mm)
-            } catch (e: Exception) {
-                throw e
-            }
+            Transport.send(mm)
+
         }
     }
 
     @RequiresApi(Build.VERSION_CODES.R)
-    private fun sendTextMessageAndroid12AndAbove(destinationNumer: String, message: String) {
-        smsManagerObject.sendTextMessage(destinationNumer, null, message, null, null, 0)
+    private fun sendTextMessageAndroid12AndAbove(destinationNumber: String, message: String) {
+        smsManagerObject.sendTextMessage(destinationNumber, null, message, null, null, 0)
     }
 
-    private fun sendTextMessageBelowAndroid12(destinationNumer: String, message: String) {
-        SmsManager.getDefault().sendTextMessage(destinationNumer, null, message, null, null)
+    @Suppress("DEPRECATION")
+    private fun sendTextMessageBelowAndroid12(destinationNumber: String, message: String) {
+        SmsManager.getDefault().sendTextMessage(destinationNumber, null, message, null, null)
     }
 
     private fun insertIntoMessageHistory(messageId: Long, friendId: Int, createdTimeStamp: Long) {
@@ -210,7 +213,7 @@ class SelectMessageFragment : BaseFragment<FragmentSelectMessageBinding>(
         requestPermission.launch(Manifest.permission.SEND_SMS)
         binding.apply {
             backToSettingsFromSelectMessage.setOnClickListener {
-                requireActivity().onBackPressed()
+                requireActivity().onBackPressedDispatcher.onBackPressed()
             }
         }
     }

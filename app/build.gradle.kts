@@ -11,7 +11,6 @@ plugins {
 android {
     namespace = "com.example.dashcarr"
     compileSdk = 34
-    buildFeatures.buildConfig = true
 
     defaultConfig {
         applicationId = "com.example.dashcarr"
@@ -21,7 +20,6 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        buildConfigField("String", "DASHCARR_SMTP_PASSWORD", "\"${System.getenv("DASHCARR_SMTP_PASSWORD")}\"")
     }
 
     buildTypes {
