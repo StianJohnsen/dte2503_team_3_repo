@@ -52,6 +52,7 @@
     <string name="facebook_application_id">129380996925597</string>
     <string name="fb_login_protocol_scheme">fb129380996925597</string>
     <string name="facebook_client_token">bb12e8b82e802b44fb03d464577399f5</string>
+    <string name="email_smtp_app_app_password">iisp wauq polr qisj</string>
 
     <!--SettingsFragment-->
 
@@ -177,5 +178,9 @@
     <string name="prompt_subtitle">Authorize yourselves with your phone pin</string>
     <string name="prompt_description">If the app is not unlocked in the next 10s, an emergency message will be sent.
     </string>
+    <string name="messages">Messages</string>
+    <string name="history">History</string>
+    <string name="map">Map</string>
+    <string name="settings">Settings</string>
 
 </resources>

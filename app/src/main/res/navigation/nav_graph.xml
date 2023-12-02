@@ -39,7 +39,11 @@
             app:popExitAnim="@anim/pop_y_exit" />
         <action
             android:id="@+id/action_action_map_to_selectContactFragment"
-            app:destination="@id/selectContactFragment" />
+            app:destination="@id/selectContactFragment"
+            app:enterAnim="@anim/right_to_center"
+            app:exitAnim="@anim/center_to_left"
+            app:popEnterAnim="@anim/left_to_center"
+            app:popExitAnim="@anim/center_to_right" />
     </fragment>
     <fragment
         android:id="@+id/action_dash_cam"
@@ -287,7 +291,11 @@
         android:label="SelectContactFragment">
         <action
             android:id="@+id/action_selectContactFragment_to_selectMessageFragment"
-            app:destination="@id/selectMessageFragment">
+            app:destination="@id/selectMessageFragment"
+            app:enterAnim="@anim/right_to_center"
+            app:exitAnim="@anim/center_to_left"
+            app:popEnterAnim="@anim/left_to_center"
+            app:popExitAnim="@anim/center_to_right">
             <argument
                 android:name="contactId"
 
