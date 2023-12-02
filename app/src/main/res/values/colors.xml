@@ -35,4 +35,7 @@
 
     <!--SecurityCameraFragment-->
     <color name="recording_red">#E13232</color>
+
+    <!--Speed limit-->
+    <color name="traffic_sign_red">#B70D24</color>
 </resources>

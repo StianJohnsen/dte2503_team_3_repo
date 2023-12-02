@@ -47,6 +47,25 @@ class SessionInformationDrawable(
 
     private var displayInMph = false
 
+    init {
+        smallPaint.textSize = streetTextSize
+        smallPaint.color = Color.WHITE
+        smallPaint.isAntiAlias = true
+        smallPaint.style = Paint.Style.FILL
+        smallPaint.isFakeBoldText = true
+        smallPaint.textAlign = Paint.Align.CENTER
+
+        bigPaint.textSize = speedTextSize
+        bigPaint.color = Color.WHITE
+        bigPaint.isAntiAlias = true
+        bigPaint.style = Paint.Style.FILL
+        bigPaint.isFakeBoldText = true
+        bigPaint.textAlign = Paint.Align.CENTER
+
+        val sharedPref = context.getSharedPreferences("AppPreferences", Context.MODE_PRIVATE)
+        displayInMph = sharedPref.getBoolean("DisplayInMph", false)
+    }
+
     /**
      * This function refreshes the speed and might trigger a request to refresh the current street.
      *
@@ -130,25 +149,6 @@ class SessionInformationDrawable(
             }
         )
         queue.add(addressRequest)
-    }
-
-    init {
-        smallPaint.textSize = streetTextSize
-        smallPaint.color = Color.WHITE
-        smallPaint.isAntiAlias = true
-        smallPaint.style = Paint.Style.FILL
-        smallPaint.isFakeBoldText = true
-        smallPaint.textAlign = Paint.Align.CENTER
-
-        bigPaint.textSize = speedTextSize
-        bigPaint.color = Color.WHITE
-        bigPaint.isAntiAlias = true
-        bigPaint.style = Paint.Style.FILL
-        bigPaint.isFakeBoldText = true
-        bigPaint.textAlign = Paint.Align.CENTER
-
-        val sharedPref = context.getSharedPreferences("AppPreferences", Context.MODE_PRIVATE)
-        displayInMph = sharedPref.getBoolean("DisplayInMph", false)
     }
 
 
