@@ -27,7 +27,7 @@ class AddFriendFragment : BaseFragment<FragmentAddFriendBinding>(
         currentFriendId = arguments?.getInt("friendId", -1).takeIf { it != -1 }
 
         if (currentFriendId != null) {
-                viewModel.getFriendById(currentFriendId!!).observe(viewLifecycleOwner) { friend: FriendsEntity ->
+            viewModel.getFriendById(currentFriendId!!).observe(viewLifecycleOwner) { friend: FriendsEntity ->
                 binding.inputName.setText(friend.name)
                 binding.inputEmail.setText(friend.email)
                 binding.inputPhone.setText(friend.phone)
@@ -56,18 +56,22 @@ class AddFriendFragment : BaseFragment<FragmentAddFriendBinding>(
 
             if (inputName.isEmpty()) {
                 Toast.makeText(context, "Name is a mandatory field", Toast.LENGTH_SHORT).show()
+            } else if (email.isEmpty() && phone.isEmpty()) {
+                Toast.makeText(context, "Phone or Email are mandatory fields", Toast.LENGTH_SHORT).show()
             } else if (!emailToValidate.matches(emailRegex.toRegex()) && emailToValidate != "") {
                 Toast.makeText(context, "Check your email please", Toast.LENGTH_SHORT).show()
             } else {
                 if (currentFriendId == null) {
                     viewLifecycleOwner.lifecycleScope.launch {
                         try {
-                            viewModel.saveNewFriend(friend = FriendsEntity(
-                                name = inputName,
-                                phone = phone,
-                                email = email,
-                                createdTimeStamp = System.currentTimeMillis()
-                            ))
+                            viewModel.saveNewFriend(
+                                friend = FriendsEntity(
+                                    name = inputName,
+                                    phone = phone,
+                                    email = email,
+                                    createdTimeStamp = System.currentTimeMillis()
+                                )
+                            )
                         } catch (e: Exception) {
                         }
                     }
