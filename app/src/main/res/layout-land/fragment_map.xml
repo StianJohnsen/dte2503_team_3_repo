@@ -71,6 +71,17 @@
                 android:paddingVertical="0dp"
                 android:scaleType="fitCenter"
                 android:src="@drawable/ic_social_settings" />
+
+            <ImageButton
+                android:id="@+id/btn_emergency_call"
+                android:layout_width="@dimen/standard_touch_size"
+                android:layout_height="@dimen/standard_touch_size"
+                android:layout_margin="4dp"
+                android:backgroundTint="#00FFFFFF"
+                android:paddingHorizontal="0dp"
+                android:paddingVertical="0dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/baseline_emergency_24" />
         </LinearLayout>
 
         <LinearLayout
@@ -91,13 +102,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_padding_size_10"
+            android:layout_marginTop="@dimen/margin_padding_size_40"
             android:background="@drawable/blue_16dp_background"
             android:orientation="vertical"
             android:paddingHorizontal="@dimen/margin_padding_size_8"
             android:paddingVertical="@dimen/margin_padding_size_8"
-            app:layout_constraintBottom_toTopOf="@+id/hudView"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/mapView">
+            app:layout_constraintTop_toBottomOf="@+id/ll_recording_buttons">
 
             <ImageView
                 android:id="@+id/redIndicator"
@@ -126,10 +137,10 @@
                 android:id="@+id/battery_percentage"
                 android:layout_width="@dimen/margin_padding_size_32"
                 android:layout_height="@dimen/margin_padding_size_14"
+                android:layout_marginTop="@dimen/margin_padding_size_10"
                 android:orientation="vertical"
                 android:text="@string/incoming"
                 android:textColor="@color/header_color"
-                android:layout_marginTop="@dimen/margin_padding_size_10"
                 android:textSize="@dimen/text_size_12"
                 app:layout_constraintBottom_toTopOf="@+id/greenIndicator"
                 app:layout_constraintStart_toStartOf="parent"
@@ -139,19 +150,17 @@
 
         <LinearLayout
             android:id="@+id/ll_weather"
-            android:visibility="visible"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_padding_size_10"
-            android:layout_marginTop="10dp"
+            android:layout_marginEnd="@dimen/margin_padding_size_10"
+            android:layout_marginBottom="12dp"
             android:background="@drawable/blue_rounded_16dp_background"
             android:orientation="vertical"
             android:paddingHorizontal="@dimen/margin_padding_size_8"
             android:paddingVertical="@dimen/margin_padding_size_8"
-            app:layout_constraintBottom_toTopOf="@+id/hudView"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/ll_traffic_light"
-            app:layout_constraintVertical_bias="0.05">
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="@+id/mapView"
+            app:layout_constraintEnd_toStartOf="@+id/btnCenterLocation">
 
             <ImageView
                 android:id="@+id/icon_weather"
@@ -165,11 +174,11 @@
                 android:id="@+id/txt_weather"
                 android:layout_width="@dimen/margin_padding_size_32"
                 android:layout_height="@dimen/margin_padding_size_14"
+                android:gravity="center"
                 android:orientation="vertical"
                 android:text="@string/incoming"
                 android:textColor="@color/header_color"
                 android:textSize="@dimen/text_size_8"
-                android:gravity="center"
                 app:layout_constraintBottom_toTopOf="@+id/greenIndicator"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/icon_weather" />
