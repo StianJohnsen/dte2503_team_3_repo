@@ -179,7 +179,7 @@
                 android:orientation="vertical"
                 android:text="@string/incoming"
                 android:textColor="@color/header_color"
-                android:textSize="@dimen/text_size_12"
+                android:textSize="@dimen/text_size_8"
                 android:gravity="center"
                 app:layout_constraintBottom_toTopOf="@+id/greenIndicator"
                 app:layout_constraintStart_toStartOf="parent"

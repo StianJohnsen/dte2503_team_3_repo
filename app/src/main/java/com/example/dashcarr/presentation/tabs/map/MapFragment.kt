@@ -402,23 +402,17 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
 
     private fun handleWeatherResponse(response: String) {
         val (iconResourceId, weatherText) = when {
-            response.contains("rain") -> Pair(R.drawable.ic_rain, "Rain")
-            response.contains("clear") -> Pair(R.drawable.ic_sun, "Sun")
-            response.contains("fair") -> Pair(R.drawable.ic_sun, "Fair")
-            response.contains("cloud") -> Pair(R.drawable.ic_cloud, "Cloud")
-            response.contains("snow") -> Pair(R.drawable.ic_snow, "Snow")
-            response.contains("sleet") -> Pair(R.drawable.ic_snow, "Sleet")
-            response.contains("thunder") -> Pair(R.drawable.ic_thunder, "Thunder")
+            response.contains("rain") -> Pair(R.drawable.ic_rain, "Rainy")
+            response.contains("clear") -> Pair(R.drawable.ic_sun, "Sunny")
+            response.contains("fair") -> Pair(R.drawable.ic_sun, "Fairy")
+            response.contains("cloud") -> Pair(R.drawable.ic_cloud, "Cloudy")
+            response.contains("snow") -> Pair(R.drawable.ic_snow, "Snowy")
+            response.contains("sleet") -> Pair(R.drawable.ic_snow, "Sleety")
+            response.contains("thunder") -> Pair(R.drawable.ic_thunder, "Thundery")
             else -> Pair(R.drawable.ic_cancel_small, "No Data")
         }
         if (isAdded) {
             binding.txtWeather?.text = weatherText
-        }
-        updateWeatherIconOnMap(iconResourceId)
-    }
-
-    private fun updateWeatherIconOnMap(iconResourceId: Int) {
-        if (isAdded) {
             binding.iconWeather?.setImageResource(iconResourceId)
         }
     }
