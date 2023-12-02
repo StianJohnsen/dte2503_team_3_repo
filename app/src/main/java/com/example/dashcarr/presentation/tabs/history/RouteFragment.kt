@@ -43,7 +43,7 @@ class RouteFragment : BaseFragment<FragmentRouteBinding>(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        // Since we are using ViewBinding, there's no need to call super.onCreateView.
+        super.onCreateView(inflater, container, savedInstanceState)
         _binding = FragmentRouteBinding.inflate(inflater, container, false)
         val view = binding.root
 
