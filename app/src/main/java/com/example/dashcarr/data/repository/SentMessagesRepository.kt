@@ -7,6 +7,11 @@ import com.example.dashcarr.domain.entity.SentMessagesEntity
 import com.example.dashcarr.domain.repository.ISentMessagesRepository
 import javax.inject.Inject
 
+/**
+ * Repository class for managing sent messages data, interfacing with the local data source.
+ *
+ * @property sendMessagesLocalDataSource Local data source for sent messages.
+ */
 class SentMessagesRepository @Inject constructor(
     private val sendMessagesLocalDataSource: ISentMessagesLocalDataSource
 ): ISentMessagesRepository {

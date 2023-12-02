@@ -7,6 +7,11 @@ import com.example.dashcarr.domain.entity.MessagesEntity
 import com.example.dashcarr.domain.preferences.IPreferences
 import javax.inject.Inject
 
+/**
+ * Local data source for messages data.
+ * @param messagesDao The DAO for messages data.
+ * @param preferences The shared preferences for the app.
+ */
 class MessagesLocalDataSource @Inject constructor(
     private val messagesDao: MessagesDao,
     private val preferences: IPreferences

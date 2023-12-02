@@ -5,6 +5,10 @@ import androidx.lifecycle.LiveData
 import com.example.dashcarr.domain.entity.SentMessageFinalEntity
 import com.example.dashcarr.domain.entity.SentMessagesEntity
 
+/**
+ * Interface for the local data source that manages sent messages data.
+ * Defines methods for retrieving, adding, updating, and deleting sent messages records.
+ */
 interface ISentMessagesLocalDataSource {
 
     fun getAllSentMessagesLiveData(): LiveData<List<SentMessageFinalEntity>>

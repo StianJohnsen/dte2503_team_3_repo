@@ -5,7 +5,6 @@ import com.example.dashcarr.domain.entity.FriendsEntity
 import com.example.dashcarr.domain.entity.MessagesEntity
 import com.example.dashcarr.domain.entity.firebase.FirebaseFriendEntity
 import com.example.dashcarr.domain.entity.firebase.FirebaseMessageEntity
-import com.example.dashcarr.domain.entity.firebase.GeoPointEntity
 import com.example.dashcarr.domain.repository.IFirebaseAuthRepository
 import com.example.dashcarr.domain.repository.IFirebaseDBRepository
 import com.google.android.gms.tasks.Task
@@ -17,44 +16,17 @@ import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
-
 /**
- * Implementation of [IFirebaseDBRepository] for managing interactions with Firebase.
+ * Repository for handling interactions with Firebase Firestore,
+ * specifically for managing data related to friends and messages.
  *
- * @param firebaseAuthRepository The repository for managing Firebase Authentication.
+ * @param firebaseAuthRepository The repository for Firebase Authentication, used for user identification.
  */
 class FirebaseDBRepository @Inject constructor(
     private val firebaseAuthRepository: IFirebaseAuthRepository
 ): IFirebaseDBRepository {
 
     private val db = Firebase.firestore
-
-    override suspend fun saveGeoPoint(geoPoint: GeoPointEntity): Boolean {
-        db.collection(firebaseAuthRepository.getUserId()!!)
-            .document(FirebaseTables.GEO_POINT_DOCUMENT)
-            .collection(FirebaseTables.GEO_POINT_COLLECTION)
-            .add(
-                mapOf(
-                    Pair(FirebaseTables.GEO_POINT_ID_KEY, geoPoint.geoPointId),
-                    Pair(FirebaseTables.TRIP_ID_KEY, geoPoint.tripId),
-                    Pair(FirebaseTables.LATITUDE_KEY, geoPoint.latitude),
-                    Pair(FirebaseTables.LONGITUDE_KEY, geoPoint.longitude),
-                    Pair(FirebaseTables.STEP_NUM_KEY, geoPoint.stepNum)
-                )
-            )
-            .await()
-        return true
-    }
-
-    override suspend fun getAllGeoPoints(): List<GeoPointEntity> =
-        db.collection(firebaseAuthRepository.getUserId()!!)
-            .document(FirebaseTables.GEO_POINT_DOCUMENT)
-            .collection(FirebaseTables.GEO_POINT_COLLECTION)
-            .get()
-            .await()
-            .map {
-                it.toObject()
-            }
 
     override suspend fun saveNewFriend(friend: FriendsEntity, timestamp: Long): Boolean {
         saveLastFriendChangesTimestamp(timestamp)
@@ -186,11 +158,6 @@ class FirebaseDBRepository @Inject constructor(
             .map {
                 it.toObject()
             }
-
-
-    override suspend fun updateMessage(message: MessagesEntity): Result<Unit> {
-        TODO("Not yet implemented")
-    }
 
     override suspend fun deleteMessage(message: MessagesEntity, timestamp: Long) {
         saveLastMessageChangesTimestamp(timestamp)

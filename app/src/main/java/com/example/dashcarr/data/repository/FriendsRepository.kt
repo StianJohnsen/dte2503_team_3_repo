@@ -8,6 +8,14 @@ import com.example.dashcarr.domain.repository.IFirebaseDBRepository
 import com.example.dashcarr.domain.repository.IFriendsRepository
 import javax.inject.Inject
 
+/**
+ * Repository for managing friends data, coordinating between local data sources and Firebase.
+ *
+ * @property firebaseDBRepository Repository for Firebase database interactions.
+ * @property preference Repository for handling preferences.
+ * @property friendsLocalDataSource Local data source for friends data.
+ */
+
 class FriendsRepository @Inject constructor(
     private val firebaseDBRepository: IFirebaseDBRepository,
     private val preference: IPreferences,
@@ -21,10 +29,6 @@ class FriendsRepository @Inject constructor(
         val localResult = friendsLocalDataSource.saveNewFriend(friend).isSuccess
         return remoteResult && localResult
     }
-
-    override suspend fun getAllFriends(): List<FriendsEntity> =
-        friendsLocalDataSource.getAllFriendsLiveData().value ?: emptyList()
-
 
     override fun getFriendById(id: Int): LiveData<FriendsEntity> {
         return friendsLocalDataSource.getFriendByIdLiveData(id)

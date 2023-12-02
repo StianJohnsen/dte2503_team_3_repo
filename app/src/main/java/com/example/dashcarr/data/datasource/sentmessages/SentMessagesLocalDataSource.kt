@@ -7,6 +7,11 @@ import com.example.dashcarr.domain.entity.SentMessageFinalEntity
 import com.example.dashcarr.domain.entity.SentMessagesEntity
 import javax.inject.Inject
 
+/**
+ * Local data source that manages sent messages data.
+ *
+ * @param sentMessageDao The Data Access Object (DAO) for sent messages entities.
+ */
 class SentMessagesLocalDataSource @Inject constructor(
     private val sentMessageDao: SentMessageDao
 ): ISentMessagesLocalDataSource {

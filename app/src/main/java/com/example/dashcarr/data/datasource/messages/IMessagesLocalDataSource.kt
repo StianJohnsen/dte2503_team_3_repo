@@ -4,6 +4,10 @@ import androidx.annotation.WorkerThread
 import androidx.lifecycle.LiveData
 import com.example.dashcarr.domain.entity.MessagesEntity
 
+/**
+ * Interface for the local data source that manages messages data.
+ * Defines methods for retrieving, adding, updating, and deleting message records.
+ */
 interface IMessagesLocalDataSource {
 
     fun getAllMessagesLiveData(): LiveData<List<MessagesEntity>>

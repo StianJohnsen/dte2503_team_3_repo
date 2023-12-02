@@ -8,6 +8,13 @@ import com.example.dashcarr.domain.repository.IFirebaseDBRepository
 import com.example.dashcarr.domain.repository.IMessagesRepository
 import javax.inject.Inject
 
+/**
+ * Repository class for managing message-related data, interfacing between local data sources and Firebase.
+ *
+ * @property messagesLocalDataSource Local data source for messages.
+ * @property preference Repository for handling preferences.
+ * @property firebaseDBRepository Repository for Firebase database interactions.
+ */
 class MessagesRepository @Inject constructor(
     private val messagesLocalDataSource: IMessagesLocalDataSource,
     private val preference: IPreferences,
