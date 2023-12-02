@@ -17,6 +17,7 @@ import android.os.PowerManager
 import android.preference.PreferenceManager
 import android.util.Log
 import android.view.View
+import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
@@ -168,8 +169,29 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
      * Initializes listeners for UI elements in the fragment.
      */
     private fun initListeners() {
+        var originalLeftMargin: Int? = null
         binding.btnShowHideBar.setOnClickListener {
-            mapViewModel.showHideBar()
+            val isLandscape = resources.configuration.orientation
+            if (isLandscape == 2) {
+                mapViewModel.showHideBar()
+
+                if (originalLeftMargin == null) {
+                    originalLeftMargin =
+                        (binding.llTrafficLight.layoutParams as ViewGroup.MarginLayoutParams).leftMargin
+                }
+
+                val layoutParams = binding.llTrafficLight.layoutParams as ViewGroup.MarginLayoutParams
+
+                if (layoutParams.leftMargin == 320) {
+                    layoutParams.leftMargin = originalLeftMargin ?: 0
+                } else {
+                    layoutParams.leftMargin = 320
+                }
+
+                binding.llTrafficLight.layoutParams = layoutParams
+            } else {
+                mapViewModel.showHideBar()
+            }
         }
         binding.btnCenterLocation.setOnClickListener {
             if (!requireContext().checkLocationPermissions()) {
