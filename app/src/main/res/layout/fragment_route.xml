@@ -20,13 +20,15 @@
             android:background="@color/primary_color">
 
             <ImageView
-                android:id="@+id/image_back_details"
-                android:layout_width="@dimen/standard_touch_size"
-                android:layout_height="@dimen/standard_touch_size"
-                android:contentDescription="@null"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/baseline_arrow_back_24" />
+            android:id="@+id/image_back_details"
+            android:layout_width="@dimen/standard_touch_size"
+            android:layout_height="@dimen/standard_touch_size"
+            android:layout_marginStart="@dimen/margin_padding_size_10"
+            android:layout_marginTop="@dimen/margin_padding_size_10"
+            android:contentDescription="@null"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/baseline_arrow_back_24" />
 
             <TextView
                 android:id="@+id/text_recording_name"
