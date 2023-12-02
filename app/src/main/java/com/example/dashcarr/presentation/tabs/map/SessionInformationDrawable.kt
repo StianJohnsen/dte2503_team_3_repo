@@ -13,6 +13,8 @@ import android.util.Log
 import com.android.volley.Request
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
+import org.json.JSONException
+import org.json.JSONObject
 import java.time.Duration
 import java.time.LocalDateTime
 import java.time.temporal.ChronoUnit
@@ -69,12 +71,35 @@ class SessionInformationDrawable(
      * @param location location with GPS coordinates
      */
     private fun updateStreet(location: Location) {
-        val url =
+        val addressUrl =
             "https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${location.latitude}&lon=${location.longitude}&layer=address"
         val queue = Volley.newRequestQueue(context)
-        val stringRequest = JsonObjectRequest(Request.Method.GET, url, null,
+        val addressRequest = JsonObjectRequest(
+            Request.Method.GET, addressUrl, null,
             { response ->
-                Log.d("HudView", "OSM Request successful! Content: $response")
+                Log.d(this::class.simpleName, "OSM Request successful! Content: $response")
+                if (response.getString("osm_type") == "way") {
+                    val wayId = response.get("osm_id")
+                    val speedLimitUrl = "https://overpass-api.de/api/interpreter?data=[out:json];way($wayId);out;"
+                    val request = JsonObjectRequest(Request.Method.GET, speedLimitUrl, null,
+                        { addressResponse ->
+                            try {
+                                val node = addressResponse.getJSONArray("elements").get(0) as JSONObject
+                                val speedLimit = node.getJSONObject("tags").getInt("maxspeed")
+                                Log.d(this::class.simpleName, "max speed: $speedLimit")
+                            } catch (e: JSONException) {
+                                Log.d(
+                                    this::class.simpleName,
+                                    "No Speed limit available for way id: $wayId, exception: ${e.stackTraceToString()}"
+                                )
+                            }
+                        },
+                        { addressError ->
+                            Log.e(this::class.simpleName, "Can't access Url: $speedLimitUrl with error $addressError")
+                        }
+                    )
+                    queue.add(request)
+                }
                 val address = response.getJSONObject("address")
                 var road = ""
                 if (address.has("road")) {
@@ -99,12 +124,12 @@ class SessionInformationDrawable(
                 this.invalidateSelf()
             },
             { error ->
-                Log.e("HUD View", "Can't access Url: $url with error $error")
+                Log.e(this::class.simpleName, "Can't access Url: $addressUrl with error $error")
                 this.location = null
                 street = ""
             }
         )
-        queue.add(stringRequest)
+        queue.add(addressRequest)
     }
 
     init {
