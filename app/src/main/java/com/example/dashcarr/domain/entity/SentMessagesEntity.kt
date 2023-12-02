@@ -7,6 +7,14 @@ import androidx.room.PrimaryKey
 import androidx.room.Relation
 import java.io.Serializable
 
+/**
+ * Data class representing the final structure of a sent message, combining the sent message details,
+ * associated message, and friend entity.
+ *
+ * @property sentMessage The embedded SentMessagesEntity representing the basic details of the sent message.
+ * @property message The related MessagesEntity providing content details of the message.
+ * @property friend An optional related FriendsEntity representing the friend associated with the message.
+ */
 data class SentMessageFinalEntity(
     @Embedded val sentMessage: SentMessagesEntity,
     @Relation(

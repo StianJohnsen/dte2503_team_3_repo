@@ -8,7 +8,10 @@ import androidx.room.Query
 import androidx.room.Update
 import com.example.dashcarr.domain.entity.MessagesEntity
 
-
+/**
+ * A Data Access Object (DAO) for [MessagesEntity] entity.
+ * Provides CRUD operations for [MessagesEntity] entity with [androidx.room.RoomDatabase].
+ */
 @Dao
 interface MessagesDao: BaseDao<MessagesEntity> {
 

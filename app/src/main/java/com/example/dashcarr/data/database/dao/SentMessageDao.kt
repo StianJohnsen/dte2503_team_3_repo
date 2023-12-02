@@ -9,6 +9,10 @@ import androidx.room.Query
 import com.example.dashcarr.domain.entity.SentMessageFinalEntity
 import com.example.dashcarr.domain.entity.SentMessagesEntity
 
+/**
+ * A Data Access Object (DAO) for [SentMessagesEntity] entity.
+ * Provides CRUD operations for [SentMessagesEntity] entity with [androidx.room.RoomDatabase].
+ */
 @Dao
 interface SentMessageDao: BaseDao<SentMessagesEntity> {
 

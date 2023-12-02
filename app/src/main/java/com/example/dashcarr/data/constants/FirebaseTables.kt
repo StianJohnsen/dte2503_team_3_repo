@@ -1,19 +1,11 @@
 package com.example.dashcarr.data.constants
 
 /**
- * Constants and keys for the GeoPoint data table.
+ * A utility class providing constants for Firebase table names and keys.
+ * This class helps in maintaining consistent naming conventions across the Firebase database structure.
  */
 abstract class FirebaseTables {
     companion object {
-
-        //GeoPoint
-        const val GEO_POINT_DOCUMENT = "GeoPointDocument"
-        const val GEO_POINT_COLLECTION = "GeoPointCollection"
-        const val GEO_POINT_ID_KEY = "geoPointId"
-        const val TRIP_ID_KEY = "tripId"
-        const val LATITUDE_KEY = "latitude"
-        const val LONGITUDE_KEY = "longitude"
-        const val STEP_NUM_KEY = "stepNum"
 
         //Friend
 
@@ -34,7 +26,6 @@ abstract class FirebaseTables {
 
         //Last changes timestamps
         const val LAST_CHANGES_DOCUMENT = "LastChangesDocument"
-        const val LAST_CHANGES_COLLECTION = "LastChangesCollection"
         const val LAST_FRIENDS_CHANGES_TIMESTAMP_KEY = "lastFriendsChangesTimestamp"
         const val LAST_MESSAGES_CHANGES_TIMESTAMP_KEY = "lastMessagesChangesTimestamp"
     }

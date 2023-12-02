@@ -5,7 +5,7 @@ import java.util.Date
 import java.util.Locale
 
 /**
- * Formats a given timestamp into a readable date string using the [PROJECT_DATE_FORMAT].
+ * Formats a given timestamp into a readable date string using the [PROJECT_DATE_TIME_FORMAT].
  *
  * @param creationDate The timestamp to be formatted.
  * @return A formatted date string.

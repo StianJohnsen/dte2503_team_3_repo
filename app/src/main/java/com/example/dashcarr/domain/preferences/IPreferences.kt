@@ -4,7 +4,8 @@ import android.location.Location
 import org.osmdroid.util.GeoPoint
 
 /**
- * Interface for managing application preferences.
+ * Interface for managing various user preferences and local data change timestamps.
+ * Provides functionality to get and set various preferences and timestamps related to different entities.
  */
 interface IPreferences {
 

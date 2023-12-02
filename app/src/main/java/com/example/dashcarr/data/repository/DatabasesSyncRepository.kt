@@ -14,6 +14,15 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+/**
+ * Repository class responsible for synchronizing data between local databases and Firebase.
+ *
+ * @property firebaseDBRepository Interface to interact with Firebase database.
+ * @property preferences Interface to interact with shared preferences.
+ * @property friendsLocalDataSource Local data source for friends data.
+ * @property firebaseAuthRepository Interface to interact with Firebase authentication.
+ * @property messagesLocalDataSource Local data source for messages data.
+ */
 class DatabasesSyncRepository @Inject constructor(
     private val firebaseDBRepository: IFirebaseDBRepository,
     private val preferences: IPreferences,
@@ -22,12 +31,18 @@ class DatabasesSyncRepository @Inject constructor(
     private val messagesLocalDataSource: IMessagesLocalDataSource
 ) : IDatabasesSyncRepository {
 
+    /**
+     * Synchronizes all data (friends and messages) between local databases and Firebase.
+     */
     override suspend fun syncDatabases() {
         if (firebaseAuthRepository.getUserId().isNullOrEmpty()) return
         syncFriendsDatabases()
         syncMessagesDatabases()
     }
 
+    /**
+     * Synchronizes friends data between the local database and Firebase.
+     */
     private suspend fun syncFriendsDatabases() {
         firebaseDBRepository.getLastFriendChangesTimestamp().addOnCompleteListener {
             CoroutineScope(Dispatchers.IO).launch {
@@ -58,6 +73,9 @@ class DatabasesSyncRepository @Inject constructor(
         }
     }
 
+    /**
+     * Synchronizes messages data between the local database and Firebase.
+     */
     private suspend fun syncMessagesDatabases() {
         firebaseDBRepository.getLastMessageChangesTimestamp().addOnCompleteListener {
             CoroutineScope(Dispatchers.IO).launch {

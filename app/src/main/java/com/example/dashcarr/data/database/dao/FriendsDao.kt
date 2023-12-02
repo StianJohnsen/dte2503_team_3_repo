@@ -8,6 +8,10 @@ import androidx.room.Query
 import androidx.room.Update
 import com.example.dashcarr.domain.entity.FriendsEntity
 
+/**
+ * A Data Access Object (DAO) for [FriendsEntity] entity.
+ * Provides CRUD operations for [FriendsEntity] entity with [androidx.room.RoomDatabase].
+ */
 @Dao
 interface FriendsDao: BaseDao<FriendsEntity> {
 

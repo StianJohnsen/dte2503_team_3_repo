@@ -30,7 +30,6 @@ interface RepositoryModule {
     @Binds
     fun bindAuthRepository(repository: FirebaseAuthRepository): IFirebaseAuthRepository
 
-
     @Binds
     fun bindPointsOfInterestRepository(repository: PointsOfInterestRepository): IPointsOfInterestRepository
 

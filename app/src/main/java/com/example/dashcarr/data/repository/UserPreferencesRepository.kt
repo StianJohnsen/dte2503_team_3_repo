@@ -11,9 +11,18 @@ import kotlinx.coroutines.flow.map
 import java.io.IOException
 import javax.inject.Inject
 
+/**
+ * Repository class for managing user preferences using DataStore.
+ *
+ * @property dataStore The DataStore instance for storing preferences.
+ */
 class UserPreferencesRepository @Inject constructor(
     private val dataStore: DataStore<Preferences>
 ) {
+    /**
+     * Flow of LoggedInAndPowerModeValue which represents the user's login status and power save mode state.
+     * It catches IOExceptions during data read and provides default values in case of an error.
+     */
     val appBoolFlow: Flow<LoggedInAndPowerModeValue> = dataStore.data
         .catch {
             if (it is IOException) {
@@ -29,12 +38,20 @@ class UserPreferencesRepository @Inject constructor(
             LoggedInAndPowerModeValue(alreadyLoggedIn, isPowerSaveModeOn)
         }
 
+    /**
+     * Updates the user's login status in the preferences.
+     * @param newValue The new value to set for the user's login status.
+     */
     suspend fun updateAlreadyLoggedIn(newValue: Boolean) {
         dataStore.edit { preferences ->
             preferences[DataStoreKey.ALREADY_LOGGED_IN] = newValue
         }
     }
 
+    /**
+     * Updates the power save mode state in the preferences.
+     * @param newValue The new value to set for the power save mode state.
+     */
     suspend fun updateIsSaveModeOn(newValue: Int) {
         dataStore.edit { preferences ->
             preferences[DataStoreKey.IS_POWER_SAVE_MODE_ON] = newValue
