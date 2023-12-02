@@ -74,11 +74,24 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/ll_battery"
+            android:layout_width="@dimen/margin_padding_size_36"
+            android:layout_height="@dimen/margin_padding_size_20"
+            android:layout_marginBottom="-10dp"
+            android:background="@drawable/blue_16dp_background"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toTopOf="@+id/ll_traffic_light"
+            app:layout_constraintEnd_toEndOf="@+id/ll_traffic_light"
+            app:layout_constraintStart_toStartOf="@+id/ll_traffic_light">
+
+        </LinearLayout>
+
+        <LinearLayout
             android:id="@+id/ll_traffic_light"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_padding_size_10"
-            android:background="@drawable/blue_rounded_16dp_background"
+            android:background="@drawable/blue_16dp_background"
             android:orientation="vertical"
             android:paddingHorizontal="@dimen/margin_padding_size_8"
             android:paddingVertical="@dimen/margin_padding_size_8"
@@ -88,26 +101,78 @@
 
             <ImageView
                 android:id="@+id/redIndicator"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_marginBottom="8dp"
+                android:layout_width="@dimen/margin_padding_size_32"
+                android:layout_height="@dimen/margin_padding_size_32"
+                android:layout_marginBottom="@dimen/margin_padding_size_8"
                 android:contentDescription="@null"
                 android:src="@drawable/traffic_light_indicator" />
 
             <ImageView
                 android:id="@+id/yellowIndicator"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:layout_width="@dimen/margin_padding_size_32"
+                android:layout_height="@dimen/margin_padding_size_32"
                 android:layout_marginBottom="8dp"
                 android:contentDescription="@null"
                 android:src="@drawable/traffic_light_indicator" />
 
             <ImageView
                 android:id="@+id/greenIndicator"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:layout_width="@dimen/margin_padding_size_32"
+                android:layout_height="@dimen/margin_padding_size_32"
                 android:contentDescription="@null"
                 android:src="@drawable/traffic_light_indicator" />
+
+            <TextView
+                android:id="@+id/battery_percentage"
+                android:layout_width="@dimen/margin_padding_size_32"
+                android:layout_height="@dimen/margin_padding_size_14"
+                android:orientation="vertical"
+                android:text="@string/incoming"
+                android:textColor="@color/header_color"
+                android:layout_marginTop="@dimen/margin_padding_size_10"
+                android:textSize="@dimen/text_size_12"
+                app:layout_constraintBottom_toTopOf="@+id/greenIndicator"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/ll_traffic_light" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_weather"
+            android:visibility="visible"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_padding_size_10"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/blue_rounded_16dp_background"
+            android:orientation="vertical"
+            android:paddingHorizontal="@dimen/margin_padding_size_8"
+            android:paddingVertical="@dimen/margin_padding_size_8"
+            app:layout_constraintBottom_toTopOf="@+id/hudView"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ll_traffic_light"
+            app:layout_constraintVertical_bias="0.05">
+
+            <ImageView
+                android:id="@+id/icon_weather"
+                android:layout_width="@dimen/margin_padding_size_32"
+                android:layout_height="@dimen/margin_padding_size_32"
+                android:layout_marginBottom="@dimen/margin_padding_size_8"
+                android:contentDescription="@null"
+                android:src="@drawable/ic_cancel_small" />
+
+            <TextView
+                android:id="@+id/txt_weather"
+                android:layout_width="@dimen/margin_padding_size_32"
+                android:layout_height="@dimen/margin_padding_size_14"
+                android:orientation="vertical"
+                android:text="@string/incoming"
+                android:textColor="@color/header_color"
+                android:textSize="@dimen/text_size_8"
+                android:gravity="center"
+                app:layout_constraintBottom_toTopOf="@+id/greenIndicator"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/icon_weather" />
 
         </LinearLayout>
 
