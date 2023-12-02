@@ -3,6 +3,7 @@ package com.example.dashcarr.presentation.tabs.social.selectContact
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.dashcarr.databinding.FragmentSelectContactBinding
@@ -34,12 +35,14 @@ class SelectContactFragment : BaseFragment<FragmentSelectContactBinding>(
         val selectContactList = mutableListOf<SelectContact>()
 
         viewModel.friendsList.observe(viewLifecycleOwner) {
+            if (it.isEmpty()) {
+                Toast.makeText(requireContext(), "Add friends", Toast.LENGTH_SHORT).show()
+            }
             selectContactList.clear()
-            it.forEach {
-                selectContactList.add(SelectContact(it.id, it.name))
+            it.forEach { friendsEntity ->
+                selectContactList.add(SelectContact(friendsEntity.id, friendsEntity.name))
             }
             adapter.submitList(selectContactList)
-
         }
     }
 
@@ -48,7 +51,7 @@ class SelectContactFragment : BaseFragment<FragmentSelectContactBinding>(
         observeViewModel()
         binding.apply {
             backToSettingsFromSelectContact.setOnClickListener {
-                requireActivity().onBackPressed()
+                requireActivity().onBackPressedDispatcher.onBackPressed()
             }
         }
     }
