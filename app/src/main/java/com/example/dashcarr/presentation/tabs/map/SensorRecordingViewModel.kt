@@ -7,6 +7,7 @@ import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.hardware.SensorManager
 import android.location.Location
+import android.location.LocationManager
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.dashcarr.presentation.tabs.map.data.SensorData
@@ -41,6 +42,10 @@ class SensorRecordingViewModel(application: Application) : AndroidViewModel(appl
 
     val sensorRecording = SensorRecording()
     private val timerController = TimerController()
+    private val googleOfficeLocation = Location(LocationManager.GPS_PROVIDER).apply {
+        latitude = 37.33042
+        longitude = -122.084984
+    }
 
     fun startRecording() {
         viewModelScope.launch {
@@ -355,6 +360,9 @@ class SensorRecordingViewModel(application: Application) : AndroidViewModel(appl
         }
 
         fun insertIntoLocationList(event: Location) {
+            if (googleOfficeLocation.distanceTo(event) < 50000) {
+                return
+            }
             _unfilteredLocationList.value.add(
                 SensorData(
                     "GPS",

@@ -10,8 +10,8 @@ import androidx.navigation.fragment.navArgs
 import com.example.dashcarr.R
 import com.example.dashcarr.databinding.FragmentRouteBinding
 import com.example.dashcarr.presentation.core.BaseFragment
-import org.osmdroid.config.Configuration
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory
+import org.osmdroid.util.BoundingBox
 import org.osmdroid.util.GeoPoint
 import org.osmdroid.views.MapView
 import org.osmdroid.views.overlay.Polyline
@@ -47,12 +47,6 @@ class RouteFragment : BaseFragment<FragmentRouteBinding>(
         _binding = FragmentRouteBinding.inflate(inflater, container, false)
         val view = binding.root
 
-        Configuration.getInstance()
-            .load(
-                requireActivity(),
-                android.preference.PreferenceManager.getDefaultSharedPreferences(requireActivity())
-            )
-
         map = view.findViewById(R.id.map)
         map?.setTileSource(TileSourceFactory.MAPNIK)
         map?.setMultiTouchControls(true)
@@ -62,12 +56,14 @@ class RouteFragment : BaseFragment<FragmentRouteBinding>(
         val geoPoints = loadPointsFromCSV(fileName)
 
         if (geoPoints.isNotEmpty()) {
-            val centerPoint = getCenterPoint(geoPoints)
-            map?.controller?.setCenter(centerPoint)
             val line = Polyline()
             line.setPoints(geoPoints)
             map?.overlays?.add(line)
-            map?.controller?.setZoom(18.0)
+            map?.addOnFirstLayoutListener { _, _, _, _, _ ->
+                val boundingBox = getBoundingBox(geoPoints)
+                map?.zoomToBoundingBox(boundingBox, false, 100)
+            }
+
         }
 
         return view
@@ -82,7 +78,7 @@ class RouteFragment : BaseFragment<FragmentRouteBinding>(
         val filePath = File(context?.filesDir, args.selectedFileName).absolutePath
         val totalDistance = calculateTotalDistanceFromCSV(filePath)
         val averageSpeed = calculateAverageSpeedFromCSV(filePath, args.elapsedTime)
-        val formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss")
+        val formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm")
 
         binding.textRecordingName.text = title
         binding.inputTotalTime.text = args.elapsedTime
@@ -121,10 +117,10 @@ class RouteFragment : BaseFragment<FragmentRouteBinding>(
         return geoPoints
     }
 
-    private fun getCenterPoint(geoPoints: List<GeoPoint>): GeoPoint {
-        val midLatitude = geoPoints.map { it.latitude }.average()
-        val midLongitude = geoPoints.map { it.longitude }.average()
-        return GeoPoint(midLatitude, midLongitude)
+    private fun getBoundingBox(geoPoints: List<GeoPoint>): BoundingBox {
+        val latitudes = geoPoints.map { it.latitude }
+        val longitudes = geoPoints.map { it.longitude }
+        return BoundingBox(latitudes.max(), longitudes.max(), latitudes.min(), longitudes.min())
     }
 
     private fun calculateDistance(lat1: Double, lon1: Double, lat2: Double, lon2: Double): Double {
