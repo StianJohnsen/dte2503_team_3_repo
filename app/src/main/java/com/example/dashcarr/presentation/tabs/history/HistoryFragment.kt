@@ -15,8 +15,8 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.Spinner
-import androidx.fragment.app.viewModels
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.dashcarr.R
 import com.example.dashcarr.databinding.FragmentHistoryBinding
@@ -300,9 +300,9 @@ class HistoryFragment : BaseFragment<FragmentHistoryBinding>(
                 text = renameText
                 setBackgroundResource(R.drawable.orange_button)
                 setTextColor(Color.WHITE)
+                setTextSize(10f)
                 setOnClickListener {
                     showRenameDialog(i, jsonArray)
-                    //viewModel.showRenameDialog()
                 }
             }
 
@@ -311,16 +311,17 @@ class HistoryFragment : BaseFragment<FragmentHistoryBinding>(
                 text = deleteText
                 setBackgroundResource(R.drawable.red_button)
                 setTextColor(Color.WHITE)
+                setTextSize(10f)
                 setOnClickListener {
                     showDeleteDialog(i, jsonArray)
                 }
             }
 
             val buttonWidth = 150
-            val buttonHeight = 100
+            val buttonHeight = 120
 
             val renameParams = LinearLayout.LayoutParams(buttonWidth, buttonHeight)
-            renameParams.setMargins(10, 0, 16, 0)
+            renameParams.setMargins(0, 0, 5, 0)
 
             val deleteParams = LinearLayout.LayoutParams(buttonWidth, buttonHeight)
             deleteParams.setMargins(0, 0, 16, 0)
