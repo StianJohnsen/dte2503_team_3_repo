@@ -144,7 +144,6 @@
     <string name="change_tiles">Change Map Tile</string>
     <string name="mapnik">Standard</string>
     <string name="usgs_sat">Satellite</string>
-    <string name="usgs_topo">Relief</string>
     <string name="dark">Dark</string>
     <string name="default_tile_source">Standard</string>
     <string name="current_tile">Current tile: %1$s</string>

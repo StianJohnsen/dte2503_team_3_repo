@@ -153,8 +153,6 @@ class MapsSettingsFragment : BaseFragment<FragmentMapsSettingsBinding>(
         return when (tileName) {
             getString(R.string.mapnik) -> "Standard"
             getString(R.string.usgs_sat) -> "Satellite"
-            getString(R.string.usgs_topo) -> "Relief"
-            getString(R.string.dark) -> "Dark"
             else -> "Standard"
         }
     }

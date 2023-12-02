@@ -46,9 +46,7 @@ class MapsSettingsViewModel @Inject constructor(
 
     private val tileSourceNamesResIds = arrayOf(
         R.string.mapnik,
-        R.string.usgs_sat,
-        R.string.usgs_topo,
-        R.string.dark
+        R.string.usgs_sat
     )
     private var currentTileIndex = 0
 
@@ -150,11 +148,6 @@ class MapsSettingsViewModel @Inject constructor(
             putInt("current_tile_name_res_id", tileNameResId)
             apply()
         }
-    }
-
-    fun getCurrentTileNameResId(): Int {
-        val sharedPrefs = appContext.getSharedPreferences("MapPrefs", Context.MODE_PRIVATE)
-        return sharedPrefs.getInt("current_tile_name_res_id", R.string.current_tile)
     }
 
 }
