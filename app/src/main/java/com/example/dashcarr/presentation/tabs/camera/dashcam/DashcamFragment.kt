@@ -2,6 +2,7 @@ package com.example.dashcarr.presentation.tabs.camera.dashcam
 
 import android.Manifest
 import android.animation.ObjectAnimator
+import android.content.pm.ActivityInfo
 import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -33,7 +34,7 @@ import kotlinx.coroutines.launch
  * @property viewModel ViewModel associated with dashcam functionalities, handling camera operations.
  */
 @AndroidEntryPoint
-class DashcamFragment() : BaseFragment<FragmentDashcamBinding>(
+class DashcamFragment : BaseFragment<FragmentDashcamBinding>(
     FragmentDashcamBinding::inflate,
     showBottomNavBar = false
 ) {
@@ -61,6 +62,8 @@ class DashcamFragment() : BaseFragment<FragmentDashcamBinding>(
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = super.onCreateView(inflater, container, savedInstanceState)
+        requireActivity().requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LOCKED
+
         if (PowerSavingMode.getPowerMode()) {
             Toast.makeText(context, "Recording increases the power consumption!", Toast.LENGTH_SHORT).show()
         }
@@ -90,7 +93,8 @@ class DashcamFragment() : BaseFragment<FragmentDashcamBinding>(
     }
 
     fun deactivate(onFinished: () -> Unit = {}) {
-        val turnRecordingOfJob = lifecycleScope.launch {
+        destroy()
+        val turnOffRecordingJob = lifecycleScope.launch {
             viewModel.deactivate()
             Toast.makeText(activity, "Video saved", Toast.LENGTH_SHORT).show()
         }
@@ -100,18 +104,17 @@ class DashcamFragment() : BaseFragment<FragmentDashcamBinding>(
         }
         animation.doOnEnd {
             lifecycleScope.launch {
-                turnRecordingOfJob.join()
-                destroy()
-                if (!parentFragmentManager.isStateSaved) {
-                    parentFragmentManager.beginTransaction().remove(this@DashcamFragment).commit()
-                }
+                turnOffRecordingJob.join()
                 onFinished()
+                parentFragmentManager.beginTransaction().remove(this@DashcamFragment)
+                    .commitAllowingStateLoss()
             }
         }
         animation.start()
     }
 
     override fun onDestroyView() {
+        requireActivity().requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_SENSOR
         viewModel.closeCamera()
         super.onDestroyView()
     }

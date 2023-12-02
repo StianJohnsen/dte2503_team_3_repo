@@ -27,6 +27,13 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/mapView" />
+        
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/dashcam_view"
+            android:layout_width="110dp"
+            android:layout_height="190dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <LinearLayout
             android:id="@+id/ll_side_buttons"

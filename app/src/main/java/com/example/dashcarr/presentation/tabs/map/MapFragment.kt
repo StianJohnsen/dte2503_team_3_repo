@@ -25,6 +25,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.dashcarr.R
@@ -262,33 +263,29 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
 
         Log.d(this::class.simpleName, "Current Power Mode: ${PowerSavingMode.getPowerMode()}")
 
-        // sets visibility and functionality for recording buttons
-        binding.apply {
-
-            btnStop.setOnClickListener {
-                stopRecording()
-                findNavController().navigate(R.id.action_action_map_to_action_history)
-            }
-            btnPause.setOnClickListener {
-                pauseRecording()
-            }
-            btnResume.setOnClickListener {
-                resumeRecording()
-            }
-
-            btnDelete.setOnClickListener {
-                deleteRecording()
-                findNavController().navigate(R.id.action_action_map_to_action_history)
-            }
-        }
-
-
         if (args.isRideActivated) {
             childFragmentManager.beginTransaction()
                 .add(binding.hudView.id, HudFragment())
                 .commit()
 
             binding.apply {
+                // sets visibility and functionality for recording buttons
+                btnStop.setOnClickListener {
+                    stopRecording()
+                    findNavController().navigate(R.id.action_action_map_to_action_history)
+                }
+                btnPause.setOnClickListener {
+                    pauseRecording()
+                }
+                btnResume.setOnClickListener {
+                    resumeRecording()
+                }
+
+                btnDelete.setOnClickListener {
+                    deleteRecording()
+                    findNavController().navigate(R.id.action_action_map_to_action_history)
+                }
+
                 btnDashcam.setOnClickListener {
                     if (!DashcamFragment.exists()) {
                         val transaction = childFragmentManager.beginTransaction()
@@ -296,13 +293,20 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
                         transaction.disallowAddToBackStack()
                         transaction.commit()
                     } else {
-                        DashcamFragment.getInstance().deactivate()
+                        DashcamFragment.getInstance().deactivate {}
                     }
                 }
                 btnOutOfCarMode.setOnClickListener {
                     findNavController().navigate(R.id.action_action_map_to_action_security_camera)
                 }
                 llWeather?.visibility = View.VISIBLE
+                val destinationChangedListener =
+                    NavController.OnDestinationChangedListener { _, destination, args ->
+                        if (destination.id != R.id.action_map && DashcamFragment.exists()) {
+                            DashcamFragment.getInstance().deactivate()
+                        }
+                    }
+                findNavController().addOnDestinationChangedListener(destinationChangedListener)
             }
 
 
@@ -442,9 +446,6 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
 
     override fun onStop() {
         mapViewModel.saveLastKnownLocation()
-        if (DashcamFragment.exists()) {
-            DashcamFragment.getInstance().deactivate { }
-        }
         super.onStop()
     }
 
