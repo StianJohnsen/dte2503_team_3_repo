@@ -164,6 +164,11 @@
     <string name="prompt_description">Si la map n\'est pas dévérouillée dans les 10 prochaines secondes, un message d\'urgence va être envoyé.
     </string>
 
+    <!--Camera Settings-->
+
+    <string name="select_duration">Select Duration</string>
+    <string name="open_saved_recordings">Open Saved Recordings</string>
+
     <!--Toasts-->
     <string name="login_failed">Login failed</string>
     <string name="added_message">Added Message</string>
