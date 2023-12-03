@@ -1,6 +1,5 @@
 package com.example.dashcarr.presentation.tabs.settings
 
-import android.content.Context
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
@@ -12,6 +11,12 @@ import com.example.dashcarr.presentation.core.BaseFragment
 import com.example.dashcarr.presentation.tabs.map.MapViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
+/**
+ * This fragment manages the settings tab of the app.
+ * It allows users to navigate to various settings like map settings, power settings, social settings, etc.
+ * The `SettingsFragment` uses data binding with `FragmentSettingsBinding` and incorporates the `SettingsViewModel` and `MapViewModel` for managing UI states and data.
+ * It defines `observeViewModel` and `initListeners` methods for handling UI interactions and observing changes in ViewModel.
+ */
 @AndroidEntryPoint
 class SettingsFragment : BaseFragment<FragmentSettingsBinding>(
     FragmentSettingsBinding::inflate,
@@ -20,7 +25,7 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>(
     private val viewModel: SettingsViewModel by viewModels()
     private val mapViewModel: MapViewModel by viewModels()
 
-    fun observeViewModel() {
+    private fun observeViewModel() {
         viewModel.logOutState.collectWithLifecycle(viewLifecycleOwner) {
             findNavController().navigate(R.id.action_global_loginFragment)
         }
@@ -61,21 +66,10 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>(
 
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-    }
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initListeners()
         observeViewModel()
 
     }
-
-
 }

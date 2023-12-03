@@ -13,7 +13,11 @@ import com.example.dashcarr.databinding.FragmentPowerSettingsBinding
 import com.example.dashcarr.presentation.core.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
 
-
+/**
+ * This fragment is responsible for displaying the power settings screen.
+ * It uses a spinner to display the power settings options.
+ * It also displays the battery lost percentage.
+ */
 @AndroidEntryPoint
 class PowerSettingsFragment : BaseFragment<FragmentPowerSettingsBinding>(
     FragmentPowerSettingsBinding::inflate,

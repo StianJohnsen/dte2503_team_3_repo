@@ -6,8 +6,8 @@ import com.example.dashcarr.databinding.FragmentAboutAppBinding
 import com.example.dashcarr.presentation.core.BaseFragment
 
 /**
- * Fragment showcasing experimental features.
- * For now its animation samples.
+ * A Fragment class in the 'DashCarr' application dedicated to displaying information about the app.
+ * It extends from [BaseFragment] with a custom binding [FragmentAboutAppBinding].
  */
 class AboutAppFragment : BaseFragment<FragmentAboutAppBinding>(
     FragmentAboutAppBinding::inflate,
@@ -20,5 +20,4 @@ class AboutAppFragment : BaseFragment<FragmentAboutAppBinding>(
             requireActivity().onBackPressed()
         }
     }
-
 }

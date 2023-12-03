@@ -17,6 +17,17 @@ import com.example.dashcarr.databinding.FragmentDashcamBinding
 import com.example.dashcarr.presentation.core.BaseFragment
 import com.example.dashcarr.presentation.tabs.settings.PowerSavingMode
 
+/**
+ * Fragment for handling dashcam functionalities in the app.
+ * This fragment is responsible for managing camera access for recording,
+ * displaying the camera preview, and saving recordings.
+ *
+ * It utilizes a ViewModel to handle camera operations and recording logic.
+ * The fragment also manages animations for the dashcam preview and handles
+ * necessary permissions for camera access.
+ *
+ * @property viewModel ViewModel associated with dashcam functionalities, handling camera operations.
+ */
 class DashcamFragment() : BaseFragment<FragmentDashcamBinding>(
     FragmentDashcamBinding::inflate,
     showBottomNavBar = false

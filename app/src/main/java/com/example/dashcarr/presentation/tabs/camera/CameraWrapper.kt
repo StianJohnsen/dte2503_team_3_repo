@@ -28,6 +28,15 @@ import java.util.Locale
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
+/**
+ * Wrapper class for camera functionalities, simplifying the usage of camera features in the app.
+ * Manages starting and stopping of camera preview, video recording, and managing camera resources.
+ *
+ * This class abstracts the complexity of using Android's CameraX library, providing straightforward
+ * methods to start the camera preview, record videos, and handle camera lifecycle.
+ *
+ * @property activity The Activity context used for accessing camera and other system services.
+ */
 class CameraWrapper(private var activity: Activity) {
     companion object {
         private const val FILENAME_FORMAT = "yyyy-MM-dd-HH-mm-ss-SSS"
@@ -45,7 +54,7 @@ class CameraWrapper(private var activity: Activity) {
     private lateinit var preview: Preview
 
 
-    fun isRecording(): Boolean {
+    private fun isRecording(): Boolean {
         return recording != null
     }
 

@@ -8,6 +8,16 @@ import androidx.lifecycle.ViewModel
 import com.example.dashcarr.R
 import com.example.dashcarr.presentation.tabs.camera.CameraWrapper
 
+/**
+ * ViewModel associated with security camera functionalities within the app.
+ * Manages camera operations including starting, stopping, and recording,
+ * as well as maintaining the state of the security camera using a state machine pattern.
+ *
+ * Utilizes CameraWrapper to abstract and handle camera functionalities.
+ *
+ * @property camera An instance of CameraWrapper handling camera operations.
+ * @property state An instance of StateMachine managing the current state of the camera.
+ */
 class SecurityCameraViewModel : ViewModel() {
     enum class States {
         NOT_STARTED, CAMERA_STARTED, RECORDING, AUTHORIZED, WAIT_FOR_AUTHORIZATION

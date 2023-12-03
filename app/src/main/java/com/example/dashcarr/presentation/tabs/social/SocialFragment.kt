@@ -15,6 +15,11 @@ import com.example.dashcarr.presentation.core.BaseFragment
 import com.example.dashcarr.presentation.tabs.social.adapter.SentMessagesAdapter
 import dagger.hilt.android.AndroidEntryPoint
 
+/**
+ * Fragment for the Social tab, displaying sent messages and providing options for message management.
+ *
+ * @param viewModel The [SocialViewModel] associated with this fragment.
+ */
 @AndroidEntryPoint
 class SocialFragment : BaseFragment<FragmentSocialBinding>(
     FragmentSocialBinding::inflate,
@@ -68,6 +73,4 @@ class SocialFragment : BaseFragment<FragmentSocialBinding>(
     override fun onClick(message: SentMessagesEntity) {
         viewModel.showConfirmDeleteDialog(message)
     }
-
-
 }

@@ -42,13 +42,11 @@ class MapViewModel @Inject constructor(
 
     val appPreferences = userPreferencesRepository.appBoolFlow.asLiveData()
 
-
     fun updateAppPreferences(bool: Boolean) {
         viewModelScope.launch {
             userPreferencesRepository.updateAlreadyLoggedIn(bool)
         }
     }
-
 
     // Channel for communicating the last saved user location
     private val _lastSavedUserLocation = Channel<GeoPoint>()
@@ -184,9 +182,6 @@ class MapViewModel @Inject constructor(
             callback(response)
         }
     }
-
-
 }
-
 
 class TasksRepository @Inject constructor()

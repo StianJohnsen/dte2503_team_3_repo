@@ -7,6 +7,12 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+/**
+ * ViewModel for the PowerSettingsFragment.
+ *
+ * @property userPreferencesRepository
+ * @constructor Create empty Power settings view model
+ */
 @HiltViewModel
 class PowerSettingsViewModel @Inject constructor(
     private val userPreferencesRepository: UserPreferencesRepository

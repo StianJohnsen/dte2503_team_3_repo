@@ -21,6 +21,10 @@ import com.example.dashcarr.domain.entity.SentMessagesEntity
 import com.example.dashcarr.presentation.core.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
 
+/**
+ * Fragment for selecting and sending messages to a specific contact.
+ * @property viewModel SelectMessageViewModel
+ */
 @AndroidEntryPoint
 class SelectMessageFragment : BaseFragment<FragmentSelectMessageBinding>(
     FragmentSelectMessageBinding::inflate,
@@ -29,6 +33,7 @@ class SelectMessageFragment : BaseFragment<FragmentSelectMessageBinding>(
 
     private val viewModel: SelectMessageViewModel by viewModels()
 
+    // Register a permission request callback using ActivityResultContracts.RequestPermission
     private val requestPermission =
         registerForActivityResult(
             ActivityResultContracts.RequestPermission()
@@ -44,11 +49,14 @@ class SelectMessageFragment : BaseFragment<FragmentSelectMessageBinding>(
 
     private val MY_PERMISSION_REQUEST_SEND_SMS = 0
 
-
+    // Initialize SmsManager for sending SMS messages
     private val smsManagerObject: SmsManager by lazy {
         requireContext().getSystemService(SmsManager::class.java) as SmsManager
     }
 
+    /**
+     * Request permission to send SMS messages.
+     */
     private fun requestSmsPermission() {
 
         if (ContextCompat.checkSelfPermission(
@@ -120,7 +128,6 @@ class SelectMessageFragment : BaseFragment<FragmentSelectMessageBinding>(
             SentMessagesEntity(messageId = messageId, friendId = friendId, createdTimeStamp = createdTimeStamp)
         viewModel.insertIntoSentMessages(sentMessageEntity)
     }
-
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

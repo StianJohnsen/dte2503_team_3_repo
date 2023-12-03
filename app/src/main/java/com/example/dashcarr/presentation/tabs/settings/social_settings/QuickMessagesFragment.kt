@@ -14,14 +14,16 @@ import com.example.dashcarr.presentation.core.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
+/**
+ * Fragment for managing quick messages in the app's social settings.
+ * It displays a list of predefined messages, allowing users to add, view,
+ * and edit them through interaction with AppDatabase.
+ */
 @AndroidEntryPoint
 class QuickMessagesFragment : BaseFragment<FragmentQuickMessagesBinding>(
     FragmentQuickMessagesBinding::inflate,
     showBottomNavBar = false
 ) {
-    companion object {
-        fun newInstance() = QuickMessagesFragment()
-    }
 
     @RequiresApi(Build.VERSION_CODES.R)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

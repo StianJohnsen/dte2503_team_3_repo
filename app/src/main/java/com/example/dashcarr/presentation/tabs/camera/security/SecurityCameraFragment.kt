@@ -25,6 +25,22 @@ import com.example.dashcarr.presentation.core.BaseFragment
 import com.example.dashcarr.presentation.tabs.settings.PowerSavingMode
 import kotlin.math.abs
 
+/**
+ * Fragment for handling security camera functionalities in the app.
+ * Manages the camera for security purposes, including starting and stopping recording based on sensor data.
+ * Also handles biometric authentication for stopping the recording.
+ *
+ * It utilizes a ViewModel to handle camera operations and biometric authentication logic.
+ * The fragment integrates sensor event listeners to detect changes that may trigger the stop of recording.
+ *
+ * @property viewModel ViewModel associated with security camera functionalities, handling camera and sensor operations.
+ * @property currentState Holds the current state of the security camera using StateMachine pattern.
+ * @property biometricPrompt Manages the biometric authentication prompt.
+ * @property authenticators Authentication types supported for biometric authentication.
+ * @property lastAcceleration Stores the last accelerometer reading for movement detection.
+ * @property filteredAcceleration Filtered value for acceleration to detect significant movements.
+ * @property sensorManager Manages sensor-related operations.
+ */
 class SecurityCameraFragment : BaseFragment<FragmentSecurityCameraBinding>(
     FragmentSecurityCameraBinding::inflate,
     showBottomNavBar = false
@@ -196,7 +212,6 @@ class SecurityCameraFragment : BaseFragment<FragmentSecurityCameraBinding>(
     }
 
     override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {
-        // NOOP
     }
 
 }
