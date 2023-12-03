@@ -80,6 +80,9 @@ class OSMFetcher(
                     }
                     Log.d(this::class.simpleName, "max speed: $speedLimit")
                 } catch (e: JSONException) {
+                    listeners.forEach {
+                        it.onSpeedLimitChanged(null)
+                    }
                     Log.d(
                         this::class.simpleName,
                         "No Speed limit available for way id: $wayId, exception: ${e.stackTraceToString()}"
@@ -164,5 +167,5 @@ interface MapPositionChangedListener {
 
     fun onSpeedChanged(speed: Float)
 
-    fun onSpeedLimitChanged(speedLimit: Int)
+    fun onSpeedLimitChanged(speedLimit: Int?)
 }

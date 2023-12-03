@@ -38,7 +38,7 @@ class SessionInformationDrawable(
     private var street: String = ""
     private var lastSpeedUpdate = LocalDateTime.now().minusHours(1)
     private var currentSpeed: Float = 0F
-    private var speedLimit: Int? = 49
+    private var speedLimit: Int? = null
 
     private var displayInMph = false
 
@@ -79,7 +79,7 @@ class SessionInformationDrawable(
                 invalidateSelf()
             }
 
-            override fun onSpeedLimitChanged(speedLimit: Int) {
+            override fun onSpeedLimitChanged(speedLimit: Int?) {
                 this@SessionInformationDrawable.speedLimit = speedLimit
             }
         })
