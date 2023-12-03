@@ -166,41 +166,41 @@
 
     <!--Camera Settings-->
 
-    <string name="select_duration">Select Duration</string>
-    <string name="open_saved_recordings">Open Saved Recordings</string>
+    <string name="select_duration">Sélectionnez une durée</string>
+    <string name="open_saved_recordings">Ouvrir les enregistrements</string>
 
     <!--Toasts-->
-    <string name="login_failed">Login failed</string>
-    <string name="added_message">Added Message</string>
-    <string name="error">Error</string>
-    <string name="error_input">Error: %s</string>
-    <string name="file_saved">File saved</string>
-    <string name="updated">Updated</string>
-    <string name="error_updating">Error updating</string>
-    <string name="increase_power">Recording increases the power consumption!</string>
-    <string name="error_delete_message">Error deleting Message</string>
-    <string name="no_access_camera">Can\'t access camera</string>
-    <string name="no_access_location">Could not access current location</string>
-    <string name="mandatory_name">Name is a mandatory field</string>
-    <string name="mandatory_phone_email">Phone or Email are mandatory fields</string>
-    <string name="check_email">Check your email please</string>
-    <string name="mandatory_content">Content is a mandatory field</string>
-    <string name="gps_is_disable">GPS is disable</string>
-    <string name="gps_was_disabled">GPS was disabled</string>
-    <string name="recording_started">Recording Started</string>
-    <string name="recording_stopped">Recording Stopped</string>
-    <string name="recording_paused">Recording Paused</string>
-    <string name="recording_resumed">Recording Resumed</string>
-    <string name="recording_deleted">Recording Deleted</string>
-    <string name="friend_deleted">Friend deleted</string>
-    <string name="error_deleting_friend">Error deleting friend</string>
-    <string name="sms_permission">SMS permission granted</string>
-    <string name="message_sent">Message sent</string>
+    <string name="login_failed">Connexion échouée</string>
+    <string name="added_message">Message ajouté</string>
+    <string name="error">Erreur</string>
+    <string name="error_input">Erreur : %s</string>
+    <string name="file_saved">Fichier enregistré</string>
+    <string name="updated">Mis à jour</string>
+    <string name="error_updating">Erreur de mise à jour</string>
+    <string name="increase_power">L\'enregistrement augmente la consommation d\'énergie !</string>
+    <string name="error_delete_message">Erreur lors de la suppression du message</string>
+    <string name="no_access_camera">Impossible d\'accéder à la caméra</string>
+    <string name="no_access_location">Impossible d\'accéder à l\'emplacement actuel</string>
+    <string name="mandatory_name">Le nom est un champ obligatoire</string>
+    <string name="mandatory_phone_email">Le téléphone ou l\'email sont des champs obligatoires</string>
+    <string name="check_email">Veuillez vérifier votre email</string>
+    <string name="mandatory_content">Le contenu est un champ obligatoire</string>
+    <string name="gps_is_disable">Le GPS est désactivé</string>
+    <string name="gps_was_disabled">Le GPS a été désactivé</string>
+    <string name="recording_started">Enregistrement commencé</string>
+    <string name="recording_stopped">Enregistrement arrêté</string>
+    <string name="recording_paused">Enregistrement en pause</string>
+    <string name="recording_resumed">Enregistrement repris</string>
+    <string name="recording_deleted">Enregistrement supprimé</string>
+    <string name="friend_deleted">Ami supprimé</string>
+    <string name="error_deleting_friend">Erreur lors de la suppression de l\'ami</string>
+    <string name="sms_permission">Permission SMS accordée</string>
+    <string name="message_sent">Message envoyé</string>
 
     <!--NavBar-->
-    <string name="map">Map</string>
+    <string name="map">Carte</string>
     <string name="messages">Messages</string>
-    <string name="history">History</string>
-    <string name="settings">Settings</string>
+    <string name="history">Historique</string>
+    <string name="settings">Paramètres</string>
 
 </resources>
