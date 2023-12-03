@@ -124,19 +124,32 @@ class SessionInformationDrawable(
                 canvas
             )
         if (rotateDrawing && speedLimit != null) {
-            val speedLimitText = if (displayInMph) {
-                "${(speedLimit!! * 2.237).roundToInt()} mph"
+            val speedLimitText: String
+            val trafficSign: Drawable
+            val yOffset: Int
+            if (displayInMph) {
+                speedLimitText = "${(speedLimit!! * 2.237).roundToInt()} mph"
+                trafficSign = AppCompatResources.getDrawable(context, R.drawable.maximum_speed_usa)!!
+                yOffset = 170
             } else {
-                "${(speedLimit!! * 3.6).roundToInt()} km/h"
+                speedLimitText = "${(speedLimit!! * 3.6).roundToInt()} km/h"
+                trafficSign = AppCompatResources.getDrawable(context, R.drawable.maximum_speed_europe)!!
+                yOffset = 80
             }
-            var x = bounds.width() / 2
-            x -= bounds.height() / 2
-            var y = bounds.height() / 2
-            y -= bounds.width() / 2
-            val trafficSign = AppCompatResources.getDrawable(context, R.drawable.maximum_speed_europe)!!
-            trafficSign.setBounds(x, y, x + 400, y + 400)
+
+            val x = (bounds.width() - bounds.height()) / 2 + 50
+            val y = (bounds.height() - bounds.width()) / 2 + 50
+            val bounds = Rect(x, y, x + trafficSign.intrinsicWidth, y + trafficSign.intrinsicHeight)
+            trafficSign.bounds = bounds
             trafficSign.draw(canvas)
-            canvas.drawText(speedLimitText, 0, 2, x + 200F, y + 280F, speedLimitPaint)
+            canvas.drawText(
+                speedLimitText,
+                0,
+                2,
+                bounds.exactCenterX(),
+                bounds.exactCenterY() + yOffset,
+                speedLimitPaint
+            )
 
         }
         onSizeChanged(height)
