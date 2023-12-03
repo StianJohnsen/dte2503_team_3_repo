@@ -1,5 +1,7 @@
 # dte2503_team_3_repo
 
+## Optimized app to Api level 33
+
 ## Login
 In our prototype, the Google login is only available to developers. To try the app out you have to use the regular login.
 
