@@ -62,7 +62,7 @@ class DashcamViewModel @Inject constructor(
 
     private suspend fun recordingLoop(cameraDuration: Int) {
         val files = emptyList<Path>().toMutableList()
-        while (true) {
+        while (camera != null) {
             files.add(0, camera!!.startRecording({ }, "Movies/Dashcarr/Dashcam")!!)
             viewModelScope.launch {
                 if (files.size > 2) {
