@@ -45,6 +45,7 @@ class SelectMessageFragment : BaseFragment<FragmentSelectMessageBinding>(
     private val viewModel: SelectMessageViewModel by viewModels()
     private var messageList = mutableListOf<SelectMessage>()
 
+    private lateinit var currentContact: FriendsEntity
 
     // Register a permission request callback using ActivityResultContracts.RequestPermission
     private val requestPermission =
