@@ -55,35 +55,45 @@
             android:layout_marginBottom="@dimen/margin_padding_size_8"
             android:text="@string/developers"
             android:textSize="@dimen/text_size_24"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:textColor="@color/text_color"
+            android:background="?android:attr/selectableItemBackground"/>
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/margin_padding_size_8"
             android:text="@string/stian_ellingsen_johnsen"
-            android:textSize="@dimen/text_size_16" />
+            android:textSize="@dimen/text_size_16"
+            android:textColor="@color/text_color"
+            android:background="?android:attr/selectableItemBackground"/>
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/margin_padding_size_8"
             android:text="@string/yves_simon_zeulner"
-            android:textSize="@dimen/text_size_16" />
+            android:textSize="@dimen/text_size_16"
+            android:textColor="@color/text_color"
+            android:background="?android:attr/selectableItemBackground"/>
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/margin_padding_size_8"
-            android:text="@string/quentin_michel_st_phane_regnie"
-            android:textSize="@dimen/text_size_16" />
+            android:text="@string/quentin_michel_st_phane_regnier"
+            android:textSize="@dimen/text_size_16"
+            android:textColor="@color/text_color"
+            android:background="?android:attr/selectableItemBackground"/>
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/margin_padding_size_8"
             android:text="@string/yevhen_verkhalantsev"
-            android:textSize="@dimen/text_size_16" />
+            android:textSize="@dimen/text_size_16"
+            android:textColor="@color/text_color"
+            android:background="?android:attr/selectableItemBackground"/>
 
     </LinearLayout>
 
@@ -108,14 +118,18 @@
             android:layout_marginBottom="@dimen/margin_padding_size_8"
             android:text="@string/app_name"
             android:textSize="@dimen/text_size_24"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:textColor="@color/text_color"
+            android:background="?android:attr/selectableItemBackground"/>
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/margin_padding_size_4"
             android:text="@string/version_1.0"
-            android:textSize="@dimen/text_size_16" />
+            android:textSize="@dimen/text_size_16"
+            android:textColor="@color/text_color"
+            android:background="?android:attr/selectableItemBackground"/>
 
 
         <TextView
@@ -123,7 +137,9 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/margin_padding_size_4"
             android:text="@string/_2023_uit"
-            android:textSize="@dimen/text_size_16" />
+            android:textSize="@dimen/text_size_16"
+            android:textColor="@color/text_color"
+            android:background="?android:attr/selectableItemBackground"/>
 
 
         <TextView
@@ -131,7 +147,9 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/margin_padding_size_4"
             android:text="@string/icons8"
-            android:textSize="@dimen/text_size_16" />
+            android:textSize="@dimen/text_size_16"
+            android:textColor="@color/text_color"
+            android:background="?android:attr/selectableItemBackground"/>
 
     </LinearLayout>
 
