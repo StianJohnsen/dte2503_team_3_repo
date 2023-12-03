@@ -47,23 +47,33 @@ class SensorRecordingViewModel(application: Application) : AndroidViewModel(appl
         longitude = -122.084984
     }
 
+    private var _isRecording = MutableStateFlow(false)
+    private var _isPaused = MutableStateFlow(false)
+
+    val isRecording = _isRecording.asStateFlow()
+    val isPaused = _isPaused.asStateFlow()
+
+
     fun startRecording() {
+
+        viewModelScope.launch {
+            _isRecording.emit(true)
+        }
+
         viewModelScope.launch {
             timerController.startRecording()
         }
-        viewModelScope.launch {
-            sensorRecording.setIsRecording(true)
-        }
-
     }
 
     fun stopRecording(context: Context) {
         val currentTime = LocalDateTime.now()
         viewModelScope.launch {
-            timerController.stopRecording()
+            _isRecording.emit(false)
+
         }
+
         viewModelScope.launch {
-            sensorRecording.setIsRecording(false)
+            timerController.stopRecording()
         }
         viewModelScope.launch {
             val startJSONObject = makeStartJsonObject(currentTime)
@@ -121,10 +131,15 @@ class SensorRecordingViewModel(application: Application) : AndroidViewModel(appl
 
     fun pauseRecording() {
         viewModelScope.launch {
-            timerController.pauseRecording()
+            _isRecording.emit(false)
+
+        }
+
+        viewModelScope.launch {
+            _isPaused.emit(true)
         }
         viewModelScope.launch {
-            sensorRecording.setIsRecording(false)
+            timerController.pauseRecording()
         }
         viewModelScope.launch {
             sensorRecording.setIsPaused(true)
@@ -163,12 +178,19 @@ class SensorRecordingViewModel(application: Application) : AndroidViewModel(appl
     }
 
     fun resumeRecording() {
+
+        viewModelScope.launch {
+            _isRecording.emit(true)
+
+        }
+
+        viewModelScope.launch {
+            _isPaused.emit(false)
+        }
         viewModelScope.launch {
             timerController.resumeRecording()
         }
-        viewModelScope.launch {
-            sensorRecording.setIsRecording(true)
-        }
+
         viewModelScope.launch {
             sensorRecording.setIsPaused(false)
         }
@@ -178,18 +200,23 @@ class SensorRecordingViewModel(application: Application) : AndroidViewModel(appl
     }
 
     fun deleteRecording() {
+
+        viewModelScope.launch {
+            _isRecording.emit(false)
+
+        }
+
         viewModelScope.launch {
             timerController.stopRecording()
         }
-        viewModelScope.launch {
-            sensorRecording.setIsRecording(false)
-        }
+
         viewModelScope.launch {
             changeButtonWhenClickingDelete()
         }
     }
 
     inner class SensorRecording : SensorEventListener {
+
 
         private val sensorManager
             get() = getApplication<Application>().getSystemService(Context.SENSOR_SERVICE) as SensorManager
@@ -210,11 +237,8 @@ class SensorRecordingViewModel(application: Application) : AndroidViewModel(appl
         private val _filteredGyroScopeList = MutableStateFlow<MutableList<SensorData>>(mutableListOf())
         val filteredGyroScopeList = _filteredGyroScopeList.asStateFlow()
 
-        private val _isRecording = MutableStateFlow(false)
-        val isRecording = _isRecording.asStateFlow()
 
         private val _isPaused = MutableStateFlow(false)
-        val isPaused = _isPaused.asStateFlow()
 
         private val _stepNumber = MutableStateFlow(0)
 
@@ -231,10 +255,6 @@ class SensorRecordingViewModel(application: Application) : AndroidViewModel(appl
 
         private val _isBtnDeleteShowing = MutableStateFlow(0)
         val isBtnDeleteShowing = _isBtnDeleteShowing.asStateFlow()
-
-        suspend fun setIsRecording(isRecordingBoolean: Boolean) {
-            _isRecording.emit(isRecordingBoolean)
-        }
 
         suspend fun setIsPaused(isPausedBoolean: Boolean) {
             _isPaused.emit(isPausedBoolean)
@@ -437,7 +457,8 @@ class SensorRecordingViewModel(application: Application) : AndroidViewModel(appl
                     sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER) -> kindOfSensor = "Accelerometer"
                     sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE) -> kindOfSensor = "GyroScope"
                 }
-                if (_isRecording.value) {
+                if (_isRecording.value == true) {
+
                     val rawSampleDataParameter = setUpUnfilteredDataSample(event)
                     val filteredSampleData = filterDataList(rawSampleDataParameter)
                     addToFilteredSensorList(kindOfSensor, event, filteredSampleData)

@@ -109,6 +109,7 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
 
     private var isPaused = false
 
+
     /**
      * Observes the ViewModel's LiveData and updates the UI accordingly.
      */
@@ -139,6 +140,22 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
                 binding.llExpandedBar.setHeightSmooth(newHeight = if (show) -2 else 0)
             }
         }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            sensorRecordingViewModel.isRecording.collect {
+                isRecording = it
+                isRecordingLocation = it
+            }
+
+        }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            sensorRecordingViewModel.isPaused.collect {
+                isPaused = it
+            }
+        }
+
+
         viewLifecycleOwner.lifecycleScope.launch {
             sensorRecordingViewModel.sensorRecording.isBtnStopShowing.collect {
                 binding.btnStop.visibility = it
@@ -160,24 +177,6 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
         viewLifecycleOwner.lifecycleScope.launch {
             sensorRecordingViewModel.sensorRecording.isBtnDeleteShowing.collect {
                 binding.btnDelete.visibility = it
-            }
-        }
-
-        viewLifecycleOwner.lifecycleScope.launch {
-            sensorRecordingViewModel.sensorRecording.isRecording.collect {
-                isRecordingLocation = it
-            }
-        }
-
-        viewLifecycleOwner.lifecycleScope.launch {
-            sensorRecordingViewModel.sensorRecording.isRecording.collect {
-                isRecording = it
-            }
-        }
-
-        viewLifecycleOwner.lifecycleScope.launch {
-            sensorRecordingViewModel.sensorRecording.isPaused.collect {
-                isPaused = it
             }
         }
     }
@@ -314,7 +313,7 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
                 btnOutOfCarMode.setOnClickListener {
                     findNavController().navigate(R.id.action_action_map_to_action_security_camera)
                 }
-                llWeather?.visibility = View.VISIBLE
+                llWeather.visibility = View.VISIBLE
                 val destinationChangedListener =
                     NavController.OnDestinationChangedListener { _, destination, args ->
                         if (destination.id != R.id.action_map && DashcamFragment.exists()) {
@@ -324,19 +323,53 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
                 findNavController().addOnDestinationChangedListener(destinationChangedListener)
             }
 
-
-
             if (!isRecording && !isPaused) {
                 startRecording()
             }
 
 
+            //()
+
+
+            /*
+                        viewLifecycleOwner.lifecycleScope.launch {
+                sensorRecordingViewModel.isRecording.collect {
+                    Log.d("lasse", "tester obsever: ${it.toString()}")
+                    if (it != true) {
+                    }
+                }
+             */
+
+
+            //sensorRecordingViewModel.isRecording()
+
+
+            /*
+                        sensorRecordingViewModel.combinedLiveData.observe(viewLifecycleOwner) {
+                Log.d("lasse", "first: ${it.first}")
+                Log.d("lasse", "second: ${it.second}")
+
+                if (!it.first && !it.second)
+
+                    startRecording()
+            }
+             */
+
+
+            /*
+                        if (!isRecording && !isPaused) {
+
+            }
+             */
+
+
         } else {
             binding.llSideButtons.visibility = View.GONE
             binding.llRecordingButtons.visibility = View.GONE
-            binding.llWeather?.visibility = View.GONE
+            binding.llWeather.visibility = View.GONE
         }
     }
+
 
     /**
      * Requests location permissions using the AndroidX Activity Result API.
@@ -395,12 +428,25 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
      * Stops listening for sensorChanges
      */
     private fun startRecording() {
+
         sensorRecordingViewModel.startRecording()
+
         Toast.makeText(requireContext(), "Recording Started", Toast.LENGTH_SHORT).show()
     }
 
     private fun stopRecording() {
+
         sensorRecordingViewModel.stopRecording(requireContext())
+
+        /*
+                viewLifecycleOwner.lifecycleScope.launch {
+            sensorRecordingViewModel.isRecording.collect {
+                isRecording = it
+                isRecordingLocation = it
+            }
+        }
+         */
+
         Toast.makeText(requireContext(), "Recording Stopped", Toast.LENGTH_SHORT).show()
     }
 
@@ -512,7 +558,7 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
         mapViewModel.saveCurrentLocation(location)
         Log.e(this::class.simpleName, "location changed! lat = ${location.latitude} , long = ${location.longitude}")
 
-        if (isRecordingLocation) {
+        if (isRecording) {
             sensorRecordingViewModel.sensorRecording.insertIntoLocationList(location)
         }
 
@@ -608,7 +654,7 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
                 val batteryInt: Int = batteryPct.toInt()
                 val batteryString = "$batteryInt%"
 
-                binding.batteryPercentage?.text = batteryString
+                binding.batteryPercentage.text = batteryString
             }
         }
 

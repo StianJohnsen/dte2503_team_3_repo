@@ -82,11 +82,7 @@ class SecurityCameraFragment : BaseFragment<FragmentSecurityCameraBinding>(
         }.launch(Manifest.permission.CAMERA)
 
         binding.backButton.setOnClickListener {
-            val action =
-                SecurityCameraFragmentDirections.actionActionSecurityCameraToActionMap(
-                    isRideActivated = true
-                )
-            findNavController().navigate(action)
+            findNavController().popBackStack()
         }
         binding.videoCaptureButton.setOnClickListener {
             binding.videoCaptureButton.isClickable = false
