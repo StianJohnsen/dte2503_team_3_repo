@@ -98,8 +98,11 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
                 override fun onSpeedLimitChanged(speedLimit: Int?) {
                     if (speedLimit != null) {
                         binding.speedLimit.text = speedLimit.toString()
+                        binding.trafficSign.visibility = View.VISIBLE
+                        binding.speedLimit.visibility = View.VISIBLE
                     } else {
                         binding.trafficSign.visibility = View.GONE
+                        binding.speedLimit.visibility = View.GONE
                     }
                 }
 
@@ -111,6 +114,10 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
                                 R.drawable.maximum_speed_usa
                             )!!
                         )
+                        binding.speedLimit.layoutParams =
+                            (binding.speedLimit.layoutParams as ViewGroup.MarginLayoutParams).also {
+                                it.topMargin = 50
+                            }
                     } else {
                         binding.trafficSign.setImageDrawable(
                             ContextCompat.getDrawable(
@@ -118,6 +125,10 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
                                 R.drawable.maximum_speed_europe
                             )!!
                         )
+                        binding.speedLimit.layoutParams =
+                            (binding.speedLimit.layoutParams as ViewGroup.MarginLayoutParams).also {
+                                it.topMargin = 0
+                            }
                     }
                 }
             })

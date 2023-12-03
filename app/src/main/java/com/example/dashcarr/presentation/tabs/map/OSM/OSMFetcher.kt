@@ -83,6 +83,14 @@ class OSMFetcher(
             putBoolean("DisplayInMph", isMphSelected)
             apply()
         }
+        if (cache.speed != null) {
+            cache.speed = adaptUnitAfterSwitch(cache.speed!!.toFloat())
+            listeners.forEach { it.onSpeedChanged(cache.speed!!) }
+        }
+        if (cache.speedLimit != null) {
+            cache.speedLimit = adaptUnitAfterSwitch(cache.speedLimit!!.toFloat()).roundToInt()
+            listeners.forEach { it.onSpeedLimitChanged(cache.speedLimit!!) }
+        }
         listeners.forEach { it.onUnitChanged(isMphSelected = isMphSelected) }
     }
 
@@ -110,8 +118,8 @@ class OSMFetcher(
         listener.onUnitChanged(isMphSelected)
     }
 
-    private fun convertUnit(speed: Float): Float = speed * if (isMphSelected) 2.237F else 3.6F
-
+    private fun convertFromMeter(speed: Float): Float = speed * if (isMphSelected) 2.237F else 3.6F
+    private fun adaptUnitAfterSwitch(speed: Float): Float = speed * if (isMphSelected) 0.621F else 1.609F
     private fun fetchSpeedLimit(wayId: Int) {
         val speedLimitUrl = "https://overpass-api.de/api/interpreter?data=[out:json];way($wayId);out;"
         val request = JsonObjectRequest(
@@ -120,7 +128,7 @@ class OSMFetcher(
                 try {
                     val node = addressResponse.getJSONArray("elements").get(0) as JSONObject
                     var speedLimit = node.getJSONObject("tags").getInt("maxspeed")
-                    speedLimit = convertUnit(speedLimit.toFloat()).roundToInt()
+                    speedLimit = convertFromMeter(speedLimit.toFloat()).roundToInt()
                     listeners.forEach {
                         it.onSpeedLimitChanged(speedLimit)
                     }
@@ -205,7 +213,7 @@ class OSMFetcher(
             fetchStreetName(location)
         }
 
-        val speed = convertUnit(location.speed)
+        val speed = convertFromMeter(location.speed)
         listeners.forEach {
             it.onSpeedChanged(speed)
         }
