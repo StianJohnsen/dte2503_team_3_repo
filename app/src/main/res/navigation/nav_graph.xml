@@ -296,7 +296,11 @@
         android:label="SocialSettingsFragment">
         <action
             android:id="@+id/action_socialSettingsFragment_to_action_settings"
-            app:destination="@id/action_settings" />
+            app:destination="@id/action_settings"
+            app:enterAnim="@anim/left_to_center"
+            app:exitAnim="@anim/center_to_right"
+            app:popEnterAnim="@anim/left_to_center"
+            app:popExitAnim="@anim/center_to_right" />
 
         <action
             android:id="@+id/action_socialSettingsFragment_to_add_friend_fragment"
@@ -336,7 +340,12 @@
         android:label="QuickMessagesFragment">
         <action
             android:id="@+id/action_quickMessagesFragment_to_action_settings"
-            app:destination="@id/action_settings" />
+            app:destination="@id/action_settings"
+            app:enterAnim="@anim/left_to_center"
+            app:exitAnim="@anim/center_to_right"
+            app:popEnterAnim="@anim/left_to_center"
+            app:popExitAnim="@anim/center_to_right"
+            />
         <action
             android:id="@+id/action_quickMessageFragment_to_add_message_fragment"
             app:destination="@id/addMessagesFragment">

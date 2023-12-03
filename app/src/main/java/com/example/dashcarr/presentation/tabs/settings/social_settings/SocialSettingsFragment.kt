@@ -42,6 +42,9 @@ class SocialSettingsFragment : BaseFragment<FragmentSocialSettingsBinding>(
     @RequiresApi(Build.VERSION_CODES.R)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.btnBackToSettings.setOnClickListener {
+            findNavController().popBackStack()
+        }
         initListeners()
     }
 
