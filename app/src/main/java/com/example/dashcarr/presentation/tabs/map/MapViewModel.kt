@@ -203,9 +203,9 @@ class MapViewModel @Inject constructor(
         val lb: Float = (255.0f - Color.blue(destinationColor)) / 255.0f
         val grayscaleMatrix = ColorMatrix(
             floatArrayOf(
-                lr, lg, lb, 0f, 0f,  //
-                lr, lg, lb, 0f, 0f,  //
-                lr, lg, lb, 0f, 0f,  //
+                lr, lg, lb, 0f, 0f,
+                lr, lg, lb, 0f, 0f,
+                lr, lg, lb, 0f, 0f,
                 0f, 0f, 0f, 0f, 255f
             )
         )
@@ -218,9 +218,9 @@ class MapViewModel @Inject constructor(
         val dbf = db / 255f
         val tintMatrix = ColorMatrix(
             floatArrayOf(
-                1f, 0f, 0f, 0f, 0f,  //
-                0f, 1f, 0f, 0f, 0f,  //
-                0f, 0f, 1f, 0f, 0f,  //
+                1f, 0f, 0f, 0f, 0f,
+                0f, 1f, 0f, 0f, 0f,
+                0f, 0f, 1f, 0f, 0f,
                 0f, 0f, 0f, 1f, 0f
             )
         )
@@ -230,9 +230,9 @@ class MapViewModel @Inject constructor(
         val translate = 1 - scale * 0.5f
         val scaleMatrix = ColorMatrix(
             floatArrayOf(
-                scale, 0f, 0f, 0f, dr * translate,  //
-                0f, scale, 0f, 0f, dg * translate,  //
-                0f, 0f, scale, 0f, db * translate,  //
+                scale, 0f, 0f, 0f, dr * translate,
+                0f, scale, 0f, 0f, dg * translate,
+                0f, 0f, scale, 0f, db * translate,
                 0f, 0f, 0f, 1f, 0f
             )
         )

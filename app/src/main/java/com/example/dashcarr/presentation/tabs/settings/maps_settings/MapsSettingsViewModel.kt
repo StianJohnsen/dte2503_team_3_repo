@@ -55,7 +55,10 @@ class MapsSettingsViewModel @Inject constructor(
     }
     val currentTileNameResId: LiveData<Int> = _currentTileNameResId
 
-
+    init {
+        loadCurrentTileIndex()
+    }
+    
     /**
      * Function to rename a point of interest.
      *
@@ -150,4 +153,10 @@ class MapsSettingsViewModel @Inject constructor(
         }
     }
 
+    private fun loadCurrentTileIndex() {
+        val sharedPrefs = appContext.getSharedPreferences("MapPrefs", Context.MODE_PRIVATE)
+        val tileNameResId = sharedPrefs.getInt("current_tile_name_res_id", R.string.mapnik)
+        currentTileIndex = tileSourceNamesResIds.indexOf(tileNameResId).takeIf { it != -1 } ?: 0
+        _currentTileNameResId.value = tileSourceNamesResIds[currentTileIndex]
+    }
 }
