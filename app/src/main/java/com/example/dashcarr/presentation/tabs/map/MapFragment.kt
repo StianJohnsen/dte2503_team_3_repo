@@ -395,7 +395,7 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
 
         sensorRecordingViewModel.startRecording()
 
-        Toast.makeText(requireContext(), "Recording Started", Toast.LENGTH_SHORT).show()
+        Toast.makeText(requireContext(), getString(R.string.recording_started), Toast.LENGTH_SHORT).show()
     }
 
     private fun stopRecording() {
@@ -411,22 +411,22 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
         }
          */
 
-        Toast.makeText(requireContext(), "Recording Stopped", Toast.LENGTH_SHORT).show()
+        Toast.makeText(requireContext(), getString(R.string.recording_stopped), Toast.LENGTH_SHORT).show()
     }
 
     private fun pauseRecording() {
         sensorRecordingViewModel.pauseRecording()
-        Toast.makeText(requireContext(), "Recording Paused", Toast.LENGTH_SHORT).show()
+        Toast.makeText(requireContext(), getString(R.string.recording_paused), Toast.LENGTH_SHORT).show()
     }
 
     private fun resumeRecording() {
         sensorRecordingViewModel.resumeRecording()
-        Toast.makeText(requireContext(), "Recording Resumed", Toast.LENGTH_SHORT).show()
+        Toast.makeText(requireContext(), getString(R.string.recording_resumed), Toast.LENGTH_SHORT).show()
     }
 
     private fun deleteRecording() {
         sensorRecordingViewModel.deleteRecording()
-        Toast.makeText(requireContext(), "Recording Deleted", Toast.LENGTH_SHORT).show()
+        Toast.makeText(requireContext(), getString(R.string.recording_deleted), Toast.LENGTH_SHORT).show()
     }
 
     private fun addMapPositionChangedListener() {

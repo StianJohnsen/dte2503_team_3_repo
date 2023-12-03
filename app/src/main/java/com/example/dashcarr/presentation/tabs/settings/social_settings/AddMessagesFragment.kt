@@ -51,7 +51,7 @@ class AddMessagesFragment : BaseFragment<FragmentAddMessagesBinding>(
             val inputContent = binding.addMessageInputField.text.toString().trim()
 
             if (inputContent.isEmpty()) {
-                Toast.makeText(context, "Content is a mandatory field", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, context?.getString(R.string.mandatory_content), Toast.LENGTH_SHORT).show()
             } else {
                 if (currentMessageId == null) {
                     viewModel.addToDatabase(requireContext(), inputContent)

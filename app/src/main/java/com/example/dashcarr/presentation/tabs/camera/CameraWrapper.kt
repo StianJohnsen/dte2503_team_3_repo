@@ -23,6 +23,8 @@ import androidx.camera.view.PreviewView
 import androidx.core.content.ContextCompat
 import androidx.core.content.PermissionChecker
 import androidx.lifecycle.LifecycleOwner
+import com.example.dashcarr.R
+import kotlinx.coroutines.withContext
 import java.nio.file.Path
 import java.nio.file.Paths
 import java.text.SimpleDateFormat
@@ -108,7 +110,9 @@ class CameraWrapper(private var activity: Activity) {
 
                     is VideoRecordEvent.Finalize -> {
                         if (!recordEvent.hasError()) {
-                            Log.d(this::class.simpleName, "Video capture succeeded")
+                            val msg = "Video capture succeeded"
+                            Log.d(this::class.simpleName, msg)
+                            Toast.makeText(activity, activity.getString(R.string.file_saved), Toast.LENGTH_SHORT).show()
                         } else {
                             recording?.close()
                             recording = null

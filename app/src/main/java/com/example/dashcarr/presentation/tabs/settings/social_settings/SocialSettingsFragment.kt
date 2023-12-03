@@ -151,7 +151,7 @@ class SocialSettingsFragment : BaseFragment<FragmentSocialSettingsBinding>(
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == MY_PERMISSION_REQUEST_SEND_SMS) {
             if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                Toast.makeText(context, "SMS permission granted", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, context?.getString(R.string.sms_permission), Toast.LENGTH_SHORT).show()
             }
         }
     }

@@ -85,7 +85,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(
             if (it) {
                 findNavController().navigate(R.id.action_loginFragment_to_productFrontPage)
             } else {
-                Toast.makeText(requireContext(), "Login failed", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), getString(R.string.login_failed), Toast.LENGTH_SHORT).show()
             }
         }
 
