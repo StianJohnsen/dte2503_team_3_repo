@@ -1,0 +1,167 @@
+<resources>
+    <string name="app_name">Dash Carr</string>
+
+    <!--LoginFragment-->
+
+    <string name="continue_with_google">Continuer avec Google</string>
+    <string name="login">Connexion</string>
+    <string name="email_necessary">E-mail<font color='#DD2421'>*</font></string>
+    <string name="password_necessary">Mot de passe<font color='#DD2421'>*</font></string>
+    <string name="btnLogin">Se connecter</string>
+    <string name="btnLogout">Se déconnecter</string>
+    <string name="or">Ou</string>
+
+    <!--Camera-->
+
+    <string name="start_recording">Démarrer</string>
+    <string name="stop_recording">Arrêter</string>
+    <string name="delete_recording">Supprimer</string>
+    <string name="recording_in_progress">Enregistrement…</string>
+    <string name="header_security_camera">Caméra de sécurité</string>
+
+    <!--Route-->
+    <string name="total_time">Temps total :</string>
+    <string name="total_distance">Distance totale :</string>
+    <string name="average_speed">Vitesse moyenne :</string>
+
+    <!--Error-->
+
+    <string name="error_invalid_email">E-mail invalide</string>
+    <string name="error_too_short_password">Mot de passe trop court</string>
+    <string name="error_non_upper_case">Le mot de passe doit contenir au moins une majuscule</string>
+    <string name="error_non_digit">Le mot de passe doit contenir au moins un chiffre</string>
+    <string name="error_unknown">Oups, quelque chose s\'est mal passé</string>
+    <string name="error_enter_both_email_and_password">Veuillez entrer à la fois l\'e-mail et le mot de passe</string>
+
+    <!--Credentials-->
+
+    <string name="facebook_application_id">129380996925597</string>
+    <string name="facebook_client_token">bb12e8b82e802b44fb03d464577399f5</string>
+
+    <!--SettingsFragment-->
+
+    <string name="about_app">Paramètres de l\'application</string>
+    <string name="maps_settings">Paramètres de la carte</string>
+    <string name="social_settings">Paramètres sociaux</string>
+    <string name="camera_settings">Camera Settings</string>
+    <string name="history_settings">Paramètres de l\'historique</string>
+    <string name="saved_recordings">Enregistrements sauvegardés</string>
+    <string name="power_settings">Paramètres d\'alimentation</string>
+    <string name="how_to_use">Fonctionnalités</string>
+    <string name="friends">Amis</string>
+    <string name="quick_messages">Messages rapides</string>
+    <string name="point_of_interest">Points d\'intérêt</string>
+    <string name="credits">Crédits</string>
+
+    <!--HistoryFragment-->
+
+    <string name="show_statistics">Afficher les statistiques</string>
+    <string name="update_recording">Mettre à jour</string>
+
+    <!--RecordingStatisticsFragment-->
+
+    <string name="statistics">Statistiques</string>
+    <string name="total_storage">Stockage total :</string>
+    <string name="number_of_files">Nombre de fichiers :</string>
+    <string name="incoming">…</string>
+    <string name="avg_time">Temps moyen :</string>
+    <string name="avg_size">Taille moyenne des fichiers :</string>
+    <string name="btnBack">Retour</string>
+
+    <!--RecordingDetailsFragment-->
+
+    <string name="length">Durée :</string>
+    <string name="amount_of_datapoints">Nombre de points de données :</string>
+    <string name="date_of_recording">Date d\'enregistrement :</string>
+    <string name="data_size">Taille des données :</string>
+    <string name="bar">______________________________________</string>
+
+    <!--RecordingFragment-->
+
+    <string name="sensor_recording">Enregistrement</string>
+    <string name="elapsed_time">Temps écoulé : %s</string>
+    <string name="amount_of_data">Quantité de données :</string>
+
+
+    <!--ConfigureFragment-->
+
+    <string name="configure">Configurer</string>
+    <string name="name">Nom :</string>
+    <string name="product_info_text">
+        Cette application vous assistera pendant la conduite!\n\n
+        Ajouter des points d\'intérêt est facile, appuyez longuement sur la carte.\n\n
+        Vous pouvez démarrer un nouvel enregistrement dans l\'onglet carte avec le bouton dans le coin.\n\n
+        Après l\'avoir sauvegardé, vous pourrez analyser les données dans l\'historique.\n\n
+        Si vous maintenez l\'onglet de la carte, une fonctionnalité expérimentale apparaîtra, n\'hésitez pas à l\'essayer!\n\n
+        Vous pouvez également utiliser votre caméra comme une dashcam. Pour activer cette fonctionnalité, cliquez sur la caméra et sélectionnez le triangle.
+    </string>
+
+    <string name="start_using">Commencer à utiliser !</string>
+
+    <!--MapFragment-->
+    <string name="marker_name">Nom du marqueur</string>
+    <string name="save_poi">sauvegarder</string>
+    <string name="cancel_poi">Annuler</string>
+    <string name="some_permissions_missing">Localisation non autorisée. Changer dans les paramètres</string>
+
+    <!--Copyright-->
+    <string name="version_1.0">Version: 1.0</string>
+    <string name="_2023_uit">© 2023 UIT</string>
+    <string name="icons8">Icônes de icons8.com</string>
+
+    <!--PowerSettingsFragment-->
+    <string name="lost_percentage">Consommation de la batterie : %d%%</string>
+    <string name="gained_percentage">Quantité chargée : %d%%</string>
+    <string name="power_settings_text">Paramètres d\'alimentation</string>
+    <string name="battery_saving_mode">Mode d\'économie de la batterie :</string>
+
+    <!--SocialSettingsFragment-->
+    <string name="add_friend_button">Ajouter un ami</string>
+    <string name="delete_friend_button">Supprimer un ami</string>
+    <string name="input_name">Nom</string>
+    <string name="input_phone">Téléphone</string>
+    <string name="input_email">E-mail</string>
+    <string name="update">Mettre à jour</string>
+
+    <!--HudView-->
+    <string name="back_button_content_description">Bouton de retour</string>
+
+    <!--MapSettingsFragment-->
+    <string name="points_of_interest">Points d\'intérêt</string>
+    <string name="btnRename">Renommer</string>
+    <string name="btnDelete">supprimer</string>
+    <string name="update_poi">mettre à jour</string>
+    <string name="delete_poi">supprimer</string>
+    <string name="point_deleted_successfully">Point supprimé avec succès</string>
+    <string name="point_renamed_successfully">Point renommé avec succès</string>
+    <string name="add_message">Ajouter un message</string>
+    <string name="select_contact">Sélectionner un contact</string>
+    <string name="select_message">Sélectionner un message</string>
+    <string name="message">Message</string>
+    <string name="add_message_capitalized">AJOUTER UN MESSAGE</string>
+    <string name="send_message">Envoyer le message</string>
+
+    <!--SocialSettingsFragment-->
+    <string name="sent_messages">Messages envoyés</string>
+    <string name="contact_list">Liste de contacts</string>
+    <string name="message_deleted_successfully">Message supprimé avec succès</string>
+    <string name="unknown_user">Utilisateur inconnu</string>
+    <string name="to_whom_message">À :</string>
+    <string name="developers">Développeurs</string>
+    <string name="stian_ellingsen_johnsen">Stian Ellingsen Johnsen</string>
+    <string name="yves_simon_zeulner">Yves-Simon Zeulner</string>
+    <string name="quentin_michel_st_phane_regnier">Quentin Regnier</string>
+    <string name="yevhen_verkhalantsev">Yevhen Verkhalantsev</string>
+
+    <!--QuickMessageFragment-->
+    <string name="message_list">Messages</string>
+    <string name="delete_message">Supprimer le message</string>
+
+    <!--Authentication Prompt-->
+
+    <string name="prompt_title">Action non authorisée détéctée</string>
+    <string name="prompt_subtitle">Entrez votre pin pour continuer</string>
+    <string name="prompt_description">Si la map n\'est pas dévérouillée dans les 10 prochaines secondes, un message d\'urgence va être envoyé.
+    </string>
+
+</resources>

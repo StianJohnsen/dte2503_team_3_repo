@@ -1,0 +1,167 @@
+<resources>
+    <string name="app_name">Dash Carr</string>
+
+    <!--LoginFragment-->
+
+    <string name="continue_with_google">Продовжити з Google</string>
+    <string name="login">Увійти</string>
+    <string name="email_necessary">Електронна пошта<font color='#DD2421'>*</font></string>
+    <string name="password_necessary">Пароль<font color='#DD2421'>*</font></string>
+    <string name="btnLogin">Увійти</string>
+    <string name="btnLogout">Вийти</string>
+    <string name="or">Або</string>
+
+    <!--Camera-->
+
+    <string name="start_recording">Почати</string>
+    <string name="stop_recording">Зупинити</string>
+    <string name="delete_recording">Видалити</string>
+    <string name="recording_in_progress">Запис…</string>
+    <string name="header_security_camera">Security Camera</string>
+
+    <!--Route-->
+    <string name="total_time">Total time:</string>
+    <string name="total_distance">Total distance:</string>
+    <string name="average_speed">Average speed:</string>
+
+    <!--Error-->
+
+    <string name="error_invalid_email">Невірна електронна пошта</string>
+    <string name="error_too_short_password">Пароль занадто короткий</string>
+    <string name="error_non_upper_case">Пароль повинен містити принаймні одну велику літеру</string>
+    <string name="error_non_digit">Пароль повинен містити принаймні одну цифру</string>
+    <string name="error_unknown">Ой, щось пішло не так</string>
+    <string name="error_enter_both_email_and_password">Будь ласка, введіть електронну пошту та пароль</string>
+
+    <!--Credentials-->
+
+    <string name="facebook_application_id">129380996925597</string>
+    <string name="facebook_client_token">bb12e8b82e802b44fb03d464577399f5</string>
+
+    <!--SettingsFragment-->
+
+    <string name="about_app">Налаштування додатку</string>
+    <string name="maps_settings">Налаштування карт</string>
+    <string name="social_settings">Соціальні налаштування</string>
+    <string name="camera_settings">Camera Settings</string>
+    <string name="history_settings">Історія налаштувань</string>
+    <string name="saved_recordings">Збережені записи</string>
+    <string name="power_settings">Налаштування живлення</string>
+    <string name="how_to_use">How to use</string>
+    <string name="friends">Friends</string>
+    <string name="quick_messages">Quick Messages</string>
+    <string name="point_of_interest">Point of Interest</string>
+    <string name="credits">Credits</string>
+
+    <!--HistoryFragment-->
+
+    <string name="show_statistics">Показати статистику</string>
+    <string name="update_recording">Update</string>
+
+    <!--RecordingStatisticsFragment-->
+
+    <string name="statistics">Статистика</string>
+    <string name="total_storage">Загальний обсяг:</string>
+    <string name="number_of_files">Кількість файлів:</string>
+    <string name="incoming">…</string>
+    <string name="avg_time">Середній час:</string>
+    <string name="avg_size">Середній розмір файлу:</string>
+    <string name="btnBack">Назад</string>
+
+    <!--RecordingDetailsFragment-->
+
+    <string name="length">Довжина:</string>
+    <string name="amount_of_datapoints">Кількість даних:</string>
+    <string name="date_of_recording">Дата запису:</string>
+    <string name="data_size">Розмір даних:</string>
+    <string name="bar">______________________________________</string>
+
+    <!--RecordingFragment-->
+
+    <string name="sensor_recording">Запис</string>
+    <string name="elapsed_time">Пройшло часу: %s</string>
+    <string name="amount_of_data">Кількість даних:</string>
+
+
+    <!--ConfigureFragment-->
+
+    <string name="configure">Налаштувати</string>
+    <string name="name">Назва:</string>
+    <string name="product_info_text">
+        Цей додаток допоможе вам під час водіння!\n\n
+        Додавання точок інтересу просте, просто натисніть і утримуйте на карті.\n\n
+        Ви можете почати новий запис на вкладці карти за допомогою кнопки в кутку.\n\n
+        Після збереження ви можете проаналізувати дані в історії.\n\n
+        При утриманні вкладки карти з\'явиться експериментальна функція, можете спробувати!\n\n
+        Ви також можете використовувати свою камеру як відеореєстратор. Щоб активувати цю функцію, натисніть на камеру та виберіть трикутник.
+    </string>
+
+    <string name="start_using">Почати використання!</string>
+
+    <!--MapFragment-->
+    <string name="marker_name">Назва маркера</string>
+    <string name="save_poi">Зберегти</string>
+    <string name="cancel_poi">Скасувати</string>
+    <string name="some_permissions_missing">Геолокація не дозволена. Змініть у налаштуваннях</string>
+
+    <!--Copyright-->
+    <string name="version_1.0">Version: 1.0</string>
+    <string name="_2023_uit">© 2023 UIT</string>
+    <string name="icons8">Іконки від icons8.com</string>
+
+    <!--PowerSettingsFragment-->
+    <string name="lost_percentage">Споживання батареї: %d%%</string>
+    <string name="gained_percentage">Заряджено: %d%%</string>
+    <string name="power_settings_text">Налаштування живлення</string>
+    <string name="battery_saving_mode">Режим енергозбереження:</string>
+
+    <!--SocialSettingsFragment-->
+    <string name="add_friend_button">Додати друга</string>
+    <string name="delete_friend_button">Видалити друга</string>
+    <string name="input_name">Ім\'я</string>
+    <string name="input_phone">Телефон</string>
+    <string name="input_email">Електронна пошта</string>
+    <string name="update">Оновити</string>
+
+    <!--HudView-->
+    <string name="back_button_content_description">Кнопка назад</string>
+
+    <!--MapSettingsFragment-->
+    <string name="points_of_interest">Точки інтересів</string>
+    <string name="btnRename">Перейменувати</string>
+    <string name="btnDelete">видалити</string>
+    <string name="update_poi">оновити</string>
+    <string name="delete_poi">видалити</string>
+    <string name="point_deleted_successfully">Точка успішно видалена</string>
+    <string name="point_renamed_successfully">Точка успішно перейменована</string>
+    <string name="add_message">Додати повідомлення</string>
+    <string name="select_contact">Вибрати контакт</string>
+    <string name="select_message">Вибрати повідомлення</string>
+    <string name="message">Повідомлення</string>
+    <string name="add_message_capitalized">ДОДАТИ ПОВІДОМЛЕННЯ</string>
+    <string name="send_message">Відправити повідомлення</string>
+
+    <!--SocialSettingsFragment-->
+    <string name="sent_messages">Відправлені повідомлення</string>
+    <string name="contact_list">Контакти</string>
+    <string name="message_deleted_successfully">Повідомлення успішно видалено</string>
+    <string name="unknown_user">Невідомий користувач</string>
+    <string name="to_whom_message">Кому:</string>
+    <string name="developers">Developers</string>
+    <string name="stian_ellingsen_johnsen">Stian Ellingsen Johnsen</string>
+    <string name="yves_simon_zeulner">Yves-Simon Zeulner</string>
+    <string name="quentin_michel_st_phane_regnier">Quentin Regnier</string>
+    <string name="yevhen_verkhalantsev">Yevhen Verkhalantsev</string>
+
+    <!--QuickMessageFragment-->
+    <string name="message_list">Messages</string>
+    <string name="delete_message">Delete Message</string>
+
+    <!--Authentication Prompt-->
+
+    <string name="prompt_title">Unauthorized Action Detected</string>
+    <string name="prompt_subtitle">Authorize yourselves with your phone pin</string>
+    <string name="prompt_description">If the app is not unlocked in the next 10s, an emergency message will be sent.
+    </string>
+
+</resources>
