@@ -8,6 +8,7 @@ import android.content.pm.PackageManager
 import android.os.Environment
 import android.provider.MediaStore
 import android.util.Log
+import android.widget.Toast
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
@@ -24,7 +25,6 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.PermissionChecker
 import androidx.lifecycle.LifecycleOwner
 import com.example.dashcarr.R
-import kotlinx.coroutines.withContext
 import java.nio.file.Path
 import java.nio.file.Paths
 import java.text.SimpleDateFormat
