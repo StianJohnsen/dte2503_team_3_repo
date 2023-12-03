@@ -351,29 +351,29 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
 
         val nightModeFlags = context?.resources?.configuration?.uiMode?.and(Configuration1.UI_MODE_NIGHT_MASK)
         val isDarkModeEnabled = nightModeFlags == Configuration1.UI_MODE_NIGHT_YES
-        if (tileName == "MAPNIK" && isDarkModeEnabled) {
+        if (isDarkModeEnabled) {
             binding.mapView.getOverlayManager().getTilesOverlay().setColorFilter(mapViewModel.getFilter())
-        } else {
-            when (tileName) {
-                "MAPNIK" -> {
-                    binding.mapView.setTileSource(TileSourceFactory.MAPNIK)
-                }
+        }
+        when (tileName) {
+            "MAPNIK" -> {
+                binding.mapView.setTileSource(TileSourceFactory.MAPNIK)
+            }
 
-                "USGS_SAT" -> {
-                    binding.mapView.setTileSource(TileSourceFactory.USGS_SAT)
-                }
+            "OpenTopo" -> {
+                binding.mapView.setTileSource(TileSourceFactory.OpenTopo)
+            }
 
-                else -> {
-                    binding.mapView.setTileSource(TileSourceFactory.MAPNIK)
-                }
+            else -> {
+                binding.mapView.setTileSource(TileSourceFactory.MAPNIK)
             }
         }
+
     }
 
     private fun getTileSourceFromName(tileName: String): String {
         return when (tileName) {
             getString(R.string.mapnik) -> "MAPNIK"
-            getString(R.string.usgs_sat) -> "USGS_SAT"
+            getString(R.string.openTopo) -> "OpenTopo"
             else -> "DEFAULT_TILE_SOURCE"
         }
     }
@@ -399,18 +399,7 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
     }
 
     private fun stopRecording() {
-
         sensorRecordingViewModel.stopRecording(requireContext())
-
-        /*
-                viewLifecycleOwner.lifecycleScope.launch {
-            sensorRecordingViewModel.isRecording.collect {
-                isRecording = it
-                isRecordingLocation = it
-            }
-        }
-         */
-
         Toast.makeText(requireContext(), getString(R.string.recording_stopped), Toast.LENGTH_SHORT).show()
     }
 

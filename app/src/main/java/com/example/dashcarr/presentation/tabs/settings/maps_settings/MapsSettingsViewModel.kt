@@ -46,7 +46,7 @@ class MapsSettingsViewModel @Inject constructor(
 
     private val tileSourceNamesResIds = arrayOf(
         R.string.mapnik,
-        R.string.usgs_sat
+        R.string.openTopo
     )
     private var currentTileIndex = 0
 
@@ -58,7 +58,7 @@ class MapsSettingsViewModel @Inject constructor(
     init {
         loadCurrentTileIndex()
     }
-    
+
     /**
      * Function to rename a point of interest.
      *

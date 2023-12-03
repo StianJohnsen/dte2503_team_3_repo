@@ -152,7 +152,7 @@ class MapsSettingsFragment : BaseFragment<FragmentMapsSettingsBinding>(
     private fun getTileSourceFromName(tileName: String): String {
         return when (tileName) {
             getString(R.string.mapnik) -> "Standard"
-            getString(R.string.usgs_sat) -> "Satellite"
+            getString(R.string.openTopo) -> "Relief"
             else -> "Standard"
         }
     }
