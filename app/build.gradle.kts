@@ -79,9 +79,6 @@ dependencies {
 
     implementation("androidx.fragment:fragment-ktx:1.6.1")
 
-    implementation("com.facebook.android:facebook-android-sdk:[8,9)")
-    implementation("com.facebook.android:facebook-login:16.2.0")
-
     implementation(platform("com.google.firebase:firebase-bom:32.3.1"))
     implementation("com.google.firebase:firebase-auth-ktx")
 
