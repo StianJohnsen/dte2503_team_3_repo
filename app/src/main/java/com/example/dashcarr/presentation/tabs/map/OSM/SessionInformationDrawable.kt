@@ -1,4 +1,4 @@
-package com.example.dashcarr.presentation.tabs.map
+package com.example.dashcarr.presentation.tabs.map.OSM
 
 import android.content.Context
 import android.graphics.Canvas
@@ -8,13 +8,7 @@ import android.graphics.Paint
 import android.graphics.PixelFormat
 import android.graphics.Rect
 import android.graphics.drawable.Drawable
-import android.location.Location
 import android.util.Log
-import com.android.volley.Request
-import com.android.volley.toolbox.JsonObjectRequest
-import com.android.volley.toolbox.Volley
-import org.json.JSONException
-import org.json.JSONObject
 import java.time.Duration
 import java.time.LocalDateTime
 import java.time.temporal.ChronoUnit
@@ -23,10 +17,10 @@ import kotlin.math.roundToInt
 /**
  * This class holds and draws live data for the current drive on a canvas.
  *
- * @property context this context will be used for sending API Requests in [updateStreet]
+ * @property context this context will be used for accessing the selected unit system
  * @property rotateDrawing If the drawing should be rotated by 90 degree to allow portrait mode
  * @property onSizeChanged Use this to adapt the canvas size to needed height
- * @constructor Creates a new empty drawable that ready to get information through [updateLocation].
+ * @constructor Creates a new empty drawable
  * @param speedTextSize the text size of the speed in px
  * @param streetTextSize the text size of the additional information in px
  */
@@ -40,8 +34,6 @@ class SessionInformationDrawable(
     private val smallPaint: Paint = Paint()
     private val bigPaint: Paint = Paint()
     private var street: String = ""
-    private var location: Location? = null
-    private var lastStreetUpdate = LocalDateTime.now().minusHours(1)
     private var lastSpeedUpdate = LocalDateTime.now().minusHours(1)
     private var speed: Float = 0F
 
@@ -64,93 +56,24 @@ class SessionInformationDrawable(
 
         val sharedPref = context.getSharedPreferences("AppPreferences", Context.MODE_PRIVATE)
         displayInMph = sharedPref.getBoolean("DisplayInMph", false)
-    }
 
-    /**
-     * This function refreshes the speed and might trigger a request to refresh the current street.
-     *
-     * @param location the new GPS Location
-     */
-    fun updateLocation(location: Location) {
-        if (Duration.between(lastStreetUpdate, LocalDateTime.now())
-                .get(ChronoUnit.SECONDS) > 2 && (this.location == null || this.location!!.distanceTo(location) > 100)
-        ) {
-            lastStreetUpdate = LocalDateTime.now()
-            updateStreet(location)
-        }
-        this.speed = location.speed
-        lastSpeedUpdate = LocalDateTime.now()
-        this.invalidateSelf()
-    }
-
-    /**
-     * Sends a new API Request to the nominatim server, to resolve the provided coordinates into street names.
-     * The nomination guidelines don't allow more than one request per second, otherwise your IP might get banned.
-     *
-     * @param location location with GPS coordinates
-     */
-    private fun updateStreet(location: Location) {
-        val addressUrl =
-            "https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${location.latitude}&lon=${location.longitude}&layer=address"
-        val queue = Volley.newRequestQueue(context)
-        val addressRequest = JsonObjectRequest(
-            Request.Method.GET, addressUrl, null,
-            { response ->
-                Log.d(this::class.simpleName, "OSM Request successful! Content: $response")
-                if (response.getString("osm_type") == "way") {
-                    val wayId = response.get("osm_id")
-                    val speedLimitUrl = "https://overpass-api.de/api/interpreter?data=[out:json];way($wayId);out;"
-                    val request = JsonObjectRequest(Request.Method.GET, speedLimitUrl, null,
-                        { addressResponse ->
-                            try {
-                                val node = addressResponse.getJSONArray("elements").get(0) as JSONObject
-                                val speedLimit = node.getJSONObject("tags").getInt("maxspeed")
-                                Log.d(this::class.simpleName, "max speed: $speedLimit")
-                            } catch (e: JSONException) {
-                                Log.d(
-                                    this::class.simpleName,
-                                    "No Speed limit available for way id: $wayId, exception: ${e.stackTraceToString()}"
-                                )
-                            }
-                        },
-                        { addressError ->
-                            Log.e(this::class.simpleName, "Can't access Url: $speedLimitUrl with error $addressError")
-                        }
-                    )
-                    queue.add(request)
-                }
-                val address = response.getJSONObject("address")
-                var road = ""
-                if (address.has("road")) {
-                    road = address.get("road").toString()
-                }
-                val town = when {
-                    address.has("town") -> address.get("town")
-                    address.has("municipality") -> address.get("municipality")
-                    address.has("city") -> address.get("city")
-                    address.has("region") -> address.get("region")
-                    address.has("neighbourhood") -> address.get("neighbourhood")
-                    address.has("farm") -> address.get("farm")
-                    address.has("county") -> address.get("county")
-                    else -> ""
-                }.toString()
-                street = if (road.isEmpty() || town.isEmpty()) {
-                    town + road
-                } else {
-                    "${road}, $town"
-                }
-                this.location = location
-                this.invalidateSelf()
-            },
-            { error ->
-                Log.e(this::class.simpleName, "Can't access Url: $addressUrl with error $error")
-                this.location = null
-                street = ""
+        OSMFetcher.getInstance().addMapPositionChangedListener(object : MapPositionChangedListener {
+            override fun onStreetChangedListener(streetName: String) {
+                street = streetName
+                invalidateSelf()
             }
-        )
-        queue.add(addressRequest)
-    }
 
+            override fun onSpeedChanged(speed: Float) {
+                this@SessionInformationDrawable.speed = speed
+                lastSpeedUpdate = LocalDateTime.now()
+                invalidateSelf()
+            }
+
+            override fun onSpeedLimitChanged(speedLimit: Int) {
+                Log.d(this::class.simpleName, "new Speedlimit: $speedLimit")
+            }
+        })
+    }
 
     fun toggleSpeedUnit() {
         displayInMph = !displayInMph
