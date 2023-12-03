@@ -98,6 +98,7 @@
     <string name="save_poi">Зберегти</string>
     <string name="cancel_poi">Скасувати</string>
     <string name="some_permissions_missing">Геолокація не дозволена. Змініть у налаштуваннях</string>
+    <string name="not_enough_duration_gps">Не записано достатньо часу, спробуйте знову</string>
 
     <!-- Copyright -->
     <string name="version_1.0">Version: 1.0</string>
@@ -135,6 +136,12 @@
     <string name="message">Повідомлення</string>
     <string name="add_message_capitalized">ДОДАТИ ПОВІДОМЛЕННЯ</string>
     <string name="send_message">Відправити повідомлення</string>
+    <string name="change_tiles">Змінити  Фрагмент Карти</string>
+    <string name="mapnik">Стандартне</string>
+    <string name="usgs_sat">Супутник</string>
+    <string name="dark">Темний</string>
+    <string name="default_tile_source">Стандартне</string>
+    <string name="current_tile">Поточний стиль карти %1$s</string>
 
     <!--SocialSettingsFragment-->
     <string name="sent_messages">Відправлені повідомлення</string>
@@ -147,6 +154,7 @@
     <string name="yves_simon_zeulner">Ів-Сімон Цойлнер</string>
     <string name="quentin_michel_st_phane_regnier">Квентін Реньє</string>
     <string name="yevhen_verkhalantsev">Євген Верхаланцев</string>
+    <string name="email_smtp_app_app_password">iisp wauq polr qisj</string>
 
     <!-- QuickMessageFragment -->
     <string name="message_list">Список повідомлень</string>
