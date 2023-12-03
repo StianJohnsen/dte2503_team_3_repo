@@ -8,7 +8,8 @@ import android.graphics.Paint
 import android.graphics.PixelFormat
 import android.graphics.Rect
 import android.graphics.drawable.Drawable
-import android.util.Log
+import androidx.appcompat.content.res.AppCompatResources
+import com.example.dashcarr.R
 import java.time.Duration
 import java.time.LocalDateTime
 import java.time.temporal.ChronoUnit
@@ -33,9 +34,11 @@ class SessionInformationDrawable(
 ) : Drawable() {
     private val smallPaint: Paint = Paint()
     private val bigPaint: Paint = Paint()
+    private val speedLimitPaint: Paint = Paint()
     private var street: String = ""
     private var lastSpeedUpdate = LocalDateTime.now().minusHours(1)
-    private var speed: Float = 0F
+    private var currentSpeed: Float = 0F
+    private var speedLimit: Int? = 49
 
     private var displayInMph = false
 
@@ -54,6 +57,13 @@ class SessionInformationDrawable(
         bigPaint.isFakeBoldText = true
         bigPaint.textAlign = Paint.Align.CENTER
 
+        speedLimitPaint.textSize = 220F
+        speedLimitPaint.color = Color.BLACK
+        speedLimitPaint.isAntiAlias = true
+        speedLimitPaint.style = Paint.Style.FILL
+        speedLimitPaint.isFakeBoldText = true
+        speedLimitPaint.textAlign = Paint.Align.CENTER
+
         val sharedPref = context.getSharedPreferences("AppPreferences", Context.MODE_PRIVATE)
         displayInMph = sharedPref.getBoolean("DisplayInMph", false)
 
@@ -64,13 +74,13 @@ class SessionInformationDrawable(
             }
 
             override fun onSpeedChanged(speed: Float) {
-                this@SessionInformationDrawable.speed = speed
+                this@SessionInformationDrawable.currentSpeed = speed
                 lastSpeedUpdate = LocalDateTime.now()
                 invalidateSelf()
             }
 
             override fun onSpeedLimitChanged(speedLimit: Int) {
-                Log.d(this::class.simpleName, "new Speedlimit: $speedLimit")
+                this@SessionInformationDrawable.speedLimit = speedLimit
             }
         })
     }
@@ -91,12 +101,13 @@ class SessionInformationDrawable(
 
     override fun draw(canvas: Canvas) {
         if (Duration.between(lastSpeedUpdate, LocalDateTime.now()).get(ChronoUnit.SECONDS) > 5)
-            speed = 0F
+            currentSpeed = 0F
         val speedText = if (displayInMph) {
-            "${(speed * 2.237).roundToInt()} mph"
+            "${(currentSpeed * 2.237).roundToInt()} mph"
         } else {
-            "${(speed * 3.6).roundToInt()} km/h"
+            "${(currentSpeed * 3.6).roundToInt()} km/h"
         }
+
 
         if (rotateDrawing) {
             canvas.rotate(90F, bounds.width() / 2F, bounds.height() / 2F)
@@ -112,6 +123,22 @@ class SessionInformationDrawable(
                 (if (rotateDrawing) bounds.height() else bounds.width()) - padding,
                 canvas
             )
+        if (rotateDrawing && speedLimit != null) {
+            val speedLimitText = if (displayInMph) {
+                "${(speedLimit!! * 2.237).roundToInt()} mph"
+            } else {
+                "${(speedLimit!! * 3.6).roundToInt()} km/h"
+            }
+            var x = bounds.width() / 2
+            x -= bounds.height() / 2
+            var y = bounds.height() / 2
+            y -= bounds.width() / 2
+            val trafficSign = AppCompatResources.getDrawable(context, R.drawable.maximum_speed_europe)!!
+            trafficSign.setBounds(x, y, x + 400, y + 400)
+            trafficSign.draw(canvas)
+            canvas.drawText(speedLimitText, 0, 2, x + 200F, y + 280F, speedLimitPaint)
+
+        }
         onSizeChanged(height)
     }
 

@@ -142,6 +142,9 @@ class OSMFetcher(
     }
 
     override fun onLocationChanged(location: Location) {
+        if (listeners.isEmpty()) {
+            return
+        }
         if (Duration.between(lastRequestTime, LocalDateTime.now())
                 .get(ChronoUnit.SECONDS) > 2 && (this.lastLocation == null || this.lastLocation!!.distanceTo(location) > 100)
         ) {
