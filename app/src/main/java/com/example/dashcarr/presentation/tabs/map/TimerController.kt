@@ -25,7 +25,7 @@ class TimerController {
 
     suspend fun pauseRecording() {
         if (_isRecording.value) {
-            Log.d("lasse", "The recording is paused")
+            Log.d(this::class.simpleName, "The recording is paused")
             _pausedElapsedTimeMillis.emit(SystemClock.elapsedRealtime())
             _isRecording.emit(false)
         }

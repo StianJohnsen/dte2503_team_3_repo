@@ -58,7 +58,6 @@ class RecordingStatisticsFragment : BaseFragment<FragmentRecordingStatisticsBind
         }
         binding.btnBack.setOnClickListener {
             findNavController().popBackStack()
-            //findNavController().navigate(R.id.action_action_statistics_to_SavedRecordingsFragment)
         }
 
         val jsonArray = readJsonFromFile()

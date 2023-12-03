@@ -327,42 +327,6 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
                 startRecording()
             }
 
-
-            //()
-
-
-            /*
-                        viewLifecycleOwner.lifecycleScope.launch {
-                sensorRecordingViewModel.isRecording.collect {
-                    Log.d("lasse", "tester obsever: ${it.toString()}")
-                    if (it != true) {
-                    }
-                }
-             */
-
-
-            //sensorRecordingViewModel.isRecording()
-
-
-            /*
-                        sensorRecordingViewModel.combinedLiveData.observe(viewLifecycleOwner) {
-                Log.d("lasse", "first: ${it.first}")
-                Log.d("lasse", "second: ${it.second}")
-
-                if (!it.first && !it.second)
-
-                    startRecording()
-            }
-             */
-
-
-            /*
-                        if (!isRecording && !isPaused) {
-
-            }
-             */
-
-
         } else {
             binding.llSideButtons.visibility = View.GONE
             binding.llRecordingButtons.visibility = View.GONE
