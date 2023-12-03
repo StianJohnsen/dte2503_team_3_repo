@@ -94,7 +94,7 @@ class SelectMessageFragment : BaseFragment<FragmentSelectMessageBinding>(
             onMessageButtonClicked = {
                 try {
                     sendMessage(phoneNumber, it.content)
-                    insertIntoMessageHistory(it.id, friendId, System.currentTimeMillis())
+                    insertIntoMessageHistory(it.id, friendId, System.currentTimeMillis(), true)
                     Toast.makeText(requireContext(), "Sent message to: $phoneNumber", Toast.LENGTH_SHORT).show()
                     findNavController().navigate(action)
                 } catch (e: Exception) {
@@ -105,7 +105,7 @@ class SelectMessageFragment : BaseFragment<FragmentSelectMessageBinding>(
             onEmailButtonClicked = {
                 try {
                     sendEmail(emailAddress, it.content)
-                    insertIntoMessageHistory(it.id, friendId, System.currentTimeMillis())
+                    insertIntoMessageHistory(it.id, friendId, System.currentTimeMillis(), false)
                     Toast.makeText(requireContext(), "Sent email to: $emailAddress", Toast.LENGTH_SHORT).show()
                 } catch (e: Exception) {
                     Log.e(this::class.simpleName, "Email exception: ${e.stackTraceToString()}")
@@ -192,11 +192,12 @@ class SelectMessageFragment : BaseFragment<FragmentSelectMessageBinding>(
         SmsManager.getDefault().sendTextMessage(destinationNumber, null, message, null, null)
     }
 
-    private fun insertIntoMessageHistory(messageId: Long, friendId: Int, createdTimeStamp: Long) {
+    private fun insertIntoMessageHistory(messageId: Long, friendId: Int, createdTimeStamp: Long, isSms: Boolean) {
         val sentMessageEntity =
-            SentMessagesEntity(messageId = messageId, friendId = friendId, createdTimeStamp = createdTimeStamp)
+            SentMessagesEntity(messageId = messageId, friendId = friendId, createdTimeStamp = createdTimeStamp, isSms = isSms)
         viewModel.insertIntoSentMessages(requireContext(), sentMessageEntity)
     }
+
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

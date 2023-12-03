@@ -38,7 +38,7 @@ class SentMessagesAdapter (private val onMessageListener: IOnSentMessageClickLis
         holder.message.text = message.message.content
         holder.date.text = getFormattedDate(message.sentMessage.createdTimeStamp)
         holder.messageType.setImageResource(
-            if (message.message.isPhone) R.drawable.ic_message
+            if (message.sentMessage.isSms) R.drawable.ic_message
             else R.drawable.ic_email)
     }
 

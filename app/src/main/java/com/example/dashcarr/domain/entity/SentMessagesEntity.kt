@@ -26,5 +26,6 @@ data class SentMessagesEntity(
     @PrimaryKey(autoGenerate = true) val id: Long = 0,
     @ColumnInfo(name = "messageId") val messageId: Long,
     @ColumnInfo(name = "friendId") val friendId: Int,
-    @ColumnInfo("createdTimeStamp") val createdTimeStamp: Long
+    @ColumnInfo("createdTimeStamp") val createdTimeStamp: Long,
+    @ColumnInfo("isSms") val isSms: Boolean
 ) : Serializable
