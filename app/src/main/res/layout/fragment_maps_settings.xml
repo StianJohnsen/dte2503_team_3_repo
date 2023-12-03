@@ -64,7 +64,7 @@
                         android:layout_marginStart="5dp"
                         android:backgroundTint="@color/button_color"
                         android:text="@string/change_tiles"
-                        android:textColor="@color/text_color"
+                        android:textColor="@color/secondary_color"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent">
 
