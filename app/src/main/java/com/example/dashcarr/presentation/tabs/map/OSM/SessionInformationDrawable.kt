@@ -85,7 +85,7 @@ class SessionInformationDrawable(
     override fun draw(canvas: Canvas) {
         if (Duration.between(lastSpeedUpdate, LocalDateTime.now()).get(ChronoUnit.SECONDS) > 5)
             currentSpeed = 0F
-        val speedText = if (OSMFetcher.getInstance()!!.isMphSelected) {
+        val speedText = if (OSMFetcher.getInstance()!!.currentSpeedUnit == OSMFetcher.SpeedUnit.MILES_PER_HOUR) {
             "${currentSpeed.roundToInt()} mph"
         } else {
             "${currentSpeed.roundToInt()} km/h"
@@ -109,7 +109,7 @@ class SessionInformationDrawable(
         if (rotateDrawing && speedLimit != null) {
             val trafficSign: Drawable
             val yOffset: Int
-            if (OSMFetcher.getInstance()!!.isMphSelected) {
+            if (OSMFetcher.getInstance()!!.currentSpeedUnit == OSMFetcher.SpeedUnit.MILES_PER_HOUR) {
                 trafficSign = AppCompatResources.getDrawable(context, R.drawable.maximum_speed_usa)!!
                 yOffset = 170
             } else {
@@ -175,7 +175,7 @@ class SessionInformationDrawable(
         // draw to calculated position
         val baselineOffset = 15
         var additionalOffset = 0
-        if (OSMFetcher.getInstance()!!.isMphSelected) {
+        if (OSMFetcher.getInstance()!!.currentSpeedUnit == OSMFetcher.SpeedUnit.MILES_PER_HOUR) {
             additionalOffset = 15
         }
 
