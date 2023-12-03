@@ -8,6 +8,9 @@ import android.location.LocationListener
 import android.location.LocationManager
 import android.util.Log
 import androidx.core.app.ActivityCompat
+import androidx.lifecycle.DefaultLifecycleObserver
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleOwner
 import com.android.volley.Request
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
@@ -16,6 +19,7 @@ import org.json.JSONObject
 import java.time.Duration
 import java.time.LocalDateTime
 import java.time.temporal.ChronoUnit
+import kotlin.math.roundToInt
 
 class OSMFetcher(
     context: Context,
@@ -38,13 +42,20 @@ class OSMFetcher(
             }
         }
 
-        fun getInstance() = instance!!
+        fun getInstance() = instance
     }
 
     private val queue = Volley.newRequestQueue(context)
     private val listeners = emptyList<MapPositionChangedListener>().toMutableList()
     private var lastLocation: Location? = null
     private var lastRequestTime = LocalDateTime.now().minusHours(1)
+
+    private data class Buffer(var speedLimit: Int?, var speed: Float?, var streetName: String?)
+
+    private val cache: Buffer = Buffer(null, null, null)
+
+    val sharedPref = context.getSharedPreferences("AppPreferences", Context.MODE_PRIVATE)
+    var isMphSelected = sharedPref.getBoolean("DisplayInMph", false)
 
     init {
         if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION)
@@ -63,9 +74,43 @@ class OSMFetcher(
         }
     }
 
-    fun addMapPositionChangedListener(listener: MapPositionChangedListener) {
-        listeners.add(listener)
+    fun toggleSpeedUnit(context: Context) {
+        isMphSelected = !isMphSelected
+
+        // Save preference in SharedPreferences
+        val sharedPref = context.getSharedPreferences("AppPreferences", Context.MODE_PRIVATE)
+        with(sharedPref.edit()) {
+            putBoolean("DisplayInMph", isMphSelected)
+            apply()
+        }
+        listeners.forEach { it.onUnitChanged(isMphSelected = isMphSelected) }
     }
+
+    fun addMapPositionChangedListener(lifecycle: Lifecycle, listener: MapPositionChangedListener) {
+        listeners.add(listener)
+        Log.e("testata", "add call ${listeners.size}")
+        lifecycle.addObserver(object : DefaultLifecycleObserver {
+            override fun onDestroy(owner: LifecycleOwner) {
+                listeners.remove(listener)
+                Log.e("testata", "remove Destroy ${listeners.size}")
+            }
+
+            override fun onPause(owner: LifecycleOwner) {
+                listeners.remove(listener)
+                Log.e("testata", "remove Pause ${listeners.size}")
+            }
+        })
+        listener.onSpeedLimitChanged(cache.speedLimit)
+        if (cache.speed != null) {
+            listener.onSpeedChanged(cache.speed!!)
+        }
+        if (cache.streetName != null) {
+            listener.onStreetChangedListener(cache.streetName!!)
+        }
+        listener.onUnitChanged(isMphSelected)
+    }
+
+    private fun convertUnit(speed: Float): Float = speed * if (isMphSelected) 2.237F else 3.6F
 
     private fun fetchSpeedLimit(wayId: Int) {
         val speedLimitUrl = "https://overpass-api.de/api/interpreter?data=[out:json];way($wayId);out;"
@@ -74,15 +119,18 @@ class OSMFetcher(
             { addressResponse ->
                 try {
                     val node = addressResponse.getJSONArray("elements").get(0) as JSONObject
-                    val speedLimit = node.getJSONObject("tags").getInt("maxspeed")
+                    var speedLimit = node.getJSONObject("tags").getInt("maxspeed")
+                    speedLimit = convertUnit(speedLimit.toFloat()).roundToInt()
                     listeners.forEach {
                         it.onSpeedLimitChanged(speedLimit)
                     }
+                    cache.speedLimit = speedLimit
                     Log.d(this::class.simpleName, "max speed: $speedLimit")
                 } catch (e: JSONException) {
                     listeners.forEach {
                         it.onSpeedLimitChanged(null)
                     }
+                    cache.speedLimit = null
                     Log.d(
                         this::class.simpleName,
                         "No Speed limit available for way id: $wayId, exception: ${e.stackTraceToString()}"
@@ -135,6 +183,7 @@ class OSMFetcher(
                 listeners.forEach {
                     it.onStreetChangedListener(street)
                 }
+                cache.streetName = street
             },
             { error ->
                 Log.e(this::class.simpleName, "Can't access Url: $addressUrl with error $error")
@@ -156,16 +205,20 @@ class OSMFetcher(
             fetchStreetName(location)
         }
 
+        val speed = convertUnit(location.speed)
         listeners.forEach {
-            it.onSpeedChanged(location.speed)
+            it.onSpeedChanged(speed)
         }
+        cache.speed = speed
     }
 }
 
 interface MapPositionChangedListener {
-    fun onStreetChangedListener(streetName: String)
+    fun onStreetChangedListener(streetName: String) {}
 
-    fun onSpeedChanged(speed: Float)
+    fun onSpeedChanged(speed: Float) {}
 
-    fun onSpeedLimitChanged(speedLimit: Int?)
+    fun onSpeedLimitChanged(speedLimit: Int?) {}
+
+    fun onUnitChanged(isMphSelected: Boolean) {}
 }

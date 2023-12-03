@@ -40,6 +40,7 @@ import com.example.dashcarr.extensions.toastThrowableShort
 import com.example.dashcarr.presentation.core.BaseFragment
 import com.example.dashcarr.presentation.mapper.toMarker
 import com.example.dashcarr.presentation.tabs.camera.dashcam.DashcamFragment
+import com.example.dashcarr.presentation.tabs.map.OSM.MapPositionChangedListener
 import com.example.dashcarr.presentation.tabs.map.OSM.OSMFetcher
 import com.example.dashcarr.presentation.tabs.map.data.PointOfInterest
 import com.example.dashcarr.presentation.tabs.settings.PowerSavingMode
@@ -93,6 +94,33 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
             Log.d(this::class.simpleName, "Got Location!")
             createLocationRequest()
             OSMFetcher.initFetcher(requireContext(), locationManager)
+            OSMFetcher.getInstance()?.addMapPositionChangedListener(lifecycle, object : MapPositionChangedListener {
+                override fun onSpeedLimitChanged(speedLimit: Int?) {
+                    if (speedLimit != null) {
+                        binding.speedLimit.text = speedLimit.toString()
+                    } else {
+                        binding.trafficSign.visibility = View.GONE
+                    }
+                }
+
+                override fun onUnitChanged(isMphSelected: Boolean) {
+                    if (isMphSelected) {
+                        binding.trafficSign.setImageDrawable(
+                            ContextCompat.getDrawable(
+                                requireContext(),
+                                R.drawable.maximum_speed_usa
+                            )!!
+                        )
+                    } else {
+                        binding.trafficSign.setImageDrawable(
+                            ContextCompat.getDrawable(
+                                requireContext(),
+                                R.drawable.maximum_speed_europe
+                            )!!
+                        )
+                    }
+                }
+            })
         }
     }
     private var isRecordingLocation = false
@@ -248,11 +276,11 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
 
         if (PowerSavingMode.getPowerMode() && args.isRideActivated) {
             binding.llTrafficLight.visibility = View.VISIBLE
-            binding.llBattery?.visibility = View.VISIBLE
+            binding.llBattery.visibility = View.VISIBLE
             setupBatteryStatus()
         } else {
             binding.llTrafficLight.visibility = View.GONE
-            binding.llBattery?.visibility = View.GONE
+            binding.llBattery.visibility = View.GONE
         }
 
         val powerManager = requireContext().getSystemService(Context.POWER_SERVICE) as PowerManager
@@ -269,9 +297,12 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
         Log.d(this::class.simpleName, "Current Power Mode: ${PowerSavingMode.getPowerMode()}")
 
         if (args.isRideActivated) {
-            childFragmentManager.beginTransaction()
-                .add(binding.hudView.id, HudFragment())
-                .commit()
+            if (binding.hudView.getFragment<HudFragment?>() == null) {
+                childFragmentManager.beginTransaction()
+                    .add(binding.hudView.id, HudFragment())
+                    .commit()
+            }
+
 
             binding.apply {
                 // sets visibility and functionality for recording buttons

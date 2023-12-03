@@ -9,6 +9,7 @@ import android.graphics.PixelFormat
 import android.graphics.Rect
 import android.graphics.drawable.Drawable
 import androidx.appcompat.content.res.AppCompatResources
+import androidx.lifecycle.Lifecycle
 import com.example.dashcarr.R
 import java.time.Duration
 import java.time.LocalDateTime
@@ -18,7 +19,7 @@ import kotlin.math.roundToInt
 /**
  * This class holds and draws live data for the current drive on a canvas.
  *
- * @property context this context will be used for accessing the selected unit system
+ * @property context this context will be used for loading the traffic signs
  * @property rotateDrawing If the drawing should be rotated by 90 degree to allow portrait mode
  * @property onSizeChanged Use this to adapt the canvas size to needed height
  * @constructor Creates a new empty drawable
@@ -27,6 +28,7 @@ import kotlin.math.roundToInt
  */
 class SessionInformationDrawable(
     private val context: Context,
+    lifecycle: Lifecycle,
     speedTextSize: Float,
     streetTextSize: Float,
     private val rotateDrawing: Boolean,
@@ -39,8 +41,6 @@ class SessionInformationDrawable(
     private var lastSpeedUpdate = LocalDateTime.now().minusHours(1)
     private var currentSpeed: Float = 0F
     private var speedLimit: Int? = null
-
-    private var displayInMph = false
 
     init {
         smallPaint.textSize = streetTextSize
@@ -64,10 +64,7 @@ class SessionInformationDrawable(
         speedLimitPaint.isFakeBoldText = true
         speedLimitPaint.textAlign = Paint.Align.CENTER
 
-        val sharedPref = context.getSharedPreferences("AppPreferences", Context.MODE_PRIVATE)
-        displayInMph = sharedPref.getBoolean("DisplayInMph", false)
-
-        OSMFetcher.getInstance().addMapPositionChangedListener(object : MapPositionChangedListener {
+        OSMFetcher.getInstance()!!.addMapPositionChangedListener(lifecycle, object : MapPositionChangedListener {
             override fun onStreetChangedListener(streetName: String) {
                 street = streetName
                 invalidateSelf()
@@ -85,27 +82,13 @@ class SessionInformationDrawable(
         })
     }
 
-    fun toggleSpeedUnit() {
-        displayInMph = !displayInMph
-
-        // Save preference in SharedPreferences
-        val sharedPref = context.getSharedPreferences("AppPreferences", Context.MODE_PRIVATE)
-        with(sharedPref.edit()) {
-            putBoolean("DisplayInMph", displayInMph)
-            apply()
-        }
-
-        invalidateSelf()
-    }
-
-
     override fun draw(canvas: Canvas) {
         if (Duration.between(lastSpeedUpdate, LocalDateTime.now()).get(ChronoUnit.SECONDS) > 5)
             currentSpeed = 0F
-        val speedText = if (displayInMph) {
-            "${(currentSpeed * 2.237).roundToInt()} mph"
+        val speedText = if (OSMFetcher.getInstance()!!.isMphSelected) {
+            "${currentSpeed.roundToInt()} mph"
         } else {
-            "${(currentSpeed * 3.6).roundToInt()} km/h"
+            "${currentSpeed.roundToInt()} km/h"
         }
 
 
@@ -124,15 +107,12 @@ class SessionInformationDrawable(
                 canvas
             )
         if (rotateDrawing && speedLimit != null) {
-            val speedLimitText: String
             val trafficSign: Drawable
             val yOffset: Int
-            if (displayInMph) {
-                speedLimitText = "${(speedLimit!! * 2.237).roundToInt()} mph"
+            if (OSMFetcher.getInstance()!!.isMphSelected) {
                 trafficSign = AppCompatResources.getDrawable(context, R.drawable.maximum_speed_usa)!!
                 yOffset = 170
             } else {
-                speedLimitText = "${(speedLimit!! * 3.6).roundToInt()} km/h"
                 trafficSign = AppCompatResources.getDrawable(context, R.drawable.maximum_speed_europe)!!
                 yOffset = 80
             }
@@ -143,9 +123,9 @@ class SessionInformationDrawable(
             trafficSign.bounds = bounds
             trafficSign.draw(canvas)
             canvas.drawText(
-                speedLimitText,
+                speedLimit!!.toString(),
                 0,
-                2,
+                speedLimit!!.toString().length,
                 bounds.exactCenterX(),
                 bounds.exactCenterY() + yOffset,
                 speedLimitPaint
@@ -158,7 +138,8 @@ class SessionInformationDrawable(
     /**
      * Draws multiple lines of text on a canvas.
      *
-     * @param words All strings that you want to draw, one element per line
+     * @param bigText The big text above
+     * @param smallText The smaller text underneath
      * @param centeredX The x coordinate of the center of all lines
      * @param centeredY The y coordinate of the center of all lines
      * @param width The available width of each line in pixel. If the line is to long the text size will be decreased
@@ -194,7 +175,7 @@ class SessionInformationDrawable(
         // draw to calculated position
         val baselineOffset = 15
         var additionalOffset = 0
-        if (displayInMph) {
+        if (OSMFetcher.getInstance()!!.isMphSelected) {
             additionalOffset = 15
         }
 

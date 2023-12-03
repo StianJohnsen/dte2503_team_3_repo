@@ -6,6 +6,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+
         <org.osmdroid.views.MapView
             android:id="@+id/mapView"
             android:layout_width="0dp"
@@ -401,8 +402,8 @@
             android:id="@+id/btnCenterLocation"
             android:layout_width="@dimen/standard_touch_size"
             android:layout_height="@dimen/standard_touch_size"
-            android:layout_marginEnd="@dimen/margin_padding_size_12"
-            android:layout_marginBottom="@dimen/margin_padding_size_12"
+            android:layout_marginEnd="@dimen/margin_padding_size_10"
+            android:layout_marginBottom="@dimen/margin_padding_size_10"
             android:backgroundTint="@color/primary_color"
             android:gravity="center_vertical"
             android:insetTop="@dimen/margin_padding_size_0"
@@ -425,6 +426,31 @@
             app:layout_constraintEnd_toEndOf="@+id/hudView"
             app:layout_constraintTop_toTopOf="@+id/hudView"
             app:srcCompat="@drawable/ic_maximize_100" />
+
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_padding_size_10"
+            android:layout_marginBottom="@dimen/margin_padding_size_10"
+            app:layout_constraintBottom_toTopOf="@id/hudView"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <ImageView
+                android:id="@+id/traffic_sign"
+                android:layout_width="90dp"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                app:srcCompat="@drawable/maximum_speed_europe" />
+
+            <TextView
+                android:id="@+id/speed_limit"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/margin_padding_size_40"
+                android:textStyle="bold" />
+        </FrameLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

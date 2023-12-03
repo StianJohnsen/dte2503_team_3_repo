@@ -11,6 +11,7 @@ import androidx.navigation.fragment.NavHostFragment
 import com.example.dashcarr.databinding.FragmentHudBinding
 import com.example.dashcarr.extensions.setHeightSmooth
 import com.example.dashcarr.presentation.core.BaseFragment
+import com.example.dashcarr.presentation.tabs.map.OSM.OSMFetcher
 import com.example.dashcarr.presentation.tabs.map.OSM.SessionInformationDrawable
 
 /**
@@ -46,7 +47,7 @@ class HudFragment : BaseFragment<FragmentHudBinding>(
                 view.systemUiVisibility = View.SYSTEM_UI_FLAG_FULLSCREEN or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
             }
             textCanvas =
-                SessionInformationDrawable(requireContext(), 300F, 150F, true) {}
+                SessionInformationDrawable(requireContext(), lifecycle, 300F, 150F, true) {}
             binding.hudImage.setHeightSmooth(0, view.height, true)
             binding.hudImage.scaleY = -1F
             binding.imageContainer.setBackgroundColor(Color.BLACK)
@@ -55,6 +56,7 @@ class HudFragment : BaseFragment<FragmentHudBinding>(
             textCanvas =
                 SessionInformationDrawable(
                     requireContext(),
+                    lifecycle,
                     130F, 70F,
                     false
                 ) {
@@ -65,7 +67,7 @@ class HudFragment : BaseFragment<FragmentHudBinding>(
         binding.hudImage.setImageDrawable(textCanvas)
 
         binding.hudImage.setOnClickListener {
-            textCanvas.toggleSpeedUnit()
+            OSMFetcher.getInstance()?.toggleSpeedUnit(requireContext())
         }
 
     }
