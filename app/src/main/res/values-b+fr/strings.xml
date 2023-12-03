@@ -1,55 +1,41 @@
 <resources>
     <string name="app_name">Dash Carr</string>
 
-    <!--SensorRecording-->
-
-    <string name="accelerometer_unfiltered_template">Accéléromètre : %f m/s^2</string>
-    <string name="gyroscope_unfiltered_template">Gyroscope : %f rad/s</string>
-    <string name="accelerometer_filtered_template">Accéléromètre filtré : %f m/s^2</string>
-    <string name="gyroscope_filtered_template">Gyroscope filtré : %f rad/s</string>
-    <string name="orientation_tenplate">Orientation : %f</string>
-
     <!--LoginFragment-->
 
     <string name="continue_with_google">Continuer avec Google</string>
-    <string name="continue_with_facebook">Continuer avec Facebook</string>
     <string name="login">Connexion</string>
     <string name="email_necessary">E-mail<font color='#DD2421'>*</font></string>
     <string name="password_necessary">Mot de passe<font color='#DD2421'>*</font></string>
-    <string name="forgot_password">Mot de passe oublié ?</string>
     <string name="btnLogin">Se connecter</string>
     <string name="btnLogout">Se déconnecter</string>
-    <string name="signUp">S\'inscrire</string>
     <string name="or">Ou</string>
 
     <!--Camera-->
 
-    <string name="label_record">Enregistrer</string>
-    <string name="label_saved_recordings">Fichiers</string>
-    <string name="label_dashcam">Dashcam</string>
-
     <string name="start_recording">Démarrer</string>
     <string name="stop_recording">Arrêter</string>
-    <string name="pause_recording">Pause</string>
-    <string name="resume_recording">Reprendre</string>
     <string name="delete_recording">Supprimer</string>
     <string name="recording_in_progress">Enregistrement…</string>
+    <string name="header_security_camera">Caméra de sécurité</string>
+
+    <!--Route-->
+    <string name="total_time">Temps total :</string>
+    <string name="total_distance">Distance totale :</string>
+    <string name="average_speed">Vitesse moyenne :</string>
 
     <!--Error-->
 
     <string name="error_invalid_email">E-mail invalide</string>
-    <string name="error_invalid_password">Mot de passe invalide</string>
     <string name="error_too_short_password">Mot de passe trop court</string>
     <string name="error_non_upper_case">Le mot de passe doit contenir au moins une majuscule</string>
     <string name="error_non_digit">Le mot de passe doit contenir au moins un chiffre</string>
     <string name="error_unknown">Oups, quelque chose s\'est mal passé</string>
-    <string name="error_email_empty">L\'e-mail ne peut pas être vide.</string>
     <string name="error_enter_both_email_and_password">Veuillez entrer à la fois l\'e-mail et le mot de passe</string>
 
     <!--Credentials-->
 
     <string name="facebook_application_id">129380996925597</string>
-    <string name="fb_login_protocol_scheme">fb129380996925597</string>
     <string name="facebook_client_token">bb12e8b82e802b44fb03d464577399f5</string>
 
     <!--SettingsFragment-->
@@ -57,16 +43,20 @@
     <string name="about_app">Paramètres de l\'application</string>
     <string name="maps_settings">Paramètres de la carte</string>
     <string name="social_settings">Paramètres sociaux</string>
-    <string name="dashcam_settings">Paramètres Dashcam</string>
+    <string name="camera_settings">Camera Settings</string>
     <string name="history_settings">Paramètres de l\'historique</string>
-    <string name="preferences_settings">Préférences</string>
-    <string name="new_features_setting">Nouvelles fonctionnalités</string>
     <string name="saved_recordings">Enregistrements sauvegardés</string>
     <string name="power_settings">Paramètres d\'alimentation</string>
+    <string name="how_to_use">Fonctionnalités</string>
+    <string name="friends">Amis</string>
+    <string name="quick_messages">Messages rapides</string>
+    <string name="point_of_interest">Points d\'intérêt</string>
+    <string name="credits">Crédits</string>
 
     <!--HistoryFragment-->
 
     <string name="show_statistics">Afficher les statistiques</string>
+    <string name="update_recording">Mettre à jour</string>
 
     <!--RecordingStatisticsFragment-->
 
@@ -91,20 +81,12 @@
     <string name="sensor_recording">Enregistrement</string>
     <string name="elapsed_time">Temps écoulé : %s</string>
     <string name="amount_of_data">Quantité de données :</string>
-    <string name="current_data">Données actuelles :</string>
-    <string name="stop_sensor_recording">Arrêter l\'enregistrement</string>
 
 
     <!--ConfigureFragment-->
 
     <string name="configure">Configurer</string>
     <string name="name">Nom :</string>
-    <string name="filter_data">Filtrer les données</string>
-    <string name="include_gyro">Inclure le gyroscope</string>
-    <string name="include_accelerometer">Inclure l\'accéléromètre</string>
-    <string name="include_orientation">Inclure l\'orientation</string>
-    <string name="configure_start_recording">Démarrer l\'enregistrement</string>
-    <string name="enter_file_name">Entrer le nom du fichier</string>
     <string name="product_info_text">
         Cette application vous assistera pendant la conduite!\n\n
         Ajouter des points d\'intérêt est facile, appuyez longuement sur la carte.\n\n
@@ -123,7 +105,7 @@
     <string name="some_permissions_missing">Localisation non autorisée. Changer dans les paramètres</string>
 
     <!--Copyright-->
-    <string name="version_0_9">Version : 0.9</string>
+    <string name="version_1.0">Version: 1.0</string>
     <string name="_2023_uit">© 2023 UIT</string>
     <string name="icons8">Icônes de icons8.com</string>
 
@@ -134,17 +116,14 @@
     <string name="battery_saving_mode">Mode d\'économie de la batterie :</string>
 
     <!--SocialSettingsFragment-->
-    <string name="social_settings_text">Paramètres sociaux</string>
     <string name="add_friend_button">Ajouter un ami</string>
     <string name="delete_friend_button">Supprimer un ami</string>
-    <string name="cancel_friend_button">Annuler</string>
     <string name="input_name">Nom</string>
     <string name="input_phone">Téléphone</string>
     <string name="input_email">E-mail</string>
     <string name="update">Mettre à jour</string>
 
     <!--HudView-->
-    <string name="search_for_location">En attente du GPS</string>
     <string name="back_button_content_description">Bouton de retour</string>
 
     <!--MapSettingsFragment-->
@@ -168,5 +147,21 @@
     <string name="message_deleted_successfully">Message supprimé avec succès</string>
     <string name="unknown_user">Utilisateur inconnu</string>
     <string name="to_whom_message">À :</string>
+    <string name="developers">Développeurs</string>
+    <string name="stian_ellingsen_johnsen">Stian Ellingsen Johnsen</string>
+    <string name="yves_simon_zeulner">Yves-Simon Zeulner</string>
+    <string name="quentin_michel_st_phane_regnier">Quentin Regnier</string>
+    <string name="yevhen_verkhalantsev">Yevhen Verkhalantsev</string>
+
+    <!--QuickMessageFragment-->
+    <string name="message_list">Messages</string>
+    <string name="delete_message">Supprimer le message</string>
+
+    <!--Authentication Prompt-->
+
+    <string name="prompt_title">Action non authorisée détéctée</string>
+    <string name="prompt_subtitle">Entrez votre pin pour continuer</string>
+    <string name="prompt_description">Si la map n\'est pas dévérouillée dans les 10 prochaines secondes, un message d\'urgence va être envoyé.
+    </string>
 
 </resources>

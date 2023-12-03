@@ -1,55 +1,41 @@
 <resources>
     <string name="app_name">Dash Carr</string>
 
-    <!--SensorRecording-->
-
-    <string name="accelerometer_unfiltered_template">Accelerometer: %f m/s^2</string>
-    <string name="gyroscope_unfiltered_template">Gyroscope: %f rad/s</string>
-    <string name="accelerometer_filtered_template">Filtrert Accelerometer: %f m/s^2</string>
-    <string name="gyroscope_filtered_template">Filtrert Gyroscope: %f rad/s</string>
-    <string name="orientation_tenplate">Orientering: %f</string>
-
     <!--LoginFragment-->
 
     <string name="continue_with_google">Fortsett med Google</string>
-    <string name="continue_with_facebook">Fortsett med Facebook</string>
     <string name="login">Logg inn</string>
     <string name="email_necessary">E-postadresse<font color='#DD2421'>*</font></string>
     <string name="password_necessary">Passord<font color='#DD2421'>*</font></string>
-    <string name="forgot_password">Glemt Passord?</string>
     <string name="btnLogin">Logg inn</string>
     <string name="btnLogout">Logg ut</string>
-    <string name="signUp">Registrer deg</string>
     <string name="or">Eller</string>
 
     <!--Camera-->
 
-    <string name="label_record">Ta opp</string>
-    <string name="label_saved_recordings">Filer</string>
-    <string name="label_dashcam">Dashkamera</string>
-
     <string name="start_recording">Start</string>
     <string name="stop_recording">Stop</string>
-    <string name="pause_recording">Pause</string>
-    <string name="resume_recording">Gjenoppta</string>
     <string name="delete_recording">Slett</string>
-    <string name="recording_in_progress">Tar opp...</string>
+    <string name="recording_in_progress">Tar opp…</string>
+    <string name="header_security_camera">Security Camera</string>
+
+    <!--Route-->
+    <string name="total_time">Total time:</string>
+    <string name="total_distance">Total distance:</string>
+    <string name="average_speed">Average speed:</string>
 
     <!--Error-->
 
     <string name="error_invalid_email">Feil E-postadresse</string>
-    <string name="error_invalid_password">Feil passord</string>
     <string name="error_too_short_password">For kort passord</string>
     <string name="error_non_upper_case">Passordet må minst ha en stor bokstav</string>
     <string name="error_non_digit">Passordet må minst ha et siffer</string>
     <string name="error_unknown">Oops, noe gikk galt</string>
-    <string name="error_email_empty">E-postadresse kan ikke være tom</string>
     <string name="error_enter_both_email_and_password">Vennligst skriv inn både e-postadresse og passord</string>
 
     <!--Credentials-->
 
     <string name="facebook_application_id">129380996925597</string>
-    <string name="fb_login_protocol_scheme">fb129380996925597</string>
     <string name="facebook_client_token">bb12e8b82e802b44fb03d464577399f5</string>
 
     <!--SettingsFragment-->
@@ -57,16 +43,20 @@
     <string name="about_app">Om App</string>
     <string name="maps_settings">Kart Innstillinger</string>
     <string name="social_settings">Sosial Innstillinger</string>
-    <string name="dashcam_settings">Dashkamera Innstillinger</string>
+    <string name="camera_settings">Camera Settings</string>
     <string name="history_settings">History Innstillinger</string>
-    <string name="preferences_settings">Preferanser</string>
-    <string name="new_features_setting">Nye Funksjoner</string>
     <string name="saved_recordings">Lagrede Opptak</string>
     <string name="power_settings">Strøm Innstillinger</string>
+    <string name="how_to_use">How to use</string>
+    <string name="friends">Friends</string>
+    <string name="quick_messages">Quick Messages</string>
+    <string name="point_of_interest">Point of Interest</string>
+    <string name="credits">Credits</string>
 
     <!--HistoryFragment-->
 
     <string name="show_statistics">Vis Statistikk</string>
+    <string name="update_recording">Update</string>
 
     <!--RecordingStatisticsFragment-->
 
@@ -91,20 +81,12 @@
     <string name="sensor_recording">Tar Opp</string>
     <string name="elapsed_time">Medgått Tid: %s</string>
     <string name="amount_of_data">Mengde Av Data:</string>
-    <string name="current_data">Nvåærende Data:</string>
-    <string name="stop_sensor_recording">Stop Opptak</string>
 
 
     <!--ConfigureFragment-->
 
     <string name="configure">Konfigurer</string>
     <string name="name">Navn:</string>
-    <string name="filter_data">Filter data</string>
-    <string name="include_gyro">Inkluder gyro</string>
-    <string name="include_accelerometer">Inkluder accelerometer</string>
-    <string name="include_orientation">Inkluder orientation</string>
-    <string name="configure_start_recording">Start Opptak</string>
-    <string name="enter_file_name">Skriv inn fil navn</string>
     <string name="product_info_text">
         Denne appen vil støtte deg mens du kjører!\n\n
         Å legge til interesse punkter er lett, bare trykk og hold inne på kartet.\n\n
@@ -123,7 +105,7 @@
     <string name="some_permissions_missing">Lokasjon er ikke aktivert. Forandre i instillinger</string>
 
     <!--Copyright-->
-    <string name="version_0_9">Versjon: 0.9</string>
+    <string name="version_1.0">Version: 1.0</string>
     <string name="_2023_uit">© 2023 UIT</string>
     <string name="icons8">Ikoner laget av icons8.com</string>
 
@@ -134,17 +116,14 @@
     <string name="battery_saving_mode">Spareblussmodus:</string>
 
     <!--SocialSettingsFragment-->
-    <string name="social_settings_text">Sosial Innstillinger</string>
     <string name="add_friend_button">Legg Til Venn</string>
     <string name="delete_friend_button">Slett Venn</string>
-    <string name="cancel_friend_button">Avbryt</string>
     <string name="input_name">Navn</string>
     <string name="input_phone">Telefon</string>
     <string name="input_email">E-postadresse</string>
     <string name="update">Oppdater</string>
 
     <!--HudView-->
-    <string name="search_for_location">Venter på GPS</string>
     <string name="back_button_content_description">Tilbake knapp</string>
 
     <!--MapSettingsFragment-->
@@ -168,6 +147,22 @@
     <string name="message_deleted_successfully">Melding sletted vellykket</string>
     <string name="unknown_user">Ukjent bruker</string>
     <string name="to_whom_message">Til:</string>
+    <string name="developers">Developers</string>
+    <string name="stian_ellingsen_johnsen">Stian Ellingsen Johnsen</string>
+    <string name="yves_simon_zeulner">Yves-Simon Zeulner</string>
+    <string name="quentin_michel_st_phane_regnier">Quentin Regnier</string>
+    <string name="yevhen_verkhalantsev">Yevhen Verkhalantsev</string>
+
+    <!--QuickMessageFragment-->
+    <string name="message_list">Messages</string>
+    <string name="delete_message">Delete Message</string>
+
+    <!--Authentication Prompt-->
+
+    <string name="prompt_title">Unauthorized Action Detected</string>
+    <string name="prompt_subtitle">Authorize yourselves with your phone pin</string>
+    <string name="prompt_description">If the app is not unlocked in the next 10s, an emergency message will be sent.
+    </string>
 
 </resources>
 
