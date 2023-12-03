@@ -48,7 +48,7 @@ class HudFragment : BaseFragment<FragmentHudBinding>(
             textCanvas =
                 SessionInformationDrawable(requireContext(), 300F, 150F, true) {}
             binding.hudImage.setHeightSmooth(0, view.height, true)
-//            binding.hudImage.scaleY = -1F
+            binding.hudImage.scaleY = -1F
             binding.imageContainer.setBackgroundColor(Color.BLACK)
 
         } else {
