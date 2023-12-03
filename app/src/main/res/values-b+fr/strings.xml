@@ -33,11 +33,6 @@
     <string name="error_unknown">Oups, quelque chose s\'est mal passé</string>
     <string name="error_enter_both_email_and_password">Veuillez entrer à la fois l\'e-mail et le mot de passe</string>
 
-    <!--Credentials-->
-
-    <string name="facebook_application_id">129380996925597</string>
-    <string name="facebook_client_token">bb12e8b82e802b44fb03d464577399f5</string>
-
     <!--SettingsFragment-->
 
     <string name="about_app">Paramètres de l\'application</string>
