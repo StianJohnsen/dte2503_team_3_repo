@@ -53,12 +53,4 @@ class SelectMessageViewModel @Inject constructor(
             sentMessagesRepository.saveNewSentMessage(sentMessagesEntity)
         }
     }
-
-    fun insertIntoSentMessages(context: Context, sentMessagesEntity: SentMessagesEntity) {
-        viewModelScope.launch(Dispatchers.IO) {
-            val db = AppDatabase.getInstance(context)
-            db.SentMessageDao().insert(sentMessagesEntity)
-        }
-
-    }
 }
