@@ -25,6 +25,19 @@ class OSMFetcher(
     context: Context,
     locationManager: LocationManager
 ) : LocationListener {
+
+    enum class SpeedUnit {
+        KILOMETERS_PER_HOUR, MILES_PER_HOUR, METERS_PER_SECOND;
+
+        fun toggleSpeedUnit(): SpeedUnit {
+            return when (this) {
+                METERS_PER_SECOND -> METERS_PER_SECOND
+                MILES_PER_HOUR -> KILOMETERS_PER_HOUR
+                KILOMETERS_PER_HOUR -> MILES_PER_HOUR
+            }
+        }
+    }
+
     companion object {
         private const val MIN_DISTANCE_CHANGE_FOR_UPDATES = 1F
         private const val MIN_TIME_BETWEEN_UPDATES = 1000L
@@ -43,6 +56,22 @@ class OSMFetcher(
         }
 
         fun getInstance() = instance
+
+        fun convertUnit(inputUnit: SpeedUnit, outputUnit: SpeedUnit, speed: Float): Float {
+            if (inputUnit == outputUnit) {
+                return speed
+            }
+            val speedInMetersPerSecond = when (inputUnit) {
+                SpeedUnit.METERS_PER_SECOND -> speed
+                SpeedUnit.MILES_PER_HOUR -> speed * 0.45F
+                SpeedUnit.KILOMETERS_PER_HOUR -> speed * 0.28F
+            }
+            return when (outputUnit) {
+                SpeedUnit.METERS_PER_SECOND -> speedInMetersPerSecond
+                SpeedUnit.MILES_PER_HOUR -> speedInMetersPerSecond * 2.24F
+                SpeedUnit.KILOMETERS_PER_HOUR -> speedInMetersPerSecond * 3.6F
+            }
+        }
     }
 
     private val queue = Volley.newRequestQueue(context)
@@ -50,12 +79,21 @@ class OSMFetcher(
     private var lastLocation: Location? = null
     private var lastRequestTime = LocalDateTime.now().minusHours(1)
 
-    private data class Buffer(var speedLimit: Int?, var speed: Float?, var streetName: String?)
+    private data class Buffer(var speedLimit: Int?, var speed: Float?, var streetName: String?) {
+        fun getConvertedSpeedLimit(unit: SpeedUnit): Int? {
+            return if (speedLimit != null) convertUnit(
+                SpeedUnit.KILOMETERS_PER_HOUR,
+                unit,
+                speedLimit!!.toFloat()
+            ).roundToInt() else null
+        }
+    }
 
     private val cache: Buffer = Buffer(null, null, null)
 
     val sharedPref = context.getSharedPreferences("AppPreferences", Context.MODE_PRIVATE)
-    var isMphSelected = sharedPref.getBoolean("DisplayInMph", false)
+    var currentSpeedUnit =
+        if (sharedPref.getBoolean("DisplayInMph", false)) SpeedUnit.MILES_PER_HOUR else SpeedUnit.KILOMETERS_PER_HOUR
 
     init {
         if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION)
@@ -75,51 +113,46 @@ class OSMFetcher(
     }
 
     fun toggleSpeedUnit(context: Context) {
-        isMphSelected = !isMphSelected
+        val oldSpeedUnit = currentSpeedUnit
+        currentSpeedUnit = currentSpeedUnit.toggleSpeedUnit()
 
         // Save preference in SharedPreferences
         val sharedPref = context.getSharedPreferences("AppPreferences", Context.MODE_PRIVATE)
         with(sharedPref.edit()) {
-            putBoolean("DisplayInMph", isMphSelected)
+            putBoolean("DisplayInMph", currentSpeedUnit == SpeedUnit.MILES_PER_HOUR)
             apply()
         }
         if (cache.speed != null) {
-            cache.speed = adaptUnitAfterSwitch(cache.speed!!.toFloat())
+            cache.speed = convertUnit(oldSpeedUnit, currentSpeedUnit, cache.speed!!.toFloat())
             listeners.forEach { it.onSpeedChanged(cache.speed!!) }
         }
         if (cache.speedLimit != null) {
-            cache.speedLimit = adaptUnitAfterSwitch(cache.speedLimit!!.toFloat()).roundToInt()
-            listeners.forEach { it.onSpeedLimitChanged(cache.speedLimit!!) }
+            listeners.forEach { it.onSpeedLimitChanged(cache.getConvertedSpeedLimit(currentSpeedUnit)!!) }
         }
-        listeners.forEach { it.onUnitChanged(isMphSelected = isMphSelected) }
+        listeners.forEach { it.onUnitChanged(currentSpeedUnit) }
     }
 
     fun addMapPositionChangedListener(lifecycle: Lifecycle, listener: MapPositionChangedListener) {
         listeners.add(listener)
-        Log.e("testata", "add call ${listeners.size}")
         lifecycle.addObserver(object : DefaultLifecycleObserver {
             override fun onDestroy(owner: LifecycleOwner) {
                 listeners.remove(listener)
-                Log.e("testata", "remove Destroy ${listeners.size}")
             }
 
             override fun onPause(owner: LifecycleOwner) {
                 listeners.remove(listener)
-                Log.e("testata", "remove Pause ${listeners.size}")
             }
         })
-        listener.onSpeedLimitChanged(cache.speedLimit)
+        listener.onSpeedLimitChanged(cache.getConvertedSpeedLimit(currentSpeedUnit))
         if (cache.speed != null) {
             listener.onSpeedChanged(cache.speed!!)
         }
         if (cache.streetName != null) {
             listener.onStreetChangedListener(cache.streetName!!)
         }
-        listener.onUnitChanged(isMphSelected)
+        listener.onUnitChanged(currentSpeedUnit)
     }
 
-    private fun convertFromMeter(speed: Float): Float = speed * if (isMphSelected) 2.237F else 3.6F
-    private fun adaptUnitAfterSwitch(speed: Float): Float = speed * if (isMphSelected) 0.621F else 1.609F
     private fun fetchSpeedLimit(wayId: Int) {
         val speedLimitUrl = "https://overpass-api.de/api/interpreter?data=[out:json];way($wayId);out;"
         val request = JsonObjectRequest(
@@ -127,12 +160,11 @@ class OSMFetcher(
             { addressResponse ->
                 try {
                     val node = addressResponse.getJSONArray("elements").get(0) as JSONObject
-                    var speedLimit = node.getJSONObject("tags").getInt("maxspeed")
-                    speedLimit = convertFromMeter(speedLimit.toFloat()).roundToInt()
-                    listeners.forEach {
-                        it.onSpeedLimitChanged(speedLimit)
-                    }
+                    val speedLimit = node.getJSONObject("tags").getInt("maxspeed")
                     cache.speedLimit = speedLimit
+                    listeners.forEach {
+                        it.onSpeedLimitChanged(cache.getConvertedSpeedLimit(currentSpeedUnit))
+                    }
                     Log.d(this::class.simpleName, "max speed: $speedLimit")
                 } catch (e: JSONException) {
                     listeners.forEach {
@@ -213,7 +245,7 @@ class OSMFetcher(
             fetchStreetName(location)
         }
 
-        val speed = convertFromMeter(location.speed)
+        val speed = convertUnit(SpeedUnit.METERS_PER_SECOND, currentSpeedUnit, location.speed)
         listeners.forEach {
             it.onSpeedChanged(speed)
         }
@@ -228,5 +260,5 @@ interface MapPositionChangedListener {
 
     fun onSpeedLimitChanged(speedLimit: Int?) {}
 
-    fun onUnitChanged(isMphSelected: Boolean) {}
+    fun onUnitChanged(speedUnit: OSMFetcher.SpeedUnit) {}
 }

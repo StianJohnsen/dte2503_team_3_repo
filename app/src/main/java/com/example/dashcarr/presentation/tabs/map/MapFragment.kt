@@ -106,29 +106,35 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
                     }
                 }
 
-                override fun onUnitChanged(isMphSelected: Boolean) {
-                    if (isMphSelected) {
-                        binding.trafficSign.setImageDrawable(
-                            ContextCompat.getDrawable(
-                                requireContext(),
-                                R.drawable.maximum_speed_usa
-                            )!!
-                        )
-                        binding.speedLimit.layoutParams =
-                            (binding.speedLimit.layoutParams as ViewGroup.MarginLayoutParams).also {
-                                it.topMargin = 50
-                            }
-                    } else {
-                        binding.trafficSign.setImageDrawable(
-                            ContextCompat.getDrawable(
-                                requireContext(),
-                                R.drawable.maximum_speed_europe
-                            )!!
-                        )
-                        binding.speedLimit.layoutParams =
-                            (binding.speedLimit.layoutParams as ViewGroup.MarginLayoutParams).also {
-                                it.topMargin = 0
-                            }
+                override fun onUnitChanged(speedUnit: OSMFetcher.SpeedUnit) {
+                    when (speedUnit) {
+                        OSMFetcher.SpeedUnit.MILES_PER_HOUR -> {
+                            binding.trafficSign.setImageDrawable(
+                                ContextCompat.getDrawable(
+                                    requireContext(),
+                                    R.drawable.maximum_speed_usa
+                                )!!
+                            )
+                            binding.speedLimit.layoutParams =
+                                (binding.speedLimit.layoutParams as ViewGroup.MarginLayoutParams).also {
+                                    it.topMargin = 50
+                                }
+                        }
+
+                        OSMFetcher.SpeedUnit.KILOMETERS_PER_HOUR -> {
+                            binding.trafficSign.setImageDrawable(
+                                ContextCompat.getDrawable(
+                                    requireContext(),
+                                    R.drawable.maximum_speed_europe
+                                )!!
+                            )
+                            binding.speedLimit.layoutParams =
+                                (binding.speedLimit.layoutParams as ViewGroup.MarginLayoutParams).also {
+                                    it.topMargin = 0
+                                }
+                        }
+
+                        else -> {}
                     }
                 }
             })
