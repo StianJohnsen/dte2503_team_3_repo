@@ -17,12 +17,12 @@
     <string name="stop_recording">Stop</string>
     <string name="delete_recording">Slett</string>
     <string name="recording_in_progress">Tar opp…</string>
-    <string name="header_security_camera">Security Camera</string>
+    <string name="header_security_camera">Sikkerhet Kamera</string>
 
     <!--Route-->
-    <string name="total_time">Total time:</string>
-    <string name="total_distance">Total distance:</string>
-    <string name="average_speed">Average speed:</string>
+    <string name="total_time">Total tid:</string>
+    <string name="total_distance">Total distanse:</string>
+    <string name="average_speed">Gjennomsnittlig fart:</string>
 
     <!--Error-->
 
@@ -33,30 +33,26 @@
     <string name="error_unknown">Oops, noe gikk galt</string>
     <string name="error_enter_both_email_and_password">Vennligst skriv inn både e-postadresse og passord</string>
 
-    <!--Credentials-->
-
-    <string name="facebook_application_id">129380996925597</string>
-    <string name="facebook_client_token">bb12e8b82e802b44fb03d464577399f5</string>
-
     <!--SettingsFragment-->
+
 
     <string name="about_app">Om App</string>
     <string name="maps_settings">Kart Innstillinger</string>
     <string name="social_settings">Sosial Innstillinger</string>
     <string name="camera_settings">Camera Settings</string>
-    <string name="history_settings">History Innstillinger</string>
+    <string name="history_settings">Historikk Innstillinger</string>
     <string name="saved_recordings">Lagrede Opptak</string>
     <string name="power_settings">Strøm Innstillinger</string>
-    <string name="how_to_use">How to use</string>
-    <string name="friends">Friends</string>
-    <string name="quick_messages">Quick Messages</string>
-    <string name="point_of_interest">Point of Interest</string>
-    <string name="credits">Credits</string>
+    <string name="how_to_use">Hvordan bruke appen</string>
+    <string name="friends">Venner</string>
+    <string name="quick_messages">Hurtig Meldinger</string>
+    <string name="point_of_interest">Interessepunkter</string>
+    <string name="credits">Kredittside</string>
 
     <!--HistoryFragment-->
 
     <string name="show_statistics">Vis Statistikk</string>
-    <string name="update_recording">Update</string>
+    <string name="update_recording">Oppdater</string>
 
     <!--RecordingStatisticsFragment-->
 
@@ -89,7 +85,7 @@
     <string name="name">Navn:</string>
     <string name="product_info_text">
         Denne appen vil støtte deg mens du kjører!\n\n
-        Å legge til interesse punkter er lett, bare trykk og hold inne på kartet.\n\n
+        Å legge til interessepunkter er lett, bare trykk og hold inne på kartet.\n\n
         Du kan starte et nytt opptak på Kartfanen ved å bruke knappen i hjørnet.\n\n
         Etter du har lagret opptaket, kan du analysere dataen i Historiefanen.\n\n
         Mens du holder inne kartfanen kommer det opp en eksperimentell funksjon, prøv den gjerne!\n\n
@@ -127,11 +123,11 @@
     <string name="back_button_content_description">Tilbake knapp</string>
 
     <!--MapSettingsFragment-->
-    <string name="points_of_interest">interessepunkter</string>
+    <string name="points_of_interest">Interessepunkter</string>
     <string name="btnRename">Gi nytt navn</string>
-    <string name="btnDelete">slet</string>
-    <string name="update_poi">oppdater</string>
-    <string name="delete_poi">slett</string>
+    <string name="btnDelete">Slett</string>
+    <string name="update_poi">Oppdater</string>
+    <string name="delete_poi">Slett</string>
     <string name="point_deleted_successfully">Punkt slettet vellykket</string>
     <string name="point_renamed_successfully">Punkt endret navnet vellykket</string>
     <string name="add_message">Legg Til Melding</string>
@@ -147,61 +143,60 @@
     <string name="message_deleted_successfully">Melding sletted vellykket</string>
     <string name="unknown_user">Ukjent bruker</string>
     <string name="to_whom_message">Til:</string>
-    <string name="developers">Developers</string>
+    <string name="developers">Utviklere</string>
     <string name="stian_ellingsen_johnsen">Stian Ellingsen Johnsen</string>
     <string name="yves_simon_zeulner">Yves-Simon Zeulner</string>
     <string name="quentin_michel_st_phane_regnier">Quentin Regnier</string>
     <string name="yevhen_verkhalantsev">Yevhen Verkhalantsev</string>
 
     <!--QuickMessageFragment-->
-    <string name="message_list">Messages</string>
-    <string name="delete_message">Delete Message</string>
+    <string name="message_list">Meldinger</string>
+    <string name="delete_message">Slett Melding</string>
 
     <!--Authentication Prompt-->
-
-    <string name="prompt_title">Unauthorized Action Detected</string>
-    <string name="prompt_subtitle">Authorize yourselves with your phone pin</string>
-    <string name="prompt_description">If the app is not unlocked in the next 10s, an emergency message will be sent.
-    </string>
+    <string name="prompt_title">Uautorisert handling oppdaget</string>
+    <string name="prompt_subtitle">Du må autorisere deg med pin-kode</string>
+    <string name="prompt_description">Hvis programmet ikke er opplåst i i løpet av de neste 10 sekundene, vil en nødmelding bli sendt!</string>
 
     <!--Camera Settings-->
 
-    <string name="select_duration">Select Duration</string>
-    <string name="open_saved_recordings">Open Saved Recordings</string>
+
+    <string name="select_duration">Velg Varighet</string>
+    <string name="open_saved_recordings">Åpne lagrede opptak</string>
 
     <!--Toasts-->
-    <string name="login_failed">Login failed</string>
-    <string name="added_message">Added Message</string>
-    <string name="error">Error</string>
-    <string name="error_input">Error: %s</string>
-    <string name="file_saved">File saved</string>
-    <string name="updated">Updated</string>
-    <string name="error_updating">Error updating</string>
-    <string name="increase_power">Recording increases the power consumption!</string>
-    <string name="error_delete_message">Error deleting Message</string>
-    <string name="no_access_camera">Can\'t access camera</string>
-    <string name="no_access_location">Could not access current location</string>
-    <string name="mandatory_name">Name is a mandatory field</string>
-    <string name="mandatory_phone_email">Phone or Email are mandatory fields</string>
-    <string name="check_email">Check your email please</string>
-    <string name="mandatory_content">Content is a mandatory field</string>
-    <string name="gps_is_disable">GPS is disable</string>
-    <string name="gps_was_disabled">GPS was disabled</string>
-    <string name="recording_started">Recording Started</string>
-    <string name="recording_stopped">Recording Stopped</string>
-    <string name="recording_paused">Recording Paused</string>
-    <string name="recording_resumed">Recording Resumed</string>
-    <string name="recording_deleted">Recording Deleted</string>
-    <string name="friend_deleted">Friend deleted</string>
-    <string name="error_deleting_friend">Error deleting friend</string>
-    <string name="sms_permission">SMS permission granted</string>
-    <string name="message_sent">Message sent</string>
+    <string name="login_failed">Logg inn feilet</string>
+    <string name="added_message">Lagret meldingen</string>
+    <string name="error">Feil</string>
+    <string name="error_input">Feil: %s</string>
+    <string name="file_saved">Fil lagret</string>
+    <string name="updated">Oppdatert</string>
+    <string name="error_updating">Det oppsto en feil under oppdateringen</string>
+    <string name="increase_power">Opptak øker strøm forbruket!</string>
+    <string name="error_delete_message">Meldingen kunne ikke slettes</string>
+    <string name="no_access_camera">Får ikke tilgang til kamera</string>
+    <string name="no_access_location">Får ikke tilgang til nåværende lokasjon</string>
+    <string name="mandatory_name">Navn må utfylles</string>
+    <string name="mandatory_phone_email">Telefon nummer eller e-postadresse må utfylles</string>
+    <string name="check_email">Sjekk Eposten din</string>
+    <string name="mandatory_content">Fyll ut</string>
+    <string name="gps_is_disable">Lokasjon er slått av</string>
+    <string name="gps_was_disabled">Lokasjon Nektet</string>
+    <string name="recording_started">Opptak Startet</string>
+    <string name="recording_stopped">Opptak Stoppet</string>
+    <string name="recording_paused">Opptak pauset</string>
+    <string name="recording_resumed">Opptak Gjenopptatt</string>
+    <string name="recording_deleted">Opptak Slettet</string>
+    <string name="friend_deleted">Venn slettet</string>
+    <string name="error_deleting_friend">Feil ved sletting av venn</string>
+    <string name="sms_permission">SMS tillatelser gitt</string>
+    <string name="message_sent">Melding sendt</string>
 
     <!--NavBar-->
-    <string name="map">Map</string>
-    <string name="messages">Messages</string>
-    <string name="history">History</string>
-    <string name="settings">Settings</string>
+    <string name="map">Kart</string>
+    <string name="messages">Meldinger</string>
+    <string name="history">Historikk</string>
+    <string name="settings">Innstillinger</string>
 
 </resources>
 
