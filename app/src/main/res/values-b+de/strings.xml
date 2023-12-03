@@ -33,11 +33,6 @@
     <string name="error_unknown">Ups, etwas ist schief gelaufen</string>
     <string name="error_enter_both_email_and_password">Bitte gib dein Email und das Passwort ein</string>
 
-    <!--Credentials-->
-
-    <string name="facebook_application_id">129380996925597</string>
-    <string name="facebook_client_token">bb12e8b82e802b44fb03d464577399f5</string>
-
     <!--SettingsFragment-->
 
     <string name="about_app">Tutorial</string>
@@ -169,37 +164,37 @@
     <string name="open_saved_recordings">Open Saved Recordings</string>
 
     <!--Toasts-->
-    <string name="login_failed">Login failed</string>
-    <string name="added_message">Added Message</string>
-    <string name="error">Error</string>
-    <string name="error_input">Error: %s</string>
-    <string name="file_saved">File saved</string>
-    <string name="updated">Updated</string>
-    <string name="error_updating">Error updating</string>
+    <string name="login_failed">Login fehlgeschlagen</string>
+    <string name="added_message">Nachricht hinzugefügt</string>
+    <string name="error">Fehler</string>
+    <string name="error_input">Fehler: %s</string>
+    <string name="file_saved">Datei gespeichert</string>
+    <string name="updated">Aktualisiert</string>
+    <string name="error_updating">Update fehlgeschlagen</string>
     <string name="increase_power">Recording increases the power consumption!</string>
-    <string name="error_delete_message">Error deleting Message</string>
-    <string name="no_access_camera">Can\'t access camera</string>
-    <string name="no_access_location">Could not access current location</string>
-    <string name="mandatory_name">Name is a mandatory field</string>
-    <string name="mandatory_phone_email">Phone or Email are mandatory fields</string>
-    <string name="check_email">Check your email please</string>
-    <string name="mandatory_content">Content is a mandatory field</string>
-    <string name="gps_is_disable">GPS is disable</string>
-    <string name="gps_was_disabled">GPS was disabled</string>
-    <string name="recording_started">Recording Started</string>
-    <string name="recording_stopped">Recording Stopped</string>
-    <string name="recording_paused">Recording Paused</string>
-    <string name="recording_resumed">Recording Resumed</string>
-    <string name="recording_deleted">Recording Deleted</string>
-    <string name="friend_deleted">Friend deleted</string>
-    <string name="error_deleting_friend">Error deleting friend</string>
-    <string name="sms_permission">SMS permission granted</string>
-    <string name="message_sent">Message sent</string>
+    <string name="error_delete_message">Fehler beim Löschen der Nachricht</string>
+    <string name="no_access_camera">Kein Kamerazugriff</string>
+    <string name="no_access_location">Kein Standortzugriff</string>
+    <string name="mandatory_name">Name ist nicht optional</string>
+    <string name="mandatory_phone_email">Telefon oder Mail müssen ausgefüllt sein</string>
+    <string name="check_email">Email beinhaltet fehler</string>
+    <string name="mandatory_content">Inhalt ist Fehlerhaft</string>
+    <string name="gps_is_disable">GPS ist deaktiviert</string>
+    <string name="gps_was_disabled">GPS wurde deaktiviert</string>
+    <string name="recording_started">Aufnahme gestartet</string>
+    <string name="recording_stopped">Aufnahme gestoppt</string>
+    <string name="recording_paused">Aufnahme pausiert</string>
+    <string name="recording_resumed">Aufnahme fortgesetzt</string>
+    <string name="recording_deleted">Aufnahme gelöscht</string>
+    <string name="friend_deleted">Freund gelöscht</string>
+    <string name="error_deleting_friend">Fehler beim Löschen</string>
+    <string name="sms_permission">SMS Zugriff erlaubt</string>
+    <string name="message_sent">Nachricht gesendet</string>
 
     <!--NavBar-->
-    <string name="map">Map</string>
-    <string name="messages">Messages</string>
-    <string name="history">History</string>
-    <string name="settings">Settings</string>
+    <string name="map">Karte</string>
+    <string name="messages">Nachrichten</string>
+    <string name="history">Verlauf</string>
+    <string name="settings">Einstellungen</string>
 
 </resources>
