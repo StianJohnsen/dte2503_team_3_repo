@@ -5,6 +5,7 @@ import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.dashcarr.R
 import com.example.dashcarr.domain.entity.FriendsEntity
 import com.example.dashcarr.domain.repository.IFriendsRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -52,14 +53,15 @@ class AddFriendViewModel @Inject constructor(
                 val result = friendsRepository.updateFriend(updatedFriend)
                 withContext(Dispatchers.Main) {
                     if (result.isSuccess) {
-                        Toast.makeText(context, "Updated", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, context.getString(R.string.updated), Toast.LENGTH_SHORT).show()
                     } else {
-                        Toast.makeText(context, "Error updating", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, context.getString(R.string.error_updating), Toast.LENGTH_SHORT).show()
                     }
                 }
             } catch (e: Exception) {
                 withContext(Dispatchers.Main) {
-                    Toast.makeText(context, "Error: ${e.message}", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, context.getString(R.string.error_input, e.message), Toast.LENGTH_SHORT)
+                        .show()
                 }
             }
         }
@@ -68,22 +70,26 @@ class AddFriendViewModel @Inject constructor(
     fun deleteFriend(context: Context, id: Int) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                val friendToDelete = FriendsEntity(id = id,
+                val friendToDelete = FriendsEntity(
+                    id = id,
                     name = "",
                     phone = "",
                     email = "",
-                    createdTimeStamp = System.currentTimeMillis())
+                    createdTimeStamp = System.currentTimeMillis()
+                )
                 val result = friendsRepository.deleteFriend(friendToDelete)
                 withContext(Dispatchers.Main) {
                     if (result.isSuccess) {
-                        Toast.makeText(context, "Friend deleted", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, context.getString(R.string.friend_deleted), Toast.LENGTH_SHORT).show()
                     } else {
-                        Toast.makeText(context, "Error deleting friend", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, context.getString(R.string.error_deleting_friend), Toast.LENGTH_SHORT)
+                            .show()
                     }
                 }
             } catch (e: Exception) {
                 withContext(Dispatchers.Main) {
-                    Toast.makeText(context, "Error: ${e.message}", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, context.getString(R.string.error_input, e.message), Toast.LENGTH_SHORT)
+                        .show()
                 }
             }
         }

@@ -5,6 +5,7 @@ import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.dashcarr.R
 import com.example.dashcarr.data.database.AppDatabase
 import com.example.dashcarr.data.repository.MessagesRepository
 import com.example.dashcarr.domain.entity.MessagesEntity
@@ -37,15 +38,16 @@ class AddMessagesViewModel @Inject constructor(
                 val newMessageRowId = db.MessagesDao().insert(newMessage)
                 withContext(Dispatchers.Main) {
                     if (newMessageRowId > 0) {
-                        Toast.makeText(context, "Added Message", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, R.string.added_message, Toast.LENGTH_SHORT).show()
                     } else
-                        Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, R.string.error, Toast.LENGTH_SHORT).show()
 
 
                 }
             } catch (e: Exception) {
                 withContext(Dispatchers.Main) {
-                    Toast.makeText(context, "Error: ${e.message}", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, context.getString(R.string.error_input, e.message), Toast.LENGTH_SHORT)
+                        .show()
                 }
             }
         }
@@ -68,14 +70,15 @@ class AddMessagesViewModel @Inject constructor(
                 val result = messagesRepository.updateMessage(updatedFriend)
                 withContext(Dispatchers.Main) {
                     if (result.isSuccess) {
-                        Toast.makeText(context, "Updated", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, context.getString(R.string.updated), Toast.LENGTH_SHORT).show()
                     } else {
-                        Toast.makeText(context, "Error updating", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, context.getString(R.string.error_updating), Toast.LENGTH_SHORT).show()
                     }
                 }
             } catch (e: Exception) {
                 withContext(Dispatchers.Main) {
-                    Toast.makeText(context, "Error: ${e.message}", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, context.getString(R.string.error_input, e.message), Toast.LENGTH_SHORT)
+                        .show()
                 }
             }
         }
@@ -93,14 +96,20 @@ class AddMessagesViewModel @Inject constructor(
                 val result = messagesRepository.deleteMessage(messageToDelete)
                 withContext(Dispatchers.Main) {
                     if (result.isSuccess) {
-                        Toast.makeText(context, "Message deleted", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(
+                            context,
+                            context.getString(R.string.message_deleted_successfully),
+                            Toast.LENGTH_SHORT
+                        ).show()
                     } else {
-                        Toast.makeText(context, "Error deleting Message", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, context.getString(R.string.error_delete_message), Toast.LENGTH_SHORT)
+                            .show()
                     }
                 }
             } catch (e: Exception) {
                 withContext(Dispatchers.Main) {
-                    Toast.makeText(context, "Error: ${e.message}", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, context.getString(R.string.error_input, e.message), Toast.LENGTH_SHORT)
+                        .show()
                 }
             }
         }

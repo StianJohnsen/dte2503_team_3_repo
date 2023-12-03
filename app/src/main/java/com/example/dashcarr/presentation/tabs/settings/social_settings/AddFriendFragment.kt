@@ -65,11 +65,11 @@ class AddFriendFragment : BaseFragment<FragmentAddFriendBinding>(
             val emailToValidate = binding.inputEmail.text.toString()
 
             if (inputName.isEmpty()) {
-                Toast.makeText(context, "Name is a mandatory field", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, context?.getString(R.string.mandatory_name), Toast.LENGTH_SHORT).show()
             } else if (email.isEmpty() && phone.isEmpty()) {
-                Toast.makeText(context, "Phone or Email are mandatory fields", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, context?.getString(R.string.mandatory_phone_email), Toast.LENGTH_SHORT).show()
             } else if (!emailToValidate.matches(emailRegex.toRegex()) && emailToValidate != "") {
-                Toast.makeText(context, "Check your email please", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, context?.getString(R.string.check_email), Toast.LENGTH_SHORT).show()
             } else {
                 if (currentFriendId == null) {
                     viewLifecycleOwner.lifecycleScope.launch {

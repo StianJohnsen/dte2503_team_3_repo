@@ -60,7 +60,7 @@ class SecurityCameraFragment : BaseFragment<FragmentSecurityCameraBinding>(
         super.onViewCreated(view, savedInstanceState)
         currentState = viewModel.getState()
         if (PowerSavingMode.getPowerMode()) {
-            Toast.makeText(context, "Recording increases the power consumption!", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, context?.getString(R.string.increase_power), Toast.LENGTH_SHORT).show()
         }
 
         registerForActivityResult(
@@ -76,7 +76,11 @@ class SecurityCameraFragment : BaseFragment<FragmentSecurityCameraBinding>(
                     }
                 }
             } else {
-                Toast.makeText(requireActivity(), "Can't access camera", Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    requireActivity(),
+                    requireActivity().getString(R.string.no_access_camera),
+                    Toast.LENGTH_SHORT
+                ).show()
                 findNavController().navigate(R.id.action_action_security_camera_to_action_map)
             }
         }.launch(Manifest.permission.CAMERA)

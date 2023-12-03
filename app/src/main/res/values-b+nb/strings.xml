@@ -164,5 +164,39 @@
     <string name="prompt_description">If the app is not unlocked in the next 10s, an emergency message will be sent.
     </string>
 
+    <!--Toasts-->
+    <string name="login_failed">Login failed</string>
+    <string name="added_message">Added Message</string>
+    <string name="error">Error</string>
+    <string name="error_input">Error: %s</string>
+    <string name="file_saved">File saved</string>
+    <string name="updated">Updated</string>
+    <string name="error_updating">Error updating</string>
+    <string name="increase_power">Recording increases the power consumption!</string>
+    <string name="error_delete_message">Error deleting Message</string>
+    <string name="no_access_camera">Can\'t access camera</string>
+    <string name="no_access_location">Could not access current location</string>
+    <string name="mandatory_name">Name is a mandatory field</string>
+    <string name="mandatory_phone_email">Phone or Email are mandatory fields</string>
+    <string name="check_email">Check your email please</string>
+    <string name="mandatory_content">Content is a mandatory field</string>
+    <string name="gps_is_disable">GPS is disable</string>
+    <string name="gps_was_disabled">GPS was disabled</string>
+    <string name="recording_started">Recording Started</string>
+    <string name="recording_stopped">Recording Stopped</string>
+    <string name="recording_paused">Recording Paused</string>
+    <string name="recording_resumed">Recording Resumed</string>
+    <string name="recording_deleted">Recording Deleted</string>
+    <string name="friend_deleted">Friend deleted</string>
+    <string name="error_deleting_friend">Error deleting friend</string>
+    <string name="sms_permission">SMS permission granted</string>
+    <string name="message_sent">Message sent</string>
+
+    <!--NavBar-->
+    <string name="map">Map</string>
+    <string name="messages">Messages</string>
+    <string name="history">History</string>
+    <string name="settings">Settings</string>
+
 </resources>
 

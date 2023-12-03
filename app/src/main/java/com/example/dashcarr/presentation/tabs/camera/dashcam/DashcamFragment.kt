@@ -15,6 +15,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.animation.doOnEnd
 import androidx.core.animation.doOnStart
 import androidx.fragment.app.viewModels
+import com.example.dashcarr.R
 import androidx.lifecycle.lifecycleScope
 import com.example.dashcarr.databinding.FragmentDashcamBinding
 import com.example.dashcarr.presentation.core.BaseFragment
@@ -65,7 +66,7 @@ class DashcamFragment : BaseFragment<FragmentDashcamBinding>(
         requireActivity().requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LOCKED
 
         if (PowerSavingMode.getPowerMode()) {
-            Toast.makeText(context, "Recording increases the power consumption!", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, context?.getString(R.string.increase_power), Toast.LENGTH_SHORT).show()
         }
         registerForActivityResult(
             ActivityResultContracts.RequestMultiplePermissions()

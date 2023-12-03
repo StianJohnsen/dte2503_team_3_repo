@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.view.View
 import android.view.WindowInsets
 import androidx.navigation.fragment.NavHostFragment
+import com.example.dashcarr.R
 import com.example.dashcarr.databinding.FragmentHudBinding
 import com.example.dashcarr.extensions.setHeightSmooth
 import com.example.dashcarr.presentation.core.BaseFragment
