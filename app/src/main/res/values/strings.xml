@@ -104,7 +104,7 @@
     <string name="some_permissions_missing">Location is not allowed. Change in settings</string>
 
     <!--Copyright-->
-    <string name="version_0_9">Version: 0.9</string>
+    <string name="version_1.0">Version: 1.0</string>
     <string name="_2023_uit">© 2023 UIT</string>
     <string name="icons8">Icons by icons8.com</string>
 
