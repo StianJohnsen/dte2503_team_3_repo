@@ -48,7 +48,7 @@
 
             <ImageButton
                 android:id="@+id/btn_dashcam"
-                android:layout_width="@dimen/standard_touch_size"
+                android:layout_width="56dp"
                 android:layout_height="@dimen/standard_touch_size"
                 android:layout_margin="4dp"
                 android:backgroundTint="#00FFFFFF"
