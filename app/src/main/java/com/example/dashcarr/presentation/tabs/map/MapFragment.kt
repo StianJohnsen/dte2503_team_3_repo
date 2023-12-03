@@ -424,11 +424,12 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
             override fun onSpeedLimitChanged(speedLimit: Int?) {
                 if (speedLimit != null) {
                     binding.speedLimit.text = speedLimit.toString()
-                    binding.trafficSign.visibility = View.VISIBLE
                     binding.speedLimit.visibility = View.VISIBLE
+                    binding.trafficSign.visibility = View.VISIBLE
+                    binding.speedLimit.layoutParams = binding.speedLimit.layoutParams
                 } else {
-                    binding.trafficSign.visibility = View.GONE
                     binding.speedLimit.visibility = View.GONE
+                    binding.trafficSign.visibility = View.GONE
                 }
             }
 
