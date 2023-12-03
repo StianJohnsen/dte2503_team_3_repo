@@ -102,6 +102,7 @@
     <string name="save_poi">save</string>
     <string name="cancel_poi">Cancel</string>
     <string name="some_permissions_missing">Location is not allowed. Change in settings</string>
+    <string name="not_enough_duration_gps">Did not record for a sufficient amount of time, try again</string>
 
     <!--Copyright-->
     <string name="version_1.0">Version: 1.0</string>

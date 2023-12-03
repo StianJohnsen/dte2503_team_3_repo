@@ -8,8 +8,11 @@ import android.hardware.SensorEventListener
 import android.hardware.SensorManager
 import android.location.Location
 import android.location.LocationManager
+import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.dashcarr.R
 import com.example.dashcarr.presentation.tabs.map.data.SensorData
 import com.example.dashcarr.presentation.tabs.settings.PowerSavingMode
 import kotlinx.coroutines.Dispatchers
@@ -79,16 +82,17 @@ class SensorRecordingViewModel(application: Application) : AndroidViewModel(appl
             val startJSONObject = makeStartJsonObject(currentTime)
             val currentSessionJsonObject = makeJsonObject(currentTime, startJSONObject)
             val existingJsonArray = sensorRecording.readJsonFromFile(context)
-            sensorRecording.writeToJsonFile(context, existingJsonArray, currentSessionJsonObject)
+            if (sensorRecording.unfilteredLocationList.value.isNotEmpty()) {
+                sensorRecording.writeToJsonFile(context, existingJsonArray, currentSessionJsonObject)
+            }
         }
-
-        viewModelScope.launch {
+        tryCatchSensorStringBuilder(context) {
             val unfilteredGPSStringBuilder =
                 sensorRecording.buildSensorStringBuilder(sensorRecording.unfilteredLocationList.value)
             sensorRecording.saveToFile(context, unfilteredGPSStringBuilder, "unfiltered", "GPS", currentTime)
         }
 
-        viewModelScope.launch {
+        tryCatchSensorStringBuilder(context) {
             val unfilteredAccelerometerStringBuilder =
                 sensorRecording.buildSensorStringBuilder(sensorRecording.unfilteredAccelerometerList.value)
             sensorRecording.saveToFile(
@@ -100,28 +104,53 @@ class SensorRecordingViewModel(application: Application) : AndroidViewModel(appl
             )
         }
 
-        viewModelScope.launch {
+        tryCatchSensorStringBuilder(context) {
             val filteredAccelerometerStringBuilder =
                 sensorRecording.buildSensorStringBuilder(sensorRecording.filteredAccelerometerList.value)
-            sensorRecording.saveToFile(context, filteredAccelerometerStringBuilder, "filtered", "accel", currentTime)
+            sensorRecording.saveToFile(
+                context,
+                filteredAccelerometerStringBuilder,
+                "filtered",
+                "accel",
+                currentTime
+            )
         }
 
-        viewModelScope.launch {
+        tryCatchSensorStringBuilder(context) {
             val unfilteredGyroscopeStringBuilder =
                 sensorRecording.buildSensorStringBuilder(sensorRecording.unfilteredGyroscopeList.value)
             sensorRecording.saveToFile(context, unfilteredGyroscopeStringBuilder, "unfiltered", "gyro", currentTime)
         }
 
-        viewModelScope.launch {
+        tryCatchSensorStringBuilder(context) {
             val filteredGyroscopeStringBuilder =
                 sensorRecording.buildSensorStringBuilder(sensorRecording.filteredGyroScopeList.value)
             sensorRecording.saveToFile(context, filteredGyroscopeStringBuilder, "filtered", "gyro", currentTime)
         }
 
-        viewModelScope.launch {
+
+
+        tryCatchSensorStringBuilder(context) {
             changeButtonWhenClickingStop()
         }
     }
+
+    private fun tryCatchSensorStringBuilder(context: Context, block: suspend () -> Unit) {
+        viewModelScope.launch {
+            try {
+                block()
+            } catch (e: Exception) {
+
+                Toast.makeText(
+                    context,
+                    context.resources.getString(R.string.not_enough_duration_gps),
+                    Toast.LENGTH_LONG
+                ).show()
+                Log.e(this::class.simpleName, e.stackTraceToString())
+            }
+        }
+    }
+
 
     private fun makeStartJsonObject(localDateTime: LocalDateTime) =
         sensorRecording.makeStartJsonObject(localDateTime, timerController.getElapsedTime())
