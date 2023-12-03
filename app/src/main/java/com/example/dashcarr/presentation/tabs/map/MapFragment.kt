@@ -40,8 +40,6 @@ import com.example.dashcarr.extensions.toastThrowableShort
 import com.example.dashcarr.presentation.core.BaseFragment
 import com.example.dashcarr.presentation.mapper.toMarker
 import com.example.dashcarr.presentation.tabs.camera.dashcam.DashcamFragment
-import com.example.dashcarr.presentation.tabs.map.OSM.MapPositionChangedListener
-import com.example.dashcarr.presentation.tabs.map.OSM.OSMFetcher
 import com.example.dashcarr.presentation.tabs.map.data.PointOfInterest
 import com.example.dashcarr.presentation.tabs.settings.PowerSavingMode
 import dagger.hilt.android.AndroidEntryPoint

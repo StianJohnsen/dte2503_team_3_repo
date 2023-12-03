@@ -11,8 +11,6 @@ import androidx.navigation.fragment.NavHostFragment
 import com.example.dashcarr.databinding.FragmentHudBinding
 import com.example.dashcarr.extensions.setHeightSmooth
 import com.example.dashcarr.presentation.core.BaseFragment
-import com.example.dashcarr.presentation.tabs.map.OSM.OSMFetcher
-import com.example.dashcarr.presentation.tabs.map.OSM.SessionInformationDrawable
 
 /**
  * Fragment for displaying a heads-up display (HUD) with live data during a drive.

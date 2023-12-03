@@ -1,4 +1,4 @@
-package com.example.dashcarr.presentation.tabs.map.OSM
+package com.example.dashcarr.presentation.tabs.map
 
 import android.content.Context
 import android.graphics.Canvas
