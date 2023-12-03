@@ -40,6 +40,7 @@ import com.example.dashcarr.extensions.toastThrowableShort
 import com.example.dashcarr.presentation.core.BaseFragment
 import com.example.dashcarr.presentation.mapper.toMarker
 import com.example.dashcarr.presentation.tabs.camera.dashcam.DashcamFragment
+import com.example.dashcarr.presentation.tabs.map.OSM.OSMFetcher
 import com.example.dashcarr.presentation.tabs.map.data.PointOfInterest
 import com.example.dashcarr.presentation.tabs.settings.PowerSavingMode
 import dagger.hilt.android.AndroidEntryPoint
@@ -91,6 +92,7 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
         } else {
             Log.d(this::class.simpleName, "Got Location!")
             createLocationRequest()
+            OSMFetcher.initFetcher(requireContext(), locationManager)
         }
     }
     private var isRecordingLocation = false
@@ -478,8 +480,8 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
             else -> Pair(R.drawable.ic_cancel_small, "No Data")
         }
         if (isAdded) {
-            binding.txtWeather?.text = weatherText
-            binding.iconWeather?.setImageResource(iconResourceId)
+            binding.txtWeather.text = weatherText
+            binding.iconWeather.setImageResource(iconResourceId)
         }
     }
 
