@@ -83,13 +83,16 @@
 
     <string name="configure">Konfigurer</string>
     <string name="name">Navn:</string>
+    
     <string name="product_info_text">
         Denne appen vil støtte deg mens du kjører!\n\n
-        Å legge til interessepunkter er lett, bare trykk og hold inne på kartet.\n\n
-        Du kan starte et nytt opptak på Kartfanen ved å bruke knappen i hjørnet.\n\n
-        Etter du har lagret opptaket, kan du analysere dataen i Historiefanen.\n\n
-        Mens du holder inne kartfanen kommer det opp en eksperimentell funksjon, prøv den gjerne!\n\n
-        Du kan også bruke kameraet ditt som et dashkamera. For å aktivere denne funksjonen klikker du på kamera og velg trekanten.
+        Den store røde knappen gir deg lett mulighet til å starte en kjøring økt\n\n
+        Været for din nåværende lokasjon vises i kart siden\n\n
+        Mens du kjører kan du lett sende epost og meldinger
+        ved å trykke på sosial knappen på høyre siden av skjermen.\n\n
+        Mens du kjører kan du også ta opp film fra fram og bak kameraet.\n\n
+        Sist, dette programmet har sky synkronisering.
+
     </string>
 
     <string name="start_using">Start Å Bruke!</string>

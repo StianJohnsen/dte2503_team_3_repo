@@ -82,12 +82,13 @@
     <string name="configure">Configurieren</string>
     <string name="name">Name:</string>
     <string name="product_info_text">
-        This app will support you while driving!\n\n
-        Adding points of interests is easy, just press and hold on the map.\n\n
-        You can start a new recording on the map tab with the button in the corner.\n\n
-        After saving it, you can analyse the data in the history.\n\n
-        When you hold the map tab a experimental feature will appear, feel free to try it!\n\n
-        You can also use your camera as a dashcam. To activate this feature click the camera and select the triangle.
+        Die App unterstützt dich beim Fahren!\n\n
+        Der große rote Knopf startet eine neue Fahrt\n\n
+        Die Wettervorhersage informiert dich über das aktuelle Wetter\n\n
+        Beim fahren kannst du mit dem Knopf auf der rechten
+        Seite Schnellnachrichten an deine Freunde verschicken\n\n
+        Beim Fahren hast du die Möglichkeit die App als Dashcam zu nutzen\n\n
+        Zu guter Letzt: Die App hat Cloud Synchronization.
     </string>
 
     <string name="start_using">Start Using!</string>

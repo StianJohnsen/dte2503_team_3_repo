@@ -83,12 +83,12 @@
     <string name="configure">Configurer</string>
     <string name="name">Nom :</string>
     <string name="product_info_text">
-        Cette application vous assistera pendant la conduite!\n\n
-        Ajouter des points d\'intérêt est facile, appuyez longuement sur la carte.\n\n
-        Vous pouvez démarrer un nouvel enregistrement dans l\'onglet carte avec le bouton dans le coin.\n\n
-        Après l\'avoir sauvegardé, vous pourrez analyser les données dans l\'historique.\n\n
-        Si vous maintenez l\'onglet de la carte, une fonctionnalité expérimentale apparaîtra, n\'hésitez pas à l\'essayer!\n\n
-        Vous pouvez également utiliser votre caméra comme une dashcam. Pour activer cette fonctionnalité, cliquez sur la caméra et sélectionnez le triangle.
+        Cette application vous assistera pendant la conduite !\n\n
+        Le gros bouton rouge vous permet de démarrer facilement une session de conduite\n\n
+        Les prévisions météorologiques dans le fragment de carte vous montrent la météo à votre emplacement actuel\n\n
+        Pendant la conduite, vous avez la possibilité d\'envoyer des emails et des messages en appuyant sur le bouton social sur le côté droit de l'écran\n\n
+        Pendant la conduite, vous avez également la possibilité d'enregistrer des vidéos depuis les caméras avant et arrière.\n\n
+        Enfin, cette application dispose d'une synchronisation avec le stockage cloud.
     </string>
 
     <string name="start_using">Commencer à utiliser !</string>

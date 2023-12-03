@@ -83,11 +83,16 @@
     <string name="name">Name:</string>
     <string name="product_info_text">
         This app will support you while driving!\n\n
-        Adding points of interests is easy, just press and hold on the map.\n\n
-        You can start a new recording on the map tab with the button in the corner.\n\n
-        After saving it, you can analyse the data in the history.\n\n
-        When you hold the map tab a experimental feature will appear, feel free to try it!\n\n
-        You can also use your camera as a dashcam. To activate this feature click the camera and select the triangle.
+        The big red button gives you the ability to easily start a driving session\n\n
+        Weather forecasts in the mapfragment shows you the weather at your current location\n\n
+        While driving you have the option to send emails
+        and messages by pressing the social button
+        on the right side of the screen\n\n
+        While driving you also have the ability to record video from
+        both rear and front camera.\n\n
+        Lastly, this app has cloud storage synchronization.
+
+
     </string>
     <string name="start_using">Start Using!</string>
 
@@ -143,6 +148,7 @@
     <string name="dark">Dark</string>
     <string name="default_tile_source">Standard</string>
     <string name="current_tile">Current tile: %1$s</string>
+
 
     <!--SocialSettingsFragment-->
     <string name="sent_messages">Sent Messages</string>
