@@ -141,7 +141,7 @@
     <string name="send_message">Відправити повідомлення</string>
     <string name="change_tiles">Змінити  Фрагмент Карти</string>
     <string name="mapnik">Стандартне</string>
-    <string name="usgs_sat">Супутник</string>
+    <string name="openTopo">Супутник</string>
     <string name="dark">Темний</string>
     <string name="default_tile_source">Стандартне</string>
     <string name="current_tile">Поточний стиль карти %1$s</string>

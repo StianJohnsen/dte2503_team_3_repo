@@ -83,7 +83,7 @@
 
     <string name="configure">Konfigurer</string>
     <string name="name">Navn:</string>
-    
+
     <string name="product_info_text">
         Denne appen vil støtte deg mens du kjører!\n\n
         Den store røde knappen gir deg lett mulighet til å starte en kjøring økt\n\n
@@ -142,7 +142,7 @@
     <string name="send_message">Send melding</string>
     <string name="change_tiles">Bytt Kart Stil</string>
     <string name="mapnik">Standard</string>
-    <string name="usgs_sat">Satellitt</string>
+    <string name="openTopo">Satellitt</string>
     <string name="dark">Mørk</string>
     <string name="default_tile_source">Standard</string>
     <string name="current_tile">Nåværende kart stil: %1$s</string>

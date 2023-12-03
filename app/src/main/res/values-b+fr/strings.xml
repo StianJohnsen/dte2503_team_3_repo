@@ -86,9 +86,9 @@
         Cette application vous assistera pendant la conduite !\n\n
         Le gros bouton rouge vous permet de démarrer facilement une session de conduite\n\n
         Les prévisions météorologiques dans le fragment de carte vous montrent la météo à votre emplacement actuel\n\n
-        Pendant la conduite, vous avez la possibilité d\'envoyer des emails et des messages en appuyant sur le bouton social sur le côté droit de l'écran\n\n
-        Pendant la conduite, vous avez également la possibilité d'enregistrer des vidéos depuis les caméras avant et arrière.\n\n
-        Enfin, cette application dispose d'une synchronisation avec le stockage cloud.
+        Pendant la conduite, vous avez la possibilité d\'envoyer des emails et des messages en appuyant sur le bouton social sur le côté droit de l\'écran\n\n
+        Pendant la conduite, vous avez également la possibilité d\'enregistrer des vidéos depuis les caméras avant et arrière.\n\n
+        Enfin, cette application dispose d\'une synchronisation avec le stockage cloud.
     </string>
 
     <string name="start_using">Commencer à utiliser !</string>
@@ -138,7 +138,7 @@
     <string name="send_message">Envoyer le message</string>
     <string name="change_tiles">Changer de tuile de carte</string>
     <string name="mapnik">Standard</string>
-    <string name="usgs_sat">Satellite</string>
+    <string name="openTopo">Satellite</string>
     <string name="dark">Sombre</string>
     <string name="default_tile_source">Standard</string>
     <string name="current_tile">Tuile actuelle : %1$s</string>

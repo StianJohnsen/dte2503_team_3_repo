@@ -138,7 +138,7 @@
     <string name="send_message">Senden</string>
     <string name="change_tiles">Kachel ändern</string>
     <string name="mapnik">Standard</string>
-    <string name="usgs_sat">Satellit</string>
+    <string name="openTopo">Satellit</string>
     <string name="dark">Dunkel</string>
     <string name="default_tile_source">Standard</string>
     <string name="current_tile">Aktuelle Kachel: %1$s</string>
