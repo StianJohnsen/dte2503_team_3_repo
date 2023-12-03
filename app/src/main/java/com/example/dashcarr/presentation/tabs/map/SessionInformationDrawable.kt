@@ -57,7 +57,7 @@ class SessionInformationDrawable(
         bigPaint.isFakeBoldText = true
         bigPaint.textAlign = Paint.Align.CENTER
 
-        speedLimitPaint.textSize = 220F
+        speedLimitPaint.textSize = 190F
         speedLimitPaint.color = Color.BLACK
         speedLimitPaint.isAntiAlias = true
         speedLimitPaint.style = Paint.Style.FILL
