@@ -94,52 +94,17 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
             Log.d(this::class.simpleName, "Got Location!")
             createLocationRequest()
             OSMFetcher.initFetcher(requireContext(), locationManager)
-            OSMFetcher.getInstance()?.addMapPositionChangedListener(lifecycle, object : MapPositionChangedListener {
-                override fun onSpeedLimitChanged(speedLimit: Int?) {
-                    if (speedLimit != null) {
-                        binding.speedLimit.text = speedLimit.toString()
-                        binding.trafficSign.visibility = View.VISIBLE
-                        binding.speedLimit.visibility = View.VISIBLE
-                    } else {
-                        binding.trafficSign.visibility = View.GONE
-                        binding.speedLimit.visibility = View.GONE
-                    }
-                }
-
-                override fun onUnitChanged(speedUnit: OSMFetcher.SpeedUnit) {
-                    when (speedUnit) {
-                        OSMFetcher.SpeedUnit.MILES_PER_HOUR -> {
-                            binding.trafficSign.setImageDrawable(
-                                ContextCompat.getDrawable(
-                                    requireContext(),
-                                    R.drawable.maximum_speed_usa
-                                )!!
-                            )
-                            binding.speedLimit.layoutParams =
-                                (binding.speedLimit.layoutParams as ViewGroup.MarginLayoutParams).also {
-                                    it.topMargin = 50
-                                }
-                        }
-
-                        OSMFetcher.SpeedUnit.KILOMETERS_PER_HOUR -> {
-                            binding.trafficSign.setImageDrawable(
-                                ContextCompat.getDrawable(
-                                    requireContext(),
-                                    R.drawable.maximum_speed_europe
-                                )!!
-                            )
-                            binding.speedLimit.layoutParams =
-                                (binding.speedLimit.layoutParams as ViewGroup.MarginLayoutParams).also {
-                                    it.topMargin = 0
-                                }
-                        }
-
-                        else -> {}
-                    }
-                }
-            })
+            if (isRideActivated) {
+                addMapPositionChangedListener()
+            }
         }
     }
+
+    private val isRideActivated by lazy {
+        val args: MapFragmentArgs by navArgs()
+        args.isRideActivated
+    }
+
     private var isRecordingLocation = false
 
     private var isRecording = false
@@ -283,15 +248,14 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         requireActivity().requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
-        val args: MapFragmentArgs by navArgs()
-        showBottomNavigation(!args.isRideActivated)
+        showBottomNavigation(!isRideActivated)
         initListeners()
         observeViewModel()
         initMap()
         requestLocationPermission()
         setupMapView()
 
-        if (PowerSavingMode.getPowerMode() && args.isRideActivated) {
+        if (PowerSavingMode.getPowerMode() && isRideActivated) {
             binding.llTrafficLight.visibility = View.VISIBLE
             binding.llBattery.visibility = View.VISIBLE
             setupBatteryStatus()
@@ -313,7 +277,7 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
 
         Log.d(this::class.simpleName, "Current Power Mode: ${PowerSavingMode.getPowerMode()}")
 
-        if (args.isRideActivated) {
+        if (isRideActivated) {
             if (binding.hudView.getFragment<HudFragment?>() == null) {
                 childFragmentManager.beginTransaction()
                     .add(binding.hudView.id, HudFragment())
@@ -432,8 +396,6 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
     /**
      * Stops listening for sensorChanges
      */
-
-
     private fun startRecording() {
         sensorRecordingViewModel.startRecording()
         Toast.makeText(requireContext(), "Recording Started", Toast.LENGTH_SHORT).show()
@@ -457,6 +419,53 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
     private fun deleteRecording() {
         sensorRecordingViewModel.deleteRecording()
         Toast.makeText(requireContext(), "Recording Deleted", Toast.LENGTH_SHORT).show()
+    }
+
+    private fun addMapPositionChangedListener() {
+        OSMFetcher.getInstance()?.addMapPositionChangedListener(lifecycle, object : MapPositionChangedListener {
+            override fun onSpeedLimitChanged(speedLimit: Int?) {
+                if (speedLimit != null) {
+                    binding.speedLimit.text = speedLimit.toString()
+                    binding.trafficSign.visibility = View.VISIBLE
+                    binding.speedLimit.visibility = View.VISIBLE
+                } else {
+                    binding.trafficSign.visibility = View.GONE
+                    binding.speedLimit.visibility = View.GONE
+                }
+            }
+
+            override fun onUnitChanged(speedUnit: OSMFetcher.SpeedUnit) {
+                when (speedUnit) {
+                    OSMFetcher.SpeedUnit.MILES_PER_HOUR -> {
+                        binding.trafficSign.setImageDrawable(
+                            ContextCompat.getDrawable(
+                                requireContext(),
+                                R.drawable.maximum_speed_usa
+                            )!!
+                        )
+                        binding.speedLimit.layoutParams =
+                            (binding.speedLimit.layoutParams as ViewGroup.MarginLayoutParams).also {
+                                it.topMargin = 50
+                            }
+                    }
+
+                    OSMFetcher.SpeedUnit.KILOMETERS_PER_HOUR -> {
+                        binding.trafficSign.setImageDrawable(
+                            ContextCompat.getDrawable(
+                                requireContext(),
+                                R.drawable.maximum_speed_europe
+                            )!!
+                        )
+                        binding.speedLimit.layoutParams =
+                            (binding.speedLimit.layoutParams as ViewGroup.MarginLayoutParams).also {
+                                it.topMargin = 0
+                            }
+                    }
+
+                    else -> {}
+                }
+            }
+        })
     }
 
     /**
