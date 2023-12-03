@@ -101,14 +101,14 @@
             android:id="@+id/ll_traffic_light"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_padding_size_10"
+            android:layout_marginStart="@dimen/margin_padding_size_18"
             android:background="@drawable/blue_16dp_background"
             android:orientation="vertical"
             android:paddingHorizontal="@dimen/margin_padding_size_8"
             android:paddingVertical="@dimen/margin_padding_size_8"
             app:layout_constraintBottom_toTopOf="@+id/hudView"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/ll_side_buttons">
+            app:layout_constraintTop_toTopOf="@+id/ll_recording_buttons">
 
             <ImageView
                 android:id="@+id/redIndicator"
