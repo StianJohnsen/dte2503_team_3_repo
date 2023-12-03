@@ -65,7 +65,7 @@ class HudFragment : BaseFragment<FragmentHudBinding>(
         binding.hudImage.setImageDrawable(textCanvas)
 
         binding.hudImage.setOnClickListener {
-            OSMFetcher.getInstance()?.toggleSpeedUnit(requireContext())
+            OSMFetcher.getInstance()?.toggleSpeedUnit()
         }
 
     }

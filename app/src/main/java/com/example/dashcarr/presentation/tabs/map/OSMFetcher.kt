@@ -26,6 +26,9 @@ class OSMFetcher(
     locationManager: LocationManager
 ) : LocationListener {
 
+    /**
+     * Represents the different speed units for converting
+     */
     enum class SpeedUnit {
         KILOMETERS_PER_HOUR, MILES_PER_HOUR, METERS_PER_SECOND;
 
@@ -44,6 +47,14 @@ class OSMFetcher(
 
         @Volatile
         private var instance: OSMFetcher? = null
+
+        /**
+         * Initializes the singleton object.
+         * This call requires permissions to access the current GPS location.
+         *
+         * @param context
+         * @param locationManager
+         */
         fun initFetcher(
             context: Context,
             locationManager: LocationManager
@@ -55,6 +66,10 @@ class OSMFetcher(
             }
         }
 
+        /**
+         * Provides an Singleton object of the OSMFetcher
+         * It might be null if the singleton is not initialized using [initFetcher]
+         */
         fun getInstance() = instance
 
         fun convertUnit(inputUnit: SpeedUnit, outputUnit: SpeedUnit, speed: Float): Float {
@@ -91,9 +106,13 @@ class OSMFetcher(
 
     private val cache: Buffer = Buffer(null, null, null)
 
-    val sharedPref = context.getSharedPreferences("AppPreferences", Context.MODE_PRIVATE)
+    private val sharedPreferences = context.getSharedPreferences("AppPreferences", Context.MODE_PRIVATE)
     var currentSpeedUnit =
-        if (sharedPref.getBoolean("DisplayInMph", false)) SpeedUnit.MILES_PER_HOUR else SpeedUnit.KILOMETERS_PER_HOUR
+        if (sharedPreferences.getBoolean(
+                "DisplayInMph",
+                false
+            )
+        ) SpeedUnit.MILES_PER_HOUR else SpeedUnit.KILOMETERS_PER_HOUR
 
     init {
         if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION)
@@ -112,13 +131,15 @@ class OSMFetcher(
         }
     }
 
-    fun toggleSpeedUnit(context: Context) {
+    /**
+     * Switches between the usage of [SpeedUnit.MILES_PER_HOUR] and [SpeedUnit.KILOMETERS_PER_HOUR].
+     * This function updates the shared preferences with the new value after the change.
+     */
+    fun toggleSpeedUnit() {
         val oldSpeedUnit = currentSpeedUnit
         currentSpeedUnit = currentSpeedUnit.toggleSpeedUnit()
 
-        // Save preference in SharedPreferences
-        val sharedPref = context.getSharedPreferences("AppPreferences", Context.MODE_PRIVATE)
-        with(sharedPref.edit()) {
+        with(sharedPreferences.edit()) {
             putBoolean("DisplayInMph", currentSpeedUnit == SpeedUnit.MILES_PER_HOUR)
             apply()
         }
@@ -132,6 +153,14 @@ class OSMFetcher(
         listeners.forEach { it.onUnitChanged(currentSpeedUnit) }
     }
 
+    /**
+     * Adds a lister that gets called for each update.
+     * The listener gets removed when the lifecycle is destroyed or paused.
+     * It is added again when the lifecycle is resumed.
+     *
+     * @param lifecycle The lifecycle that is observed.
+     * @param listener The listener to receive the updates
+     */
     fun addMapPositionChangedListener(lifecycle: Lifecycle, listener: MapPositionChangedListener) {
         listeners.add(listener)
         lifecycle.addObserver(object : DefaultLifecycleObserver {
@@ -186,6 +215,7 @@ class OSMFetcher(
 
     /**
      * Sends a new API Request to the nominatim server, to resolve the provided coordinates into street names.
+     * If the response contains a ways id, the speed limit gets fetched using [fetchSpeedLimit].
      * The nomination guidelines don't allow more than one request per second, otherwise your IP might get banned.
      *
      * @param location location with GPS coordinates
@@ -254,11 +284,31 @@ class OSMFetcher(
 }
 
 interface MapPositionChangedListener {
+    /**
+     * Gets called when a new address is available.
+     *
+     * @param streetName The new description consisting of the city and street
+     */
     fun onStreetChangedListener(streetName: String) {}
 
+    /**
+     * Gets called when a new speed update is available.
+     *
+     * @param speed the speed in the selected unit
+     */
     fun onSpeedChanged(speed: Float) {}
 
+    /**
+     * Gets called when a new speed update is available.
+     *
+     * @param speedLimit the new speed limit in the selected unit
+     */
     fun onSpeedLimitChanged(speedLimit: Int?) {}
 
+    /**
+     * Gets called when the selected unit has changed.
+     *
+     * @param speedUnit the new Unit
+     */
     fun onUnitChanged(speedUnit: OSMFetcher.SpeedUnit) {}
 }
