@@ -1,6 +1,7 @@
 package com.example.dashcarr.presentation.tabs.map
 
 import android.os.SystemClock
+import android.util.Log
 import kotlinx.coroutines.flow.MutableStateFlow
 
 /**
@@ -24,10 +25,10 @@ class TimerController {
 
     suspend fun pauseRecording() {
         if (_isRecording.value) {
+            Log.d("lasse", "The recording is paused")
             _pausedElapsedTimeMillis.emit(SystemClock.elapsedRealtime())
             _isRecording.emit(false)
         }
-
     }
 
     suspend fun resumeRecording() {
