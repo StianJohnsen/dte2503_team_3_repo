@@ -97,6 +97,7 @@
     <string name="save_poi">Speichern</string>
     <string name="cancel_poi">Abbruch</string>
     <string name="some_permissions_missing">Standortzugriff nicht gewährt.</string>
+    <string name="not_enough_duration_gps">Nicht lange genug aufgezeichnet, bitte versuchen Sie es erneut</string>
 
     <!--Copyright-->
     <string name="version_1.0">Version: 1.0</string>
@@ -134,6 +135,13 @@
     <string name="message">Nachricht</string>
     <string name="add_message_capitalized">NEUE NACHRICHT</string>
     <string name="send_message">Senden</string>
+    <string name="change_tiles">Kachel ändern</string>
+    <string name="mapnik">Standard</string>
+    <string name="usgs_sat">Satellit</string>
+    <string name="dark">Dunkel</string>
+    <string name="default_tile_source">Standard</string>
+    <string name="current_tile">Aktuelle Kachel: %1$s</string>
+
 
     <!--SocialSettingsFragment-->
     <string name="sent_messages">Verlauf</string>
@@ -146,6 +154,7 @@
     <string name="yves_simon_zeulner">Yves-Simon Zeulner</string>
     <string name="quentin_michel_st_phane_regnier">Quentin Regnier</string>
     <string name="yevhen_verkhalantsev">Yevhen Verkhalantsev</string>
+    <string name="email_smtp_app_app_password">iisp wauq polr qisj</string>
 
     <!--QuickMessageFragment-->
     <string name="message_list">Messages</string>
