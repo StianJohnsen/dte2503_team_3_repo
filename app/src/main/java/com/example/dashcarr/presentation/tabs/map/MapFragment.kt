@@ -52,6 +52,7 @@ import org.osmdroid.views.CustomZoomButtonsController
 import org.osmdroid.views.MapView
 import org.osmdroid.views.overlay.MapEventsOverlay
 import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay
+import android.content.res.Configuration as Configuration1
 
 
 /**
@@ -338,22 +339,25 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
 
         var tileName = getString(tileNameResId)
         tileName = getTileSourceFromName(tileName)
-        when (tileName) {
-            "MAPNIK" -> {
-                binding.mapView.setTileSource(TileSourceFactory.MAPNIK)
-            }
 
-            "USGS_SAT" -> {
-                binding.mapView.setTileSource(TileSourceFactory.USGS_SAT)
-            }
-
-            else -> {
-                binding.mapView.setTileSource(TileSourceFactory.MAPNIK)
-            }
-        }
-        val dm = resources.configuration.uiMode
-        if (tileName == "MAPNIK" && dm.toString() == "33") {
+        val nightModeFlags = context?.resources?.configuration?.uiMode?.and(Configuration1.UI_MODE_NIGHT_MASK)
+        val isDarkModeEnabled = nightModeFlags == Configuration1.UI_MODE_NIGHT_YES
+        if (tileName == "MAPNIK" && isDarkModeEnabled) {
             binding.mapView.getOverlayManager().getTilesOverlay().setColorFilter(mapViewModel.getFilter())
+        } else {
+            when (tileName) {
+                "MAPNIK" -> {
+                    binding.mapView.setTileSource(TileSourceFactory.MAPNIK)
+                }
+
+                "USGS_SAT" -> {
+                    binding.mapView.setTileSource(TileSourceFactory.USGS_SAT)
+                }
+
+                else -> {
+                    binding.mapView.setTileSource(TileSourceFactory.MAPNIK)
+                }
+            }
         }
     }
 
