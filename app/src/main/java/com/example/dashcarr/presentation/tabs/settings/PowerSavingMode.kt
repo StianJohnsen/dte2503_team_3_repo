@@ -1,6 +1,11 @@
 package com.example.dashcarr.presentation.tabs.settings
 
-
+/**
+ * This object manages the power saving mode settings of the application.
+ * It offers functionalities to set and get the application's power mode, the phone's power mode, and the initial battery capacity.
+ * It uses an enum class `PowerState` with values `AUTO` and `ON` to represent the app's power-saving states.
+ * The phone's power mode is represented as a boolean value.
+ */
 object PowerSavingMode {
     enum class PowerState {
         AUTO, ON

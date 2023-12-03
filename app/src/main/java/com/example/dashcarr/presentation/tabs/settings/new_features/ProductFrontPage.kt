@@ -9,7 +9,9 @@ import com.example.dashcarr.databinding.FragmentProductFrontPageBinding
 import com.example.dashcarr.presentation.MainActivity
 import com.example.dashcarr.presentation.core.BaseFragment
 
-
+/**
+ * A fragment for displaying the product front page.
+ */
 class ProductFrontPage : BaseFragment<FragmentProductFrontPageBinding>(
     FragmentProductFrontPageBinding::inflate,
     showBottomNavBar = false
@@ -28,6 +30,4 @@ class ProductFrontPage : BaseFragment<FragmentProductFrontPageBinding>(
         }
         (requireActivity() as MainActivity).hideRedButton()
     }
-
-
 }

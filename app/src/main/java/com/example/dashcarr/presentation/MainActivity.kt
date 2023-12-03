@@ -31,6 +31,24 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import dagger.hilt.android.AndroidEntryPoint
 
+/**
+ * Main activity of the application, serving as the primary UI container.
+ * It hosts the navigation components and manages various UI interactions.
+ *
+ * This activity is responsible for handling the navigation between different fragments,
+ * displaying a bottom navigation view, and managing the state of UI elements based on user interaction
+ * and application state (such as power saving mode).
+ *
+ * @property viewModel ViewModel associated with the main activity, providing data and functionality.
+ * @property navHostFragment NavHostFragment that manages navigation within the app.
+ * @property navController NavController that handles app navigation.
+ * @property slidingBox View used for sliding animations and interactions.
+ * @property rideButton FloatingActionButton used for initiating rides.
+ * @property arrowView ImageView displaying an arrow, typically used for guiding user actions.
+ * @property redButton ImageButton used as a primary action button with animation.
+ * @property redButtonFrame ConstraintLayout frame that contains the red button and associated animations.
+ * @property powerSaveReceiver BroadcastReceiver for handling power save mode changes.
+ */
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 

@@ -14,6 +14,10 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
+/**
+ * ViewModel for handling add, update, and delete operations for messages within the application's social settings.
+ * This ViewModel utilizes [MessagesRepository] to interact with the underlying database and perform CRUD operations.
+ */
 @HiltViewModel
 class AddMessagesViewModel @Inject constructor(
     private val messagesRepository: MessagesRepository

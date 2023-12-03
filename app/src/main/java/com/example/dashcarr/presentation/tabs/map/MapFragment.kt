@@ -52,10 +52,15 @@ import org.osmdroid.views.overlay.MapEventsOverlay
 import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay
 
 /**
- * Fragment representing the map screen in the application. This fragment includes the map view,
- * handles location updates, and provides functionality to create markers on the map.
+ * Fragment representing the map screen in the DashCarr application.
+ * Handles location updates, map interaction, recording management, and displays a dynamic map.
  *
- * @constructor Creates a new instance of MapFragment.
+ * Manages functionalities related to map interaction, such as creating markers, displaying routes,
+ * and integrating with other features like weather data and battery status. It also handles sensor
+ * recording for trips and provides navigation options for other features in the app.
+ *
+ * @property mapViewModel ViewModel associated with map functionalities.
+ * @property sensorRecordingViewModel ViewModel for managing sensor recordings.
  */
 @AndroidEntryPoint
 class MapFragment : BaseFragment<FragmentMapBinding>(
@@ -113,7 +118,7 @@ class MapFragment : BaseFragment<FragmentMapBinding>(
         mapViewModel.pointsOfInterestState.observe(viewLifecycleOwner) {
             if (it.isEmpty()) return@observe
             it.forEach { pointOfInterest ->
-                binding.mapView.overlays.add(pointOfInterest.toMarker(binding.mapView))
+                binding.mapView.overlays.add(pointOfInterest.toMarker(binding.mapView, requireContext()))
             }
         }
         mapViewModel.showButtonsBarState.collectWithLifecycle(viewLifecycleOwner) { show ->

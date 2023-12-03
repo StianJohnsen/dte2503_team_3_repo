@@ -24,11 +24,23 @@ import java.nio.charset.Charset
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
-
+/**
+ * ViewModel for managing sensor recordings in the application.
+ * It handles the recording of various sensor data and location updates.
+ * This ViewModel extends AndroidViewModel to access application context for file operations.
+ *
+ * The ViewModel utilizes a nested class, `SensorRecording`, for handling sensor events and managing the sensor data lists.
+ * It also incorporates a `TimerController` for managing the recording's duration.
+ *
+ * @property sensorRecording An instance of `SensorRecording` to manage sensor data recording and processing.
+ * @property timerController A `TimerController` instance to handle the timing aspects of recording.
+ *
+ * @constructor Creates a new instance of SensorRecordingViewModel with the given application context.
+ */
 class SensorRecordingViewModel(application: Application) : AndroidViewModel(application) {
 
     val sensorRecording = SensorRecording()
-    val timerController = TimerController()
+    private val timerController = TimerController()
 
     fun startRecording() {
         viewModelScope.launch {
@@ -96,10 +108,10 @@ class SensorRecordingViewModel(application: Application) : AndroidViewModel(appl
         }
     }
 
-    fun makeStartJsonObject(localDateTime: LocalDateTime) =
+    private fun makeStartJsonObject(localDateTime: LocalDateTime) =
         sensorRecording.makeStartJsonObject(localDateTime, timerController.getElapsedTime())
 
-    fun makeJsonObject(localDateTime: LocalDateTime, jsonObject: JSONObject) =
+    private fun makeJsonObject(localDateTime: LocalDateTime, jsonObject: JSONObject) =
         sensorRecording.makeJsonObject(localDateTime, jsonObject)
 
     fun pauseRecording() {
@@ -118,17 +130,17 @@ class SensorRecordingViewModel(application: Application) : AndroidViewModel(appl
 
     }
 
-    suspend fun changeButtonsWhenClickingPause() {
+    private suspend fun changeButtonsWhenClickingPause() {
         sensorRecording.setIsRecordingButtonsShowing("Pause", false)
         sensorRecording.setIsRecordingButtonsShowing("Resume", true)
     }
 
-    suspend fun changeButtonsWhenClickingResume() {
+    private suspend fun changeButtonsWhenClickingResume() {
         sensorRecording.setIsRecordingButtonsShowing("Resume", false)
         sensorRecording.setIsRecordingButtonsShowing("Pause", true)
     }
 
-    suspend fun changeButtonWhenClickingStop() {
+    private suspend fun changeButtonWhenClickingStop() {
         sensorRecording.setIsRecordingButtonsShowing("Stop", false)
         sensorRecording.setIsRecordingButtonsShowing("Start", true)
         sensorRecording.setIsRecordingButtonsShowing("Pause", false)
@@ -136,8 +148,7 @@ class SensorRecordingViewModel(application: Application) : AndroidViewModel(appl
         sensorRecording.setIsRecordingButtonsShowing("Resume", false)
     }
 
-    suspend fun changeButtonWhenClickingDelete() {
-
+    private suspend fun changeButtonWhenClickingDelete() {
         sensorRecording.setIsRecordingButtonsShowing("Delete", false)
         sensorRecording.setIsRecordingButtonsShowing("Pause", false)
         sensorRecording.setIsRecordingButtonsShowing("Stop", false)
@@ -216,7 +227,6 @@ class SensorRecordingViewModel(application: Application) : AndroidViewModel(appl
         private val _isBtnDeleteShowing = MutableStateFlow(0)
         val isBtnDeleteShowing = _isBtnDeleteShowing.asStateFlow()
 
-
         suspend fun setIsRecording(isRecordingBoolean: Boolean) {
             _isRecording.emit(isRecordingBoolean)
         }
@@ -267,7 +277,6 @@ class SensorRecordingViewModel(application: Application) : AndroidViewModel(appl
             return jsonObject
         }
 
-
         suspend fun setIsRecordingButtonsShowing(kindOfButton: String, isButtonShowing: Boolean) {
             val isButtonShowingInt: Int = when (isButtonShowing) {
                 true -> 0
@@ -281,7 +290,6 @@ class SensorRecordingViewModel(application: Application) : AndroidViewModel(appl
                 "Delete" -> _isBtnDeleteShowing.emit(isButtonShowingInt)
             }
         }
-
 
         private fun addToUnfilteredSensorList(kindOfSensor: String, sensorEvent: SensorEvent) {
             if (kindOfSensor == "Accelerometer") {
@@ -391,7 +399,6 @@ class SensorRecordingViewModel(application: Application) : AndroidViewModel(appl
             return filteredDataSample
         }
 
-
         suspend fun saveToFile(
             context: Context,
             stringBuilder: StringBuilder,
@@ -409,7 +416,6 @@ class SensorRecordingViewModel(application: Application) : AndroidViewModel(appl
             }
 
         }
-
 
         private suspend fun incStepNum() {
             _stepNumber.emit(_stepNumber.value + 1)
@@ -431,7 +437,6 @@ class SensorRecordingViewModel(application: Application) : AndroidViewModel(appl
                 }
             }
         }
-
 
         suspend fun readJsonFromFile(context: Context): JSONArray = withContext(Dispatchers.IO) {
             try {
@@ -461,7 +466,6 @@ class SensorRecordingViewModel(application: Application) : AndroidViewModel(appl
 
         }
 
-
         fun buildSensorStringBuilder(sensorList: MutableList<SensorData>): StringBuilder {
 
             val stringBuilder = StringBuilder()
@@ -486,7 +490,6 @@ class SensorRecordingViewModel(application: Application) : AndroidViewModel(appl
 
         }
 
-
         fun registerSensors() {
             val sensorSamplingRate: Int = if (PowerSavingMode.getPowerMode()) {
                 SensorManager.SENSOR_DELAY_NORMAL
@@ -508,7 +511,6 @@ class SensorRecordingViewModel(application: Application) : AndroidViewModel(appl
         }
 
         override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {
-            // NOT USED
         }
     }
 }

@@ -23,7 +23,14 @@ import java.nio.charset.Charset
 import java.util.concurrent.TimeUnit
 
 /**
- * Fragment for displaying recording statistics.
+ * Fragment for displaying statistical analysis of recordings.
+ * Visualizes data with a pie chart and provides aggregate information like average file size,
+ * total storage used, and average recording duration.
+ *
+ * This fragment processes data from local storage, calculates statistics, and
+ * dynamically generates visualizations to offer insights into the recordings.
+ *
+ * @property binding The binding instance for accessing and manipulating the views in this fragment.
  */
 class RecordingStatisticsFragment : BaseFragment<FragmentRecordingStatisticsBinding>(
     FragmentRecordingStatisticsBinding::inflate,

@@ -14,6 +14,13 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+/**
+ * ViewModel for the SelectMessageFragment. Handles data operations related to selecting and sending messages.
+ *
+ * @param messagesRepository Repository for accessing message data.
+ * @param friendsRepository Repository for accessing friends data.
+ * @param sentMessagesRepository Repository for managing sent messages.
+ */
 @HiltViewModel
 class SelectMessageViewModel @Inject constructor(
     private val messagesRepository: IMessagesRepository,
@@ -38,6 +45,5 @@ class SelectMessageViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             sentMessagesRepository.saveNewSentMessage(sentMessagesEntity)
         }
-
     }
 }

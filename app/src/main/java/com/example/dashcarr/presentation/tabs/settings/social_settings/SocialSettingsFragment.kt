@@ -21,6 +21,11 @@ import com.example.dashcarr.presentation.core.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
+/**
+ * Fragment for social settings, allowing users to manage friends and send messages.
+ * Manages SMS permissions and leverages an SMS manager for message functionalities.
+ * Provides navigation to add friends and view friend details.
+ */
 @AndroidEntryPoint
 class SocialSettingsFragment : BaseFragment<FragmentSocialSettingsBinding>(
     FragmentSocialSettingsBinding::inflate,
@@ -32,10 +37,6 @@ class SocialSettingsFragment : BaseFragment<FragmentSocialSettingsBinding>(
 
     private val smsManagerObject: SmsManager by lazy {
         requireContext().getSystemService(SmsManager::class.java) as SmsManager
-    }
-
-    companion object {
-        fun newInstance() = SocialSettingsFragment()
     }
 
     @RequiresApi(Build.VERSION_CODES.R)

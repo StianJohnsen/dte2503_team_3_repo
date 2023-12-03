@@ -10,6 +10,12 @@ import com.example.dashcarr.databinding.FragmentAddMessagesBinding
 import com.example.dashcarr.presentation.core.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
 
+/**
+ * Fragment for adding or updating messages within the social settings of the application. This fragment
+ * provides the user interface to input, modify, or delete a message.
+ *
+ * This fragment utilizes the [AddMessagesViewModel] for handling data operations related to messages.
+ */
 @AndroidEntryPoint
 class AddMessagesFragment : BaseFragment<FragmentAddMessagesBinding>(
     FragmentAddMessagesBinding::inflate,

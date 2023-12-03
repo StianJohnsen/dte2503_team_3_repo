@@ -1,6 +1,5 @@
 package com.example.dashcarr.presentation.tabs.map
 
-
 import android.Manifest
 import android.annotation.SuppressLint
 import android.content.pm.ActivityInfo
@@ -21,8 +20,15 @@ import com.example.dashcarr.extensions.setHeightSmooth
 import com.example.dashcarr.presentation.core.BaseFragment
 
 /**
- * The Fragment for displaying live data of the current drive. This fragment behaves diffently according to its parent.
- * Look into [onViewCreated] for details.
+ * Fragment for displaying a heads-up display (HUD) with live data during a drive.
+ * This fragment presents information such as speed and location updates in a HUD format.
+ * It adapts its behavior based on the parent fragment context.
+ *
+ * In the context of a NavHostFragment, the display is rotated and mirrored for HUD usage,
+ * with a dark background suitable for reflection on a vehicle's windshield.
+ * In other contexts, it shows a standard orientation with interactive features.
+ *
+ * @property textCanvas A drawable object responsible for rendering session information.
  */
 class HudFragment : BaseFragment<FragmentHudBinding>(
     FragmentHudBinding::inflate,

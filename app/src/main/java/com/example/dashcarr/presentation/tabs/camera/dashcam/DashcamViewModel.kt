@@ -7,6 +7,16 @@ import androidx.lifecycle.ViewModel
 import com.example.dashcarr.R
 import com.example.dashcarr.presentation.tabs.camera.CameraWrapper
 
+/**
+ * ViewModel associated with the Dashcame.
+ * Manages the camera operations including starting and stopping the recording.
+ *
+ * This ViewModel interacts with the CameraWrapper to abstract the complexities
+ * of camera functionalities and to provide an easy interface for starting and
+ * stopping recordings, as well as managing camera resources.
+ *
+ * @property camera An instance of CameraWrapper to handle camera operations.
+ */
 class DashcamViewModel : ViewModel() {
 
     private var camera: CameraWrapper? = null
@@ -36,6 +46,4 @@ class DashcamViewModel : ViewModel() {
         }
 
     }
-
-
 }

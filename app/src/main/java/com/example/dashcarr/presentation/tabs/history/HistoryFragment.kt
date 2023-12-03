@@ -16,7 +16,6 @@ import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.Spinner
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.dashcarr.R
 import com.example.dashcarr.databinding.FragmentHistoryBinding
@@ -34,16 +33,17 @@ import kotlin.math.absoluteValue
 import kotlin.math.min
 
 /**
- * HistoryFragment manages the display and interactions in the history tab.
+ * Fragment for managing and displaying historical data related to vehicle usage.
+ * Allows users to view, rename, and delete recordings, as well as analyze car states based on sensor data.
+ *
+ * This fragment reads sensor configuration from a JSON file, creates UI elements dynamically for each recording,
+ * and provides functionalities to interact with these recordings.
  */
 @AndroidEntryPoint
 class HistoryFragment : BaseFragment<FragmentHistoryBinding>(
     FragmentHistoryBinding::inflate,
     showBottomNavBar = true
 ) {
-
-    private val viewModel: HistoryViewModel by viewModels()
-
     private data class RecordingDescription(val label: String, var fileName: String, val chartType: String = "line") {
         fun exists(): Boolean = fileName.isNotEmpty()
     }
@@ -237,7 +237,7 @@ class HistoryFragment : BaseFragment<FragmentHistoryBinding>(
                 spinner.adapter = this
             }
             spinner.backgroundTintList =
-                ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.text_color));
+                ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.text_color))
             spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
                 override fun onNothingSelected(parent: AdapterView<*>?) {
                     // No action needed

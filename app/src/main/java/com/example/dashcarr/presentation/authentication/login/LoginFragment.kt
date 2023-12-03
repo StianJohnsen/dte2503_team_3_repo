@@ -17,9 +17,6 @@ import com.example.dashcarr.presentation.core.BaseFragment
 import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
-import com.google.firebase.auth.FacebookAuthProvider
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.ktx.Firebase
 import dagger.hilt.android.AndroidEntryPoint
 
 /**
@@ -33,19 +30,9 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(
     private val viewModel: LoginViewModel by viewModels()
 
     @SuppressLint("RestrictedApi")
-    private val signInLauncher = registerForActivityResult(FirebaseAuthUIActivityResultContract()) {
-        val response = it.idpResponse
-        when (it.resultCode) {
-            Activity.RESULT_OK -> {
-                if (response != null) {
-                    if (response.user.providerId.lowercase().contains("facebook")) {
-                        saveCredentialsToFirebase(response.idpToken)
-                    } else findNavController().navigate(R.id.action_loginFragment_to_productFrontPage)
-                }
-            }
-
-            else -> {
-            }
+    private val signInLauncher = registerForActivityResult(FirebaseAuthUIActivityResultContract()) { result ->
+        if (result.resultCode == Activity.RESULT_OK) {
+            findNavController().navigate(R.id.action_loginFragment_to_productFrontPage)
         }
     }
 
@@ -156,18 +143,5 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(
                 .setAvailableProviders(listOf(provider))
                 .build()
         )
-    }
-
-    private fun saveCredentialsToFirebase(accessToken: String?) {
-        if (accessToken.isNullOrEmpty()) return
-        val credentials = FacebookAuthProvider.getCredential(accessToken)
-        Firebase.auth.signInWithCredential(credentials)
-            .addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    findNavController().navigate(R.id.action_loginFragment_to_productFrontPage)
-                } else {
-                    Toast.makeText(requireContext(), getString(R.string.error_unknown), Toast.LENGTH_SHORT).show()
-                }
-            }
     }
 }

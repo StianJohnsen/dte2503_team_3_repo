@@ -10,6 +10,11 @@ import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+/**
+ * The `SettingsViewModel` is responsible for managing settings-related operations and user logout.
+ * It uses `clearLocalDatabaseRepository` to clear local database tables and `FirebaseAuthRepository` to log out the user.
+ * It emits a `logOutState` flow when the user logs out, which can be observed by the UI.
+ */
 @HiltViewModel
 class SettingsViewModel @Inject constructor(
     private val clearLocalDatabaseRepository: IClearLocalDatabaseRepository

@@ -7,6 +7,11 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.dashcarr.databinding.SelectMessageItemBinding
 
+/**
+ * RecyclerView Adapter for displaying a list of [SelectMessage] items.
+ *
+ * @param onItemClicked Lambda function to handle item click events.
+ */
 class SelectMessageAdapter(private var onItemClicked: (SelectMessage) -> Unit) : ListAdapter<
         SelectMessage, SelectMessageAdapter.SelectMessageViewHolder>(DiffCallback) {
 

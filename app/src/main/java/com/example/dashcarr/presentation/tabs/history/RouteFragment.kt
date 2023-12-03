@@ -24,7 +24,15 @@ import kotlin.math.atan2
 import kotlin.math.cos
 import kotlin.math.sin
 
-
+/**
+ * Fragment for displaying a recorded route on a map.
+ * Visualizes the route data from a CSV file on an interactive map using geolocation coordinates.
+ *
+ * Manages the display of route details such as total distance, average speed, and recording date.
+ * Utilizes osmdroid for map visualization and calculations for distance and speed.
+ *
+ * @property binding The binding instance for accessing and manipulating the views in this fragment.
+ */
 class RouteFragment : BaseFragment<FragmentRouteBinding>(
     FragmentRouteBinding::inflate,
     showBottomNavBar = false

@@ -13,6 +13,16 @@ import com.example.dashcarr.presentation.core.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
+/**
+ * The fragment handles adding a new friend or updating an existing one's information in the user's social settings.
+ * It provides input fields for the friend's name, email, and phone number, along with buttons to add/update or delete a friend.
+ *
+ * Functions:
+ * - `onViewCreated()`: Sets up the UI based on whether it's adding a new friend or updating an existing one.
+ *   If updating, it pre-fills the input fields with the friend's current information.
+ * - `initListeners()`: Initializes listeners for UI elements like back button, add/update friend button, and delete friend button.
+ *   It handles validation of input fields and interacts with the ViewModel for database operations.
+ */
 @AndroidEntryPoint
 class AddFriendFragment : BaseFragment<FragmentAddFriendBinding>(
     FragmentAddFriendBinding::inflate,

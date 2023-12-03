@@ -14,39 +14,19 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
+/**
+ * ViewModel for managing friends' data in the social settings of the application. It is marked
+ * with the [HiltViewModel] annotation for dependency injection and uses [IFriendsRepository]
+ * for data operations related to friends.
+ *
+ * @property friendsRepository The repository for friends.
+ */
 @HiltViewModel
 class AddFriendViewModel @Inject constructor(
-    val friendsRepository: IFriendsRepository
+    private val friendsRepository: IFriendsRepository
 ) : ViewModel() {
 
     private val saveResult = MutableStateFlow<Boolean?>(null)
-
-    fun addToDatabase(context: Context, name: String, email: String, phone: String) {
-        val newFriend =
-            FriendsEntity(
-                name = name,
-                phone = phone,
-                email = email,
-                createdTimeStamp = System.currentTimeMillis()
-            )
-
-        viewModelScope.launch(Dispatchers.IO) {
-            try {
-                val result = friendsRepository.saveNewFriend(newFriend)
-                withContext(Dispatchers.Main) {
-                    if (result) {
-                        Toast.makeText(context, "Added", Toast.LENGTH_SHORT).show()
-                    } else {
-                        Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show()
-                    }
-                }
-            } catch (e: Exception) {
-                withContext(Dispatchers.Main) {
-                    Toast.makeText(context, "Error: ${e.message}", Toast.LENGTH_SHORT).show()
-                }
-            }
-        }
-    }
 
     fun getFriendById(id: Int): LiveData<FriendsEntity> {
         return friendsRepository.getFriendById(id)

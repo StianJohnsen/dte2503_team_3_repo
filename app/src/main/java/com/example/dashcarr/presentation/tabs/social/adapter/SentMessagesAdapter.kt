@@ -13,6 +13,11 @@ import com.example.dashcarr.domain.entity.SentMessageFinalEntity
 import com.example.dashcarr.domain.entity.SentMessagesEntity
 import com.example.dashcarr.extensions.getFormattedDate
 
+/**
+ * The `SentMessagesAdapter` is responsible for displaying sent messages in a RecyclerView.
+ * It uses a ListAdapter with DiffUtil for efficient updates.
+ * The adapter handles click events on message items through the `onMessageListener` callback.
+ */
 class SentMessagesAdapter (private val onMessageListener: IOnSentMessageClickListener)
     : ListAdapter<SentMessageFinalEntity, SentMessagesAdapter.SentMessagesViewHolder>(DIFF_UTIL)
 {

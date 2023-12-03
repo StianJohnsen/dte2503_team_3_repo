@@ -7,6 +7,11 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.dashcarr.databinding.SelectContactItemBinding
 
+/**
+ * Adapter class for a RecyclerView that displays a list of selectable contacts.
+ *
+ * @param onItemClicked A lambda function to handle item click events.
+ */
 class SelectContactAdapter(private var onItemClicked: (SelectContact) -> Unit) : ListAdapter<
         SelectContact, SelectContactAdapter.SelectContactViewHolder>(DiffCallback) {
 
@@ -42,7 +47,5 @@ class SelectContactAdapter(private var onItemClicked: (SelectContact) -> Unit) :
         }
         holder.bind(selectContact)
     }
-
-
 }
 

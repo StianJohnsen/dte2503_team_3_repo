@@ -53,6 +53,14 @@ class MainViewModel @Inject constructor(
         PowerSavingMode.setAppPowerMode(PowerSavingMode.PowerState.values()[powerSaveModeOn])
     }
 
+    /**
+     * Initiates the synchronization process between the remote and local databases.
+     * This function triggers an asynchronous operation to ensure that the local data
+     * is in sync with the data stored remotely, typically in a cloud database.
+     *
+     * The synchronization is handled by the syncDatabasesRepository which contains
+     * the logic for determining what data needs to be synced and how.
+     */
     fun syncRemoteAndLocalDB() {
         viewModelScope.launch {
             syncDatabasesRepository.syncDatabases()

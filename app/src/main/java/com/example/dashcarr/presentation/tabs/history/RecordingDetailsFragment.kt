@@ -28,7 +28,14 @@ import java.nio.charset.Charset
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
-
+/**
+ * Fragment for displaying detailed information and graphical representations of a specific recording.
+ * Provides functionalities to view line charts or bar charts based on the sensor data,
+ * and displays relevant details about the recording.
+ *
+ * Manages the layout and interaction for showing recording details such as elapsed time, file size,
+ * and sensor data visualizations. Supports both line and bar charts to represent different types of data.
+ */
 class RecordingDetailsFragment : BaseFragment<FragmentRecordingDetailsBinding>(
     FragmentRecordingDetailsBinding::inflate,
     showBottomNavBar = false

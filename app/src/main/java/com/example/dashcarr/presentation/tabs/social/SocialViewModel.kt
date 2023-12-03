@@ -10,6 +10,11 @@ import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+/**
+ * ViewModel for the Social tab, responsible for managing sent messages and user interactions.
+ *
+ * @param sentMessagesRepository The repository for managing sent messages data.
+ */
 @HiltViewModel
 class SocialViewModel @Inject constructor(
     private val sentMessagesRepository: SentMessagesRepository

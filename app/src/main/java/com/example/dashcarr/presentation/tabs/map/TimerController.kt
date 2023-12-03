@@ -3,6 +3,11 @@ package com.example.dashcarr.presentation.tabs.map
 import android.os.SystemClock
 import kotlinx.coroutines.flow.MutableStateFlow
 
+/**
+ * TimerController is a class that controls the timing of the recording.
+ * It is used to start, pause, resume, and stop the recording.
+ * It also calculates the elapsed time.
+ */
 class TimerController {
 
     private var _startTimeMillis = MutableStateFlow<Long>(0)

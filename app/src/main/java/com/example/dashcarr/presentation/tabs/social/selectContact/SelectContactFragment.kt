@@ -9,6 +9,10 @@ import com.example.dashcarr.databinding.FragmentSelectContactBinding
 import com.example.dashcarr.presentation.core.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
 
+/**
+ * Fragment for selecting contacts from a list.
+ * This fragment displays a list of selectable contacts and allows the user to choose a contact.
+ */
 @AndroidEntryPoint
 class SelectContactFragment : BaseFragment<FragmentSelectContactBinding>(
     FragmentSelectContactBinding::inflate,
@@ -47,8 +51,5 @@ class SelectContactFragment : BaseFragment<FragmentSelectContactBinding>(
                 requireActivity().onBackPressed()
             }
         }
-
-
     }
-
 }
